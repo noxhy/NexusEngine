@@ -1,0 +1,104 @@
+[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://c802qdqdog3ia"]
+
+[ext_resource type="Texture2D" uid="uid://8er74y6a0ta6" path="res://assets/sprites/playstate/developer/rating/bad.png" id="1_klvsa"]
+[ext_resource type="Texture2D" uid="uid://b8csmyptm0a8s" path="res://assets/sprites/playstate/developer/rating/epic.png" id="2_7bqa8"]
+[ext_resource type="Texture2D" uid="uid://bt81exa2i8stt" path="res://assets/sprites/playstate/developer/rating/good.png" id="3_3bu07"]
+[ext_resource type="Texture2D" uid="uid://dcyeyy8uhyfct" path="res://assets/sprites/playstate/developer/rating/fc_bad.png" id="3_py8kc"]
+[ext_resource type="Texture2D" uid="uid://mekoiv2oyl6s" path="res://assets/sprites/playstate/developer/rating/fc_epic.png" id="4_3esud"]
+[ext_resource type="Texture2D" uid="uid://cvcbkqcgyhhdo" path="res://assets/sprites/playstate/developer/rating/combo break.png" id="4_dr6tu"]
+[ext_resource type="Texture2D" uid="uid://bg8u8lcgh4f3h" path="res://assets/sprites/playstate/developer/rating/fc_good.png" id="5_krs47"]
+[ext_resource type="Texture2D" uid="uid://h3nea0dkovtq" path="res://assets/sprites/playstate/developer/rating/shit.png" id="5_yp3bg"]
+[ext_resource type="Texture2D" uid="uid://ua8id1lm228q" path="res://assets/sprites/playstate/developer/rating/sick.png" id="6_f6bmv"]
+[ext_resource type="Texture2D" uid="uid://dxnf17crph605" path="res://assets/sprites/playstate/developer/rating/fc_shit.png" id="7_wloy1"]
+[ext_resource type="Texture2D" uid="uid://10mr6cqd4gya" path="res://assets/sprites/playstate/developer/rating/fc_sick.png" id="8_ato0k"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_klvsa")
+}],
+"loop": true,
+"name": &"bad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7bqa8")
+}],
+"loop": true,
+"name": &"epic",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_py8kc")
+}],
+"loop": true,
+"name": &"fc_bad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3esud")
+}],
+"loop": true,
+"name": &"fc_epic",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_krs47")
+}],
+"loop": true,
+"name": &"fc_good",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_wloy1")
+}],
+"loop": true,
+"name": &"fc_shit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_ato0k")
+}],
+"loop": true,
+"name": &"fc_sick",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3bu07")
+}],
+"loop": true,
+"name": &"good",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_dr6tu")
+}],
+"loop": true,
+"name": &"miss",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_yp3bg")
+}],
+"loop": true,
+"name": &"shit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_f6bmv")
+}],
+"loop": true,
+"name": &"sick",
+"speed": 5.0
+}]

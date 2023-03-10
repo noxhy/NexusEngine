@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1xj54jogmqul"]
+
+[ext_resource type="Script" path="res://scenes/global/global.gd" id="1_swfdr"]
+[ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="2_77tff"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_q1yt6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_harfc"]
+font = ExtResource("2_77tff")
+font_size = 24
+
+[node name="Global" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_swfdr")
+metadata/_edit_horizontal_guides_ = [-296.0]
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 128
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Performance Label" type="Label" parent="UI"]
+offset_left = -632.0
+offset_top = -352.0
+offset_right = -504.0
+offset_bottom = -288.0
+theme_override_font_sizes/font_size = 12
+text = "PERFORMANCE"
+metadata/_edit_use_anchors_ = true
+
+[node name="Debug Label" type="Label" parent="UI"]
+offset_left = 504.0
+offset_top = -352.0
+offset_right = 632.0
+offset_bottom = -288.0
+theme_override_font_sizes/font_size = 12
+text = "DEBUG"
+horizontal_alignment = 2
+
+[node name="Voume Node" type="Node2D" parent="UI"]
+position = Vector2(0, -392)
+
+[node name="ColorRect" type="ColorRect" parent="UI/Voume Node"]
+z_index = -1
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 32.0
+color = Color(0.176471, 0.176471, 0.176471, 0.686275)
+
+[node name="Label" type="Label" parent="UI/Voume Node/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Master Volume: -80 db"
+label_settings = SubResource("LabelSettings_harfc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hide Timer" type="Timer" parent="UI/Voume Node"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Volume Sound" type="AudioStreamPlayer" parent="UI/Voume Node"]
+stream = ExtResource("3_q1yt6")
+pitch_scale = 3.0
+bus = &"SFX"
+
+[connection signal="timeout" from="UI/Voume Node/Hide Timer" to="." method="_on_hide_timer_timeout"]

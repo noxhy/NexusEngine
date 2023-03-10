@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_gqt7p"]
+[ext_resource type="SpriteFrames" uid="uid://5dsbn21thfnn" path="res://assets/sprites/characters/boyfriend pixel/boyfriend_pixel.res" id="2_rn51i"]
+[ext_resource type="Texture2D" uid="uid://n255odod0s7i" path="res://assets/sprites/playstate/icons/icon-bf-pixel.png" id="2_vytur"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ulcu"]
+atlas = ExtResource("2_vytur")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt5ey"]
+atlas = ExtResource("2_vytur")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a6myl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ulcu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gt5ey")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Boyfriend Pixel" type="Node2D"]
+script = ExtResource("1_gqt7p")
+animation_names = {
+"down": "BF DOWN NOTE instance 1",
+"idle": "BF IDLE instance 1",
+"left": "BF LEFT NOTE instance 1",
+"miss_down": "BF DOWN MISS instance 1",
+"miss_left": "BF LEFT MISS instance 1",
+"miss_right": "BF RIGHT MISS instance 1",
+"miss_up": "BF UP MISS instance 1",
+"right": "BF RIGHT NOTE instance 1",
+"up": "BF UP NOTE instance 1"
+}
+icons = SubResource("SpriteFrames_a6myl")
+color = Color(0.501961, 0.729412, 0.811765, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -28)
+sprite_frames = ExtResource("2_rn51i")
+animation = &"BF IDLE instance 1"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

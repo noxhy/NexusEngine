@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="NoteSkin" load_steps=6 format=3 uid="uid://cj2hoqrld81vv"]
+
+[ext_resource type="AudioStream" uid="uid://dcshy6cfnwrkl" path="res://assets/sounds/menu sounds/hitsound.wav" id="1_7y8y0"]
+[ext_resource type="Script" path="res://resources/note_skin.gd" id="1_ejrj1"]
+[ext_resource type="SpriteFrames" uid="uid://clalimjd3yte3" path="res://assets/sprites/playstate/default/arrow/notes.tres" id="1_lvg3v"]
+[ext_resource type="SpriteFrames" uid="uid://ce6cgt08fam51" path="res://assets/sprites/playstate/default/arrow/strums.tres" id="3_1nols"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/playstate/default/arrow/splashes/note_splashes.res" id="3_3w5ev"]
+
+[resource]
+script = ExtResource("1_ejrj1")
+strums_texture = ExtResource("3_1nols")
+notes_texture = ExtResource("1_lvg3v")
+splashes_texture = ExtResource("3_3w5ev")
+pixel_texture = false
+notes_scale = 0.78
+sustain_width = 50
+animation_names = {}
+offsets = {}
+hit_sound = ExtResource("1_7y8y0")

@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_e2dgr"]
+[ext_resource type="Texture2D" uid="uid://ee2igx8pcqyw" path="res://assets/sprites/playstate/icons/icon-senpai.png" id="2_3mxli"]
+[ext_resource type="SpriteFrames" uid="uid://d3eo6fcoflew3" path="res://assets/sprites/characters/senpai/senpai.res" id="3_neexf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e88gg"]
+atlas = ExtResource("2_3mxli")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_givs5"]
+atlas = ExtResource("2_3mxli")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wibst"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e88gg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_givs5")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Senpai" type="Node2D"]
+script = ExtResource("1_e2dgr")
+animation_names = {
+"down": "SENPAI DOWN NOTE instance 1",
+"idle": "Senpai Idle instance 1",
+"left": "SENPAI LEFT NOTE instance 1",
+"right": "SENPAI RIGHT NOTE instance 1",
+"up": "SENPAI UP NOTE instance 1"
+}
+offsets = {
+"Angry Senpai DOWN NOTE instance 1": Vector2(-1.5, -64),
+"Angry Senpai Idle instance 1": Vector2(2.08189e-12, -64),
+"Angry Senpai LEFT NOTE instance 1": Vector2(-3.5, -64),
+"Angry Senpai RIGHT NOTE instance 1": Vector2(-0.5, -64),
+"Angry Senpai UP NOTE instance 1": Vector2(-2.5, -69.5),
+"SENPAI DOWN NOTE instance 1": Vector2(-1.5, -64),
+"SENPAI LEFT NOTE instance 1": Vector2(-3.5, -64),
+"SENPAI RIGHT NOTE instance 1": Vector2(-0.5, -64),
+"SENPAI UP NOTE instance 1": Vector2(-2.5, -69.5),
+"Senpai Idle instance 1": Vector2(2.08189e-12, -64)
+}
+icons = SubResource("SpriteFrames_wibst")
+color = Color(0.890196, 0.533333, 0.294118, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
+texture_filter = 1
+position = Vector2(0, -64)
+sprite_frames = ExtResource("3_neexf")
+animation = &"Senpai Idle instance 1"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

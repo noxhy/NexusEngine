@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dm1wcp8xtvqv5"]
+
+[ext_resource type="Script" path="res://scenes/instances/stage.gd" id="1_nay4l"]
+[ext_resource type="SpriteFrames" uid="uid://csqo7uj2jh4ct" path="res://assets/sprites/stages/evil_school/animatedEvilSchool.res" id="2_8obdx"]
+
+[sub_resource type="Gradient" id="Gradient_hw8ls"]
+colors = PackedColorArray(0, 0, 0, 1, 0.709804, 0.658824, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ii72u"]
+gradient = SubResource("Gradient_hw8ls")
+
+[sub_resource type="Environment" id="Environment_6cbx4"]
+background_mode = 3
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_normalized = true
+glow_strength = 2.0
+glow_bloom = 0.18
+glow_hdr_threshold = 1.5
+volumetric_fog_emission_energy = 58.53
+volumetric_fog_anisotropy = -0.9
+adjustment_enabled = true
+adjustment_color_correction = SubResource("GradientTexture1D_ii72u")
+
+[node name="weed_school" type="Node2D"]
+script = ExtResource("1_nay4l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6cbx4")
+
+[node name="School" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="School" type="AnimatedSprite2D" parent="School" groups=["autoplay"]]
+texture_filter = 1
+position = Vector2(4, 42)
+scale = Vector2(4.5, 4.5)
+sprite_frames = ExtResource("2_8obdx")
+animation = &"background 2 instance 1"
+frame_progress = 0.375972
+metadata/_edit_lock_ = true

@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="FontFile" uid="uid://coivso5sghc2p" path="res://assets/fonts/fnf font.ttf" id="1_r5x6d"]
+[ext_resource type="Script" path="res://scenes/instances/menu_option.gd" id="1_tf7lj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7p2h4"]
+resource_local_to_scene = true
+font = ExtResource("1_r5x6d")
+font_size = 48
+shadow_size = 28
+shadow_color = Color(0.027451, 0.027451, 0.027451, 1)
+shadow_offset = Vector2(-2, 0)
+
+[node name="Menu Option" type="Node2D"]
+script = ExtResource("1_tf7lj")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -27.0
+offset_right = 1.0
+offset_bottom = 28.0
+grow_vertical = 2
+text = "menu option"
+label_settings = SubResource("LabelSettings_7p2h4")
+vertical_alignment = 1
+uppercase = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(224, 0)

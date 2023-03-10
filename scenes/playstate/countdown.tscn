@@ -1,0 +1,452 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="AudioStream" uid="uid://dy5bmpjexk1x6" path="res://assets/sounds/game sounds/countdown/default/countdown 3.ogg" id="1_u456w"]
+[ext_resource type="AudioStream" uid="uid://cbiytxsc7mt4r" path="res://assets/sounds/game sounds/countdown/default/countdown 2.ogg" id="2_xmcdi"]
+[ext_resource type="AudioStream" uid="uid://pettoq0g1s4u" path="res://assets/sounds/game sounds/countdown/default/countdown 1.ogg" id="3_y5pu8"]
+[ext_resource type="AudioStream" uid="uid://bej2vgcr41fma" path="res://assets/sounds/game sounds/countdown/default/countdown go.ogg" id="4_i6p65"]
+[ext_resource type="AudioStream" uid="uid://cdf6m0dval6vy" path="res://assets/sounds/game sounds/countdown/hating simulator/pixel 3.ogg" id="5_42rys"]
+[ext_resource type="Texture2D" uid="uid://dnvpepyvdscno" path="res://assets/sprites/playstate/default/countdown/go.png" id="5_puh5b"]
+[ext_resource type="AudioStream" uid="uid://be4q5dr3p0s37" path="res://assets/sounds/game sounds/countdown/hating simulator/pixel 2.ogg" id="6_0h3eb"]
+[ext_resource type="Texture2D" uid="uid://dly654678mq07" path="res://assets/sprites/playstate/default/countdown/ready.png" id="6_7ilje"]
+[ext_resource type="AudioStream" uid="uid://cybys1r3vlpvm" path="res://assets/sounds/game sounds/countdown/hating simulator/pixel 1.ogg" id="7_1al10"]
+[ext_resource type="Texture2D" uid="uid://t3fb451x46l1" path="res://assets/sprites/playstate/default/countdown/set.png" id="7_1fr4n"]
+[ext_resource type="AudioStream" uid="uid://d10o6alcp2arj" path="res://assets/sounds/game sounds/countdown/hating simulator/pixel go.ogg" id="8_3dtd4"]
+[ext_resource type="Texture2D" uid="uid://cktis387bki15" path="res://assets/sprites/playstate/developer/countdown/1.png" id="8_j1rq7"]
+[ext_resource type="Texture2D" uid="uid://tdk7nedtlg0" path="res://assets/sprites/playstate/developer/countdown/2.png" id="9_bwvh8"]
+[ext_resource type="Texture2D" uid="uid://cjydab58mcqnm" path="res://assets/sprites/playstate/developer/countdown/3.png" id="10_xov32"]
+[ext_resource type="Texture2D" uid="uid://b7fi3iccw5c6d" path="res://assets/sprites/playstate/developer/countdown/go.png" id="11_c452y"]
+[ext_resource type="Texture2D" uid="uid://bwsi60kd53cbe" path="res://assets/sprites/playstate/pixel/countdown/date-pixel.png" id="16_7e3pa"]
+[ext_resource type="Texture2D" uid="uid://ck4g2o6nboqrp" path="res://assets/sprites/playstate/pixel/countdown/ready-pixel.png" id="17_ea1w0"]
+[ext_resource type="Texture2D" uid="uid://csrlbcbka6igj" path="res://assets/sprites/playstate/pixel/countdown/set-pixel.png" id="18_cffyj"]
+
+[sub_resource type="Animation" id="Animation_kvlud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Countdown/Default Countdown:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Countdown/Developer Countdown:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Countdown/Developer Countdown:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Countdown/Pixel Countdown:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_jiv37"]
+resource_name = "default_countdown"
+length = 4.0
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Countdown/AudioStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_u456w")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("2_xmcdi")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_y5pu8")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_i6p65")
+}],
+"times": PackedFloat32Array(0, 1, 2, 3)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Countdown/Default Countdown/AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 1.9, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [&"empty", &"ready", &"set", &"go"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Countdown/Default Countdown/AnimatedSprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 1.5, 1.99, 2, 2.5, 2.99, 3, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Countdown/Default Countdown:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Countdown")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ear4y"]
+resource_name = "developer_countdown"
+length = 4.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Countdown")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Countdown/Developer Countdown:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Countdown/Developer Countdown/AnimatedSprite2D:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [&"3", &"2", &"1", &"go"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Countdown/Developer Countdown:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4),
+"transitions": PackedFloat32Array(0.307786, 3.03143, 0.307786, 3.03143, 0.307786, 3.03143, 0.307786, 3.03143, 0.307786),
+"update": 0,
+"values": [Vector2(2.08189e-12, -2000), Vector2(0, 0), Vector2(2.08189e-12, -2000), Vector2(0, 0), Vector2(2.08189e-12, -2000), Vector2(0, 0), Vector2(2.08189e-12, -2000), Vector2(0, 0), Vector2(2.08189e-12, -2000)]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Countdown/AudioStreamPlayer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_u456w")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("2_xmcdi")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_y5pu8")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_i6p65")
+}],
+"times": PackedFloat32Array(0, 1, 2, 3)
+}
+
+[sub_resource type="Animation" id="Animation_bmdo6"]
+resource_name = "pixel_countdown"
+length = 4.0
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Countdown/AudioStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("5_42rys")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_0h3eb")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("7_1al10")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_3dtd4")
+}],
+"times": PackedFloat32Array(0, 1, 2, 3)
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Countdown")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Countdown/Pixel Countdown:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Countdown/Pixel Countdown/AnimatedSprite2D:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [&"empty", &"ready", &"set", &"date"]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Countdown/Pixel Countdown/AnimatedSprite2D:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1, 1.1, 1.2, 1.3, 1.4, 1.5, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 3, 3.1, 3.2, 3.3, 3.4, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ix61x"]
+_data = {
+"RESET": SubResource("Animation_kvlud"),
+"default_countdown": SubResource("Animation_jiv37"),
+"developer_countdown": SubResource("Animation_ear4y"),
+"pixel_countdown": SubResource("Animation_bmdo6")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_shvg5"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_puh5b")
+}],
+"loop": true,
+"name": &"go",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_7ilje")
+}],
+"loop": true,
+"name": &"ready",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_1fr4n")
+}],
+"loop": true,
+"name": &"set",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s6ets"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_j1rq7")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_bwvh8")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_xov32")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_c452y")
+}],
+"loop": true,
+"name": &"go",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jj1v1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_7e3pa")
+}],
+"loop": true,
+"name": &"date",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_ea1w0")
+}],
+"loop": true,
+"name": &"ready",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_cffyj")
+}],
+"loop": true,
+"name": &"set",
+"speed": 5.0
+}]
+
+[node name="Countdown" type="AnimationPlayer"]
+libraries = {
+"": SubResource("AnimationLibrary_ix61x")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_3dtd4")
+bus = &"SFX"
+
+[node name="Default Countdown" type="Node2D" parent="."]
+visible = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Default Countdown"]
+modulate = Color(1, 1, 1, 0)
+sprite_frames = SubResource("SpriteFrames_shvg5")
+animation = &"go"
+
+[node name="Developer Countdown" type="Node2D" parent="."]
+visible = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Developer Countdown"]
+sprite_frames = SubResource("SpriteFrames_s6ets")
+animation = &"3"
+
+[node name="Pixel Countdown" type="Node2D" parent="."]
+visible = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Pixel Countdown"]
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+scale = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_jj1v1")
+animation = &"date"

@@ -1,0 +1,253 @@
+[gd_scene load_steps=19 format=3 uid="uid://cigsmwajnw2jq"]
+
+[ext_resource type="Script" path="res://scenes/instances/playstate/ui.gd" id="1_pm5h1"]
+[ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="2_6rygd"]
+[ext_resource type="PackedScene" uid="uid://ce3dgr61438sa" path="res://scenes/instances/playstate/arrow_strum/4key_strums.tscn" id="2_58g8k"]
+[ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="4_jqq0h"]
+[ext_resource type="Texture2D" uid="uid://cycblrpqahhln" path="res://assets/sprites/playstate/developer/healthBar.png" id="5_2fmdm"]
+[ext_resource type="Texture2D" uid="uid://dh4quhljfok4e" path="res://assets/sprites/playstate/icons/icon-face.png" id="6_6rn83"]
+
+[sub_resource type="Animation" id="Animation_x83yl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song Credits:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1140, 2.08189e-12)]
+}
+
+[sub_resource type="Animation" id="Animation_35xwb"]
+resource_name = "credits_hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song Credits:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2.54912, 1),
+"update": 0,
+"values": [Vector2(-640, 2.08189e-12), Vector2(-1140, 2.08189e-12)]
+}
+
+[sub_resource type="Animation" id="Animation_nbuux"]
+resource_name = "credits_show"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Song Credits:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.659758, 1),
+"update": 0,
+"values": [Vector2(-1140, 2.08189e-12), Vector2(-640, 2.08189e-12)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"hide_credits"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eqvj4"]
+_data = {
+"RESET": SubResource("Animation_x83yl"),
+"credits_hide": SubResource("Animation_35xwb"),
+"credits_show": SubResource("Animation_nbuux")
+}
+
+[sub_resource type="FontVariation" id="FontVariation_s6w0x"]
+base_font = ExtResource("2_6rygd")
+
+[sub_resource type="LabelSettings" id="LabelSettings_2v2dt"]
+font = SubResource("FontVariation_s6w0x")
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_u0077"]
+base_font = ExtResource("4_jqq0h")
+spacing_glyph = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_578am"]
+font = SubResource("FontVariation_u0077")
+font_size = 18
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qk3vi"]
+atlas = ExtResource("6_6rn83")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61m8t"]
+atlas = ExtResource("6_6rn83")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3m780"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qk3vi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61m8t")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_utqgv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qk3vi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61m8t")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="UI" type="CanvasLayer"]
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+script = ExtResource("1_pm5h1")
+lerp_weight = 0.085
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eqvj4")
+}
+
+[node name="Player Strum" parent="." instance=ExtResource("2_58g8k")]
+position = Vector2(288, -256)
+rotation = -0.00021224
+scale = Vector2(0.9, 0.9)
+can_splash = true
+
+[node name="Enemy Strum" parent="." instance=ExtResource("2_58g8k")]
+position = Vector2(-352, -256)
+rotation = -0.00021224
+scale = Vector2(0.9, 0.9)
+can_press = false
+auto_play = true
+enemy_slot = true
+
+[node name="Song Credits" type="Node2D" parent="."]
+position = Vector2(-1140, 2.08189e-12)
+
+[node name="ColorRect" type="ColorRect" parent="Song Credits"]
+offset_top = -64.0
+offset_right = 224.0
+offset_bottom = 64.0
+color = Color(0, 0, 0, 0.721569)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Song Credits/ColorRect"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 8.0
+grow_vertical = 2
+color = Color(0.615686, 0.521569, 1, 1)
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="Song Credits/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Song Name
+-
+Artist Name1
+Artist Name 2"
+label_settings = SubResource("LabelSettings_2v2dt")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Performance" type="Label" parent="."]
+custom_minimum_size = Vector2(560, 26)
+anchors_preset = -1
+anchor_left = -0.219
+anchor_top = 0.433
+anchor_right = 0.219
+anchor_bottom = 0.469
+offset_left = -7.68
+offset_top = -15.76
+offset_right = -8.32
+offset_bottom = -15.68
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(280, 13)
+text = "Accuracy: 0% • Misses: 0 • Rank: ?"
+label_settings = SubResource("LabelSettings_578am")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Health Bar" type="TextureProgressBar" parent="."]
+offset_left = -300.0
+offset_top = 256.0
+offset_right = 300.0
+offset_bottom = 276.0
+pivot_offset = Vector2(300, 10)
+step = 0.001
+value = 50.0
+fill_mode = 1
+texture_under = ExtResource("5_2fmdm")
+texture_progress = ExtResource("5_2fmdm")
+tint_under = Color(0.168627, 0.121569, 0.2, 1)
+tint_progress = Color(0.168627, 0.121569, 0.2, 1)
+
+[node name="Icon Handeler" type="Node2D" parent="Health Bar"]
+position = Vector2(300, 10)
+metadata/_edit_lock_ = true
+
+[node name="Player" type="AnimatedSprite2D" parent="Health Bar/Icon Handeler"]
+position = Vector2(-8, -75)
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_3m780")
+offset = Vector2(75, 75)
+flip_h = true
+metadata/_edit_lock_ = true
+
+[node name="Enemy" type="AnimatedSprite2D" parent="Health Bar/Icon Handeler"]
+position = Vector2(8, -75)
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_utqgv")
+offset = Vector2(-75, 75)
+metadata/_edit_lock_ = true

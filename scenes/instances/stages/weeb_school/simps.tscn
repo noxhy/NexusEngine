@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/sprites/stages/weeb_school/simps.res" id="1_sqtcn"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_riicu"]
+
+[node name="Simps" type="AnimatedSprite2D"]
+texture_filter = 1
+position = Vector2(-0.5, -39)
+sprite_frames = ExtResource("1_sqtcn")
+animation = &"BG girls group"
+script = ExtResource("2_riicu")
+animation_names = {
+"angry_idle": "BG fangirls dissuaded",
+"idle": "BG girls group"
+}
+offsets = {
+"BG fangirls dissuaded": Vector2(0, -1),
+"BG girls group": Vector2(0, 0)
+}

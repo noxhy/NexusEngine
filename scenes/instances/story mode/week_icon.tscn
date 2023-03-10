@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Texture2D" uid="uid://da30yywlv4yfy" path="res://assets/sprites/menus/story mode/week icons/tutorial.png" id="1_phwv5"]
+[ext_resource type="Texture2D" uid="uid://bkm6ivu2g70v7" path="res://assets/sprites/menus/story mode/week icons/week1.png" id="2_n5nxg"]
+[ext_resource type="Texture2D" uid="uid://ckbpfy2ne6572" path="res://assets/sprites/menus/story mode/week icons/week2.png" id="3_fmcuw"]
+[ext_resource type="Texture2D" uid="uid://bcblwylslhp2h" path="res://assets/sprites/menus/story mode/week icons/week3.png" id="4_d7dki"]
+[ext_resource type="Texture2D" uid="uid://bc1k2qwmokd6v" path="res://assets/sprites/menus/story mode/week icons/week4.png" id="5_f6g0y"]
+[ext_resource type="Texture2D" uid="uid://lflx76e0s5f5" path="res://assets/sprites/menus/story mode/week icons/week5.png" id="6_a8vq4"]
+[ext_resource type="Texture2D" uid="uid://c8rh6efwpf1f4" path="res://assets/sprites/menus/story mode/week icons/week6.png" id="7_r1gti"]
+[ext_resource type="Texture2D" uid="uid://o2ebd6w66lrc" path="res://assets/sprites/menus/story mode/week icons/week7.png" id="8_3u0ud"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="9_xp24p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6d3aw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_phwv5")
+}],
+"loop": true,
+"name": &"tutorial",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n5nxg")
+}],
+"loop": true,
+"name": &"week1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fmcuw")
+}],
+"loop": true,
+"name": &"week2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_d7dki")
+}],
+"loop": true,
+"name": &"week3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_f6g0y")
+}],
+"loop": true,
+"name": &"week4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_a8vq4")
+}],
+"loop": true,
+"name": &"week5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_r1gti")
+}],
+"loop": true,
+"name": &"week6",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_3u0ud")
+}],
+"loop": true,
+"name": &"week7",
+"speed": 5.0
+}]
+
+[node name="Week Icon" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_6d3aw")
+animation = &"tutorial"
+script = ExtResource("9_xp24p")
+animation_names = {
+"tutorial": "tutorial",
+"week1": "week1",
+"week2": "week2",
+"week3": "week3",
+"week4": "week4",
+"week5": "week5",
+"week6": "week6",
+"week7": "week7"
+}

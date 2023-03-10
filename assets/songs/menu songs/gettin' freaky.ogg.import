@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://du4qr2rxqjkw"
+path="res://.godot/imported/gettin' freaky.ogg-691bc720bcd03e52185de26f98b2e0fb.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/gettin' freaky.ogg"
+dest_files=["res://.godot/imported/gettin' freaky.ogg-691bc720bcd03e52185de26f98b2e0fb.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

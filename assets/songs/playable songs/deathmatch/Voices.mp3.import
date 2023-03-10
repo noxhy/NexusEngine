@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d01sqc0vmnn0w"
+path="res://.godot/imported/Voices.mp3-3ada28c2224f14dec1287e162b2df02f.mp3str"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/deathmatch/Voices.mp3"
+dest_files=["res://.godot/imported/Voices.mp3-3ada28c2224f14dec1287e162b2df02f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

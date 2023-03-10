@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://dirqojr6g5tpn"]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_ep0lb"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/girlfriend title/girlfriend_title.res" id="3_ktqsh"]
+
+[node name="Girlfriend" type="Node2D"]
+script = ExtResource("1_ep0lb")
+animation_names = {
+"idle": "gfDance"
+}
+offsets = {
+"gfDance": Vector2(0, -316)
+}
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -316)
+sprite_frames = ExtResource("3_ktqsh")
+animation = &"gfDance"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_mx020"]
+[ext_resource type="Texture2D" uid="uid://dkvwg2x5r5kbe" path="res://assets/sprites/playstate/icons/boyfriend.png" id="2_b4ajg"]
+[ext_resource type="SpriteFrames" uid="uid://bvvc2hl0jc06w" path="res://assets/sprites/characters/boyfriend/boyfriend.res" id="3_cqa6h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyxw1"]
+atlas = ExtResource("2_b4ajg")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbf2j"]
+atlas = ExtResource("2_b4ajg")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyxe7"]
+atlas = ExtResource("2_b4ajg")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u3ypl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyxw1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbf2j")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyxe7")
+}],
+"loop": true,
+"name": &"winning",
+"speed": 5.0
+}]
+
+[node name="Boyfriend" type="Node2D"]
+script = ExtResource("1_mx020")
+animation_names = {
+"attack": "boyfriend attack",
+"cheer": "BF HEY!!",
+"dodge": "boyfriend dodge",
+"down": "BF NOTE DOWN",
+"hit": "BF hit",
+"idle": "BF idle dance",
+"left": "BF NOTE LEFT",
+"miss_down": "BF NOTE DOWN MISS",
+"miss_left": "BF NOTE LEFT MISS",
+"miss_right": "BF NOTE RIGHT MISS",
+"miss_up": "BF NOTE UP MISS",
+"pre_attack": "bf pre attack",
+"right": "BF NOTE RIGHT",
+"scared": "BF idle shaking",
+"up": "BF NOTE UP"
+}
+offsets = {
+"BF HEY!!": Vector2(-16, -163),
+"BF NOTE DOWN": Vector2(-26, -131),
+"BF NOTE DOWN MISS": Vector2(-27, -141),
+"BF NOTE LEFT": Vector2(-37, -155),
+"BF NOTE LEFT MISS": Vector2(-40, -168),
+"BF NOTE RIGHT": Vector2(27, -158),
+"BF NOTE RIGHT MISS": Vector2(24, -168),
+"BF NOTE UP": Vector2(0, -173),
+"BF NOTE UP MISS": Vector2(0, -170),
+"BF hit": Vector2(-12, -165),
+"BF idle dance": Vector2(-16, -160),
+"bf pre attack": Vector2(0, -133),
+"boyfriend attack": Vector2(-165, -290),
+"boyfriend dodge": Vector2(-34, -148)
+}
+icons = SubResource("SpriteFrames_u3ypl")
+color = Color(0.286275, 0.733333, 0.85098, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-16, -160)
+sprite_frames = ExtResource("3_cqa6h")
+animation = &"BF idle dance"
+frame = 13
+metadata/_edit_lock_ = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

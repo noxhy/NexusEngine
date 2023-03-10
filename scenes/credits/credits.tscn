@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=3 uid="uid://clbeef0fp6xbw"]
+
+[ext_resource type="Script" path="res://scenes/credits/credits.gd" id="1_twwf5"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="2_7ianm"]
+[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="3_n3mut"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="4_gjjob"]
+[ext_resource type="Texture2D" uid="uid://djuslh4ulkynw" path="res://assets/sprites/menus/background/main menu/menuBGMagenta.png" id="5_7foaj"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="6_3ucr5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ywea"]
+font = ExtResource("6_3ucr5")
+font_size = 18
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_twwf5")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("2_7ianm")
+stream_player = NodePath("../Audio/Music")
+tempo = 102.0
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_n3mut")
+volume_db = -80.0
+bus = &"Music"
+
+[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_gjjob")
+bus = &"SFX"
+
+[node name="UI" type="CanvasLayer" parent="."]
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Background" type="Sprite2D" parent="Background"]
+z_index = -1
+texture = ExtResource("5_7foaj")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect2" type="ColorRect" parent="Background"]
+offset_left = -875.0
+offset_top = -295.0
+offset_right = -125.0
+offset_bottom = 671.0
+rotation = -0.329867
+color = Color(0, 0, 0, 0.505882)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+offset_left = -640.0
+offset_top = 264.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.74902)
+
+[node name="Label" type="Label" parent="Background/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Line 1
+Line 2"
+label_settings = SubResource("LabelSettings_5ywea")
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]

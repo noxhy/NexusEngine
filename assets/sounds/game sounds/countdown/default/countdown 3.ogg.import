@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dy5bmpjexk1x6"
+path="res://.godot/imported/countdown 3.ogg-011e0d6873a28f66588a0c7f5ccaf4b6.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/game sounds/countdown/default/countdown 3.ogg"
+dest_files=["res://.godot/imported/countdown 3.ogg-011e0d6873a28f66588a0c7f5ccaf4b6.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

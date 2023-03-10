@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="1_2v0dc"]
+
+[node name="Offset Sprite" type="AnimatedSprite2D"]
+position = Vector2(544, 272)
+playing = true
+script = ExtResource("1_2v0dc")

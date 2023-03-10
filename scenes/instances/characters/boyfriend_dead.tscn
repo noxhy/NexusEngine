@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_rej3p"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/boyfriend/boyfriend_dead.res" id="2_tjdis"]
+
+[node name="Boyfriend Dead" type="Node2D"]
+script = ExtResource("1_rej3p")
+idle_animation = ""
+animation_names = {
+"accept": "BF Dead confirm",
+"idle": "BF Dead Loop",
+"intro": "BF dies"
+}
+offsets = {
+"BF Dead Loop": Vector2(-24, -152),
+"BF Dead confirm": Vector2(-25, -185),
+"BF dies": Vector2(-24, -152)
+}
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-24, -152)
+sprite_frames = ExtResource("2_tjdis")
+animation = &"BF Dead Loop"

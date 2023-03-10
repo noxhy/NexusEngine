@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_yjg8a"]
+[ext_resource type="Texture2D" uid="uid://cqneanku0adg3" path="res://assets/sprites/playstate/icons/icon-mom.png" id="2_2e6or"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/mommy mearest/mommy_mearest.res" id="2_40xde"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcx5a"]
+atlas = ExtResource("2_2e6or")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74w3b"]
+atlas = ExtResource("2_2e6or")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m5pti"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcx5a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74w3b")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Mommy Mearest" type="Node2D"]
+script = ExtResource("1_yjg8a")
+animation_names = {
+"down": "MOM DOWN POSE",
+"idle": "Mom Idle",
+"left": "Mom Left Pose",
+"right": "Mom Pose Left",
+"up": "Mom Up Pose"
+}
+offsets = {
+"MOM DOWN POSE": Vector2(30, -287),
+"Mom Idle": Vector2(24, -352),
+"Mom Left Pose": Vector2(-148, -330),
+"Mom Pose Left": Vector2(70, -318),
+"Mom Up Pose": Vector2(-24, -373)
+}
+icons = SubResource("SpriteFrames_m5pti")
+color = Color(0.788235, 0.337255, 0.576471, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(24, -352)
+sprite_frames = ExtResource("2_40xde")
+animation = &"Mom Idle"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

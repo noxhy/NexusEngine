@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_i5vds"]
+[ext_resource type="SpriteFrames" uid="uid://10hdgdiid2vo" path="res://assets/sprites/characters/girlfriend pixel/girlfriend_pixel.res" id="2_4vb5r"]
+[ext_resource type="Texture2D" uid="uid://dh4quhljfok4e" path="res://assets/sprites/playstate/icons/icon-face.png" id="2_q07ix"]
+
+[node name="Girlfriend Pixel" type="Node2D"]
+script = ExtResource("1_i5vds")
+animation_names = {
+"idle": "GF IDLE"
+}
+offsets = {
+"GF IDLE": Vector2(2.08189e-12, -52)
+}
+icons = ExtResource("2_q07ix")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 3
+position = Vector2(2.08189e-12, -52)
+sprite_frames = ExtResource("2_4vb5r")
+animation = &"GF IDLE"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

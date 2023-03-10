@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="SpriteFrames" uid="uid://bkox4ut1mmgul" path="res://assets/sprites/objects/speaker.res" id="1_76mpl"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_lr3gt"]
+
+[node name="Speaker" type="AnimatedSprite2D"]
+position = Vector2(0, -176)
+frames = ExtResource("1_76mpl")
+animation = &"IDLE"
+playing = true
+script = ExtResource("2_lr3gt")
+animation_names = {
+"bump": "BUMP",
+"idle": "IDLE"
+}

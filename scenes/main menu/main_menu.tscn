@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=3 uid="uid://rc52vcn2m7ob"]
+
+[ext_resource type="Script" path="res://scenes/main menu/main_menu.gd" id="1_78p5c"]
+[ext_resource type="Texture2D" uid="uid://cj0kwltd54xru" path="res://assets/sprites/menus/background/main menu/menuBG.png" id="1_b4ekr"]
+[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_446y2"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="2_leh0b"]
+[ext_resource type="PackedScene" uid="uid://daqubxavwk7jv" path="res://scenes/main menu/story_mode.tscn" id="2_ll3w7"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_pjte0"]
+[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="4_atuiu"]
+[ext_resource type="PackedScene" uid="uid://dikvwu1vkcjqq" path="res://scenes/main menu/freeplay.tscn" id="4_hiw7n"]
+[ext_resource type="PackedScene" uid="uid://deq86v7ryf1jq" path="res://scenes/main menu/options.tscn" id="6_v3nl2"]
+[ext_resource type="PackedScene" uid="uid://40bxl3qwj0fv" path="res://scenes/main menu/credits.tscn" id="8_ya104"]
+[ext_resource type="Texture2D" uid="uid://boepmdvh5sknc" path="res://assets/sprites/menus/background/main menu/menuBGBlue.png" id="9_am078"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tynp6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_b4ekr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_b4ekr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_am078")
+}],
+"loop": true,
+"name": &"selected",
+"speed": 5.0
+}]
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_78p5c")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(640, 360)
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("2_leh0b")
+stream_player = NodePath("../Audio/Music")
+tempo = 102.0
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_446y2")
+volume_db = -80.0
+bus = &"Music"
+
+[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_pjte0")
+bus = &"SFX"
+
+[node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_atuiu")
+bus = &"SFX"
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 0
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Button Manager" type="Node2D" parent="UI"]
+
+[node name="Story Mode" parent="UI/Button Manager" instance=ExtResource("2_ll3w7")]
+position = Vector2(2.08189e-12, -168)
+
+[node name="Freeplay" parent="UI/Button Manager" instance=ExtResource("4_hiw7n")]
+
+[node name="Credits" parent="UI/Button Manager" instance=ExtResource("8_ya104")]
+position = Vector2(0, 184)
+scale = Vector2(0.6, 0.6)
+
+[node name="Options" parent="UI/Button Manager" instance=ExtResource("6_v3nl2")]
+position = Vector2(0, 352)
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Background" type="AnimatedSprite2D" parent="Background"]
+sprite_frames = SubResource("SpriteFrames_tynp6")
+animation = &"idle"
+metadata/_edit_lock_ = true
+
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]

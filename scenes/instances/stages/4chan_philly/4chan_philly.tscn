@@ -1,0 +1,174 @@
+[gd_scene load_steps=19 format=3 uid="uid://o04ewby7jkf1"]
+
+[ext_resource type="Script" path="res://scenes/instances/stage.gd" id="1_44md1"]
+[ext_resource type="Texture2D" uid="uid://b6cthls1hpy25" path="res://assets/sprites/stages/4chan_philly/stage front1.png" id="2_e2pyb"]
+[ext_resource type="Texture2D" uid="uid://chydjak51hwhn" path="res://assets/sprites/stages/4chan_philly/fog1.png" id="3_e8t4i"]
+[ext_resource type="Texture2D" uid="uid://r6mlendeaydo" path="res://assets/sprites/stages/4chan_philly/fog2.png" id="4_er8nl"]
+[ext_resource type="Texture2D" uid="uid://bhj18bns5dfu0" path="res://assets/sprites/stages/4chan_philly/lightpost.png" id="5_wy2hg"]
+[ext_resource type="Texture2D" uid="uid://dedsny6ux4kvp" path="res://assets/sprites/stages/4chan_philly/traffic lights.png" id="6_3my62"]
+[ext_resource type="Texture2D" uid="uid://bp2nhx8l2icib" path="res://assets/sprites/stages/4chan_philly/lightpost lightcast.png" id="7_ny42w"]
+[ext_resource type="Texture2D" uid="uid://dgp0bjnslw5nm" path="res://assets/sprites/stages/4chan_philly/traffic signpost.png" id="8_lt4cd"]
+[ext_resource type="Texture2D" uid="uid://bpb87bjh2y2c1" path="res://assets/sprites/stages/4chan_philly/carback.png" id="9_3suyw"]
+[ext_resource type="Texture2D" uid="uid://d2cp65eo7sxf4" path="res://assets/sprites/stages/4chan_philly/carback2.png" id="10_rpw3e"]
+[ext_resource type="Texture2D" uid="uid://bkv3c5jawg4u2" path="res://assets/sprites/stages/4chan_philly/bridge.png" id="11_j0h51"]
+[ext_resource type="Texture2D" uid="uid://cr8aeymf0v88n" path="res://assets/sprites/stages/4chan_philly/city back.png" id="12_dayod"]
+[ext_resource type="Shader" path="res://shaders/blur.gdshader" id="13_o70l4"]
+[ext_resource type="Texture2D" uid="uid://d3gvlkg3kqqe0" path="res://assets/sprites/stages/4chan_philly/sky.png" id="14_y75a2"]
+
+[sub_resource type="Gradient" id="Gradient_0qh3h"]
+colors = PackedColorArray(0, 0, 0, 1, 0.807843, 1, 0.882353, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f5xmg"]
+gradient = SubResource("Gradient_0qh3h")
+
+[sub_resource type="Environment" id="Environment_bd4bl"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/5 = 0.0
+glow_intensity = 1.8
+glow_strength = 0.72
+glow_bloom = 0.03
+glow_blend_mode = 1
+glow_hdr_threshold = 1.5
+adjustment_enabled = true
+adjustment_color_correction = SubResource("GradientTexture1D_f5xmg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d5y0p"]
+shader = ExtResource("13_o70l4")
+shader_parameter/blur_amount = 2.139
+shader_parameter/mix_amount = null
+shader_parameter/color_over = Color(0.219608, 0.219608, 0.219608, 1)
+
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_44md1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bd4bl")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -2
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="StageFront" type="Sprite2D" parent="Background"]
+position = Vector2(72, 136)
+scale = Vector2(0.676, 0.676)
+texture = ExtResource("2_e2pyb")
+metadata/_edit_lock_ = true
+
+[node name="Fog1" type="Sprite2D" parent="Background"]
+z_index = 2
+position = Vector2(56, 160)
+scale = Vector2(0.564, 0.564)
+texture = ExtResource("3_e8t4i")
+metadata/_edit_lock_ = true
+
+[node name="Fog2" type="Sprite2D" parent="Background"]
+z_index = 2
+position = Vector2(192, 152)
+scale = Vector2(0.821, 0.821)
+texture = ExtResource("4_er8nl")
+metadata/_edit_lock_ = true
+
+[node name="Lightpost" type="Sprite2D" parent="Background"]
+z_index = -1
+position = Vector2(408, -16)
+scale = Vector2(0.747, 0.747)
+texture = ExtResource("5_wy2hg")
+metadata/_edit_lock_ = true
+
+[node name="TrafficLights" type="Sprite2D" parent="Background"]
+z_index = -2
+position = Vector2(408, -24)
+scale = Vector2(0.747, 0.747)
+texture = ExtResource("6_3my62")
+metadata/_edit_lock_ = true
+
+[node name="LightpostLightcast" type="Sprite2D" parent="Background"]
+z_index = 1
+position = Vector2(336, -8)
+scale = Vector2(0.643, 0.643)
+texture = ExtResource("7_ny42w")
+metadata/_edit_lock_ = true
+
+[node name="TrafficSignpost" type="Sprite2D" parent="Background"]
+z_index = -2
+position = Vector2(-61, 25)
+scale = Vector2(0.824, 0.824)
+texture = ExtResource("8_lt4cd")
+metadata/_edit_lock_ = true
+
+[node name="Background2" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -3
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="Carback" type="Sprite2D" parent="Background2"]
+position = Vector2(224, 144)
+scale = Vector2(0.743, 0.743)
+texture = ExtResource("9_3suyw")
+metadata/_edit_lock_ = true
+
+[node name="Background3" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -4
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.925
+
+[node name="Carback2" type="Sprite2D" parent="Background3"]
+position = Vector2(320, 141.622)
+scale = Vector2(0.743, 0.743)
+texture = ExtResource("10_rpw3e")
+metadata/_edit_lock_ = true
+
+[node name="Background4" type="CanvasLayer" parent="."]
+layer = -5
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Bridge" type="Sprite2D" parent="Background4"]
+position = Vector2(360, -120)
+scale = Vector2(0.76, 0.76)
+texture = ExtResource("11_j0h51")
+metadata/_edit_lock_ = true
+
+[node name="Background5" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -6
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="CityBack" type="Sprite2D" parent="Background5"]
+position = Vector2(24, -72)
+scale = Vector2(0.727, 0.727)
+texture = ExtResource("12_dayod")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Background5"]
+material = SubResource("ShaderMaterial_d5y0p")
+offset_left = -850.526
+offset_top = -595.789
+offset_right = 960.474
+offset_bottom = 591.211
+metadata/_edit_lock_ = true
+
+[node name="Background6" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -7
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.9
+
+[node name="Sky" type="Sprite2D" parent="Background6"]
+position = Vector2(-100.48, -156.5)
+scale = Vector2(0.89, 0.89)
+texture = ExtResource("14_y75a2")
+metadata/_edit_lock_ = true

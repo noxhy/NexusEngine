@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://40bxl3qwj0fv"]
+
+[ext_resource type="SpriteFrames" uid="uid://c2ef5yqq08tfh" path="res://assets/sprites/menus/main menu/menu_credits.res" id="1_85wfu"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_40krp"]
+
+[node name="Credits" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_85wfu")
+animation = &"credits basic"
+script = ExtResource("2_40krp")
+animation_names = {
+"idle": "credits basic",
+"selected": "credits white"
+}

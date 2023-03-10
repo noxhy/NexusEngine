@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=3 uid="uid://bpv5demojrg67"]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_krhuq"]
+[ext_resource type="Texture2D" uid="uid://cxu20hb7y7adt" path="res://assets/sprites/playstate/icons/girlfriend.png" id="2_hksi1"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/girlfriend/girlfriend.res" id="3_0woem"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d0qj"]
+atlas = ExtResource("2_hksi1")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilgn7"]
+atlas = ExtResource("2_hksi1")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fp4l"]
+atlas = ExtResource("2_hksi1")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v8umh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d0qj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilgn7")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fp4l")
+}],
+"loop": true,
+"name": &"winning",
+"speed": 5.0
+}]
+
+[node name="Girlfriend" type="Node2D"]
+script = ExtResource("1_krhuq")
+animation_names = {
+"cheer": "GF Cheer",
+"cry": "gf sad",
+"down": "GF Down Note",
+"idle": "GF Dancing Beat",
+"left": "GF left note",
+"right": "GF Right Note",
+"shake": "GF FEAR ",
+"up": "GF Up Note"
+}
+offsets = {
+"GF Cheer": Vector2(0, -323),
+"GF Dancing Beat": Vector2(0, -320),
+"GF Down Note": Vector2(0, -315),
+"GF FEAR ": Vector2(0, -315),
+"GF Right Note": Vector2(0, -315),
+"GF Up Note": Vector2(0, -331),
+"GF left note": Vector2(0, -316),
+"gf sad": Vector2(0, -315)
+}
+icons = SubResource("SpriteFrames_v8umh")
+color = Color(0.619608, 0.0784314, 0.282353, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -320)
+sprite_frames = ExtResource("3_0woem")
+animation = &"GF Dancing Beat"
+frame = 29
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

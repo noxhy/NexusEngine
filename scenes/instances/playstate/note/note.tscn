@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/playstate/note/note.gd" id="1_7ee17"]
+[ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://assets/sprites/playstate/developer/arrow/notes.tres" id="2_r4bqa"]
+[ext_resource type="Resource" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="2_sl16p"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="4_kfabs"]
+[ext_resource type="Texture2D" uid="uid://ds5jlynhtryxg" path="res://assets/sprites/playstate/developer/arrow/tail.png" id="5_2n521"]
+
+[node name="Note" type="Node2D"]
+use_parent_material = true
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_7ee17")
+note_skin = ExtResource("2_sl16p")
+
+[node name="Note" type="AnimatedSprite2D" parent="."]
+z_index = 1
+use_parent_material = true
+sprite_frames = ExtResource("2_r4bqa")
+animation = &"left"
+script = ExtResource("4_kfabs")
+animation_names = {
+"down": "down",
+"down tail": "down tail",
+"left": "left",
+"left tail": "left tail",
+"right": "right",
+"right tail": "right tail",
+"up": "up",
+"up tail": "up tail"
+}
+
+[node name="Tail" type="Line2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.588235)
+use_parent_material = true
+width = 600.0
+texture = ExtResource("5_2n521")
+texture_mode = 1
+joint_mode = 2
+
+[node name="Tail End" type="AnimatedSprite2D" parent="Tail"]
+use_parent_material = true
+rotation = 1.5708
+sprite_frames = ExtResource("2_r4bqa")
+animation = &"end"
+offset = Vector2(300, 2.08189e-12)
+script = ExtResource("4_kfabs")
+animation_names = {
+"down end": "down end",
+"left end": "left end",
+"right end": "right end",
+"up end": "up end"
+}

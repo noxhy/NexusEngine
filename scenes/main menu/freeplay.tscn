@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dikvwu1vkcjqq"]
+
+[ext_resource type="SpriteFrames" uid="uid://b7cugwdmdjj55" path="res://assets/sprites/menus/main menu/menu_freeplay.res" id="1_qeorp"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_k5k1f"]
+
+[node name="OffsetSprite" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_qeorp")
+animation = &"freeplay basic"
+script = ExtResource("2_k5k1f")
+animation_names = {
+"idle": "freeplay basic",
+"selected": "freeplay white"
+}

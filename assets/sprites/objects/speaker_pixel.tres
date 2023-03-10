@@ -1,0 +1,44 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://c771gm7j20lte"]
+
+[ext_resource type="Texture2D" uid="uid://c0gpbav26nulg" path="res://assets/sprites/objects/speaker-pixel.png" id="1_s16km"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8s2d"]
+atlas = ExtResource("1_s16km")
+region = Rect2(0, 0, 102, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftyh1"]
+atlas = ExtResource("1_s16km")
+region = Rect2(0, 52, 102, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqh6i"]
+atlas = ExtResource("1_s16km")
+region = Rect2(0, 104, 102, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjt18"]
+atlas = ExtResource("1_s16km")
+region = Rect2(0, 0, 102, 52)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8s2d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftyh1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqh6i")
+}],
+"loop": false,
+"name": &"bump",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjt18")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 24.0
+}]

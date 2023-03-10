@@ -1,0 +1,171 @@
+[gd_scene load_steps=18 format=3 uid="uid://gbra80y44814"]
+
+[ext_resource type="Script" path="res://scenes/freeplay/freeplay.gd" id="1_8wllq"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="1_d85pb"]
+[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_w52tp"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_f88my"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/daddy_dearest.tscn" id="5_2m015"]
+[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_dca1q"]
+[ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="5_xlpwk"]
+[ext_resource type="Texture2D" uid="uid://p4fqdhnshin2" path="res://assets/sprites/menus/freeplay/arrow.png" id="6_gjlmt"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend pixel.tscn" id="6_myhcl"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/senpai.tscn" id="7_1jr05"]
+[ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="7_yte2n"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="8_sfkso"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="11_ppo0m"]
+[ext_resource type="PackedScene" uid="uid://dghi5ce8cupic" path="res://scenes/instances/characters/spirit.tscn" id="13_2j8kg"]
+[ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="14_j6vqm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w0sdm"]
+font = ExtResource("7_yte2n")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_mxklt"]
+font = ExtResource("8_sfkso")
+
+[node name="Freeplay" type="Node2D"]
+script = ExtResource("1_8wllq")
+metadata/_edit_horizontal_guides_ = [88.0]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("1_d85pb")
+stream_player = NodePath("../Audio/Music")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_w52tp")
+volume_db = -80.0
+bus = &"Music"
+
+[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_f88my")
+bus = &"SFX"
+
+[node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_dca1q")
+bus = &"SFX"
+
+[node name="Screen Flash" type="CanvasLayer" parent="."]
+layer = 2
+visible = false
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="ColorRect" type="ColorRect" parent="Screen Flash"]
+offset_left = -640.0
+offset_top = -361.0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Album Cover" type="Sprite2D" parent="UI"]
+z_index = 2
+position = Vector2(-448, -168)
+scale = Vector2(0.156, 0.156)
+
+[node name="Arrow" type="Sprite2D" parent="UI"]
+z_index = 2
+position = Vector2(-208, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("6_gjlmt")
+
+[node name="Album Name" type="Label" parent="UI"]
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1264.0
+offset_top = -362.0
+offset_right = -912.0
+offset_bottom = -314.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Friday Night Funkin'"
+label_settings = SubResource("LabelSettings_w0sdm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Album Song List" type="Label" parent="UI"]
+z_index = 2
+anchors_preset = -1
+anchor_left = 0.225
+anchor_top = 0.122
+anchor_right = 0.466
+anchor_bottom = 0.489
+offset_left = -896.0
+offset_top = -31.84
+offset_right = -884.48
+offset_bottom = -8.07999
+text = "Album Credits"
+label_settings = SubResource("LabelSettings_mxklt")
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+z_index = 1
+offset_left = -640.0
+offset_top = -360.0
+offset_right = -256.0
+offset_bottom = 361.0
+color = Color(0, 0, 0, 0.505882)
+metadata/_edit_lock_ = true
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = 0
+visible = false
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Daddy Dearest" parent="Characters" instance=ExtResource("5_2m015")]
+position = Vector2(1440, 96)
+scale = Vector2(0.557, 0.557)
+
+[node name="Boyfriend Pixel" parent="Characters" instance=ExtResource("6_myhcl")]
+position = Vector2(1208, -112)
+scale = Vector2(2.822, 2.822)
+
+[node name="Senpai" parent="Characters" instance=ExtResource("7_1jr05")]
+position = Vector2(1728, -40)
+scale = Vector2(2.144, 2.144)
+
+[node name="Boyfriend" parent="Characters" instance=ExtResource("11_ppo0m")]
+position = Vector2(1976, 856)
+
+[node name="Spirit" parent="Characters" instance=ExtResource("13_2j8kg")]
+position = Vector2(1384, 384)
+color = Color(0.172549, 0.180392, 0.607843, 1)
+
+[node name="Darnell" parent="Characters" instance=ExtResource("14_j6vqm")]
+color = Color(0.501961, 0.843137, 0.666667, 1)
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Background" type="Sprite2D" parent="Background"]
+z_index = -1
+texture = ExtResource("5_xlpwk")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+visible = false
+offset_left = -832.0
+offset_top = -360.0
+offset_right = -82.0001
+offset_bottom = 606.0
+rotation = -0.185005
+color = Color(0, 0, 0, 0.505882)
+
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]

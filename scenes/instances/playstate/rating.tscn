@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/playstate/rating.gd" id="1_peefr"]
+[ext_resource type="Resource" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_fpv3i"]
+[ext_resource type="SpriteFrames" uid="uid://c802qdqdog3ia" path="res://assets/sprites/playstate/developer/rating/ratings.tres" id="2_y4m87"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="7_7wrd8"]
+
+[node name="Rating" type="Node2D"]
+script = ExtResource("1_peefr")
+ui_skin = ExtResource("2_fpv3i")
+
+[node name="OffsetSprite" type="AnimatedSprite2D" parent="."]
+frames = ExtResource("2_y4m87")
+animation = &"epic"
+script = ExtResource("7_7wrd8")
+animation_names = {
+"bad": "bad",
+"epic": "epic",
+"fc_bad": "fc_bad",
+"fc_epic": "fc_epic",
+"fc_good": "fc_good",
+"fc_shit": "fc_shit",
+"fc_sick": "fc_sick",
+"good": "good",
+"miss": "miss",
+"shit": "shit",
+"sick": "sick"
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

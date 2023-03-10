@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://77c763qfjduu"]
+
+[ext_resource type="Script" path="res://scenes/instances/options/options_node_number.gd" id="1_0r6q7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bf8dt"]
+font_size = 24
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Options Node" type="Control"]
+custom_minimum_size = Vector2(192, 32)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_right = -1088.0
+offset_bottom = -704.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 16)
+script = ExtResource("1_0r6q7")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 156.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Option Name"
+label_settings = SubResource("LabelSettings_bf8dt")
+vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.0
+offset_right = 83.0625
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 1
+
+[node name="Label2" type="Label" parent="SpinBox"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -18.5
+offset_right = 220.0
+offset_bottom = 18.5
+grow_vertical = 2
+text = "Value Type"
+label_settings = SubResource("LabelSettings_bf8dt")
+vertical_alignment = 1
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
