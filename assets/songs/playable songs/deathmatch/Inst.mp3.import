@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b0bbtgekeborv"
+path="res://.godot/imported/Inst.mp3-8189544f8253d391a82cf164230b6a92.mp3str"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/deathmatch/Inst.mp3"
+dest_files=["res://.godot/imported/Inst.mp3-8189544f8253d391a82cf164230b6a92.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=4 format=3]
+
+[ext_resource type="SpriteFrames" uid="uid://44un5qyptpwy" path="res://assets/sprites/playstate/pixel/rating/combo_numbers.tres" id="1_iptxq"]
+[ext_resource type="Script" path="res://resources/ui_skin.gd" id="1_mgkg4"]
+[ext_resource type="SpriteFrames" uid="uid://mflkndvowlfs" path="res://assets/sprites/playstate/pixel/rating/ratings.tres" id="2_txi8w"]
+
+[resource]
+script = ExtResource("1_mgkg4")
+rating_texture = ExtResource("2_txi8w")
+numbers_texture = ExtResource("1_iptxq")
+pixel_texture = true
+rating_scale = 5.0
+numbers_scale = 5.0
+numbers_spacing = 10
+animation_names = {}
+offsets = {}
+countdown_animation = "pixel_countdown"

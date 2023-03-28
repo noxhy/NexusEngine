@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bmggbtser1g3u"
+path="res://.godot/imported/miss 1.ogg-e108174dc44497e776c3af1c21415abc.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/game sounds/miss sounds/miss 1.ogg"
+dest_files=["res://.godot/imported/miss 1.ogg-e108174dc44497e776c3af1c21415abc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

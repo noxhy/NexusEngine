@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dbdx3d7yv6085"
+path="res://.godot/imported/game over end.ogg-00a7498ea555bacb1e6ba1064041c7cf.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/menu sounds/game over end.ogg"
+dest_files=["res://.godot/imported/game over end.ogg-00a7498ea555bacb1e6ba1064041c7cf.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

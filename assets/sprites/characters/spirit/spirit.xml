@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="spirit.png">
+	<SubTexture name="idle spirit_0" x="0" y="1028" width="128" height="128"/>
+	<SubTexture name="idle spirit_1" x="0" y="1157" width="128" height="128"/>
+	<SubTexture name="idle spirit_2" x="1542" y="0" width="128" height="128"/>
+	<SubTexture name="idle spirit_3" x="643" y="900" width="128" height="128"/>
+	<SubTexture name="idle spirit_4" x="387" y="1029" width="128" height="128"/>
+	<SubTexture name="idle spirit_5" x="772" y="771" width="128" height="128"/>
+	<SubTexture name="idle spirit_6" x="129" y="1415" width="128" height="128"/>
+	<SubTexture name="idle spirit_7" x="258" y="1286" width="128" height="128"/>
+	<SubTexture name="idle spirit_8" x="0" y="1544" width="128" height="128"/>
+	<SubTexture name="idle spirit_9" x="387" y="1158" width="128" height="128"/>
+	<SubTexture name="idle spirit_10" x="129" y="1028" width="128" height="128"/>
+	<SubTexture name="idle spirit_11" x="514" y="771" width="128" height="128"/>
+	<SubTexture name="idle spirit_12" x="129" y="1157" width="128" height="128"/>
+	<SubTexture name="idle spirit_13" x="258" y="1028" width="128" height="128"/>
+	<SubTexture name="idle spirit_14" x="0" y="1286" width="128" height="128"/>
+	<SubTexture name="idle spirit_15" x="514" y="900" width="128" height="128"/>
+	<SubTexture name="idle spirit_16" x="643" y="771" width="128" height="128"/>
+	<SubTexture name="idle spirit_17" x="0" y="1415" width="128" height="128"/>
+	<SubTexture name="idle spirit_18" x="129" y="1286" width="128" height="128"/>
+	<SubTexture name="idle spirit_19" x="258" y="1157" width="128" height="128"/>
+	<SubTexture name="spirit down_0" x="0" y="0" width="256" height="256"/>
+	<SubTexture name="spirit down_1" x="257" y="0" width="256" height="256"/>
+	<SubTexture name="spirit down_2" x="771" y="514" width="256" height="256"/>
+	<SubTexture name="spirit down_3" x="1028" y="257" width="256" height="256"/>
+	<SubTexture name="spirit down_4" x="1285" y="0" width="256" height="256"/>
+	<SubTexture name="spirit down_5" x="1285" y="257" width="256" height="256"/>
+	<SubTexture name="spirit down_6" x="1028" y="514" width="256" height="256"/>
+	<SubTexture name="spirit down_7" x="1285" y="514" width="256" height="256"/>
+	<SubTexture name="spirit down_8" x="0" y="771" width="256" height="256"/>
+	<SubTexture name="spirit down_9" x="257" y="771" width="256" height="256"/>
+	<SubTexture name="spirit down_10" x="514" y="0" width="256" height="256"/>
+	<SubTexture name="spirit down_11" x="0" y="257" width="256" height="256"/>
+	<SubTexture name="spirit down_12" x="257" y="257" width="256" height="256"/>
+	<SubTexture name="spirit down_13" x="0" y="514" width="256" height="256"/>
+	<SubTexture name="spirit down_14" x="257" y="514" width="256" height="256"/>
+	<SubTexture name="spirit down_15" x="514" y="257" width="256" height="256"/>
+	<SubTexture name="spirit down_16" x="514" y="514" width="256" height="256"/>
+	<SubTexture name="spirit down_17" x="771" y="0" width="256" height="256"/>
+	<SubTexture name="spirit down_18" x="771" y="257" width="256" height="256"/>
+	<SubTexture name="spirit down_19" x="1028" y="0" width="256" height="256"/>
+	<SubTexture name="left_0" x="516" y="1029" width="128" height="128"/>
+	<SubTexture name="left_1" x="1542" y="129" width="128" height="128"/>
+	<SubTexture name="left_10" x="772" y="900" width="128" height="128"/>
+	<SubTexture name="left_11" x="901" y="771" width="128" height="128"/>
+	<SubTexture name="left_12" x="258" y="1415" width="128" height="128"/>
+	<SubTexture name="left_13" x="129" y="1544" width="128" height="128"/>
+	<SubTexture name="left_14" x="387" y="1287" width="128" height="128"/>
+	<SubTexture name="left_15" x="645" y="1029" width="128" height="128"/>
+	<SubTexture name="left_16" x="516" y="1158" width="128" height="128"/>
+	<SubTexture name="left_17" x="1542" y="258" width="128" height="128"/>
+	<SubTexture name="left_18" x="1030" y="771" width="128" height="128"/>
+	<SubTexture name="left_19" x="901" y="900" width="128" height="128"/>
+	<SubTexture name="left_2" x="258" y="1544" width="128" height="128"/>
+	<SubTexture name="left_3" x="516" y="1287" width="128" height="128"/>
+	<SubTexture name="left_4" x="387" y="1416" width="128" height="128"/>
+	<SubTexture name="left_5" x="645" y="1158" width="128" height="128"/>
+	<SubTexture name="left_6" x="774" y="1029" width="128" height="128"/>
+	<SubTexture name="left_7" x="1542" y="387" width="128" height="128"/>
+	<SubTexture name="left_8" x="1030" y="900" width="128" height="128"/>
+	<SubTexture name="left_9" x="1159" y="771" width="128" height="128"/>
+	<SubTexture name="right_0" x="903" y="1029" width="128" height="128"/>
+	<SubTexture name="right_1" x="774" y="1158" width="128" height="128"/>
+	<SubTexture name="right_2" x="1032" y="1029" width="128" height="128"/>
+	<SubTexture name="right_3" x="1542" y="645" width="128" height="128"/>
+	<SubTexture name="right_4" x="1288" y="900" width="128" height="128"/>
+	<SubTexture name="right_5" x="774" y="1416" width="128" height="128"/>
+	<SubTexture name="right_6" x="1032" y="1158" width="128" height="128"/>
+	<SubTexture name="right_7" x="903" y="1287" width="128" height="128"/>
+	<SubTexture name="right_8" x="1161" y="1029" width="128" height="128"/>
+	<SubTexture name="right_9" x="645" y="1545" width="128" height="128"/>
+	<SubTexture name="right_10" x="516" y="1416" width="128" height="128"/>
+	<SubTexture name="right_11" x="387" y="1545" width="128" height="128"/>
+	<SubTexture name="right_12" x="645" y="1287" width="128" height="128"/>
+	<SubTexture name="right_13" x="1542" y="516" width="128" height="128"/>
+	<SubTexture name="right_14" x="1288" y="771" width="128" height="128"/>
+	<SubTexture name="right_15" x="1159" y="900" width="128" height="128"/>
+	<SubTexture name="right_16" x="645" y="1416" width="128" height="128"/>
+	<SubTexture name="right_17" x="516" y="1545" width="128" height="128"/>
+	<SubTexture name="right_18" x="774" y="1287" width="128" height="128"/>
+	<SubTexture name="right_19" x="903" y="1158" width="128" height="128"/>
+	<SubTexture name="up_0" x="1417" y="774" width="128" height="128"/>
+	<SubTexture name="up_1" x="903" y="1416" width="128" height="128"/>
+	<SubTexture name="up_2" x="1419" y="1032" width="128" height="128"/>
+	<SubTexture name="up_3" x="1548" y="903" width="128" height="128"/>
+	<SubTexture name="up_4" x="1290" y="1287" width="128" height="128"/>
+	<SubTexture name="up_5" x="1161" y="1416" width="128" height="128"/>
+	<SubTexture name="up_6" x="1032" y="1545" width="128" height="128"/>
+	<SubTexture name="up_7" x="1548" y="1032" width="128" height="128"/>
+	<SubTexture name="up_8" x="1419" y="1161" width="128" height="128"/>
+	<SubTexture name="up_9" x="1161" y="1545" width="128" height="128"/>
+	<SubTexture name="up_10" x="1290" y="1029" width="128" height="128"/>
+	<SubTexture name="up_11" x="1161" y="1158" width="128" height="128"/>
+	<SubTexture name="up_12" x="774" y="1545" width="128" height="128"/>
+	<SubTexture name="up_13" x="1032" y="1287" width="128" height="128"/>
+	<SubTexture name="up_14" x="1546" y="774" width="128" height="128"/>
+	<SubTexture name="up_15" x="903" y="1545" width="128" height="128"/>
+	<SubTexture name="up_16" x="1161" y="1287" width="128" height="128"/>
+	<SubTexture name="up_17" x="1032" y="1416" width="128" height="128"/>
+	<SubTexture name="up_18" x="1290" y="1158" width="128" height="128"/>
+	<SubTexture name="up_19" x="1419" y="903" width="128" height="128"/>
+</TextureAtlas>

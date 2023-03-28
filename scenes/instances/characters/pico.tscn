@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_fxfjm"]
+[ext_resource type="Texture2D" uid="uid://bvk0rw5rde8dm" path="res://assets/sprites/playstate/icons/icon-pico.png" id="2_7hb6n"]
+[ext_resource type="SpriteFrames" uid="uid://7pocubxnwp7b" path="res://assets/sprites/characters/pico/pico.res" id="2_35c1i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vcws"]
+atlas = ExtResource("2_7hb6n")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvphi"]
+atlas = ExtResource("2_7hb6n")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uwssi"]
+animations = [{
+"frames": [SubResource("AtlasTexture_7vcws")],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [SubResource("AtlasTexture_mvphi")],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Pico" type="Node2D"]
+script = ExtResource("1_fxfjm")
+idle_animation = "idle"
+animation_names = {
+"down": "Pico Down Note",
+"idle": "Pico Idle Dance",
+"left": "Pico NOTE LEFT",
+"miss_down": "Pico Down Note MISS",
+"miss_left": "Pico NOTE LEFT miss",
+"miss_right": "Pico Note Right Miss",
+"miss_up": "pico Up note miss",
+"right": "Pico Note Right",
+"up": "pico Up note"
+}
+offsets = {
+"Pico Down Note": Vector2(56, -136),
+"Pico Down Note MISS": Vector2(56, -152),
+"Pico Idle Dance": Vector2(16, -176),
+"Pico NOTE LEFT": Vector2(-72, -168),
+"Pico NOTE LEFT miss": Vector2(-72, -184),
+"Pico Note Right": Vector2(72, -176),
+"Pico Note Right Miss": Vector2(64, -200),
+"pico Up note": Vector2(-16, -200),
+"pico Up note miss": Vector2(-8, -208)
+}
+icons = SubResource("SpriteFrames_uwssi")
+color = Color(0.541176, 0.941176, 0.454902, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(16, -176)
+frames = ExtResource("2_35c1i")
+animation = &"Pico Idle Dance"
+playing = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

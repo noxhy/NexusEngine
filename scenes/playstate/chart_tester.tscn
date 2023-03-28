@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://c56g0k7u2k6wo"]
+
+[ext_resource type="Script" path="res://scenes/playstate/chart_tester.gd" id="1_ep6vc"]
+[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_ajkug"]
+[ext_resource type="Resource" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_srd2m"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="3_pxsf5"]
+[ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="4_laa4w"]
+[ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="4_y3wph"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="5_g7go4"]
+
+[node name="Chart Tester" type="Node2D"]
+script = ExtResource("1_ep6vc")
+metadata/_edit_vertical_guides_ = []
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_ajkug")]
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Music")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+note_skin = ExtResource("4_laa4w")
+ui_skin = ExtResource("2_srd2m")
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("3_pxsf5")
+stream_player = NodePath("../Music/Instrumental")
+
+[node name="Camera" parent="." instance=ExtResource("4_y3wph")]
+position = Vector2(640, 360)
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(232, 32)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(-176, 48)
+gizmo_extents = 26.5
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(-80, -40)
+gizmo_extents = 20.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(104, 0)
+gizmo_extents = 20.0
+
+[node name="UI" parent="." instance=ExtResource("5_g7go4")]
+
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

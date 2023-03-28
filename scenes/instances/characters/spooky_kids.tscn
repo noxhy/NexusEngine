@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://dddh323rffgon"]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_3qf0p"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/spooky kids/spooky_kids.res" id="2_gedfe"]
+[ext_resource type="Texture2D" uid="uid://c72nt4q16hkkh" path="res://assets/sprites/playstate/icons/icon-spooky.png" id="2_noaia"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo0po"]
+atlas = ExtResource("2_noaia")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdf1k"]
+atlas = ExtResource("2_noaia")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tr7q8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo0po")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdf1k")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Spooky Kids" type="Node2D"]
+script = ExtResource("1_3qf0p")
+animation_names = {
+"down": "spooky DOWN note",
+"idle": "spooky dance idle",
+"left": "note sing left",
+"right": "spooky sing right",
+"up": "spooky UP NOTE"
+}
+offsets = {
+"note sing left": Vector2(-136, -248),
+"spooky DOWN note": Vector2(-24, -176),
+"spooky UP NOTE": Vector2(-64, -264),
+"spooky dance idle": Vector2(-48, -256),
+"spooky sing right": Vector2(80, -248)
+}
+icons = SubResource("SpriteFrames_tr7q8")
+color = Color(0.764706, 0.643137, 0.556863, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(-48, -256)
+sprite_frames = ExtResource("2_gedfe")
+animation = &"spooky dance idle"
+frame = 15
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

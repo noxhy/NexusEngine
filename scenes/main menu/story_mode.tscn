@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://daqubxavwk7jv"]
+
+[ext_resource type="SpriteFrames" uid="uid://bbwe77anwnrpv" path="res://assets/sprites/menus/main menu/menu_story_mode.res" id="1_8sw2w"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_1n74k"]
+
+[node name="OffsetSprite" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_8sw2w")
+animation = &"story_mode basic"
+script = ExtResource("2_1n74k")
+animation_names = {
+"idle": "story_mode basic",
+"selected": "story_mode white"
+}
+offsets = {}

@@ -1,0 +1,89 @@
+[gd_scene load_steps=9 format=3 uid="uid://djhqiluiy02ao"]
+
+[ext_resource type="Script" path="res://scenes/playstate/pause_menu.gd" id="1_kynsm"]
+[ext_resource type="Shader" path="res://shaders/blur.gdshader" id="1_p4mtm"]
+[ext_resource type="AudioStream" uid="uid://clklult1rkiyx" path="res://assets/songs/menu songs/breakfast.ogg" id="2_kxcr8"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_blhjj"]
+
+[sub_resource type="Animation" id="Animation_yvwx3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ColorRect2:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(936, 732)]
+}
+
+[sub_resource type="Animation" id="Animation_2eyce"]
+resource_name = "intro"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/ColorRect2:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.241484, 1),
+"update": 0,
+"values": [Vector2(936, 1), Vector2(936, 732)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lkqyl"]
+_data = {
+"RESET": SubResource("Animation_yvwx3"),
+"intro": SubResource("Animation_2eyce")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q4ixn"]
+shader = ExtResource("1_p4mtm")
+shader_parameter/blur_amount = 1.2
+shader_parameter/mix_amount = 0.336
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[node name="Pause Menu" type="Node2D"]
+process_mode = 2
+script = ExtResource("1_kynsm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lkqyl")
+}
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_kxcr8")
+volume_db = -80.0
+autoplay = true
+bus = &"Music"
+
+[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_blhjj")
+bus = &"SFX"
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 127
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_q4ixn")
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="ColorRect2" type="ColorRect" parent="UI"]
+offset_left = -688.0
+offset_top = 568.0
+offset_right = 248.0
+offset_bottom = 1300.0
+rotation = -1.71042
+color = Color(0, 0, 0, 0.564706)

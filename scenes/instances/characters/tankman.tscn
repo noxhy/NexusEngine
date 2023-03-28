@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_jvrgr"]
+[ext_resource type="Texture2D" uid="uid://1maoevhwp1gf" path="res://assets/sprites/playstate/icons/icon-tankman.png" id="2_y2cvw"]
+[ext_resource type="SpriteFrames" uid="uid://bswm8b7clqim1" path="res://assets/sprites/characters/tankman/tankman.res" id="3_kv1vj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdded"]
+atlas = ExtResource("2_y2cvw")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkl4x"]
+atlas = ExtResource("2_y2cvw")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5cccw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdded")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkl4x")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Tankman" type="Node2D"]
+script = ExtResource("1_jvrgr")
+animation_names = {
+"down": "Tankman DOWN note 1",
+"idle": "Tankman Idle Dance 1",
+"left": "Tankman Note Left 1",
+"miss_down": "Tankman DOWN note MISS",
+"miss_left": "Tankman Note Left MISS",
+"miss_right": "Tankman Right Note MISS",
+"miss_up": "Tankman UP note MISS",
+"pretty good": "PRETTY GOOD tankman 1",
+"right": "Tankman Right Note 1",
+"ugh": "TANKMAN UGH 1",
+"up": "Tankman UP note 1"
+}
+offsets = {
+"PRETTY GOOD tankman 1": Vector2(-61, -243),
+"TANKMAN UGH 1": Vector2(-9, -229),
+"Tankman DOWN note 1": Vector2(0, -176),
+"Tankman DOWN note MISS": Vector2(0, -176),
+"Tankman Idle Dance 1": Vector2(-8, -232),
+"Tankman Note Left 1": Vector2(-57, -220),
+"Tankman Note Left MISS": Vector2(-57, -220),
+"Tankman Right Note 1": Vector2(44, -227),
+"Tankman Right Note MISS": Vector2(44, -227),
+"Tankman UP note 1": Vector2(0, -261),
+"Tankman UP note MISS": Vector2(0, -261)
+}
+icons = SubResource("SpriteFrames_5cccw")
+color = Color(0.0313726, 0.0313726, 0.0313726, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(-8, -232)
+sprite_frames = ExtResource("3_kv1vj")
+animation = &"Tankman Idle Dance 1"
+frame = 13
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

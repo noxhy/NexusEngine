@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://civkgglbefejt"]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_oe8gf"]
+[ext_resource type="Texture2D" uid="uid://jngqjlsc37d3" path="res://assets/sprites/playstate/icons/icon-parents.png" id="2_uoe7k"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/mom dad christmas/mom_dad_christmas.res" id="3_o01a6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stvv1"]
+atlas = ExtResource("2_uoe7k")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypmht"]
+atlas = ExtResource("2_uoe7k")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2yo0j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stvv1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypmht")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
+
+[node name="Character" type="Node2D"]
+script = ExtResource("1_oe8gf")
+animation_names = {
+"down": "Parent Down Note Dad",
+"idle": "Parent Christmas Idle",
+"left": "Parent Left Note Dad",
+"right": "Parent Right Note Dad",
+"up": "Parent Up Note Dad"
+}
+offsets = {
+"Parent Christmas Idle": Vector2(-80, -344),
+"Parent Down Note Dad": Vector2(-60, -332),
+"Parent Left Note Dad": Vector2(-94, -355),
+"Parent Right Note Dad": Vector2(-38, -334),
+"Parent Up Note Dad": Vector2(-76, -354)
+}
+icons = SubResource("SpriteFrames_2yo0j")
+color = Color(0.832031, 0.412766, 0.786174, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-80, -344)
+sprite_frames = ExtResource("3_o01a6")
+animation = &"Parent Christmas Idle"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

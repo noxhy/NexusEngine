@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://be4q5dr3p0s37"
+path="res://.godot/imported/pixel 2.ogg-34afd3c5cd5a664a48d01026cfd9760f.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/game sounds/countdown/hating simulator/pixel 2.ogg"
+dest_files=["res://.godot/imported/pixel 2.ogg-34afd3c5cd5a664a48d01026cfd9760f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://darhx23v4e15y"]
+
+[ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://themes/tool.tres" id="1_vtw0l"]
+[ext_resource type="Script" path="res://scenes/instances/options/keybind_button.gd" id="2_nnenw"]
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(192, 32)
+offset_right = 192.0
+offset_bottom = 32.0
+pivot_offset = Vector2(0, 16)
+focus_mode = 0
+theme = ExtResource("1_vtw0l")
+toggle_mode = true
+text = "wewewe"
+script = ExtResource("2_nnenw")
+
+[connection signal="toggled" from="." to="." method="_on_toggled"]

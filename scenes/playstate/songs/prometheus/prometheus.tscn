@@ -1,0 +1,108 @@
+[gd_scene load_steps=13 format=3 uid="uid://cy8jyhwy7pxcn"]
+
+[ext_resource type="Script" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_c17jl"]
+[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_qmpjg"]
+[ext_resource type="Resource" uid="uid://ca8vyroi5c7wu" path="res://assets/charts/Prometheus - hard.tres" id="3_elf14"]
+[ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_d5q1g"]
+[ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_syk8b"]
+[ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_ao8y2"]
+[ext_resource type="PackedScene" uid="uid://o04ewby7jkf1" path="res://scenes/instances/stages/4chan_philly/4chan_philly.tscn" id="7_uktpj"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_vae08"]
+[ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="9_koom7"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/pico.tscn" id="9_kvr1u"]
+[ext_resource type="PackedScene" uid="uid://biw6xh624onjh" path="res://scenes/instances/characters/nene.tscn" id="10_pqudf"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_j0d36"]
+
+[node name="Prometheus" type="Node2D"]
+script = ExtResource("1_c17jl")
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_qmpjg")]
+process_mode = 1
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Music")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+chart = ExtResource("3_elf14")
+note_skin = ExtResource("4_d5q1g")
+ui_skin = ExtResource("5_syk8b")
+combo_scale_multiplier = Vector2(0.5, 0.5)
+
+[node name="Camera" parent="." instance=ExtResource("6_ao8y2")]
+position = Vector2(640, 432)
+position_smoothing_speed = 3.0
+target_zoom = Vector2(1.1, 1.1)
+
+[node name="Stage" parent="." instance=ExtResource("7_uktpj")]
+unique_name_in_owner = true
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("8_vae08")
+stream_player = NodePath("../Music/Instrumental")
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(10, 48)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(0, 24)
+gizmo_extents = 26.5
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(106, 64)
+gizmo_extents = 30.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(160, 96)
+gizmo_extents = 40.0
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("9_kvr1u")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(208, 255)
+scale = Vector2(0.39, 0.39)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("9_koom7")]
+unique_name_in_owner = true
+position = Vector2(-160, 264)
+scale = Vector2(0.49, 0.49)
+
+[node name="Metronome" parent="Characters" instance=ExtResource("10_pqudf")]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(32, 244)
+scale = Vector2(0.48, 0.48)
+
+[node name="UI" parent="." instance=ExtResource("12_j0d36")]
+layer = 10
+
+[connection signal="combo_break" from="PlayState Host" to="." method="_on_combo_break"]
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="_on_new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

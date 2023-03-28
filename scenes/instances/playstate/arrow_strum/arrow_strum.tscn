@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbyq5kxppcvc8"]
+
+[ext_resource type="Script" path="res://scenes/instances/playstate/arrow_strum/arrow_strum.gd" id="1_ixlu2"]
+[ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="2_aqqtq"]
+[ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://assets/sprites/playstate/developer/arrow/strums.tres" id="3_cik2r"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="4_kjy2w"]
+
+[node name="Arrow Strum" type="Node2D"]
+script = ExtResource("1_ixlu2")
+note_skin = ExtResource("2_aqqtq")
+
+[node name="OffsetSprite" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+scale = Vector2(0.2, 0.2)
+sprite_frames = ExtResource("3_cik2r")
+animation = &"left"
+script = ExtResource("4_kjy2w")
+animation_names = {
+"down": "down",
+"down glow": "down glow",
+"down press": "down press",
+"left": "left",
+"left glow": "left glow",
+"left press": "left press",
+"right": "right",
+"right glow": "right glow",
+"right press": "right press",
+"up": "up",
+"up glow": "up glow",
+"up press": "up press"
+}
+
+[connection signal="animation_finished" from="OffsetSprite" to="." method="_on_offset_sprite_animation_finished"]

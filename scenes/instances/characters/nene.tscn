@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://biw6xh624onjh"]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_l0d0e"]
+[ext_resource type="Texture2D" uid="uid://cxu20hb7y7adt" path="res://assets/sprites/playstate/icons/girlfriend.png" id="2_eo53m"]
+[ext_resource type="SpriteFrames" uid="uid://b4tvh3dq0qark" path="res://assets/sprites/characters/nene/nene.res" id="3_dojva"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23456"]
+atlas = ExtResource("2_eo53m")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_326mc"]
+atlas = ExtResource("2_eo53m")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18nwy"]
+atlas = ExtResource("2_eo53m")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v8umh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23456")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_326mc")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18nwy")
+}],
+"loop": true,
+"name": &"winning",
+"speed": 5.0
+}]
+
+[node name="Nene" type="Node2D"]
+script = ExtResource("1_l0d0e")
+animation_names = {
+"cheer": "cheer",
+"cry": "combo break",
+"idle": "idle",
+"shake": "GF FEAR "
+}
+offsets = {
+"cheer": Vector2(0, -265),
+"combo break": Vector2(0, -266),
+"cute": Vector2(0, -263),
+"idle": Vector2(0, -264)
+}
+icons = SubResource("SpriteFrames_v8umh")
+color = Color(0.921569, 0.470588, 0.643137, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -264)
+sprite_frames = ExtResource("3_dojva")
+animation = &"idle"
+frame = 31
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

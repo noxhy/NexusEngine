@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_oe8gf"]
+[ext_resource type="Texture2D" uid="uid://dh4quhljfok4e" path="res://assets/sprites/playstate/icons/icon-face.png" id="2_5ekw2"]
+
+[node name="Character" type="Node2D"]
+script = ExtResource("1_oe8gf")
+icons = ExtResource("2_5ekw2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+playing = true

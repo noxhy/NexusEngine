@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://6p6f7jng0nys"
+path="res://.godot/imported/Inst.mp3-14a6da764080a5fcd71f15077108fce1.mp3str"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/delusion/Inst.mp3"
+dest_files=["res://.godot/imported/Inst.mp3-14a6da764080a5fcd71f15077108fce1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

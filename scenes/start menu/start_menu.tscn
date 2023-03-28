@@ -1,0 +1,438 @@
+[gd_scene load_steps=15 format=3 uid="uid://b1kmgjxpce1de"]
+
+[ext_resource type="Script" path="res://scenes/start menu/start_menu.gd" id="1_b8t6h"]
+[ext_resource type="PackedScene" path="res://scenes/instances/conductor.tscn" id="2_n68yt"]
+[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_oy1dj"]
+[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="4_kki2g"]
+[ext_resource type="Texture2D" uid="uid://bm0kcxd60e8qn" path="res://assets/sprites/logo.png" id="5_7gvni"]
+[ext_resource type="FontFile" uid="uid://dmnmbpo1uy8px" path="res://assets/fonts/fnf font outline.ttf" id="6_88h0l"]
+[ext_resource type="PackedScene" uid="uid://dirqojr6g5tpn" path="res://scenes/instances/characters/girlfriend_title.tscn" id="6_amf35"]
+[ext_resource type="Script" path="res://scenes/start menu/splash_messages.gd" id="8_oue0e"]
+
+[sub_resource type="Animation" id="Animation_bkl68"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Logo:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Play Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Screen Flash/ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:intro_done")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("UI/Splash Messages:text")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["SPLASH
+MESSAGES
+APPEAR HERE"]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UI/Metronome:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_hhr6v"]
+resource_name = "intro"
+length = 10.0
+step = 0.588
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Splash Messages")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.588, 1.764, 2.352, 2.94, 4.116, 4.704, 5.292, 6.468, 7.644, 8.232, 8.82, 9.408),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": ["NINJAMUFFIN\\nPHANTOM ARCADE\\nEVILSK8R\\nKAWAISPRITE"],
+"method": &"show_splash"
+}, {
+"args": ["NINJAMUFFIN\\nPHANTOM ARCADE\\nEVILSK8R\\nKAWAISPRITE\\nPRESENT"],
+"method": &"show_splash"
+}, {
+"args": [],
+"method": &"hide_splash"
+}, {
+"args": ["MADE IN GODOT"],
+"method": &"show_splash"
+}, {
+"args": ["MADE IN GODOT\\nFUCK HAXEFLIXEL"],
+"method": &"show_splash"
+}, {
+"args": [],
+"method": &"hide_splash"
+}, {
+"args": [],
+"method": &"random_splash"
+}, {
+"args": [],
+"method": &"hide_splash"
+}, {
+"args": ["FRIDAY"],
+"method": &"show_splash"
+}, {
+"args": ["FRIDAY\\nNIGHT"],
+"method": &"show_splash"
+}, {
+"args": ["FRIDAY\\nNIGHT\\nFUNKIN"],
+"method": &"show_splash"
+}, {
+"args": [],
+"method": &"hide_splash"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(9.408),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["intro_finish", -1, 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_b3jfc"]
+resource_name = "intro_finish"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Screen Flash/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:intro_done")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/Logo:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/Play Label:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("UI/Splash Messages:text")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UI/Metronome:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_tb1qc"]
+resource_name = "press_enter"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Screen Flash/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SFX/Accept Sound")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_7hmm2"]
+resource_name = "start"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Logo:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Play Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["intro", -1, 1.0, false],
+"method": &"play"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/Splash Messages:text")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7eaud"]
+_data = {
+"RESET": SubResource("Animation_bkl68"),
+"intro": SubResource("Animation_hhr6v"),
+"intro_finish": SubResource("Animation_b3jfc"),
+"press_enter": SubResource("Animation_tb1qc"),
+"start": SubResource("Animation_7hmm2")
+}
+
+[node name="Start Menu" type="Node2D"]
+script = ExtResource("1_b8t6h")
+intro_done = false
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("2_oy1dj")
+volume_db = -80.0
+bus = &"Music"
+
+[node name="Conductor" parent="." instance=ExtResource("2_n68yt")]
+stream_player = NodePath("../Music/Music")
+tempo = 102.0
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="Accept Sound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("4_kki2g")
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7eaud")
+}
+
+[node name="Screen Flash" type="CanvasLayer" parent="."]
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="ColorRect" type="ColorRect" parent="Screen Flash"]
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(1, 1, 1, 0)
+metadata/_edit_lock_ = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 0
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Logo" type="Sprite2D" parent="UI"]
+position = Vector2(-280, -112)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("5_7gvni")
+
+[node name="Metronome" parent="UI" instance=ExtResource("6_amf35")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(256, 312)
+scale = Vector2(0.95, 0.95)
+
+[node name="Play Label" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = -0.4
+anchor_top = 0.256
+anchor_right = 0.4
+anchor_bottom = 0.433
+offset_top = -0.320009
+offset_bottom = 0.23998
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(512, 64)
+theme_override_colors/font_color = Color(0, 0.37, 1, 1)
+theme_override_fonts/font = ExtResource("6_88h0l")
+theme_override_font_sizes/font_size = 81
+text = "Press Enter to Play"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Splash Messages" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = -0.25
+anchor_top = -0.411
+anchor_right = 0.25
+anchor_bottom = 0.411
+offset_left = -128.0
+offset_top = 95.92
+offset_right = 128.0
+offset_bottom = -15.92
+theme_override_fonts/font = ExtResource("6_88h0l")
+theme_override_font_sizes/font_size = 64
+text = "SPLASH
+MESSAGES
+APPEAR HERE"
+horizontal_alignment = 1
+script = ExtResource("8_oue0e")
+splash_messages = "HOLY FUCK, IM CUMMING
+LOIS;
+FUCK HAXEFLIXEL
+AND LUA USERS;
+RUST IS ASS
+STFU ABOUT IT;
+THIS ENTIRE COMMUNITY
+MUST BE PURGED;
+WHAT THE FUCK
+IS A KILOMETER"
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
