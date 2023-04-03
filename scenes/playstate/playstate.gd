@@ -63,7 +63,7 @@ var song_position = 0.0
 
 var accuracy: float
 var timings_sum: float
-var entries: int = 0
+var entries: float = 0
 var misses: int = 0
 
 var health: float = 50.0
@@ -492,7 +492,11 @@ func note_holding(time, lane, note_type, strum_handeler):
 	
 	if !strum_handeler.enemy_slot:
 		
-		health += 0.1
+		health += self_delta * 5
+		
+		timings_sum += self_delta
+		entries += self_delta
+		
 		accuracy = ( timings_sum / entries )
 		
 		update_ui_stats()
