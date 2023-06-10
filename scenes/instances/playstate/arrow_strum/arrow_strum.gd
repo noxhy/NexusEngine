@@ -169,7 +169,7 @@ func _physics_process(delta):
 		note.scroll = scroll
 		note.position.y = (1000 * scroll_speed * scroll) * progress
 		
-		var grid_scaler = note.seconds_per_beat
+		var grid_scaler = note.seconds_per_beat * note.scroll_speed * 0.25
 		note.grid_size = Vector2( 1000 * grid_scaler, 1000 * grid_scaler )
 		
 		if time_difference < 0.164:

@@ -61,7 +61,7 @@ func _process(delta):
 	line_length *= grid_size.y
 	line_length = abs(line_length)
 	
-	line_length *= 0.75
+	# line_length -= grid_size.y / 2
 	line_length /= note_skin.notes_scale
 	
 	if length != 0:
@@ -72,7 +72,7 @@ func _process(delta):
 		var texture = $"Tail/Tail End".sprite_frames.get_frame_texture( tail_animation, 0 )
 		
 		$"Tail/Tail End".offset.x = texture.get_width() * 0.5
-		line_length -= $"Tail/Tail End".offset.x
+		# line_length -= $"Tail/Tail End".offset.x
 		$"Tail/Tail End".position.y = line_length
 		$Tail.scale.y = scroll
 		

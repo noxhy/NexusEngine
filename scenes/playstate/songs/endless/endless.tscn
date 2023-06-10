@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/playstate/songs/basic_song.gd" id="1_nlrpn"]
 [ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_wk3xe"]
 [ext_resource type="Resource" uid="uid://ctovlbmu57fip" path="res://assets/charts/Endless D-Side - hard.tres" id="3_y70jq"]
-[ext_resource type="Resource" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_d7r56"]
+[ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_d7r56"]
 [ext_resource type="Resource" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_f2xr6"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="7_6xmfh"]
 [ext_resource type="PackedScene" uid="uid://cd3leoxyqnk4m" path="res://scenes/instances/stages/weeb_school/weeb_school.tscn" id="7_8a0kj"]

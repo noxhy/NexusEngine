@@ -25,8 +25,8 @@ SettingsHandeler="*res://scenes/global/settings_handeler.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/per_pixel_transparency/allowed=true
 window/stretch/mode="canvas_items"
+window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
