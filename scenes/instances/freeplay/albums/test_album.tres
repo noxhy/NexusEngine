@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="Album" load_steps=16 format=3 uid="uid://c0coafka6m5vs"]
+
+[ext_resource type="Texture2D" uid="uid://dbkqgy3vule0t" path="res://assets/sprites/menus/freeplay/album covers/phantomarcade_friday-night-funkin-cd-cover-vol-1.png" id="1_eox3u"]
+[ext_resource type="Script" path="res://resources/album.gd" id="1_ex3sd"]
+[ext_resource type="Resource" uid="uid://jd4pwwiglyft" path="res://assets/charts/Hotline Deathmatch - hard.tres" id="2_mnym6"]
+[ext_resource type="SpriteFrames" uid="uid://dfkjqte638jkv" path="res://assets/sprites/playstate/icons/daddy_dearest.tres" id="3_7wac7"]
+[ext_resource type="Script" path="res://resources/song.gd" id="4_uiso7"]
+[ext_resource type="Resource" uid="uid://ca8vyroi5c7wu" path="res://assets/charts/Prometheus - hard.tres" id="6_i26lr"]
+[ext_resource type="SpriteFrames" uid="uid://digynxqrdoj3g" path="res://assets/sprites/playstate/icons/darnell.tres" id="7_v5wg4"]
+[ext_resource type="Resource" uid="uid://ctovlbmu57fip" path="res://assets/charts/Endless D-Side - hard.tres" id="8_ma3ui"]
+[ext_resource type="SpriteFrames" uid="uid://d3utv1veneoej" path="res://assets/sprites/playstate/icons/senpai.tres" id="9_kqjhu"]
+[ext_resource type="Resource" uid="uid://404xmhxidmhg" path="res://assets/charts/Thorns D-Side (Fanmade) - hard.tres" id="10_2oj7b"]
+[ext_resource type="SpriteFrames" uid="uid://cdmsewf24ks2q" path="res://assets/sprites/playstate/icons/spirit.tres" id="11_t17sw"]
+
+[sub_resource type="Resource" id="Resource_kr671"]
+script = ExtResource("4_uiso7")
+chart = ExtResource("2_mnym6")
+scene = "res://scenes/playstate/songs/deathmatch/deathmatch.tscn"
+icons = ExtResource("3_7wac7")
+display_color = Color(0.956863, 0.572549, 1, 1)
+locked = false
+
+[sub_resource type="Resource" id="Resource_hmn6l"]
+script = ExtResource("4_uiso7")
+chart = ExtResource("6_i26lr")
+scene = "res://scenes/playstate/songs/prometheus/prometheus.tscn"
+icons = ExtResource("7_v5wg4")
+display_color = Color(0.223529, 0.988235, 0.756863, 1)
+locked = false
+
+[sub_resource type="Resource" id="Resource_xnbao"]
+script = ExtResource("4_uiso7")
+chart = ExtResource("8_ma3ui")
+scene = "res://scenes/playstate/songs/endless/endless.tscn"
+icons = ExtResource("9_kqjhu")
+display_color = Color(0.917647, 0.780392, 0.415686, 1)
+locked = false
+
+[sub_resource type="Resource" id="Resource_1b3jn"]
+script = ExtResource("4_uiso7")
+chart = ExtResource("10_2oj7b")
+scene = "res://scenes/playstate/songs/thorns/thorns.tscn"
+icons = ExtResource("11_t17sw")
+display_color = Color(0.517647, 0.501961, 1, 1)
+locked = false
+
+[resource]
+script = ExtResource("1_ex3sd")
+name = "Test Album"
+cover = ExtResource("1_eox3u")
+credits = "Test"
+song_list = Array[ExtResource("4_uiso7")]([SubResource("Resource_kr671"), SubResource("Resource_hmn6l"), SubResource("Resource_xnbao"), SubResource("Resource_1b3jn")])

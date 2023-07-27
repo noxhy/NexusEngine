@@ -1,0 +1,42 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://bh20gxcnqe45g"]
+
+[ext_resource type="Texture2D" uid="uid://dkvwg2x5r5kbe" path="res://assets/sprites/playstate/icons/boyfriend.png" id="1_a8t8k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyxw1"]
+atlas = ExtResource("1_a8t8k")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbf2j"]
+atlas = ExtResource("1_a8t8k")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyxe7"]
+atlas = ExtResource("1_a8t8k")
+region = Rect2(300, 0, 150, 150)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyxw1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbf2j")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyxe7")
+}],
+"loop": true,
+"name": &"winning",
+"speed": 5.0
+}]

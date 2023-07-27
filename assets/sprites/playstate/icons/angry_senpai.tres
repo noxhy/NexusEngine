@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://cuxtqiopvssp7"]
+
+[ext_resource type="Texture2D" uid="uid://bl71g0wqqeclc" path="res://assets/sprites/playstate/icons/icon-senpaiAngry.png" id="1_y0bt4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dutp8"]
+atlas = ExtResource("1_y0bt4")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7te8o"]
+atlas = ExtResource("1_y0bt4")
+region = Rect2(150, 0, 150, 150)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dutp8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7te8o")
+}],
+"loop": true,
+"name": &"losing",
+"speed": 5.0
+}]
