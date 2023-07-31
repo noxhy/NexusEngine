@@ -122,7 +122,6 @@ func _ready():
 func _physics_process(delta):
 	
 	accuracy = ( timings_sum / entries ) if entries != 0.0 else 0.0
-	self_delta = delta
 	
 	if !song_started:
 		
@@ -185,6 +184,7 @@ func _physics_process(delta):
 
 func _process(delta):
 	
+	self_delta = delta
 	var window_title = chart.song_title
 	
 	var song_position = int( music_host.get_node("Instrumental").get_playback_position() )
@@ -420,7 +420,7 @@ func song_finished():
 
 func new_beat(current_beat, measure_relative):
 	
-	ui.icon_bop( conductor.seconds_per_beat * 0.5 * music_host.get_node("Instrumental").pitch_scale )
+	ui.icon_bop( conductor.seconds_per_beat * 0.5 * ( 1 / music_host.get_node("Instrumental").pitch_scale ) )
 
 
 func new_step(current_step, measure_relative):
@@ -492,7 +492,7 @@ func note_holding(time, lane, note_type, strum_handeler):
 	
 	if !strum_handeler.enemy_slot:
 		
-		health += self_delta * 5
+		health += ( 2 * ( conductor.tempo / 60 ) ) * self_delta
 		
 		timings_sum += self_delta
 		entries += self_delta

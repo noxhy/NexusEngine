@@ -29,17 +29,17 @@ func _ready():
 	else:
 		$OffsetSprite.play_animation( str( digit ) )
 	
-	motion = Vector2( randf_range( -0.1, 0.1 ), -1 )
+	motion = Vector2( randf_range( -0.5, 0.5 ), -2 )
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	
 	self.modulate.a -= delta * 1.8
 	
 	self.position += motion
 	motion.y -= delta * gravity
-	gravity += -0.25
+	gravity += -50 * delta
 
 
 func _on_timer_timeout():
