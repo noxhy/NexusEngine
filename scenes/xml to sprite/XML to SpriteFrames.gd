@@ -100,12 +100,16 @@ func _input(event):
 	
 	if event.is_action_pressed("ui_accept"):
 		if bunce == false:
+			
 			bunce = true
 			save_path = $"UI/Input Panel/Save Path".text
 			load_path = $"UI/Input Panel/Load Path".text
 			$"UI/Input Panel/Save Path".hide()
 			$"UI/Input Panel/Load Path".hide()
+			anim_sprite.sprite_frames = SpriteFrames.new()
+			
 			do_it()
+			
 			await self.finished
 			$"UI/Display Panel/Label".text = "CONVERTED"
 			$"Success Sound".play()
