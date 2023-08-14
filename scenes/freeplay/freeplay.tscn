@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://gbra80y44814"]
+[gd_scene load_steps=14 format=3 uid="uid://gbra80y44814"]
 
 [ext_resource type="Script" path="res://scenes/freeplay/freeplay.gd" id="1_8wllq"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="1_d85pb"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_dca1q"]
 [ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="5_xlpwk"]
 [ext_resource type="Texture2D" uid="uid://p4fqdhnshin2" path="res://assets/sprites/menus/freeplay/arrow.png" id="6_gjlmt"]
+[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="7_tn0af"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="7_yte2n"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="8_sfkso"]
 
@@ -43,6 +44,10 @@ bus = &"SFX"
 
 [node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_dca1q")
+bus = &"SFX"
+
+[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("7_tn0af")
 bus = &"SFX"
 
 [node name="Screen Flash" type="CanvasLayer" parent="."]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d3f6maot63gmp"
+path="res://.godot/imported/dialogue accept.wav-d2c46819fc1ec706e26e1dd679607436.sample"
+
+[deps]
+
+source_file="res://assets/sounds/menu sounds/dialogue accept.wav"
+dest_files=["res://.godot/imported/dialogue accept.wav-d2c46819fc1ec706e26e1dd679607436.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

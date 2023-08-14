@@ -36,7 +36,7 @@ func _input(event):
 
 func exit_scene():
 	
-	Transitions.transition( "down fade in" )
+	Transitions.transition( "fade" )
 	Global.change_scene_to( Global.song_scene )
 
 

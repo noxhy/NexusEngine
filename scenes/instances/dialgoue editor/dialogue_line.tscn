@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cj4cuq6neq1lf"]
+
+[ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://themes/tool.tres" id="1_0ca1f"]
+[ext_resource type="Script" path="res://scenes/instances/dialgoue editor/dialogue_line.gd" id="2_dfr6i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qpygn"]
+content_margin_left = 8.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_jeu2k"]
+resource_local_to_scene = true
+font_size = 12
+
+[node name="Dialogue Line" type="Button"]
+custom_minimum_size = Vector2(112, 32)
+anchors_preset = -1
+anchor_right = 0.1
+anchor_bottom = 0.044
+offset_bottom = 0.319998
+theme = ExtResource("1_0ca1f")
+script = ExtResource("2_dfr6i")
+line_type = 1
+line = "func ape_shit 1,2,holy fuck im cumming lois"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qpygn")
+text = "Dialogue Line njbr jwbrjbwjrbwjbrjwbrjbwr"
+label_settings = SubResource("LabelSettings_jeu2k")
+vertical_alignment = 1
+clip_text = true
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

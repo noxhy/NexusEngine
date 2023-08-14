@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://cbwyjej6x2d78"]
+[gd_resource type="Theme" load_steps=21 format=3 uid="uid://cbwyjej6x2d78"]
 
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="1_2j3pj"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="2_hk0cw"]
@@ -71,6 +71,26 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tdumm"]
+bg_color = Color(0.52549, 0.458824, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lph7j"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ftln"]
 content_margin_left = 8.0
 content_margin_right = 8.0
@@ -132,6 +152,9 @@ content_margin_left = 10.0
 content_margin_right = 10.0
 bg_color = Color(0.0313726, 0.0313726, 0.0313726, 0.901961)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8sxko"]
+bg_color = Color(0, 0, 0, 1)
+
 [resource]
 default_font = ExtResource("2_hk0cw")
 default_font_size = 24
@@ -144,6 +167,8 @@ Button/styles/normal = SubResource("StyleBoxFlat_av7d5")
 Button/styles/pressed = SubResource("StyleBoxFlat_jbdgn")
 CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_eapqn")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxFlat_408l0")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_tdumm")
+HSlider/styles/slider = SubResource("StyleBoxFlat_lph7j")
 Label/font_sizes/font_size = 16
 Label/fonts/font = ExtResource("1_2j3pj")
 LineEdit/font_sizes/font_size = 16
@@ -164,3 +189,6 @@ TabContainer/fonts/font = ExtResource("2_hk0cw")
 TabContainer/styles/panel = SubResource("StyleBoxFlat_kn3uh")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_fgdha")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_6or1v")
+TextEdit/styles/focus = SubResource("StyleBoxFlat_8sxko")
+TextEdit/styles/normal = SubResource("StyleBoxFlat_8sxko")
+TextEdit/styles/read_only = SubResource("StyleBoxFlat_8sxko")

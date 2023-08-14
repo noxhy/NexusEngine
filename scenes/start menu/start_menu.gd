@@ -16,7 +16,6 @@ var flashing_colors = PackedColorArray([
 func _ready():
 	
 	$AnimationPlayer.play("start")
-	Transitions.transition("down fade out")
 	Global.set_window_title( "Start Screen" )
 	
 	if Global.song_playing():
@@ -39,9 +38,10 @@ func _process(_delta):
 		
 		if intro_done:
 			
+			Transitions.transition("down")
 			$AnimationPlayer.play("press_enter")
-			Transitions.transition("down fade in")
 			can_click = false
+			
 		else:
 			
 			$AnimationPlayer.play("intro_finish")

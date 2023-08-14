@@ -83,7 +83,6 @@ func do_it():
 func _ready():
 	
 	set_process(false)
-	Transitions.transition("down fade out")
 	Global.set_window_title("XML to SpriteFrames Converter")
 	
 	await get_tree().process_frame

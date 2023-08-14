@@ -8,7 +8,6 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Transitions.transition("down fade out")
 	Global.set_window_title( "Options Menu" )
 	
 	$Foreground/Options.play("options white")
@@ -28,8 +27,10 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		
 		
-		Transitions.transition("down fade in")
 		can_click = false
+		
+		$"Audio/Menu Cancel".play()
+		Transitions.transition("down")
 		
 		await get_tree().create_timer(1).timeout
 		

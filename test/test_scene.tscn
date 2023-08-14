@@ -1,24 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://j4nwqbrbuj4b"]
+[gd_scene load_steps=2 format=3 uid="uid://j4nwqbrbuj4b"]
 
 [ext_resource type="Script" path="res://test/test_scene.gd" id="1_2vri4"]
-[ext_resource type="Resource" uid="uid://c0coafka6m5vs" path="res://scenes/instances/freeplay/albums/test_album.tres" id="2_0jj0i"]
 
 [node name="Test Scene" type="Node2D"]
 script = ExtResource("1_2vri4")
-album_list = Array[Resource("res://resources/album.gd")]([ExtResource("2_0jj0i")])
 
-[node name="Album List" type="Label" parent="."]
+[node name="Dialogue Display" type="Label" parent="."]
 offset_left = 64.0
 offset_top = 64.0
 offset_right = 104.0
 offset_bottom = 87.0
-text = "Album:
+text = "Dialogue Display:
 
 "
-
-[node name="Song List" type="Label" parent="."]
-offset_left = 64.0
-offset_top = 256.0
-offset_right = 119.0
-offset_bottom = 308.0
-text = "Song List:"

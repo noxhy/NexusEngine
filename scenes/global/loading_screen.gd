@@ -10,7 +10,6 @@ func _ready():
 	
 	scene = Global.new_scene
 	SettingsHandeler.load_settings()
-	Transitions.transition("down fade out")
 	ResourceLoader.load_threaded_request(scene)
 
 
@@ -25,7 +24,6 @@ func _process(_delta):
 	if scene_load_status == ResourceLoader.THREAD_LOAD_LOADED:
 		
 		get_tree().change_scene_to_packed( ResourceLoader.load_threaded_get( scene ) )
-		Transitions.transition("down fade in")
 		queue_free()
 
 

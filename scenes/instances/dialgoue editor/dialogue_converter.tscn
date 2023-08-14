@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://xdbwrd7sa2dn"]
+
+[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="1_5qs3c"]
+[ext_resource type="Script" path="res://scenes/instances/dialgoue editor/dialogue_converter.gd" id="1_ar8qe"]
+[ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://themes/tool.tres" id="2_7pc5l"]
+[ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="3_q6e5i"]
+
+[node name="Dialogue Converter" type="Node2D"]
+script = ExtResource("1_ar8qe")
+
+[node name="Success Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_5qs3c")
+bus = &"SFX"
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Input Panel" type="Panel" parent="UI"]
+custom_minimum_size = Vector2(250, 23)
+offset_left = 512.0
+offset_top = 192.0
+offset_right = 768.0
+offset_bottom = 448.0
+theme = ExtResource("2_7pc5l")
+
+[node name="Label" type="Label" parent="UI/Input Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 40.0
+theme = ExtResource("2_7pc5l")
+text = "PSYCH DIALOGUE CONVERTER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Load Path" type="LineEdit" parent="UI/Input Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 88.0
+offset_right = 240.0
+offset_bottom = 113.0
+theme = ExtResource("2_7pc5l")
+placeholder_text = "Load Path (.json)"
+context_menu_enabled = false
+
+[node name="Save Path" type="LineEdit" parent="UI/Input Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 144.0
+offset_right = 240.0
+offset_bottom = 169.0
+theme = ExtResource("2_7pc5l")
+placeholder_text = "Save Path (res://)"
+
+[node name="Label2" type="Label" parent="UI/Input Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 216.0
+offset_right = 248.0
+offset_bottom = 250.0
+theme = ExtResource("2_7pc5l")
+text = "ENTER TO CONVERT"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Background" type="Sprite2D" parent="Background"]
+modulate = Color(0.0823529, 0.0823529, 0.0823529, 1)
+texture = ExtResource("3_q6e5i")
+metadata/_edit_lock_ = true

@@ -11,8 +11,6 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Transitions.transition("down fade out")
-	
 	playstate_host.ui.set_player_icons( %Player.icons )
 	playstate_host.ui.set_player_color( %Player.color )
 	

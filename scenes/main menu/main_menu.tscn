@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://rc52vcn2m7ob"]
+[gd_scene load_steps=14 format=3 uid="uid://rc52vcn2m7ob"]
 
 [ext_resource type="Script" path="res://scenes/main menu/main_menu.gd" id="1_78p5c"]
 [ext_resource type="Texture2D" uid="uid://cj0kwltd54xru" path="res://assets/sprites/menus/background/main menu/menuBG.png" id="1_b4ekr"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_pjte0"]
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="4_atuiu"]
 [ext_resource type="PackedScene" uid="uid://dikvwu1vkcjqq" path="res://scenes/main menu/freeplay.tscn" id="4_hiw7n"]
+[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="6_54l66"]
 [ext_resource type="PackedScene" uid="uid://deq86v7ryf1jq" path="res://scenes/main menu/options.tscn" id="6_v3nl2"]
 [ext_resource type="PackedScene" uid="uid://40bxl3qwj0fv" path="res://scenes/main menu/credits.tscn" id="8_ya104"]
 [ext_resource type="Texture2D" uid="uid://boepmdvh5sknc" path="res://assets/sprites/menus/background/main menu/menuBGBlue.png" id="9_am078"]
@@ -58,6 +59,10 @@ bus = &"SFX"
 
 [node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_atuiu")
+bus = &"SFX"
+
+[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_54l66")
 bus = &"SFX"
 
 [node name="UI" type="CanvasLayer" parent="."]

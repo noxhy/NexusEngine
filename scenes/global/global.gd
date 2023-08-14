@@ -116,7 +116,7 @@ func bop_tween(object: Object, property: NodePath, original_val: Variant, final_
 	tween.tween_property( object, property, final_val, duration * 0.0625 ).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property( object, property, original_val, duration ).set_ease(Tween.EASE_OUT).set_delay( duration * 0.0625 )
 
-func set_window_title( title: String ): DisplayServer.window_set_title( "Friday Night Funkin' Nexus Engine 2.0 | " + title )
+func set_window_title( title: String ): DisplayServer.window_set_title( "Friday Night Funkin' Nexus Engine 2.1 | " + title )
 
 func float_to_time(time: float) -> String:
 	

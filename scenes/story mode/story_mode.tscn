@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://lh8hi5dk1sja"]
+[gd_scene load_steps=22 format=3 uid="uid://lh8hi5dk1sja"]
 
 [ext_resource type="Script" path="res://scenes/story mode/story_mode.gd" id="1_obutf"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="2_4mkcq"]
 [ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_j5vpc"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_483rj"]
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="4_rnfy7"]
+[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="6_1kd8w"]
 [ext_resource type="FontFile" uid="uid://coivso5sghc2p" path="res://assets/fonts/fnf font.ttf" id="6_arlsh"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="7_5xrda"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="8_npxap"]
@@ -61,6 +62,10 @@ bus = &"SFX"
 
 [node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_rnfy7")
+bus = &"SFX"
+
+[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_1kd8w")
 bus = &"SFX"
 
 [node name="Screen Flash" type="CanvasLayer" parent="."]

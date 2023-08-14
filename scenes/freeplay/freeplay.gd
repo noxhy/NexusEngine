@@ -17,7 +17,6 @@ var selected_song: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Transitions.transition("down fade out")
 	Global.set_window_title( "Freeplay Menu" )
 	Global.freeplay_album_option = wrap( Global.freeplay_album_option, 0, album_list.size() )
 	
@@ -64,8 +63,10 @@ func _input(event):
 			select_option(selected_song)
 		elif event.is_action_pressed("ui_cancel"):
 			
-			Transitions.transition("down fade in")
+			Transitions.transition("down")
 			can_click = false
+			
+			$"Audio/Menu Cancel".play()
 			
 			await get_tree().create_timer(1).timeout
 			
@@ -189,10 +190,11 @@ func select_option(i: int):
 				
 				tween.tween_property( j, "position", j.position - Vector2(2000, 0), 0.5 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		
+		Transitions.transition("down")
+		
 		await get_tree().create_timer(1).timeout
 		
 		Global.stop_song()
-		Transitions.transition("down fade in")
 		var scene = song_file.scene
 		Global.freeplay = true
 		Global.freeplay_album_option = selected_album

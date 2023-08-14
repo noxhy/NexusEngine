@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://ilhf3k3in4ph"]
 
 [ext_resource type="Script" path="res://scenes/global/transitions.gd" id="1_si25f"]
 
@@ -42,8 +42,8 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_0d3dk"]
-resource_name = "down fade in"
-length = 0.5
+resource_name = "down"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -51,10 +51,10 @@ tracks/0/path = NodePath("Fake Gradient:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -63,43 +63,15 @@ tracks/1/path = NodePath("Fake Gradient:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(3.36359, 1),
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(3.3636, 0.353553, 1),
 "update": 0,
-"values": [Vector2(2.08189e-12, -1576), Vector2(2.08189e-12, 2.08189e-12)]
-}
-
-[sub_resource type="Animation" id="Animation_qywe2"]
-resource_name = "down fade out"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Fake Gradient:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Fake Gradient:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.336359, 1),
-"update": 0,
-"values": [Vector2(2.08189e-12, 2.08189e-12), Vector2(2.08189e-12, 1576)]
+"values": [Vector2(2.08189e-12, -1576), Vector2(0, 0), Vector2(0, 1576)]
 }
 
 [sub_resource type="Animation" id="Animation_ymoni"]
-resource_name = "fade in"
-length = 0.5
+resource_name = "fade"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -107,10 +79,10 @@ tracks/0/path = NodePath("ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -119,35 +91,7 @@ tracks/1/path = NodePath("ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_wxrtm"]
-resource_name = "fade out"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ColorRect:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -156,10 +100,8 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pcf60"]
 _data = {
 "RESET": SubResource("Animation_gnbau"),
-"down fade in": SubResource("Animation_0d3dk"),
-"down fade out": SubResource("Animation_qywe2"),
-"fade in": SubResource("Animation_ymoni"),
-"fade out": SubResource("Animation_wxrtm")
+"down": SubResource("Animation_0d3dk"),
+"fade": SubResource("Animation_ymoni")
 }
 
 [sub_resource type="Gradient" id="Gradient_tdgh5"]
@@ -188,7 +130,7 @@ color = Color(0, 0, 0, 0)
 
 [node name="Fake Gradient" type="Node2D" parent="Transitions"]
 visible = false
-position = Vector2(2.08189e-12, 2.08189e-12)
+position = Vector2(0, 1576)
 
 [node name="ColorRect" type="ColorRect" parent="Transitions/Fake Gradient"]
 offset_left = -672.0

@@ -1,0 +1,241 @@
+[gd_scene load_steps=9 format=3 uid="uid://ccu114dgokxwt"]
+
+[ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="1_2uxlt"]
+[ext_resource type="Script" path="res://scenes/dialogue editor/dialogue_editor.gd" id="1_qnh8h"]
+[ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://themes/tool.tres" id="3_5f2t6"]
+[ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="4_6y6ni"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bq5l8"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_xw73d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_po7oq"]
+font_size = 32
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nggub"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Dialogue Editor" type="Node2D"]
+script = ExtResource("1_qnh8h")
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 0
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Dialogue Navigator" type="ColorRect" parent="UI"]
+show_behind_parent = true
+custom_minimum_size = Vector2(128, 360)
+offset_left = 512.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 24.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("3_5f2t6")
+color = Color(0.0352941, 0.0352941, 0.0352941, 0.733333)
+metadata/_edit_lock_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Dialogue Navigator"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Dialogue Navigator/ScrollContainer"]
+layout_mode = 2
+
+[node name="Dialogue Reader" type="Panel" parent="UI"]
+anchors_preset = -1
+anchor_left = -0.3
+anchor_top = -0.322
+anchor_right = 0.3
+anchor_bottom = -0.056
+offset_top = -0.159973
+offset_bottom = 0.32
+theme = ExtResource("3_5f2t6")
+metadata/_edit_lock_ = true
+
+[node name="Dialogue" type="Label" parent="UI/Dialogue Reader"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "* You feel like you're gonna get your skull S M A S H E D"
+label_settings = SubResource("LabelSettings_bq5l8")
+autowrap_mode = 1
+
+[node name="Character" type="Label" parent="UI/Dialogue Reader"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_6y6ni")
+text = "DropOff"
+label_settings = SubResource("LabelSettings_xw73d")
+vertical_alignment = 2
+autowrap_mode = 1
+
+[node name="Reader Label" type="Label" parent="UI/Dialogue Reader"]
+layout_mode = 0
+offset_top = -64.0
+offset_right = 768.0
+offset_bottom = -8.0
+text = "Dialogue Reader"
+label_settings = SubResource("LabelSettings_po7oq")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Speed Slider" type="HSlider" parent="UI/Dialogue Reader"]
+custom_minimum_size = Vector2(256, 32)
+layout_mode = 0
+offset_left = 256.0
+offset_top = 224.0
+offset_right = 512.0
+offset_bottom = 256.0
+min_value = 0.05
+max_value = 0.5
+step = 0.05
+value = 0.05
+
+[node name="Label" type="Label" parent="UI/Dialogue Reader/Speed Slider"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = 8.0
+offset_right = 64.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Speed: 0.05ms"
+label_settings = SubResource("LabelSettings_nggub")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Add Line" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.403
+anchor_top = 0.056
+anchor_right = 0.444
+anchor_bottom = 0.1
+offset_left = 4.15997
+offset_top = -0.32
+offset_right = -0.320068
+theme = ExtResource("3_5f2t6")
+theme_override_colors/font_color = Color(0.490196, 0.603922, 1, 1)
+text = "+"
+
+[node name="Remove Line" type="Button" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.456
+anchor_top = 0.056
+anchor_right = 0.494
+anchor_bottom = 0.1
+offset_left = 0.319946
+offset_top = -0.32
+offset_right = -0.320007
+theme = ExtResource("3_5f2t6")
+theme_override_colors/font_color = Color(1, 0.294118, 0.509804, 1)
+text = "-"
+
+[node name="Save Button" type="Button" parent="UI"]
+offset_left = 512.0
+offset_top = 104.0
+offset_right = 640.0
+offset_bottom = 136.0
+theme = ExtResource("3_5f2t6")
+text = "Save Dialogue"
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+offset_left = -640.0
+offset_top = 296.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.0352941, 0.0352941, 0.0352941, 0.733333)
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="UI/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input" type="LineEdit" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = -0.25
+anchor_top = 0.233
+anchor_right = 0.25
+anchor_bottom = 0.276
+offset_top = 0.23999
+offset_bottom = 0.279984
+theme = ExtResource("3_5f2t6")
+placeholder_text = "Text Input"
+
+[node name="Paste Display" type="Button" parent="UI/Input"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 1.548
+anchor_right = 0.6
+anchor_bottom = 2.548
+offset_top = 0.0119972
+offset_bottom = 0.0119934
+text = "Paste Current"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI"]
+visible = false
+offset_left = -640.0
+offset_top = -232.0
+offset_right = -448.0
+offset_bottom = 152.0
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Background" type="Sprite2D" parent="Background"]
+modulate = Color(0.12, 0.12, 0.12, 1)
+texture = ExtResource("1_2uxlt")
+metadata/_edit_lock_ = true
+
+[connection signal="value_changed" from="UI/Dialogue Reader/Speed Slider" to="." method="_on_speed_slider_value_changed"]
+[connection signal="pressed" from="UI/Add Line" to="." method="_on_add_line_pressed"]
+[connection signal="pressed" from="UI/Remove Line" to="." method="_on_remove_line_pressed"]
+[connection signal="pressed" from="UI/Save Button" to="." method="_on_save_button_pressed"]
+[connection signal="text_submitted" from="UI/Input" to="." method="_on_input_text_submitted"]
+[connection signal="pressed" from="UI/Input/Paste Display" to="." method="_on_paste_display_pressed"]

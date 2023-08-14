@@ -31,7 +31,6 @@ var selected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Transitions.transition("down fade out")
 	Global.set_window_title( "Main Menu" )
 	Global.song_scene = null
 	
@@ -80,8 +79,9 @@ func _input(event):
 			select_option(selected)
 		elif event.is_action_pressed("ui_cancel"):
 			
-			Transitions.transition("down fade in")
 			can_press = false
+			$"Audio/Menu Cancel".play()
+			Transitions.transition("down")
 			
 			await get_tree().create_timer(1).timeout
 			
@@ -137,9 +137,10 @@ func select_option(i: int):
 		
 		Global.stop_song()
 	
+	Transitions.transition("down")
+	
 	await get_tree().create_timer(1).timeout
 	
-	Transitions.transition("down fade in")
 	var scene = ( options.get( options.keys()[i] ) ).scene
 	Global.change_scene_to(scene)
 

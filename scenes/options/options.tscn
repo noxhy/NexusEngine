@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://stil5xd6xto6"]
+[gd_scene load_steps=11 format=3 uid="uid://stil5xd6xto6"]
 
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="1_eqg0q"]
 [ext_resource type="Script" path="res://scenes/options/options.gd" id="1_kjctr"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="4_mgigs"]
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_bonxa"]
 [ext_resource type="SpriteFrames" uid="uid://dgb77avcfsrwk" path="res://assets/sprites/menus/main menu/menu_options.res" id="6_vpqee"]
+[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="6_wodys"]
 [ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="7_4x7vq"]
 [ext_resource type="PackedScene" uid="uid://bp581x6mu5f1w" path="res://scenes/instances/options/options_menu.tscn" id="8_5fqhg"]
 
@@ -34,6 +35,10 @@ bus = &"SFX"
 
 [node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_bonxa")
+bus = &"SFX"
+
+[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_wodys")
 bus = &"SFX"
 
 [node name="Foreground" type="CanvasLayer" parent="."]
