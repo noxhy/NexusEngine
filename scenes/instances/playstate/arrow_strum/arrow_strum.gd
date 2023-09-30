@@ -75,12 +75,12 @@ func _process(delta):
 						note.queue_free()
 						pressing = false
 						
-						var time_difference = ( note.time ) - ( song_position - offset )
+						var time_difference = ( note.time ) - ( song_position ) - offset
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
 					
 					else:
 						
-						var time_difference = ( note.time ) - ( song_position - offset )
+						var time_difference = ( note.time ) - ( song_position ) - offset
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
 						pressing = true
 				
@@ -114,7 +114,7 @@ func _process(delta):
 							state = STATE.GLOW
 							
 							note.position.y = 0
-							var time_difference = note.time + offset - ( song_position + offset )
+							var time_difference = ( note.time ) - ( song_position )
 							note.length -= ( note.tempo / 60.0 ) * song_speed * delta
 							note.time += note.seconds_per_beat * song_speed * delta
 							note.time += delta
@@ -162,8 +162,8 @@ func _physics_process(delta):
 	
 	for note in note_list:
 		
-		var time_difference = ( note.time + offset ) - ( song_position )
-		var progress = time_difference / (note.seconds_per_beat * 4)
+		var time_difference = ( note.time - offset ) - ( song_position )
+		var progress = time_difference / ( note.seconds_per_beat * 4 )
 		
 		note.scroll_speed = scroll_speed
 		note.scroll = scroll
