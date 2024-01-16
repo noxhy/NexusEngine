@@ -2,10 +2,12 @@
 extends Node
 class_name PlayState
 
+const COMPENSATION = 1.0 / 30.0
 
 signal create_note( time: float, lane: int, note_length: float, note_type: int, tempo: float )
 signal new_event( time: float, event_name: String, event_parameters: Array )
 signal combo_break()
+signal setup_finished()
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
 @onready var combo_numbers_handeler_node = preload( "res://scenes/instances/playstate/combo_numbers_handeler.tscn" )
@@ -59,7 +61,10 @@ var song_started: bool = false
 var song_start_offset: float = -4.0
 var song_start_time: float = 0.0
 
-var song_position = 0.0
+var song_position: float = 0.0
+var position_delta: float = 0.0
+var position_lerp: float = 0.0
+var sync_timer: float = 0.0
 
 var accuracy: float
 var timings_sum: float
@@ -116,12 +121,50 @@ func _ready():
 		strum.set_skin( note_skin )
 		
 		if SettingsHandeler.get_setting( "downscroll" ): strum.set_scroll( -1 )
+	
+	emit_signal("setup_finished")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	
 	accuracy = ( timings_sum / entries ) if entries != 0.0 else 0.0
+	self_delta = delta
+	
+	health = clamp( health, 0.0, 100.0 )
+	ui.target_health = health
+	
+	if health <= 0:
+		
+		death_stats.camera_zoom = camera.zoom
+		Global.song_scene = get_tree().current_scene.scene_file_path
+		Global.death_stats = death_stats
+		get_tree().change_scene_to_file( death_scene )
+
+
+func _process(delta):
+	
+	var window_title = chart.song_title
+	
+	var song_position = int( music_host.get_node("Instrumental").get_playback_position() )
+	var song_end_position = int( music_host.get_node("Instrumental").stream.get_length() )
+	
+	
+	window_title += " - " + Global.float_to_time( song_position )
+	window_title += " / " + Global.float_to_time( song_end_position )
+	
+	Global.set_window_title( window_title )
+	
+	if Input.is_action_just_pressed( "ui_cancel" ) || Input.is_action_just_pressed( "ui_accept" ):
+		
+		var pause_scene_instance = load( pause_scene ).instantiate()
+		host.add_child( pause_scene_instance )
+		get_tree().paused = true
+	
+	elif Input.is_action_just_pressed("kill"):
+		
+		health = 0
+	
 	
 	if !song_started:
 		
@@ -137,29 +180,28 @@ func _physics_process(delta):
 			ui.show_credits()
 	else:
 		
-		song_position = music_host.get_node("Instrumental").get_playback_position()
+		song_position = music_host.get_node("Instrumental").get_playback_position() + \
+				AudioServer.get_time_since_last_mix() - \
+				AudioServer.get_output_latency()
 	
+	position_delta = abs( position_lerp - song_position )
+	position_lerp += delta * music_host.get_node("Instrumental").pitch_scale
+	
+	if delta > COMPENSATION || sync_timer <= 0.0 || position_delta >= 0.01 * music_host.get_node("Instrumental").pitch_scale:
+		
+		if position_delta >= 0.025 * music_host.get_node("Instrumental").pitch_scale: position_lerp = song_position
+		sync_timer = 0.5
+	
+	sync_timer -= delta
 	conductor.tempo = get_tempo_at( clamp( song_position, 0, music_host.get_node("Instrumental").stream.get_length() ) )
 	
+	render_section( song_position, conductor.seconds_per_beat * 4 )
 	
 	for strum in strums:
 		
 		strum.set_tempo( conductor.tempo )
-		strum.set_song_position( song_position )
+		strum.set_song_position( position_lerp )
 		strum.set_song_speed( music_host.get_node("Instrumental").pitch_scale )
-	
-	
-	health = clamp( health, 0.0, 100.0 )
-	ui.target_health = health
-	
-	if health <= 0:
-		
-		death_stats.camera_zoom = camera.zoom
-		Global.song_scene = get_tree().current_scene.scene_file_path
-		Global.death_stats = death_stats
-		get_tree().change_scene_to_file( death_scene )
-	
-	render_section( song_position, conductor.seconds_per_beat * 4 )
 	
 	var events = chart.get_events_data()
 	
@@ -180,30 +222,6 @@ func _physics_process(delta):
 				basic_event( time, event_name, event_parameters )
 				events.erase( i )
 				break
-
-
-func _process(delta):
-	
-	self_delta = delta
-	var window_title = chart.song_title
-	
-	var song_position = int( music_host.get_node("Instrumental").get_playback_position() )
-	var song_end_position = int( music_host.get_node("Instrumental").stream.get_length() )
-	
-	window_title += " - " + Global.float_to_time( song_position )
-	window_title += " / " + Global.float_to_time( song_end_position )
-	
-	Global.set_window_title( window_title )
-	
-	if Input.is_action_just_pressed( "ui_cancel" ) || Input.is_action_just_pressed( "ui_accept" ):
-		
-		var pause_scene_instance = load( pause_scene ).instantiate()
-		host.add_child( pause_scene_instance )
-		get_tree().paused = true
-	
-	elif Input.is_action_just_pressed("kill"):
-		
-		health = 0
 
 
 #
@@ -233,6 +251,7 @@ func get_tempo_at(time: float) -> float:
 func play_song( time: float ):
 	
 	conductor.tempo = get_tempo_at( -chart.offset + time )
+	conductor.seconds_per_beat = 60.0 / conductor.tempo
 	conductor.offset = chart.offset + SettingsHandeler.get_setting( "offset" )
 	var seconds_per_beat = ( 60.0 / conductor.tempo )
 	
@@ -320,8 +339,6 @@ func get_rating( time: float ) -> String:
 
 func get_rank( accuracy: float ) -> String:
 	
-	var rank: String
-	
 	var accuracies = [
 		[ entries == 0, "?" ],
 		[ accuracy >= 1, "★★★★★" ],
@@ -337,14 +354,8 @@ func get_rank( accuracy: float ) -> String:
 		[ accuracy >= 0, "F (you fucking suck)" ],
 	]
 	
-	for condition in accuracies:
-		
-		if condition[0]:
-			
-			rank = condition[1]
-			break
-	
-	return rank
+	for condition in accuracies: if condition[0]: return condition[1]
+	return "?"
 
 
 func basic_event( time: float, event_name: String, event_parameters: Array ):
@@ -492,7 +503,7 @@ func note_holding(time, lane, note_type, strum_handeler):
 	
 	if !strum_handeler.enemy_slot:
 		
-		health += ( 2 * ( conductor.tempo / 60 ) ) * self_delta
+		health += self_delta * 5
 		
 		timings_sum += self_delta
 		entries += self_delta

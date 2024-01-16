@@ -116,8 +116,7 @@ func _process(delta):
 							note.position.y = 0
 							var time_difference = ( note.time ) - ( song_position )
 							note.length -= ( note.tempo / 60.0 ) * song_speed * delta
-							note.time += note.seconds_per_beat * song_speed * delta
-							note.time += delta
+							note.time = song_position + ( ( note.tempo / 60.0 ) * song_speed * delta * ( 0.8 / song_speed ) )
 							note.get_node("Note").visible = false
 							
 							emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
@@ -156,10 +155,8 @@ func _process(delta):
 		
 		STATE.GLOW:
 			glow_strum()
-
-
-func _physics_process(delta):
 	
+	## Note movement
 	for note in note_list:
 		
 		var time_difference = ( note.time - offset ) - ( song_position )

@@ -75,6 +75,7 @@ func end_shake():
 
 
 func get_noise_offset(delta: float, speed: float, strength: float) -> Vector2:
+	
 	noise_i += delta * speed
 	# Set the x values of each call to 'get_noise_2d' to a different value
 	# so that our x and y vectors will be reading from unrelated areas of noise

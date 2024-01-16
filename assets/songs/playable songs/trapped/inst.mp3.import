@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://n5p21bkqg7pr"
+path="res://.godot/imported/inst.mp3-a30e1533986409418a84e289e183c3cd.mp3str"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/trapped/inst.mp3"
+dest_files=["res://.godot/imported/inst.mp3-a30e1533986409418a84e289e183c3cd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -24,7 +24,6 @@ func _process(_delta):
 	if scene_load_status == ResourceLoader.THREAD_LOAD_LOADED:
 		
 		get_tree().change_scene_to_packed( ResourceLoader.load_threaded_get( scene ) )
-		queue_free()
 
 
 func _input(event):
