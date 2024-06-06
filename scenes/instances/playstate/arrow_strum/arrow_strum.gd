@@ -48,6 +48,7 @@ var seconds_per_beat = 60.0 / tempo
 func _ready():
 	
 	$OffsetSprite.play_animation( strum_name )
+	$"Hold Cover".visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,7 +56,76 @@ func _process(delta):
 	
 	seconds_per_beat = 60.0 / tempo
 	
+	## Note movement
+	for note in note_list:
+		
+		var time_difference = ( note.time - offset ) - ( song_position )
+		var progress = time_difference / ( note.seconds_per_beat * 4 )
+		
+		note.scroll_speed = scroll_speed
+		note.scroll = scroll
+		note.position.y = (1000 * scroll_speed * scroll) * progress
+		
+		var grid_scaler = note.seconds_per_beat * note.scroll_speed * 0.25
+		note.grid_size = Vector2( 1000 * grid_scaler, 1000 * grid_scaler )
+		
+		if time_difference < 0.164:
+			
+			note.can_press = true
+			
+			if !enemy_slot:
+				
+				if note == note_list[0]:
+					
+					if SettingsHandeler.get_setting( "glow_notes" ):
+						
+						note.modulate = Color( 1.5, 1.5, 1.5 )
+		
+		if auto_play:
+			
+			if time_difference <= 0:
+				
+				if !ignored_note_types.has( note.note_type ):
+					
+					if note != previous_note:
+						
+						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, 0 )
+						previous_note = note
+					
+					if note.length > 0:
+						
+						$"Hold Cover".visible = true
+						$"Hold Cover".play_animation( "cover " + strum_name )
+						note.position.y = 0
+						note.length -= ( tempo / 60.0 ) * song_speed * delta
+						note.get_node("Note").visible = false
+						
+						emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
+						
+						if !enemy_slot || SettingsHandeler.get_setting( "enemy_strum_glow" ):
+							state = STATE.GLOW
+					else:
+						
+						if !enemy_slot || SettingsHandeler.get_setting( "enemy_strum_glow" ):
+							state = STATE.GLOW
+						
+						note_list.erase( note )
+						note.queue_free()
+						
+					
+					continue
+			
+		
+		if time_difference <= -0.164:
+				
+				note_list.erase( note )
+				note.queue_free()
+				
+				emit_signal( "note_miss", note.time - time_difference, self.get_name(), note.length, note.note_type, time_difference )
+	
+	
 	# Inputs
+	
 	
 	if Input.is_action_just_pressed(input):
 		
@@ -79,6 +149,9 @@ func _process(delta):
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
 					
 					else:
+						
+						$"Hold Cover".visible = true
+						$"Hold Cover".play_animation( "cover " + strum_name )
 						
 						var time_difference = ( note.time ) - ( song_position ) - offset
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
@@ -144,7 +217,6 @@ func _process(delta):
 	match state:
 		
 		STATE.IDLE:
-			
 			$OffsetSprite.play_animation( strum_name )
 			
 			var tween = create_tween()
@@ -155,71 +227,6 @@ func _process(delta):
 		
 		STATE.GLOW:
 			glow_strum()
-	
-	## Note movement
-	for note in note_list:
-		
-		var time_difference = ( note.time - offset ) - ( song_position )
-		var progress = time_difference / ( note.seconds_per_beat * 4 )
-		
-		note.scroll_speed = scroll_speed
-		note.scroll = scroll
-		note.position.y = (1000 * scroll_speed * scroll) * progress
-		
-		var grid_scaler = note.seconds_per_beat * note.scroll_speed * 0.25
-		note.grid_size = Vector2( 1000 * grid_scaler, 1000 * grid_scaler )
-		
-		if time_difference < 0.164:
-			
-			note.can_press = true
-			
-			if !enemy_slot:
-				
-				if note == note_list[0]:
-					
-					if SettingsHandeler.get_setting( "glow_notes" ):
-						
-						note.modulate = Color( 1.5, 1.5, 1.5 )
-		
-		if auto_play:
-			
-			if time_difference <= 0:
-				
-				if !ignored_note_types.has( note.note_type ):
-					
-					if note != previous_note:
-						
-						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, 0 )
-						previous_note = note
-					
-					if note.length > 0:
-						
-						note.position.y = 0
-						note.length -= ( tempo / 60.0 ) * song_speed * delta
-						note.get_node("Note").visible = false
-						
-						emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
-						
-						if !enemy_slot || SettingsHandeler.get_setting( "enemy_strum_glow" ):
-							state = STATE.GLOW
-					else:
-						
-						if !enemy_slot || SettingsHandeler.get_setting( "enemy_strum_glow" ):
-							state = STATE.GLOW
-						
-						note_list.erase( note )
-						note.queue_free()
-						
-					
-					continue
-			
-		
-		if time_difference <= -0.164:
-				
-				note_list.erase( note )
-				note.queue_free()
-				
-				emit_signal( "note_miss", note.time - time_difference, self.get_name(), note.length, note.note_type, time_difference )
 
 
 # Util
@@ -232,13 +239,21 @@ func set_skin(new_skin: NoteSkin):
 	$OffsetSprite.frames = note_skin.strums_texture
 	$OffsetSprite.scale = Vector2( note_skin.notes_scale, note_skin.notes_scale )
 	
-	if note_skin.animation_names != null:
-		$OffsetSprite.animation_names.merge( note_skin.animation_names, true )
+	$"Hold Cover".frames = note_skin.hold_covers_texture
+	$"Hold Cover".scale = Vector2( note_skin.notes_scale, note_skin.notes_scale ) + Vector2( 0.4, 0.4 )
 	
-	$OffsetSprite.offsets = note_skin.offsets
+	if note_skin.animation_names != null:
+		
+		$OffsetSprite.animation_names.merge( note_skin.animation_names, true )
+		$"Hold Cover".animation_names.merge( note_skin.animation_names, true )
+	
+	$OffsetSprite.offsets.merge( note_skin.offsets, true )
+	$"Hold Cover".offsets.merge( note_skin.offsets, true )
 	
 	if note_skin.pixel_texture:
+		
 		$OffsetSprite.texture_filter = TEXTURE_FILTER_NEAREST
+		$"Hold Cover".texture_filter = TEXTURE_FILTER_NEAREST
 
 
 func set_ignored_note_types( types: Array ): ignored_note_types = types
@@ -286,7 +301,7 @@ func glow_strum():
 	var note_scale = note_skin.notes_scale * 1.1
 	
 	var tween = create_tween()
-	tween.tween_property($OffsetSprite, "scale", Vector2( note_scale, note_scale ), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property( $OffsetSprite, "scale", Vector2( note_scale, note_scale ), 0.1 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func press_strum():
@@ -305,6 +320,22 @@ func _on_offset_sprite_animation_finished():
 	if !can_press:
 		
 		state = STATE.IDLE
+
+
+func _on_hold_cover_frame_changed():
+	
+	# Ugly fix for that rotates sprite bullshit
+	if $"Hold Cover".animation.contains( "idle" ):
+		
+		if ( $"Hold Cover".frame == 0 ) || ( $"Hold Cover".frame == 3 ):
+			$"Hold Cover".rotation_degrees = 90
+		else:
+			$"Hold Cover".rotation_degrees = 0
+	else:
+		$"Hold Cover".rotation_degrees = 0
+
+
+func _on_hold_cover_animation_finished(): $"Hold Cover".visible = false
 
 
 func create_splash( animation_name: String = strum_name + " splash" ):

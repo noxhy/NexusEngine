@@ -16,7 +16,7 @@ extends Node2D
 	"week1": {
 		"animation_name": "week1",
 		"display_node": $"UI/Week Display/SubViewport/Week 1",
-		"scene": "res://scenes/playstate/songs/deathmatch/deathmatch.tscn",
+		"scene": "res://scenes/playstate/songs/fresh/fresh.tscn",
 		"week_name": "Daddy Dearest",
 		"song_list": "Bopeeboo\nFresh\nDadbattle",
 	},
@@ -51,7 +51,7 @@ extends Node2D
 	"week6": {
 		"animation_name": "week6",
 		"display_node": $"UI/Week Display/SubViewport/Week 6",
-		"scene": "res://scenes/playstate/songs/endless/endless.tscn",
+		"scene": "res://scenes/playstate/songs/senpai/senpai.tscn",
 		"week_name": "Hating Simulator Ft. Moawling",
 		"song_list": "Senpai\nRoses\nThorns",
 	},
@@ -62,12 +62,12 @@ extends Node2D
 		"week_name": "Tankman",
 		"song_list": "Ugh\nGuns\nStress",
 	},
-	"week8": {
-		"animation_name": "week3",
-		"display_node": $"UI/Week Display/SubViewport/Week 8",
-		"scene": "res://scenes/playstate/songs/prometheus/prometheus.tscn",
-		"week_name": "Darnell",
-		"song_list": "Darnell\nLit Up\n2Hot",
+	"weekend1": {
+		"animation_name": "weekend1",
+		"display_node": $"UI/Week Display/SubViewport/Weekend 1",
+		"scene": "res://scenes/playstate/songs/darnell/darnell.tscn",
+		"week_name": "Due Debts",
+		"song_list": "Darnell\nLit Up\n2Hot\nBlazin\'",
 	},
 }
 

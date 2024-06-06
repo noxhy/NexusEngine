@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://djhqiluiy02ao"]
+[gd_scene load_steps=13 format=3 uid="uid://djhqiluiy02ao"]
 
 [ext_resource type="Script" path="res://scenes/playstate/pause_menu.gd" id="1_kynsm"]
 [ext_resource type="Shader" path="res://shaders/blur.gdshader" id="1_p4mtm"]
 [ext_resource type="AudioStream" uid="uid://clklult1rkiyx" path="res://assets/songs/menu songs/breakfast.ogg" id="2_kxcr8"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_blhjj"]
+[ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="4_wf52a"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="5_ml30i"]
 
 [sub_resource type="Animation" id="Animation_yvwx3"]
 length = 0.001
@@ -18,6 +20,30 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(936, 732)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Song Credits:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1280, -344)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/Mode:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1280, -288)]
 }
 
 [sub_resource type="Animation" id="Animation_2eyce"]
@@ -34,12 +60,48 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(936, 1), Vector2(936, 732)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Song Credits:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.241484, 1),
+"update": 0,
+"values": [Vector2(1280, -344), Vector2(-128, -344)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/Mode:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.241484, 1),
+"update": 0,
+"values": [Vector2(1280, -288), Vector2(64, -288)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lkqyl"]
 _data = {
 "RESET": SubResource("Animation_yvwx3"),
 "intro": SubResource("Animation_2eyce")
 }
+
+[sub_resource type="LabelSettings" id="LabelSettings_0uk4b"]
+font = ExtResource("4_wf52a")
+font_size = 48
+outline_size = 24
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k3dth"]
+font = ExtResource("5_ml30i")
+font_size = 32
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q4ixn"]
 shader = ExtResource("1_p4mtm")
@@ -72,6 +134,37 @@ bus = &"SFX"
 layer = 127
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Song Credits" type="Label" parent="UI"]
+z_index = 1
+custom_minimum_size = Vector2(432, 0)
+layout_direction = 2
+anchors_preset = -1
+anchor_left = 0.487
+anchor_top = -0.478
+anchor_right = 0.487
+anchor_bottom = -0.478
+offset_left = 1280.0
+offset_top = -344.0
+offset_right = 2032.0
+offset_bottom = -284.0
+grow_horizontal = 0
+pivot_offset = Vector2(432, 30)
+text = "SONG CREDITS"
+label_settings = SubResource("LabelSettings_0uk4b")
+horizontal_alignment = 2
+
+[node name="Mode" type="Label" parent="UI"]
+z_index = 1
+offset_left = 1280.0
+offset_top = -288.0
+offset_right = 1840.0
+offset_bottom = -248.0
+text = "SONG CREDITS"
+label_settings = SubResource("LabelSettings_k3dth")
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 material = SubResource("ShaderMaterial_q4ixn")

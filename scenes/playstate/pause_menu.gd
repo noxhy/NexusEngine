@@ -3,6 +3,10 @@ extends Node2D
 @onready var menu_option_node = preload( "res://scenes/instances/menu_option.tscn" )
 @onready var options_menu_node = preload( "res://scenes/instances/options/options_menu.tscn" )
 
+@export var song_title: String = ""
+@export var credits: String = ""
+@export var freeplay: bool = true
+
 var options: Dictionary = {
 	
 	"resume": {
@@ -37,6 +41,9 @@ func _ready():
 	var tween = create_tween()
 	tween.tween_property( $Audio/Music, "volume_db", 0, 4 )
 	$AnimationPlayer.play( "intro" )
+	
+	$"UI/Song Credits".text = song_title + " - " + credits
+	$UI/Mode.text = "Freeplay" if freeplay == true else "Story Mode"
 	
 	render_options()
 	update_selection( selected )

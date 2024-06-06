@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var characters = [ %Player, %Enemy, %Metronome ]
-@onready var camera_positions = [ $"World/Position 1", $"World/Position 2" ]
+@onready var camera_positions = [ $"World/Position 1", $"World/Position 2", $"World/Position 3" ]
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )

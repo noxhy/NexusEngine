@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bnhoikcd6i2xw"
+path="res://.godot/imported/Inst-erect.ogg-bc101bd6dad3d70f4b2e719fa6be9b6c.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/fresh/Inst-erect.ogg"
+dest_files=["res://.godot/imported/Inst-erect.ogg-bc101bd6dad3d70f4b2e719fa6be9b6c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

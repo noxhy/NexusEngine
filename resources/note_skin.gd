@@ -8,6 +8,7 @@ class_name NoteSkin
 @export var strums_texture: SpriteFrames
 @export var notes_texture: SpriteFrames
 @export var splashes_texture: SpriteFrames
+@export var hold_covers_texture: SpriteFrames
 @export var pixel_texture = false
 
 @export_subgroup("Texture Scaling")

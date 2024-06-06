@@ -1,70 +1,222 @@
-[gd_scene load_steps=8 format=3 uid="uid://biw6xh624onjh"]
+[gd_scene load_steps=13 format=3 uid="uid://biw6xh624onjh"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_l0d0e"]
-[ext_resource type="Texture2D" uid="uid://cxu20hb7y7adt" path="res://assets/sprites/playstate/icons/girlfriend.png" id="2_eo53m"]
+[ext_resource type="Script" path="res://scenes/instances/characters/nene.gd" id="1_4sh7w"]
 [ext_resource type="SpriteFrames" uid="uid://b4tvh3dq0qark" path="res://assets/sprites/characters/nene/nene.res" id="3_dojva"]
+[ext_resource type="Texture2D" uid="uid://c52jx1hd3csrh" path="res://assets/sprites/characters/nene/stereoBG.png" id="3_o2xqu"]
+[ext_resource type="Texture2D" uid="uid://caknetpbu50v2" path="res://assets/sprites/characters/nene/eyes.png" id="3_olp7v"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/nene/a-bot_visualzier.res" id="4_spo4n"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="5_uhb7d"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_23456"]
-atlas = ExtResource("2_eo53m")
-region = Rect2(150, 0, 150, 150)
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6gpj"]
+atlas = ExtResource("3_olp7v")
+region = Rect2(0, 42, 106, 23)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_326mc"]
-atlas = ExtResource("2_eo53m")
-region = Rect2(0, 0, 150, 150)
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2ull"]
+atlas = ExtResource("3_olp7v")
+region = Rect2(0, 0, 106, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_18nwy"]
-atlas = ExtResource("2_eo53m")
-region = Rect2(300, 0, 150, 150)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_v8umh"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_spobw"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_23456")
+"texture": SubResource("AtlasTexture_m6gpj")
 }],
 "loop": true,
-"name": &"default",
+"name": &"left",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_326mc")
+"texture": SubResource("AtlasTexture_s2ull")
 }],
 "loop": true,
-"name": &"losing",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_18nwy")
-}],
-"loop": true,
-"name": &"winning",
+"name": &"right",
 "speed": 5.0
 }]
 
-[node name="Nene" type="Node2D"]
-script = ExtResource("1_l0d0e")
+[sub_resource type="Animation" id="Animation_pr5vd"]
+resource_name = "look_left"
+length = 0.6
+step = 0.0417
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eyes:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2502),
+"transitions": PackedFloat32Array(2.07053, 2.07053),
+"update": 1,
+"values": [&"right", &"left"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Eyes:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2085, 0.3753),
+"transitions": PackedFloat32Array(1, 1, 2.37841),
+"update": 0,
+"values": [Vector2(-292, -75), Vector2(-292, -75), Vector2(-304, -68)]
+}
+
+[sub_resource type="Animation" id="Animation_kky0r"]
+resource_name = "look_right"
+length = 0.4
+step = 0.0417
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eyes:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2502),
+"transitions": PackedFloat32Array(2.07053, 2.07053),
+"update": 1,
+"values": [&"left", &"right"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Eyes:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2085, 0.3753),
+"transitions": PackedFloat32Array(2.37841, 2.37841, 2.37841),
+"update": 0,
+"values": [Vector2(-304, -68), Vector2(-304, -68), Vector2(-292, -75)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kj0rl"]
+_data = {
+"look_left": SubResource("Animation_pr5vd"),
+"look_right": SubResource("Animation_kky0r")
+}
+
+[node name="Nene" type="Node2D" node_paths=PackedStringArray("visualizer_nodes")]
+script = ExtResource("1_4sh7w")
+visualizer_nodes = [NodePath("Visualizer Nodes/Visualizer 1"), NodePath("Visualizer Nodes/Visualizer 2"), NodePath("Visualizer Nodes/Visualizer 3"), NodePath("Visualizer Nodes/Visualizer 4"), NodePath("Visualizer Nodes/Visualizer 5"), NodePath("Visualizer Nodes/Visualizer 6"), NodePath("Visualizer Nodes/Visualizer 7")]
+slope = 0.45
 animation_names = {
-"cheer": "cheer",
-"cry": "combo break",
-"idle": "idle",
-"shake": "GF FEAR "
+"cheer": "combo celebration 1 nene instance 1",
+"cheer_2": "fawn nene instance 1",
+"idle": "Nene Abot Idle instance 1",
+"knife_idle": "knife high held instance 1",
+"knife_lower": "knife lower instance 1",
+"knife_raise": "knife raise instance 1",
+"knife_throw": "knife toss instance 1",
+"laugh": "laughing nene instance 1"
 }
 offsets = {
-"cheer": Vector2(0, -265),
-"combo break": Vector2(0, -266),
-"cute": Vector2(0, -263),
-"idle": Vector2(0, -264)
+"Nene Abot Idle instance 1": Vector2(0, -311),
+"combo celebration 1 nene instance 1": Vector2(8, -456),
+"fawn nene instance 1": Vector2(-17, -405),
+"knife high held instance 1": Vector2(-4, -434),
+"knife lower instance 1": Vector2(-5, -335),
+"knife raise instance 1": Vector2(-50, -434),
+"knife toss instance 1": Vector2(14, -416),
+"laughing nene instance 1": Vector2(-49, -387)
 }
-icons = SubResource("SpriteFrames_v8umh")
-color = Color(0.921569, 0.470588, 0.643137, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -264)
+position = Vector2(0, -311)
 sprite_frames = ExtResource("3_dojva")
-animation = &"idle"
-frame = 31
+animation = &"Nene Abot Idle instance 1"
+autoplay = "Idle"
+frame = 29
 frame_progress = 1.0
+metadata/_edit_lock_ = true
+
+[node name="Eye White" type="ColorRect" parent="."]
+z_index = -2
+offset_left = -367.0
+offset_top = -98.0
+offset_right = -252.0
+offset_bottom = -34.0
+
+[node name="Eyes" type="AnimatedSprite2D" parent="."]
+z_index = -1
+position = Vector2(-304, -68)
+sprite_frames = SubResource("SpriteFrames_spobw")
+animation = &"left"
+
+[node name="StereoBg" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(0, -166)
+texture = ExtResource("3_o2xqu")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer Nodes" type="Node2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(8, 3)
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 1" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(-168, -160)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz1"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 2" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(-114, -159)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz2"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 3" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(-64, -160)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz3"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 4" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(0, -160)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz4"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 5" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(56, -160)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz5"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 6" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(112, -160)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz6"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="Visualizer 7" type="AnimatedSprite2D" parent="Visualizer Nodes"]
+unique_name_in_owner = true
+position = Vector2(163, -160)
+sprite_frames = ExtResource("4_spo4n")
+animation = &"viz7"
+script = ExtResource("5_uhb7d")
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kj0rl")
+}
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]

@@ -1,0 +1,113 @@
+[gd_scene load_steps=13 format=3 uid="uid://blj8dbuorj1h0"]
+
+[ext_resource type="Script" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_xeyw4"]
+[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_y6xle"]
+[ext_resource type="Resource" uid="uid://ctkmitu373pv1" path="res://assets/charts/Fresh Erect - nightmare.tres" id="3_1nt3h"]
+[ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_8nme4"]
+[ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_uia00"]
+[ext_resource type="PackedScene" path="res://scenes/instances/stages/stage/stage.tscn" id="6_egett"]
+[ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="7_e1lys"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_euc1j"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="9_dqjx1"]
+[ext_resource type="PackedScene" uid="uid://dwn3bvltjsem4" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_f8uei"]
+[ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="11_pruvp"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_b2bjn"]
+
+[node name="Fresh" type="Node2D"]
+script = ExtResource("1_xeyw4")
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_y6xle")]
+process_mode = 1
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Audio")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+chart = ExtResource("3_1nt3h")
+note_skin = ExtResource("4_8nme4")
+ui_skin = ExtResource("5_uia00")
+combo_scale_multiplier = Vector2(0.8, 0.8)
+
+[node name="Stage" parent="." instance=ExtResource("6_egett")]
+unique_name_in_owner = true
+
+[node name="Camera" parent="." instance=ExtResource("7_e1lys")]
+position = Vector2(640, 432)
+position_smoothing_speed = 3.0
+target_zoom = Vector2(1.25, 1.25)
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Audio"]
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("8_euc1j")
+stream_player = NodePath("../Audio/Instrumental")
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(117.5, 58.5)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(-93.5, 18.5)
+gizmo_extents = 26.5
+
+[node name="Position 3" type="Marker2D" parent="World"]
+position = Vector2(0, 32)
+gizmo_extents = 26.5
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(115, -48)
+gizmo_extents = 20.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(192, -16)
+gizmo_extents = 20.0
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("9_dqjx1")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(248, 266)
+scale = Vector2(0.6, 0.6)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("10_f8uei")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(-168, 266)
+scale = Vector2(0.6, 0.6)
+
+[node name="Metronome" parent="Characters" instance=ExtResource("11_pruvp")]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(0, 216)
+scale = Vector2(0.6, 0.6)
+
+[node name="UI" parent="." instance=ExtResource("12_b2bjn")]
+layer = 10
+
+[connection signal="combo_break" from="PlayState Host" to="." method="_on_combo_break"]
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="_on_new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

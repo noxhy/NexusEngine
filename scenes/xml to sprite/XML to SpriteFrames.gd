@@ -2,6 +2,7 @@ extends Node2D
 
 #
 # I STOLE THIS CODE IDK WHO MADE IT (probably codist???)
+# It's modified to support the bullshit "rotated" tag on the xml.
 #
 
 # ASSUMPTIONS:
@@ -26,15 +27,19 @@ func do_it():
 	
 	var err = xml_parser.read()
 	while err == OK:
+		
 		if xml_parser.get_node_type() == XMLParser.NODE_ELEMENT || xml_parser.get_node_type() == XMLParser.NODE_ELEMENT_END:
+			
 			print("--- " + xml_parser.get_node_name() + " ---")
 			
 			if xml_parser.get_node_name() != "TextureAtlas":
+				
 				var loaded_anim_name: String = xml_parser.get_named_attribute_value("name")
 				loaded_anim_name = loaded_anim_name.left(len(loaded_anim_name) - 4)
 				print("loaded name: " + loaded_anim_name)
 				
 				if cur_anim_name != loaded_anim_name:
+					
 					frames.add_animation(loaded_anim_name)
 					frames.set_animation_loop(loaded_anim_name, false)
 					frames.set_animation_speed(loaded_anim_name, 24)
@@ -43,24 +48,38 @@ func do_it():
 				var new_region = Rect2(int(xml_parser.get_named_attribute_value("x")), int(xml_parser.get_named_attribute_value("y")),
 									int(xml_parser.get_named_attribute_value("width")), int(xml_parser.get_named_attribute_value("height")))
 				var new_margin = Rect2()
+				
 				if xml_parser.has_attribute("frameX"):
-					new_margin = Rect2(-int(xml_parser.get_named_attribute_value("frameX")), -int(xml_parser.get_named_attribute_value("frameY")),
-										int(xml_parser.get_named_attribute_value("frameWidth")) - new_region.size.x, int(xml_parser.get_named_attribute_value("frameHeight")) - new_region.size.y)
+					
+					if !xml_parser.has_attribute("rotated"):
+						
+						new_margin = Rect2(-int( xml_parser.get_named_attribute_value("frameX") ), -int( xml_parser.get_named_attribute_value("frameY") ),
+											int( xml_parser.get_named_attribute_value("frameWidth") ) - new_region.size.x, int( xml_parser.get_named_attribute_value("frameHeight") ) - new_region.size.y )
+					else:
+						
+						new_margin = Rect2(-int(xml_parser.get_named_attribute_value("frameX")), -int(xml_parser.get_named_attribute_value("frameY")),
+									int( xml_parser.get_named_attribute_value("frameWidth") ) - new_region.size.y, int( xml_parser.get_named_attribute_value("frameHeight")) - new_region.size.x )
+				
 				
 				var num_frames = frames.get_frame_count(cur_anim_name)
 				var prev_frame = frames.get_frame_texture(cur_anim_name, num_frames - 1) if num_frames > 0 else null
 				
 				if optimize && prev_frame && new_region == prev_frame.region && new_margin == prev_frame.margin:
+					
 					print("optimizing " + str(num_frames))
-					frames.add_frame(cur_anim_name, prev_frame)
+					
+					if xml_parser.has_attribute("rotated"): frames.add_frame(cur_anim_name, prev_frame, 1.01)
+					else: frames.add_frame(cur_anim_name, prev_frame)
 				else:
+					
 					var new_frame = AtlasTexture.new()
 					new_frame.atlas = texture
 					new_frame.region = new_region
 					new_frame.margin = new_margin
 					new_frame.filter_clip = true
 					
-					frames.add_frame(cur_anim_name, new_frame)
+					if xml_parser.has_attribute("rotated"): frames.add_frame(cur_anim_name, new_frame, 1.01)
+					else: frames.add_frame(cur_anim_name, new_frame)
 				
 				anim_sprite.scale = Vector2(176, 176) / new_region.size
 				anim_sprite.scale.y = anim_sprite.scale.x

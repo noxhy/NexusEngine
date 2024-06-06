@@ -5,8 +5,8 @@ class_name Chart
 
 @export_group("Music")
 
-@export_file("*.mp3") var vocals = ""
-@export_file("*.mp3") var instrumental = ""
+@export_file("*.mp3", "*.ogg") var vocals = ""
+@export_file("*.mp3", "*.ogg") var instrumental = ""
 
 @export_group("Credits") 
 

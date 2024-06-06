@@ -1,0 +1,113 @@
+[gd_scene load_steps=13 format=3 uid="uid://c8853lemkr1jc"]
+
+[ext_resource type="Script" path="res://scenes/playstate/songs/darnell/darnell.gd" id="1_kfw18"]
+[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_dkpbc"]
+[ext_resource type="Resource" uid="uid://c5458ckp01ax5" path="res://assets/charts/Darnell - hard.tres" id="3_n6hyq"]
+[ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_fnsyj"]
+[ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_gia47"]
+[ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_r1tdt"]
+[ext_resource type="PackedScene" uid="uid://o04ewby7jkf1" path="res://scenes/instances/stages/4chan_philly/4chan_philly.tscn" id="7_xhwu8"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_i8fmv"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/pico.tscn" id="9_vixx2"]
+[ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="10_1osac"]
+[ext_resource type="PackedScene" uid="uid://biw6xh624onjh" path="res://scenes/instances/characters/nene.tscn" id="11_6d88t"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_a2iw0"]
+
+[node name="Darnell" type="Node2D"]
+script = ExtResource("1_kfw18")
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_dkpbc")]
+process_mode = 1
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Music")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+chart = ExtResource("3_n6hyq")
+note_skin = ExtResource("4_fnsyj")
+ui_skin = ExtResource("5_gia47")
+combo_scale_multiplier = Vector2(1.2, 1.2)
+
+[node name="Camera" parent="." instance=ExtResource("6_r1tdt")]
+position = Vector2(640, 360)
+zoom = Vector2(0.85, 0.85)
+position_smoothing_speed = 3.0
+target_zoom = Vector2(0.85, 0.85)
+
+[node name="Stage" parent="." instance=ExtResource("7_xhwu8")]
+unique_name_in_owner = true
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("8_i8fmv")
+stream_player = NodePath("../Music/Instrumental")
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(320, -40)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(0, -64)
+gizmo_extents = 26.5
+
+[node name="Position 3" type="Marker2D" parent="World"]
+position = Vector2(192, -76)
+gizmo_extents = 26.5
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(384, -168)
+gizmo_extents = 30.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(512, -120)
+gizmo_extents = 40.0
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("9_vixx2")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(640, 288)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("10_1osac")]
+unique_name_in_owner = true
+position = Vector2(-528, 240)
+
+[node name="Metronome" parent="Characters" node_paths=PackedStringArray("music_host") instance=ExtResource("11_6d88t")]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(80, 179)
+music_host = NodePath("../../Music/Instrumental")
+slope = 0.3
+update_rate = 0.04
+
+[node name="UI" parent="." instance=ExtResource("12_a2iw0")]
+layer = 10
+
+[connection signal="combo_break" from="PlayState Host" to="." method="_on_combo_break"]
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="_on_new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

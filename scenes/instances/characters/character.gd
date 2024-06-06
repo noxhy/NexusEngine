@@ -50,7 +50,8 @@ func play_animation(animation_name: String = "", time: float = -1.0):
 		
 		if offsets.has( real_animation_name ):
 			
-			$AnimatedSprite2D.position = offsets.get( real_animation_name )
+			if offsets.get( $AnimatedSprite2D.animation ) is PackedVector2Array: $AnimatedSprite2D.position = offsets.get( $AnimatedSprite2D.animation )[ $AnimatedSprite2D.frame - 1 ]
+			else: $AnimatedSprite2D.position = offsets.get( real_animation_name )
 	else:
 		
 		$AnimatedSprite2D.frame = 0
@@ -63,9 +64,18 @@ func get_real_animation(animation_name: String = ""):
 		
 		var real_animation_name: String = animation_names.get( animation_name )
 		return real_animation_name
-	else:
-		
-		return null
+	else: return null
 
 
 func _on_animated_sprite_2d_animation_finished(): can_idle = true
+
+
+func _on_animated_sprite_2d_frame_changed():
+	
+	var duration = $AnimatedSprite2D.sprite_frames.get_frame_duration( $AnimatedSprite2D.animation, $AnimatedSprite2D.frame )
+	$AnimatedSprite2D.rotation_degrees = 0 if duration == 1 else -90
+	
+	if offsets.get( $AnimatedSprite2D.animation ) is PackedVector2Array:
+		
+		$AnimatedSprite2D.position = offsets.get( $AnimatedSprite2D.animation )[ $AnimatedSprite2D.frame ]
+		print( "Frame: ", $AnimatedSprite2D.frame, " Offset: ", offsets.get( $AnimatedSprite2D.animation )[ $AnimatedSprite2D.frame ] )

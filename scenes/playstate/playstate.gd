@@ -149,7 +149,6 @@ func _process(delta):
 	var song_position = int( music_host.get_node("Instrumental").get_playback_position() )
 	var song_end_position = int( music_host.get_node("Instrumental").stream.get_length() )
 	
-	
 	window_title += " - " + Global.float_to_time( song_position )
 	window_title += " / " + Global.float_to_time( song_end_position )
 	
@@ -158,6 +157,11 @@ func _process(delta):
 	if Input.is_action_just_pressed( "ui_cancel" ) || Input.is_action_just_pressed( "ui_accept" ):
 		
 		var pause_scene_instance = load( pause_scene ).instantiate()
+		
+		pause_scene_instance.song_title = chart.song_title
+		pause_scene_instance.credits = chart.artist
+		pause_scene_instance.freeplay = Global.freeplay
+		
 		host.add_child( pause_scene_instance )
 		get_tree().paused = true
 	
@@ -410,13 +414,14 @@ func basic_event( time: float, event_name: String, event_parameters: Array ):
 		
 		camera.shake( int( event_parameters[0] ), float( event_parameters[1] ) )
 	
-	else:
-		emit_signal( "new_event", time, event_name, event_parameters )
+	emit_signal( "new_event", time, event_name, event_parameters )
 
 
 func song_finished():
 	
-	Transitions.transition("down fade in")
+	Transitions.transition("down")
+	
+	await get_tree().create_timer(1).timeout
 	
 	if Global.freeplay:
 		

@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbyq5kxppcvc8"]
+[gd_scene load_steps=7 format=3 uid="uid://bbyq5kxppcvc8"]
 
 [ext_resource type="Script" path="res://scenes/instances/playstate/arrow_strum/arrow_strum.gd" id="1_ixlu2"]
 [ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="2_aqqtq"]
 [ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://assets/sprites/playstate/developer/arrow/strums.tres" id="3_cik2r"]
 [ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="4_kjy2w"]
+[ext_resource type="SpriteFrames" uid="uid://dwiycp58qb6ig" path="res://assets/sprites/playstate/default/arrow/hold_covers.res" id="5_txywk"]
+[ext_resource type="Script" path="res://scenes/instances/frame_offset_sprite.gd" id="6_wimjj"]
 
 [node name="Arrow Strum" type="Node2D"]
 script = ExtResource("1_ixlu2")
@@ -30,4 +32,21 @@ animation_names = {
 "up press": "up press"
 }
 
+[node name="Hold Cover" type="AnimatedSprite2D" parent="."]
+visible = false
+z_index = 2
+position = Vector2(12, 21)
+scale = Vector2(1.4, 1.4)
+sprite_frames = ExtResource("5_txywk")
+animation = &"cover right"
+script = ExtResource("6_wimjj")
+animation_names = {
+"cover down": "cover down",
+"cover left": "cover left",
+"cover right": "cover right",
+"cover up": "cover up"
+}
+offsets = {}
+
 [connection signal="animation_finished" from="OffsetSprite" to="." method="_on_offset_sprite_animation_finished"]
+[connection signal="animation_finished" from="Hold Cover" to="." method="_on_hold_cover_animation_finished"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://dwn3bvltjsem4"]
 
 [ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_f0plb"]
 [ext_resource type="SpriteFrames" uid="uid://6u18s1pd01yo" path="res://assets/sprites/characters/daddy dearest/daddy_dearest.res" id="2_ab8b8"]

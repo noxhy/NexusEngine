@@ -6,11 +6,10 @@ var settings = Settings.new()
 
 func load_settings():
 	
-	settings = Settings.new()
-	settings = load( save_path )
-	
 	if settings == null || settings.version != 1:
 		reset_settings()
+	
+	settings = load( save_path )
 	
 	refresh_keybinds()
 	

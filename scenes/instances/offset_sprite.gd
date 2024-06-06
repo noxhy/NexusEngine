@@ -27,3 +27,9 @@ func get_real_animation(animation_name: String = ""):
 	else:
 		
 		return null
+
+
+func _on_frame_changed():
+	
+	var duration = sprite_frames.get_frame_duration( animation, frame )
+	rotation_degrees = 0 if duration == 1 else -90

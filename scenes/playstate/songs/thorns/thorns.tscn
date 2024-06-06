@@ -1,8 +1,8 @@
 [gd_scene load_steps=16 format=3 uid="uid://bggq8kbjfwq6b"]
 
-[ext_resource type="Script" path="res://scenes/playstate/songs/thorns/thorns.gd" id="1_rs71c"]
+[ext_resource type="Script" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_fcfx0"]
 [ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_d5rna"]
-[ext_resource type="Resource" uid="uid://404xmhxidmhg" path="res://assets/charts/Thorns D-Side (Fanmade) - hard.tres" id="3_8uubk"]
+[ext_resource type="Resource" uid="uid://b7j50fpfcgwpm" path="res://assets/charts/Thorns Erect - nightmare.tres" id="3_8uubk"]
 [ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_8wb6g"]
 [ext_resource type="Resource" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_4pyv7"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_uhlqh"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_ijcj0"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend pixel.tscn" id="9_rpmc0"]
 [ext_resource type="PackedScene" uid="uid://dghi5ce8cupic" path="res://scenes/instances/characters/spirit.tscn" id="10_bowlb"]
-[ext_resource type="PackedScene" path="res://scenes/instances/characters/girlfriend pixel.tscn" id="11_vat3l"]
+[ext_resource type="PackedScene" uid="uid://blyod30lc1qk0" path="res://scenes/instances/characters/girlfriend pixel.tscn" id="11_vat3l"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_tmnnb"]
 
 [sub_resource type="Gradient" id="Gradient_fn4tr"]
@@ -21,15 +21,13 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 gradient = SubResource("Gradient_fn4tr")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6i5k7"]
+particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 14.81
-particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 spread = 180.0
 initial_velocity_min = 44.94
 initial_velocity_max = 44.94
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 linear_accel_min = 8.99
 linear_accel_max = 8.99
 scale_min = 4.0
@@ -37,7 +35,7 @@ scale_max = 4.0
 color_ramp = SubResource("GradientTexture1D_7fofx")
 
 [node name="Thorns" type="Node2D"]
-script = ExtResource("1_rs71c")
+script = ExtResource("1_fcfx0")
 
 [node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_d5rna")]
 process_mode = 1
@@ -89,6 +87,10 @@ gizmo_extents = 18.3
 [node name="Position 2" type="Marker2D" parent="World"]
 position = Vector2(-87, 72)
 gizmo_extents = 26.5
+
+[node name="Position 3" type="Marker2D" parent="World"]
+position = Vector2(0, 72)
+gizmo_extents = 78.9
 
 [node name="Rating Marker" type="Marker2D" parent="World"]
 position = Vector2(108, 28)

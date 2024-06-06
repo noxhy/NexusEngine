@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Nene_assets.png">
+	<!-- Created with Adobe Animate version 21.0.3.38773 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Nene Abot Idle instance 10000" x="7" y="7" width="812" height="663" frameX="-3" frameY="-7" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10001" x="826" y="7" width="815" height="663" frameX="0" frameY="-7" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10002" x="1648" y="7" width="815" height="663" frameX="0" frameY="-7" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10003" x="2470" y="7" width="812" height="663" frameX="-3" frameY="-7" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10004" x="3289" y="7" width="812" height="665" frameX="-3" frameY="-5" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10005" x="4108" y="7" width="812" height="665" frameX="-3" frameY="-5" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10006" x="4927" y="7" width="812" height="667" frameX="-3" frameY="-3" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10007" x="5746" y="7" width="812" height="669" frameX="-3" frameY="-1" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10008" x="6565" y="7" width="812" height="669" frameX="-3" frameY="-1" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10009" x="7" y="683" width="812" height="669" frameX="-3" frameY="-1" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10010" x="826" y="683" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10011" x="826" y="683" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10012" x="1645" y="683" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10013" x="2464" y="683" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10014" x="3283" y="683" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10015" x="4102" y="683" width="812" height="652" frameX="-3" frameY="-18" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10016" x="4921" y="683" width="812" height="652" frameX="-3" frameY="-18" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10017" x="5740" y="683" width="815" height="651" frameX="0" frameY="-19" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10018" x="5740" y="683" width="815" height="651" frameX="0" frameY="-19" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10019" x="6562" y="683" width="812" height="653" frameX="-3" frameY="-17" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10020" x="7" y="1360" width="812" height="653" frameX="-3" frameY="-17" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10021" x="826" y="1360" width="812" height="656" frameX="-3" frameY="-14" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10022" x="1645" y="1360" width="812" height="669" frameX="-3" frameY="-1" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10023" x="2464" y="1360" width="812" height="669" frameX="-3" frameY="-1" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10024" x="3283" y="1360" width="812" height="669" frameX="-3" frameY="-1" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10025" x="4102" y="1360" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10026" x="4102" y="1360" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10027" x="4921" y="1360" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10028" x="5740" y="1360" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="Nene Abot Idle instance 10029" x="6559" y="1360" width="812" height="670" frameX="-3" frameY="0" frameWidth="815" frameHeight="670"/>
+	<SubTexture name="combo celebration 1 nene instance 10000" x="7378" y="1360" width="294" height="434" frameX="-16" frameY="-57" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10001" x="7679" y="1360" width="294" height="448" frameX="-16" frameY="-43" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10002" x="7" y="2037" width="312" height="454" frameX="0" frameY="-43" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10003" x="326" y="2037" width="312" height="477" frameX="0" frameY="-20" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10004" x="326" y="2037" width="312" height="477" frameX="0" frameY="-20" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10005" x="645" y="2037" width="312" height="480" frameX="0" frameY="-17" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10006" x="645" y="2037" width="312" height="480" frameX="0" frameY="-17" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10007" x="964" y="2037" width="312" height="490" frameX="0" frameY="-7" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10008" x="964" y="2037" width="312" height="490" frameX="0" frameY="-7" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10009" x="1283" y="2037" width="312" height="495" frameX="0" frameY="-2" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10010" x="1283" y="2037" width="312" height="495" frameX="0" frameY="-2" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10011" x="1602" y="2037" width="312" height="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10012" x="1602" y="2037" width="312" height="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10013" x="1921" y="2037" width="312" height="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10014" x="1921" y="2037" width="312" height="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10015" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10016" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10017" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10018" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10019" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10020" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10021" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10022" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10023" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="combo celebration 1 nene instance 10024" x="2240" y="2037" width="312" height="438" frameX="0" frameY="-59" frameWidth="312" frameHeight="497"/>
+	<SubTexture name="fawn nene instance 10000" x="2559" y="2037" width="418" height="457" frameX="0" frameY="-4" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="fawn nene instance 10001" x="2559" y="2037" width="418" height="457" frameX="0" frameY="-4" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="fawn nene instance 10002" x="2984" y="2037" width="412" height="451" frameX="-5" frameY="-1" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="fawn nene instance 10003" x="2984" y="2037" width="412" height="451" frameX="-5" frameY="-1" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="fawn nene instance 10004" x="3403" y="2037" width="409" height="451" frameX="-7" frameY="0" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="fawn nene instance 10005" x="3403" y="2037" width="409" height="451" frameX="-7" frameY="0" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="fawn nene instance 10006" x="3403" y="2037" width="409" height="451" frameX="-7" frameY="0" frameWidth="418" frameHeight="461"/>
+	<SubTexture name="knife high held instance 10000" x="3819" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10001" x="4168" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10002" x="4168" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10003" x="4517" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10004" x="4866" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10005" x="4866" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10006" x="5215" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10007" x="5564" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10008" x="5564" y="2037" width="342" height="525"/>
+	<SubTexture name="knife high held instance 10009" x="3819" y="2037" width="342" height="525"/>
+	<SubTexture name="knife lower instance 10000" x="5913" y="2037" width="343" height="526" frameX="-233" frameY="0" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10001" x="6263" y="2037" width="344" height="525" frameX="-233" frameY="-1" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10002" x="6263" y="2037" width="344" height="525" frameX="-233" frameY="-1" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10003" x="6614" y="2037" width="343" height="515" frameX="-233" frameY="-11" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10004" x="6614" y="2037" width="343" height="515" frameX="-233" frameY="-11" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10005" x="6964" y="2037" width="342" height="489" frameX="-233" frameY="-37" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10006" x="6964" y="2037" width="342" height="489" frameX="-233" frameY="-37" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10007" x="7313" y="2037" width="411" height="467" frameX="-172" frameY="-55" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10008" x="7313" y="2037" width="411" height="467" frameX="-172" frameY="-55" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10009" x="7" y="2570" width="813" height="652" frameX="-3" frameY="-69" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10010" x="827" y="2570" width="813" height="652" frameX="-3" frameY="-69" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife lower instance 10011" x="1647" y="2570" width="816" height="652" frameX="0" frameY="-69" frameWidth="816" frameHeight="721"/>
+	<SubTexture name="knife raise instance 10000" x="2470" y="2570" width="445" height="476" frameX="0" frameY="-51" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10001" x="2470" y="2570" width="445" height="476" frameX="0" frameY="-51" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10002" x="2922" y="2570" width="399" height="479" frameX="-43" frameY="-48" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10003" x="2922" y="2570" width="399" height="479" frameX="-43" frameY="-48" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10004" x="3328" y="2570" width="343" height="519" frameX="-99" frameY="-7" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10005" x="3328" y="2570" width="343" height="519" frameX="-99" frameY="-7" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10006" x="3678" y="2570" width="342" height="523" frameX="-99" frameY="-3" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10007" x="3678" y="2570" width="342" height="523" frameX="-99" frameY="-3" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10008" x="4027" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10009" x="4027" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10010" x="4376" y="2570" width="342" height="526" frameX="-99" frameY="0" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10011" x="4376" y="2570" width="342" height="526" frameX="-99" frameY="0" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10012" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10013" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10014" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10015" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10016" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10017" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10018" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife raise instance 10019" x="4725" y="2570" width="342" height="525" frameX="-99" frameY="-1" frameWidth="445" frameHeight="527"/>
+	<SubTexture name="knife toss instance 10000" x="5074" y="2570" width="347" height="398" frameX="0" frameY="-8" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10001" x="5074" y="2570" width="347" height="398" frameX="0" frameY="-8" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10002" x="5428" y="2570" width="316" height="392" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10003" x="5428" y="2570" width="316" height="392" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10004" x="5751" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10005" x="5751" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10006" x="6074" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10007" x="6397" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10008" x="6720" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10009" x="7043" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10010" x="7366" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10011" x="7689" y="2570" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10012" x="7" y="3229" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10013" x="330" y="3229" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10014" x="653" y="3229" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10015" x="976" y="3229" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10016" x="976" y="3229" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10017" x="976" y="3229" width="316" height="394" frameX="-29" frameY="0" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10018" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10019" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10020" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10021" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10022" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10023" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10024" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10025" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10026" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10027" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10028" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10029" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10030" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10031" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10032" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10033" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10034" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10035" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10036" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10037" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10038" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10039" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10040" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10041" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10042" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10043" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10044" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10045" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10046" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10047" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="knife toss instance 10048" x="1299" y="3229" width="0" height="0" frameX="92" frameY="430" frameWidth="347" frameHeight="406"/>
+	<SubTexture name="laughing nene instance 10000" x="1306" y="3229" width="480" height="454" frameX="-1" frameY="-40" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10001" x="1306" y="3229" width="480" height="454" frameX="-1" frameY="-40" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10002" x="1793" y="3229" width="460" height="449" frameX="0" frameY="-34" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10003" x="1793" y="3229" width="460" height="449" frameX="0" frameY="-34" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10004" x="2260" y="3229" width="449" height="437" frameX="-11" frameY="-36" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10005" x="2260" y="3229" width="449" height="437" frameX="-11" frameY="-36" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10006" x="2716" y="3229" width="374" height="440" frameX="-43" frameY="-5" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10007" x="2716" y="3229" width="374" height="440" frameX="-43" frameY="-5" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10008" x="3097" y="3229" width="378" height="445" frameX="-39" frameY="-1" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10009" x="3097" y="3229" width="378" height="445" frameX="-39" frameY="-1" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10010" x="3482" y="3229" width="378" height="447" frameX="-39" frameY="0" frameWidth="481" frameHeight="494"/>
+	<SubTexture name="laughing nene instance 10011" x="3482" y="3229" width="378" height="447" frameX="-39" frameY="0" frameWidth="481" frameHeight="494"/>
+</TextureAtlas>

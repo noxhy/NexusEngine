@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_h007o"]
 [ext_resource type="Texture2D" uid="uid://cav5txrpdqv2k" path="res://assets/sprites/playstate/icons/icon-darnell.png" id="2_r6nb0"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/darnell/darnell.res" id="3_521o1"]
+[ext_resource type="SpriteFrames" uid="uid://ew4ceqmop5o5" path="res://assets/sprites/characters/darnell/darnell.res" id="3_521o1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3rjf7"]
 atlas = ExtResource("2_r6nb0")
@@ -34,31 +34,25 @@ animations = [{
 [node name="Darnell" type="Node2D"]
 script = ExtResource("1_h007o")
 animation_names = {
-"cheer": "cheer",
-"down": "down",
-"idle": "idle",
-"laugh": "laugh",
-"left": "left",
-"right": "right",
-"up": "up"
+"attack": "Kick Up",
+"attack_prepare": "Knee Forward",
+"cheer": "Laugh",
+"down": "Pose Down",
+"idle": "Idle",
+"left": "Pose Left",
+"light_can": "Light Can",
+"right": "Pose Right",
+"up": "Pose Up"
 }
 offsets = {
-"cheer": Vector2(10, -156),
-"down": Vector2(2.08189e-12, -140),
-"idle": Vector2(13, -152),
-"laugh": Vector2(8, -155),
-"left": Vector2(-26, -148),
-"right": Vector2(14, -156),
-"up": Vector2(-8, -184)
+"Idle": Vector2(93, -155)
 }
 icons = SubResource("SpriteFrames_mh2u5")
 color = Color(0.45098, 0.329412, 0.670588, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(13, -152)
+position = Vector2(93, -155)
 sprite_frames = ExtResource("3_521o1")
-animation = &"idle"
-frame = 13
-frame_progress = 1.0
+animation = &"Idle"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -30,7 +30,7 @@ extends Node2D
 @onready var option_stats: Dictionary = {
 	
 	"Noah": ["Made the damn engine.", "link", "https://www.youtube.com/channel/UCH5BbTqMfiO-Cxhtx3drsqA"],
-	"Koi": ["Credits Menu button and Miss sprite", "link", "https://twitter.com/toasted_milk_"],
+	"Koi": ["Miss sprite", "link", "https://twitter.com/toasted_milk_"],
 	"Kazzyrus": ["EPIC! Sprite", "link", "https://twitter.com/kazzyrus"],
 	"The Funkin Crew\'": ["Friday Night Funkin\' Game", "link", "https://www.newgrounds.com/portal/view/770371"],
 	"PieDaDude": ["Lock and Arrow Sprite", "link", "https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ" ],

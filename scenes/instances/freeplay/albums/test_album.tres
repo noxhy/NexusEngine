@@ -2,43 +2,43 @@
 
 [ext_resource type="Texture2D" uid="uid://dbkqgy3vule0t" path="res://assets/sprites/menus/freeplay/album covers/phantomarcade_friday-night-funkin-cd-cover-vol-1.png" id="1_eox3u"]
 [ext_resource type="Script" path="res://resources/album.gd" id="1_ex3sd"]
-[ext_resource type="Resource" uid="uid://jd4pwwiglyft" path="res://assets/charts/Hotline Deathmatch - hard.tres" id="2_mnym6"]
 [ext_resource type="SpriteFrames" uid="uid://dfkjqte638jkv" path="res://assets/sprites/playstate/icons/daddy_dearest.tres" id="3_7wac7"]
+[ext_resource type="Resource" uid="uid://ctkmitu373pv1" path="res://assets/charts/Fresh Erect - nightmare.tres" id="3_p48vg"]
 [ext_resource type="Script" path="res://resources/song.gd" id="4_uiso7"]
-[ext_resource type="Resource" uid="uid://ca8vyroi5c7wu" path="res://assets/charts/Prometheus - hard.tres" id="6_i26lr"]
+[ext_resource type="Resource" uid="uid://c5458ckp01ax5" path="res://assets/charts/Darnell - hard.tres" id="6_62a2j"]
 [ext_resource type="SpriteFrames" uid="uid://digynxqrdoj3g" path="res://assets/sprites/playstate/icons/darnell.tres" id="7_v5wg4"]
-[ext_resource type="Resource" uid="uid://ctovlbmu57fip" path="res://assets/charts/Endless D-Side - hard.tres" id="8_ma3ui"]
+[ext_resource type="Resource" uid="uid://bdmm5r6mq3fyf" path="res://assets/charts/Senpai Erect - nightmare.tres" id="8_afhtp"]
 [ext_resource type="SpriteFrames" uid="uid://d3utv1veneoej" path="res://assets/sprites/playstate/icons/senpai.tres" id="9_kqjhu"]
-[ext_resource type="Resource" uid="uid://404xmhxidmhg" path="res://assets/charts/Thorns D-Side (Fanmade) - hard.tres" id="10_2oj7b"]
+[ext_resource type="Resource" path="res://assets/charts/Thorns Erect - nightmare.tres" id="10_foqql"]
 [ext_resource type="SpriteFrames" uid="uid://cdmsewf24ks2q" path="res://assets/sprites/playstate/icons/spirit.tres" id="11_t17sw"]
 
 [sub_resource type="Resource" id="Resource_kr671"]
 script = ExtResource("4_uiso7")
-chart = ExtResource("2_mnym6")
-scene = "res://scenes/playstate/songs/deathmatch/deathmatch.tscn"
+chart = ExtResource("3_p48vg")
+scene = "res://scenes/playstate/songs/fresh/fresh.tscn"
 icons = ExtResource("3_7wac7")
 display_color = Color(0.956863, 0.572549, 1, 1)
 locked = false
 
 [sub_resource type="Resource" id="Resource_hmn6l"]
 script = ExtResource("4_uiso7")
-chart = ExtResource("6_i26lr")
-scene = "res://scenes/playstate/songs/prometheus/prometheus.tscn"
+chart = ExtResource("6_62a2j")
+scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
 icons = ExtResource("7_v5wg4")
-display_color = Color(0.223529, 0.988235, 0.756863, 1)
+display_color = Color(0.67, 0.4, 1, 1)
 locked = false
 
 [sub_resource type="Resource" id="Resource_xnbao"]
 script = ExtResource("4_uiso7")
-chart = ExtResource("8_ma3ui")
-scene = "res://scenes/playstate/songs/endless/endless.tscn"
+chart = ExtResource("8_afhtp")
+scene = "res://scenes/playstate/songs/senpai/senpai.tscn"
 icons = ExtResource("9_kqjhu")
 display_color = Color(0.917647, 0.780392, 0.415686, 1)
 locked = false
 
 [sub_resource type="Resource" id="Resource_1b3jn"]
 script = ExtResource("4_uiso7")
-chart = ExtResource("10_2oj7b")
+chart = ExtResource("10_foqql")
 scene = "res://scenes/playstate/songs/thorns/thorns.tscn"
 icons = ExtResource("11_t17sw")
 display_color = Color(0.517647, 0.501961, 1, 1)
@@ -46,7 +46,7 @@ locked = false
 
 [resource]
 script = ExtResource("1_ex3sd")
-name = "Test Album"
+name = "Friday Night Funkin'"
 cover = ExtResource("1_eox3u")
-credits = "Test"
+credits = "kawai sprite, Saruky, Saster and Kohta Takahashi"
 song_list = Array[ExtResource("4_uiso7")]([SubResource("Resource_kr671"), SubResource("Resource_hmn6l"), SubResource("Resource_xnbao"), SubResource("Resource_1b3jn")])

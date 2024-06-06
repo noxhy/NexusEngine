@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" path="res://scenes/playstate/songs/basic_song.gd" id="1_256bj"]
 [ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_42q15"]
-[ext_resource type="Resource" uid="uid://jd4pwwiglyft" path="res://assets/charts/Hotline Deathmatch - hard.tres" id="3_t6waq"]
+[ext_resource type="Resource" uid="uid://jd4pwwiglyft" path="res://assets/charts/Hotline Deathmatch - hard.tres" id="3_i6lip"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_nbpug"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_flbkj"]
 [ext_resource type="PackedScene" path="res://scenes/instances/stages/stage/stage.tscn" id="6_wfg18"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="7_xgrnh"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_1ab4k"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="9_na15x"]
-[ext_resource type="PackedScene" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_lxqad"]
+[ext_resource type="PackedScene" uid="uid://dwn3bvltjsem4" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_lxqad"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="11_xjjpu"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="13_aa47l"]
 
@@ -25,7 +25,7 @@ conductor = NodePath("../Conductor")
 music_host = NodePath("../Audio")
 rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
-chart = ExtResource("3_t6waq")
+chart = ExtResource("3_i6lip")
 note_skin = ExtResource("4_nbpug")
 ui_skin = ExtResource("5_flbkj")
 combo_scale_multiplier = Vector2(0.8, 0.8)

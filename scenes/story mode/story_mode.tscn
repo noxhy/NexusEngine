@@ -10,7 +10,7 @@
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="7_5xrda"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="8_npxap"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="9_qcirc"]
-[ext_resource type="PackedScene" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_p6gkq"]
+[ext_resource type="PackedScene" uid="uid://dwn3bvltjsem4" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_p6gkq"]
 [ext_resource type="PackedScene" uid="uid://dddh323rffgon" path="res://scenes/instances/characters/spooky_kids.tscn" id="11_2m25c"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/pico.tscn" id="12_14fgl"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/mommy_mearest.tscn" id="13_ofi8l"]
@@ -240,21 +240,21 @@ position = Vector2(-272, 320)
 rotation = 3.14159
 scale = Vector2(0.904, -0.904)
 
-[node name="Week 8" type="Node2D" parent="UI/Week Display/SubViewport"]
-visible = false
+[node name="Weekend 1" type="Node2D" parent="UI/Week Display/SubViewport"]
 position = Vector2(640, 164)
 
-[node name="Pico" parent="UI/Week Display/SubViewport/Week 8" groups=["bop"] instance=ExtResource("12_14fgl")]
+[node name="Pico" parent="UI/Week Display/SubViewport/Weekend 1" groups=["bop"] instance=ExtResource("12_14fgl")]
 modulate = Color(0, 0, 0, 1)
 position = Vector2(235, 240)
 scale = Vector2(0.944, 0.944)
 
-[node name="Darnell" parent="UI/Week Display/SubViewport/Week 8" groups=["bop"] instance=ExtResource("17_wjhul")]
+[node name="Darnell" parent="UI/Week Display/SubViewport/Weekend 1" groups=["tween_bop"] instance=ExtResource("17_wjhul")]
 modulate = Color(0, 0, 0, 1)
 position = Vector2(-230, 260)
-scale = Vector2(1.136, 1.136)
+scale = Vector2(0.994, 0.994)
 
 [node name="Week 9" type="Node2D" parent="UI/Week Display/SubViewport"]
+visible = false
 position = Vector2(640, 164)
 
 [node name="Spooky Kids" parent="UI/Week Display/SubViewport/Week 9" groups=["tween_bop"] instance=ExtResource("11_2m25c")]
