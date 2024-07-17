@@ -64,10 +64,10 @@ func _process(delta):
 		
 		note.scroll_speed = scroll_speed
 		note.scroll = scroll
-		note.position.y = (1000 * scroll_speed * scroll) * progress
+		note.position.y = ( 1000.0 * scroll_speed * scroll ) * progress
 		
 		var grid_scaler = note.seconds_per_beat * note.scroll_speed * 0.25
-		note.grid_size = Vector2( 1000 * grid_scaler, 1000 * grid_scaler )
+		note.grid_size = Vector2( 1000.0 * grid_scaler, 1000 * grid_scaler )
 		
 		if time_difference < 0.164:
 			
@@ -94,20 +94,31 @@ func _process(delta):
 					
 					if note.length > 0:
 						
-						$"Hold Cover".visible = true
 						$"Hold Cover".play_animation( "cover " + strum_name )
 						note.position.y = 0
 						note.length -= ( tempo / 60.0 ) * song_speed * delta
+						
+						if note.get_node("Note").visible:
+							
+							$"Hold Cover".play_animation( "cover " + strum_name + " start" )
+							$"Hold Cover".visible = true
+						
 						note.get_node("Note").visible = false
 						
 						emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
 						
 						if !enemy_slot || SettingsHandeler.get_setting( "enemy_strum_glow" ):
 							state = STATE.GLOW
+					
 					else:
 						
 						if !enemy_slot || SettingsHandeler.get_setting( "enemy_strum_glow" ):
 							state = STATE.GLOW
+						
+						if can_splash:
+								$"Hold Cover".play_animation( "cover " + strum_name + " end" )
+						else:
+								$"Hold Cover".visible = false
 						
 						note_list.erase( note )
 						note.queue_free()
@@ -150,21 +161,26 @@ func _process(delta):
 					
 					else:
 						
-						$"Hold Cover".visible = true
 						$"Hold Cover".play_animation( "cover " + strum_name )
 						
 						var time_difference = ( note.time ) - ( song_position ) - offset
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
+						
+						if !pressing:
+							
+							$"Hold Cover".play_animation( "cover " + strum_name + " start" )
+							$"Hold Cover".visible = true
+						
 						pressing = true
 				
 				else:
 					
 					if !SettingsHandeler.get_setting( "ghost_tapping" ):
-						emit_signal( "note_miss", 0, self.get_name(), 0, 0, 0 )
+						emit_signal( "note_miss", 0, self.get_name(), 0, -1, 0 )
 			else:
 				
 				if !SettingsHandeler.get_setting( "ghost_tapping" ):
-					emit_signal( "note_miss", 0, self.get_name(), 0, 0, 0 )
+					emit_signal( "note_miss", 0, self.get_name(), 0, -1, 0 )
 	
 	
 	elif Input.is_action_pressed(input):
@@ -193,12 +209,23 @@ func _process(delta):
 							note.get_node("Note").visible = false
 							
 							emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
+							
+							if !pressing:
+								
+								$"Hold Cover".play_animation( "cover " + strum_name + " start" )
+								$"Hold Cover".visible = true
+							
 							pressing = true
 							
 							if note.length <= 0:
 								
 								pressing = false
 								emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
+								
+								if can_splash:
+									$"Hold Cover".play_animation( "cover " + strum_name + " end" )
+								else:
+									$"Hold Cover".visible = false
 								
 								note_list.erase( note )
 								note.queue_free()
@@ -213,6 +240,8 @@ func _process(delta):
 		if can_press:
 			
 			state = STATE.IDLE
+			if $"Hold Cover".animation != "cover " + strum_name + " end":
+				$"Hold Cover".visible = false
 	
 	match state:
 		
@@ -240,7 +269,7 @@ func set_skin(new_skin: NoteSkin):
 	$OffsetSprite.scale = Vector2( note_skin.notes_scale, note_skin.notes_scale )
 	
 	$"Hold Cover".frames = note_skin.hold_covers_texture
-	$"Hold Cover".scale = Vector2( note_skin.notes_scale, note_skin.notes_scale ) + Vector2( 0.4, 0.4 )
+	$"Hold Cover".scale = Vector2( note_skin.hold_covers_scale, note_skin.hold_covers_scale )
 	
 	if note_skin.animation_names != null:
 		
@@ -335,7 +364,12 @@ func _on_hold_cover_frame_changed():
 		$"Hold Cover".rotation_degrees = 0
 
 
-func _on_hold_cover_animation_finished(): $"Hold Cover".visible = false
+func _on_hold_cover_animation_finished():
+	
+	if $"Hold Cover".animation == "cover " + strum_name + " start":
+		$"Hold Cover".play_animation( "cover " + strum_name )
+	
+	if $"Hold Cover".animation == "cover " + strum_name + " end": $"Hold Cover".visible = false
 
 
 func create_splash( animation_name: String = strum_name + " splash" ):

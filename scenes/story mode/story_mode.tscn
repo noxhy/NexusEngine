@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="9_qcirc"]
 [ext_resource type="PackedScene" uid="uid://dwn3bvltjsem4" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_p6gkq"]
 [ext_resource type="PackedScene" uid="uid://dddh323rffgon" path="res://scenes/instances/characters/spooky_kids.tscn" id="11_2m25c"]
-[ext_resource type="PackedScene" path="res://scenes/instances/characters/pico.tscn" id="12_14fgl"]
+[ext_resource type="PackedScene" uid="uid://bs78qo116i5i8" path="res://scenes/instances/characters/pico.tscn" id="12_14fgl"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/mommy_mearest.tscn" id="13_ofi8l"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend pixel.tscn" id="14_6o7s3"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/senpai.tscn" id="15_tem1l"]

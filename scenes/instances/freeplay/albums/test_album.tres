@@ -9,7 +9,7 @@
 [ext_resource type="SpriteFrames" uid="uid://digynxqrdoj3g" path="res://assets/sprites/playstate/icons/darnell.tres" id="7_v5wg4"]
 [ext_resource type="Resource" uid="uid://bdmm5r6mq3fyf" path="res://assets/charts/Senpai Erect - nightmare.tres" id="8_afhtp"]
 [ext_resource type="SpriteFrames" uid="uid://d3utv1veneoej" path="res://assets/sprites/playstate/icons/senpai.tres" id="9_kqjhu"]
-[ext_resource type="Resource" path="res://assets/charts/Thorns Erect - nightmare.tres" id="10_foqql"]
+[ext_resource type="Resource" uid="uid://b7j50fpfcgwpm" path="res://assets/charts/Thorns Erect - nightmare.tres" id="10_foqql"]
 [ext_resource type="SpriteFrames" uid="uid://cdmsewf24ks2q" path="res://assets/sprites/playstate/icons/spirit.tres" id="11_t17sw"]
 
 [sub_resource type="Resource" id="Resource_kr671"]

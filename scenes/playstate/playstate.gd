@@ -523,17 +523,25 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 	
 	if !strum_handeler.enemy_slot:
 		
-		health -= ( 4 + clamp( combo / 10.0, 0, 20 ) ) * ( length + 1 )
-		combo = 0
-		misses += 1
+		if note_type == -1:
+			
+			health -= ( 1 + clamp( combo / 10.0, 0, 20 ) ) * ( length + 1 )
+			music_host.get_node("Vocals").volume_db = -80
+			update_ui_stats()
 		
-		entries += 1 + length
-		accuracy = ( timings_sum / entries )
-		
-		music_host.get_node("Vocals").volume_db = -80
-		show_combo( "miss", combo )
-		emit_signal("combo_break")
-		update_ui_stats()
+		elif note_type == 0:
+			
+			health -= ( 4 + clamp( combo / 10.0, 0, 20 ) ) * ( length + 1 )
+			combo = 0
+			misses += 1
+			
+			entries += 1 + length
+			accuracy = ( timings_sum / entries )
+			
+			music_host.get_node("Vocals").volume_db = -80
+			show_combo( "miss", combo )
+			emit_signal("combo_break")
+			update_ui_stats()
 
 
 func update_ui_stats():

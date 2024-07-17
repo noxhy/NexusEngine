@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://k0h35h1aqfkv"
-path="res://.godot/imported/sustain_cover_blue.png-0fc21ac06b034796f5713a56ee17c896.ctex"
+uid="uid://c8uu1e5preahv"
+path="res://.godot/imported/sustain_cover_blue.png-a0c594eb69369e6786e3a3052e4941ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/playstate/default/arrow/hold_covers/sustain_cover_blue.png"
-dest_files=["res://.godot/imported/sustain_cover_blue.png-0fc21ac06b034796f5713a56ee17c896.ctex"]
+source_file="res://assets/sprites/playstate/pixel/hold_covers/sustain_cover_blue.png"
+dest_files=["res://.godot/imported/sustain_cover_blue.png-a0c594eb69369e6786e3a3052e4941ca.ctex"]
 
 [params]
 

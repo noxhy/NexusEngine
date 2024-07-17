@@ -12,6 +12,7 @@ notes_texture = ExtResource("1_ovb1l")
 pixel_texture = false
 notes_scale = 0.2
 sustain_width = 600
+hold_covers_scale = 1.0
 animation_names = {
 "down": "down",
 "down end": "end",

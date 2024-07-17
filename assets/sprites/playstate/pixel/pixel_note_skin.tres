@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="NoteSkin" load_steps=6 format=3 uid="uid://dmw77m5oxkyig"]
+[gd_resource type="Resource" script_class="NoteSkin" load_steps=7 format=3 uid="uid://dmw77m5oxkyig"]
 
 [ext_resource type="SpriteFrames" uid="uid://ceg7w3ebtiywi" path="res://assets/sprites/playstate/pixel/arrow/notes.tres" id="1_ky7o3"]
 [ext_resource type="AudioStream" uid="uid://dcshy6cfnwrkl" path="res://assets/sounds/menu sounds/hitsound.wav" id="1_piid7"]
+[ext_resource type="SpriteFrames" uid="uid://dwiycp58qb6ig" path="res://assets/sprites/playstate/pixel/arrow/hold_covers.res" id="2_aa26k"]
 [ext_resource type="Script" path="res://resources/note_skin.gd" id="2_v4kjh"]
 [ext_resource type="SpriteFrames" uid="uid://bf1aiuwvslsn2" path="res://assets/sprites/playstate/pixel/arrow/strums.tres" id="3_6f2u5"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/playstate/pixel/arrow/splashes/note_splashes.res" id="3_l0k6u"]
@@ -11,9 +12,11 @@ script = ExtResource("2_v4kjh")
 strums_texture = ExtResource("3_6f2u5")
 notes_texture = ExtResource("1_ky7o3")
 splashes_texture = ExtResource("3_l0k6u")
+hold_covers_texture = ExtResource("2_aa26k")
 pixel_texture = true
 notes_scale = 6.75
 sustain_width = 7
+hold_covers_scale = 1.1
 animation_names = {}
 offsets = {}
 hit_sound = ExtResource("1_piid7")

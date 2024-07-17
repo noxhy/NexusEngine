@@ -5,9 +5,9 @@
 
 [node name="Credits" type="AnimatedSprite2D"]
 sprite_frames = ExtResource("1_85wfu")
-animation = &"credits basic"
+animation = &"credits idle"
 script = ExtResource("2_40krp")
 animation_names = {
-"idle": "credits basic",
+"idle": "credits idle",
 "selected": "credits white"
 }

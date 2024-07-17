@@ -124,7 +124,6 @@ func _input(event):
 			load_path = $"UI/Input Panel/Load Path".text
 			$"UI/Input Panel/Save Path".hide()
 			$"UI/Input Panel/Load Path".hide()
-			anim_sprite.sprite_frames = SpriteFrames.new()
 			
 			do_it()
 			
@@ -135,8 +134,6 @@ func _input(event):
 			$"UI/Input Panel/Save Path".show()
 			$"UI/Input Panel/Load Path".show()
 			
-			$"UI/Input Panel/Save Path".text = ""
-			$"UI/Input Panel/Load Path".text = ""
 			bunce = false
 		
 	

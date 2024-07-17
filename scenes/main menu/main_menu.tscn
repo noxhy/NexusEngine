@@ -80,7 +80,6 @@ position = Vector2(2.08189e-12, -168)
 
 [node name="Credits" parent="UI/Button Manager" instance=ExtResource("8_ya104")]
 position = Vector2(0, 184)
-animation = &"credits idle"
 animation_names = {
 "idle": "credits idle",
 "selected": "credits selected"

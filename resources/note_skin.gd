@@ -15,6 +15,7 @@ class_name NoteSkin
 
 @export var notes_scale = 1.0
 @export var sustain_width = 0
+@export var hold_covers_scale = 1.0
 
 @export_subgroup("Offsets")
 @export var animation_names = {}

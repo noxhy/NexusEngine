@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="UISkin" load_steps=4 format=3 uid="uid://dsqgb7q6eq1mf"]
 
 [ext_resource type="SpriteFrames" uid="uid://44un5qyptpwy" path="res://assets/sprites/playstate/pixel/rating/combo_numbers.tres" id="1_iptxq"]
 [ext_resource type="Script" path="res://resources/ui_skin.gd" id="1_mgkg4"]
@@ -15,3 +15,4 @@ numbers_spacing = 10
 animation_names = {}
 offsets = {}
 countdown_animation = "pixel_countdown"
+pause_scene = "res://scenes/playstate/pause_menu.tscn"
