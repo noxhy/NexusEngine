@@ -124,12 +124,16 @@ func _input(event):
 			load_path = $"UI/Input Panel/Load Path".text
 			$"UI/Input Panel/Save Path".hide()
 			$"UI/Input Panel/Load Path".hide()
+			anim_sprite.sprite_frames = SpriteFrames.new()
 			
 			do_it()
 			
 			await self.finished
 			$"UI/Display Panel/Label".text = "CONVERTED"
 			$"Success Sound".play()
+			
+			$"UI/Input Panel/Save Path".text = ""
+			$"UI/Input Panel/Load Path".text = ""
 			
 			$"UI/Input Panel/Save Path".show()
 			$"UI/Input Panel/Load Path".show()
