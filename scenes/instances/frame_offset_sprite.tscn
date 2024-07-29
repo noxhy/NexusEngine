@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cixdpsgd87je0"]
-
-[ext_resource type="Script" path="res://scenes/instances/frame_offset_sprite.gd" id="1_aqbed"]
-
-[node name="Frame Offset Sprite" type="AnimatedSprite2D"]
-script = ExtResource("1_aqbed")
-
-[connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
