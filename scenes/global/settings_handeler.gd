@@ -6,7 +6,7 @@ var settings = Settings.new()
 
 func load_settings():
 	
-	if settings == null || settings.version != 1:
+	if load( save_path ) == null || settings.version != 1:
 		reset_settings()
 	
 	settings = load( save_path )
