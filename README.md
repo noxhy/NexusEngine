@@ -15,6 +15,7 @@ The original engine can be played here: https://gamejolt.com/games/fnf-nexus-eng
 - [Kazzyrus](https://twitter.com/kazzyrus) - EPIC! sprite
 - [PieDaDude](https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ) - Lock and Arrow sprite
 - KostyaGame - Dad losing icon
+- [sqirradotdev](https://github.com/sqirradotdev) - Smooth arrow Lerping function.
 
 ## The Funkin' Crew
 - [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
