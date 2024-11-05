@@ -2,7 +2,6 @@ extends Node2D
 
 @export var can_click: bool = true
 
-
 @export var album_list: Array[Album]
 
 @onready var menu_option_node = preload( "res://scenes/instances/menu_option.tscn" )

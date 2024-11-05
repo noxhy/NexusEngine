@@ -3,7 +3,7 @@
 extends Resource
 class_name Dialogue
 
-@export_multiline var dialogue
+@export_multiline var dialogue: String
 
 # Dialogue resource that holds dialogue linds and functions.
 # Supports function calls, all paramters are strings and separated by commas.

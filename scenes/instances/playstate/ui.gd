@@ -101,5 +101,6 @@ func set_credits( song_name: String, artist_names: String ):
 	$"Song Credits/ColorRect/Label".text += "\n-\n"
 	$"Song Credits/ColorRect/Label".text += artist_names
 
+
 func show_credits(): $AnimationPlayer.play( "credits_show" )
 func hide_credits(): $AnimationPlayer.play( "credits_hide" )

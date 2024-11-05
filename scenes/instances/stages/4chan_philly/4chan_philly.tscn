@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://o04ewby7jkf1"]
+[gd_scene load_steps=22 format=3 uid="uid://o04ewby7jkf1"]
 
 [ext_resource type="Script" path="res://scenes/instances/stages/4chan_philly/4chan_philly.gd" id="1_osrb8"]
 [ext_resource type="Texture2D" uid="uid://qh7u8c8w87q0" path="res://assets/sprites/stages/philly_streets/phillyForeground.png" id="2_ivyoc"]
@@ -35,19 +35,31 @@ glow_hdr_threshold = 1.5
 adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_f5xmg")
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gopr5"]
+seed = 10
+frequency = 0.0573
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ovujy"]
+seamless = true
+noise = SubResource("FastNoiseLite_gopr5")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5os6c"]
 shader = ExtResource("2_xd4wj")
-shader_parameter/rain_amount = 100.0
-shader_parameter/near_rain_length = 0.2
-shader_parameter/far_rain_length = 0.1
-shader_parameter/near_rain_width = 0.248
-shader_parameter/far_rain_width = 0.148
+shader_parameter/rain_amount = 50.0
+shader_parameter/near_rain_length = 0.365
+shader_parameter/far_rain_length = 0.01
+shader_parameter/near_rain_width = 0.043
+shader_parameter/far_rain_width = 0.106
 shader_parameter/near_rain_transparency = 1.0
 shader_parameter/far_rain_transparency = 0.5
 shader_parameter/rain_color = Color(0.623529, 0.623529, 0.623529, 0.129412)
 shader_parameter/base_rain_speed = 5.0
-shader_parameter/additional_rain_speed = 1.0
+shader_parameter/additional_rain_speed = 0.292
 shader_parameter/slant = -0.075
+shader_parameter/speed = 0.1
+shader_parameter/strength = 0.1
+shader_parameter/warp_sensitivity = 0.257
+shader_parameter/noise = SubResource("NoiseTexture2D_ovujy")
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_osrb8")
@@ -58,13 +70,14 @@ environment = SubResource("Environment_bd4bl")
 [node name="Rain" type="CanvasLayer" parent="."]
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="Rain"]
 material = SubResource("ShaderMaterial_5os6c")
-offset_left = -640.0
-offset_top = -360.0
-offset_right = 640.0
-offset_bottom = 360.0
+offset_left = -1280.0
+offset_top = -728.0
+offset_right = 1288.0
+offset_bottom = 632.0
 color = Color(1, 1, 1, 0)
 
 [node name="Foreground" type="CanvasLayer" parent="."]

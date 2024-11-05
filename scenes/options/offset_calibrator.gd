@@ -72,8 +72,8 @@ func _input(event):
 		$"Audio/Hit Sound".play()
 		var song_position = snapped( $Audio/Music.get_playback_position(), 0.001 )
 		timing = snapped( timing, 0.001 )
-		var distance = snapped( song_position - timing, 0.001 )
-		previous_offsets[ index % entries_required ] = abs( distance )
+		var distance = -snapped( song_position - timing, 0.001 )
+		previous_offsets[ index % entries_required ] = distance
 		
 		index += 1
 		
@@ -92,6 +92,7 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 	$UI/Speaker.play_animation("idle")
 	
 	timing = (current_beat + 1) * $Conductor.seconds_per_beat
+	timing -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 	
 	if SettingsHandeler.get_setting("ui_bops"):
 		

@@ -164,4 +164,3 @@ func convert_array_to_string( array: Array ) -> String:
 		if array.rfind(i) != array.size() - 1: string += "\n"
 	
 	return string
-

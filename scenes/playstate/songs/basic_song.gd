@@ -68,11 +68,13 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 	var animations = ["left", "down", "up", "right"]
 	
 	if !strum_handeler.enemy_slot:
+		
 		characters[0].play_animation( animations[ lane ] )
 	else:
 		characters[1].play_animation( animations[ lane ] )
 	
 	playstate_host.note_hit( time, lane, note_type, hit_time, strum_handeler )
+	playstate_host.ui.update_ms( hit_time - time )
 
 
 func note_holding(time, lane, note_type, strum_handeler):

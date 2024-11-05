@@ -69,6 +69,7 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Options Menu" parent="UI" instance=ExtResource("8_5fqhg")]
+current_tab = 0
 
 [node name="Description Background" type="ColorRect" parent="UI"]
 offset_left = -576.0

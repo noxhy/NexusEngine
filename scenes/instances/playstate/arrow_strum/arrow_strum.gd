@@ -59,7 +59,8 @@ func _process(delta):
 	## Note movement
 	for note in note_list:
 		
-		var time_difference = ( note.time - offset ) - ( song_position )
+		var time_difference = ( note.time - offset ) - ( song_position ) - delta
+		time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 		var progress = time_difference / ( note.seconds_per_beat * 4 )
 		
 		note.scroll_speed = scroll_speed
@@ -97,6 +98,7 @@ func _process(delta):
 						$"Hold Cover".play_animation( "cover " + strum_name )
 						note.position.y = 0
 						note.length -= ( tempo / 60.0 ) * song_speed * delta
+						note.length -= ( AudioServer.get_output_latency() + AudioServer.get_time_since_last_mix() ) / ( tempo / 60.0 ) * delta
 						
 						if note.get_node("Note").visible:
 							
@@ -148,7 +150,7 @@ func _process(delta):
 				
 				if note.can_press:
 					
-					if note.length == 0:
+					if note.length <= 0:
 						
 						state = STATE.GLOW
 						
@@ -156,14 +158,16 @@ func _process(delta):
 						note.queue_free()
 						pressing = false
 						
-						var time_difference = ( note.time ) - ( song_position ) - offset
+						var time_difference = ( note.time - offset ) - ( song_position ) - delta
+						time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
 					
 					else:
 						
 						$"Hold Cover".play_animation( "cover " + strum_name )
 						
-						var time_difference = ( note.time ) - ( song_position ) - offset
+						var time_difference = ( note.time - offset ) - ( song_position ) - delta
+						time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
 						
 						if !pressing:
@@ -203,8 +207,10 @@ func _process(delta):
 							state = STATE.GLOW
 							
 							note.position.y = 0
-							var time_difference = ( note.time ) - ( song_position )
-							note.length -= ( note.tempo / 60.0 ) * song_speed * delta
+							var time_difference = ( note.time - offset ) - ( song_position ) - delta
+							time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
+							note.length -= ( tempo / 60.0 ) * song_speed * delta
+							note.length -= ( AudioServer.get_output_latency() + AudioServer.get_time_since_last_mix() ) / ( tempo / 60.0 ) * delta
 							note.time = song_position + ( ( note.tempo / 60.0 ) * song_speed * delta * ( 0.8 / song_speed ) )
 							note.get_node("Note").visible = false
 							
@@ -330,7 +336,7 @@ func glow_strum():
 	var note_scale = note_skin.notes_scale * 1.1
 	
 	var tween = create_tween()
-	tween.tween_property( $OffsetSprite, "scale", Vector2( note_scale, note_scale ), 0.1 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property( $OffsetSprite, "scale", Vector2( note_scale, note_scale ), 0.05 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func press_strum():
@@ -341,7 +347,7 @@ func press_strum():
 	var note_scale = note_skin.notes_scale * 0.9
 	
 	var tween = create_tween()
-	tween.tween_property($OffsetSprite, "scale", Vector2( note_scale, note_scale ), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property( $OffsetSprite, "scale", Vector2( note_scale, note_scale ), 0.05 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func _on_offset_sprite_animation_finished():

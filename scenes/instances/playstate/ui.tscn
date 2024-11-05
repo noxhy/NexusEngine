@@ -201,6 +201,7 @@ autowrap_mode = 1
 metadata/_edit_lock_ = true
 
 [node name="Performance" type="Label" parent="."]
+z_index = -1
 custom_minimum_size = Vector2(560, 26)
 anchors_preset = -1
 anchor_left = -0.219
@@ -220,6 +221,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Health Bar" type="TextureProgressBar" parent="."]
+z_index = -2
 offset_left = -300.0
 offset_top = 256.0
 offset_right = 300.0

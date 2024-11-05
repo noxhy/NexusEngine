@@ -465,7 +465,7 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 		
 		if rating == "epic":
 			
-			health += 1
+			health += 2
 			timings_sum += 1
 			strum_handeler.create_splash( lane, strum_node.strum_name + " splash" )
 		
@@ -480,12 +480,12 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 		
 		elif rating == "bad":
 			
-			health -= 1
+			health -= 0.5
 			timings_sum += 0.25
 		
 		elif rating == "shit":
 			
-			health -= 2
+			health -= 1
 			timings_sum += -1
 		else:
 			
@@ -525,13 +525,13 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 		
 		if note_type == -1:
 			
-			health -= ( 1 + clamp( combo / 10.0, 0, 20 ) ) * ( length + 1 )
+			health -= ( 1 + clamp( combo / 20.0, 0, 20 ) ) * ( length + 1 )
 			music_host.get_node("Vocals").volume_db = -80
 			update_ui_stats()
 		
 		elif note_type == 0:
 			
-			health -= ( 4 + clamp( combo / 10.0, 0, 20 ) ) * ( length + 1 )
+			health -= ( 4 + clamp( combo / 20.0, 0, 20 ) ) * ( length + 1 )
 			combo = 0
 			misses += 1
 			
@@ -585,4 +585,3 @@ func show_combo( rating: String, combo: int ):
 		
 		self.add_child( rating_instance )
 		self.add_child( combo_numbers_handeler_instance )
-

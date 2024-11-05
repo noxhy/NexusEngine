@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://gbra80y44814"]
+[gd_scene load_steps=15 format=3 uid="uid://gbra80y44814"]
 
 [ext_resource type="Script" path="res://scenes/freeplay/freeplay.gd" id="1_8wllq"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="1_d85pb"]
 [ext_resource type="Resource" uid="uid://c0coafka6m5vs" path="res://scenes/instances/freeplay/albums/test_album.tres" id="2_d582k"]
+[ext_resource type="Script" path="res://resources/album.gd" id="2_ternh"]
 [ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_w52tp"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_f88my"]
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_dca1q"]
@@ -21,7 +22,7 @@ font = ExtResource("8_sfkso")
 
 [node name="Freeplay" type="Node2D"]
 script = ExtResource("1_8wllq")
-album_list = Array[Resource("res://resources/album.gd")]([ExtResource("2_d582k")])
+album_list = Array[ExtResource("2_ternh")]([ExtResource("2_d582k")])
 metadata/_edit_horizontal_guides_ = [88.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]

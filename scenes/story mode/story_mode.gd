@@ -209,4 +209,3 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 					
 					i.can_idle = true
 					i.play_animation( "idle", $Conductor.seconds_per_beat * 2 )
-
