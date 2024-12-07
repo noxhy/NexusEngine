@@ -55,7 +55,7 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_plus"):
 		
 		var master_volume = SettingsHandeler.get_setting( "master_volume" )
-		SettingsHandeler.set_setting( "master_volume", clamp( master_volume + 8, -80, 0 ) )
+		SettingsHandeler.set_setting( "master_volume", clamp( master_volume + 6, -60, 0 ) )
 		SettingsHandeler.save_settings()
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start( 1.5 )
@@ -63,7 +63,7 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_minus"):
 		
 		var master_volume = SettingsHandeler.get_setting( "master_volume" )
-		SettingsHandeler.set_setting( "master_volume", clamp( master_volume - 8, -80, 0 ) )
+		SettingsHandeler.set_setting( "master_volume", clamp( master_volume - 6, -60, 0 ) )
 		SettingsHandeler.save_settings()
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start( 1.5 )
@@ -116,7 +116,7 @@ func bop_tween(object: Object, property: NodePath, original_val: Variant, final_
 	tween.tween_property( object, property, final_val, duration * 0.0625 ).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property( object, property, original_val, duration ).set_ease(Tween.EASE_OUT).set_delay( duration * 0.0625 )
 
-func set_window_title( title: String ): DisplayServer.window_set_title( "Friday Night Funkin' Nexus Engine 2.1 | " + title )
+func set_window_title( title: String ): DisplayServer.window_set_title( "Friday Night Funkin' Nexus Engine 2.3 | " + title )
 
 func float_to_time(time: float) -> String:
 	

@@ -1,17 +1,26 @@
-[gd_scene load_steps=16 format=3 uid="uid://bggq8kbjfwq6b"]
+[gd_scene load_steps=20 format=3 uid="uid://bggq8kbjfwq6b"]
 
 [ext_resource type="Script" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_fcfx0"]
 [ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_d5rna"]
 [ext_resource type="Resource" uid="uid://b7j50fpfcgwpm" path="res://assets/charts/Thorns Erect - nightmare.tres" id="3_8uubk"]
 [ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_8wb6g"]
-[ext_resource type="Resource" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_4pyv7"]
+[ext_resource type="Resource" uid="uid://dsqgb7q6eq1mf" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_4pyv7"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_uhlqh"]
 [ext_resource type="PackedScene" uid="uid://dm1wcp8xtvqv5" path="res://scenes/instances/stages/evil_school/evil_school.tscn" id="7_ndkga"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_h7cs6"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_ijcj0"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_bptfm"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend pixel.tscn" id="9_rpmc0"]
 [ext_resource type="PackedScene" uid="uid://dghi5ce8cupic" path="res://scenes/instances/characters/spirit.tscn" id="10_bowlb"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_ffvus"]
 [ext_resource type="PackedScene" uid="uid://blyod30lc1qk0" path="res://scenes/instances/characters/girlfriend pixel.tscn" id="11_vat3l"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_tmnnb"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jvtyf"]
+streams_count = 3
+stream_0/stream = ExtResource("8_h7cs6")
+stream_1/stream = ExtResource("9_bptfm")
+stream_2/stream = ExtResource("10_ffvus")
 
 [sub_resource type="Gradient" id="Gradient_fn4tr"]
 offsets = PackedFloat32Array(0, 0.241935)
@@ -68,6 +77,17 @@ bus = &"Music"
 bus = &"Music"
 
 [node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_jvtyf")
+bus = &"SFX"
+
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_jvtyf")
+volume_db = -8.0
 bus = &"SFX"
 
 [node name="Conductor" type="Node" parent="."]

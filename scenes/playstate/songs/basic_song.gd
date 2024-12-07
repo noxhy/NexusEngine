@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var characters = [ %Player, %Enemy, %Metronome ]
-@onready var camera_positions = [ $"World/Position 1", $"World/Position 2" ]
+@onready var camera_positions = [ $"World/Position 1", $"World/Position 2", $"World/Position 3" ]
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
@@ -74,7 +74,6 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 		characters[1].play_animation( animations[ lane ] )
 	
 	playstate_host.note_hit( time, lane, note_type, hit_time, strum_handeler )
-	playstate_host.ui.update_ms( hit_time - time )
 
 
 func note_holding(time, lane, note_type, strum_handeler):
@@ -94,6 +93,10 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 	var animations = ["left", "down", "up", "right"]
 	
 	if !strum_handeler.enemy_slot:
+		
+		if note_type != -1: %"Miss Sound".play()
+		else: %"Anti-Spam Sound".play()
+		
 		characters[0].play_animation( "miss_" + animations[ lane ] )
 	else:
 		characters[1].play_animation( "miss_" + animations[ lane ] )

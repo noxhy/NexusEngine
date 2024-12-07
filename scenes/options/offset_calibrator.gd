@@ -73,7 +73,7 @@ func _input(event):
 		var song_position = snapped( $Audio/Music.get_playback_position(), 0.001 )
 		timing = snapped( timing, 0.001 )
 		var distance = -snapped( song_position - timing, 0.001 )
-		previous_offsets[ index % entries_required ] = distance
+		previous_offsets[ index % entries_required ] = -distance
 		
 		index += 1
 		

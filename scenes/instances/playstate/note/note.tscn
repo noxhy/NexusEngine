@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://krhxbwnjnr7r"]
 
 [ext_resource type="Script" path="res://scenes/instances/playstate/note/note.gd" id="1_7ee17"]
 [ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://assets/sprites/playstate/developer/arrow/notes.tres" id="2_r4bqa"]
-[ext_resource type="Resource" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="2_sl16p"]
+[ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="2_sl16p"]
 [ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="4_kfabs"]
 [ext_resource type="Texture2D" uid="uid://ds5jlynhtryxg" path="res://assets/sprites/playstate/developer/arrow/tail.png" id="5_2n521"]
 

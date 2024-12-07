@@ -11,9 +11,10 @@ extends CanvasLayer
 
 @export var target_health = 50.0
 
-var accuracy = 0.0
-var misses = 0
-var rank = "?"
+var accuracy: float = 0.0
+var misses: int = 0
+var rank: String = "?"
+var score: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,9 +24,13 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	$Performance.text = "Accuracy: " + str( snappedf( accuracy * 100, 0.01 ) ) + "%"
+	# Just in case anyone wants to display this information
+	# $Performance.text = "Accuracy: " + str( snappedf( accuracy * 100, 0.01 ) ) + "%"
+	# $Performance.text += " • " + "Rank: " + rank
+	
+	$Performance.text = "Score: " + str( score )
 	$Performance.text += " • " + "Misses: " + str( misses )
-	$Performance.text += " • " + "Rank: " + rank
+	
 	
 	update_health_bar( lerp( $"Health Bar".value, target_health, 0.1 ) )
 

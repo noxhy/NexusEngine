@@ -4,6 +4,7 @@ extends Node2D
 class_name Note
 
 @export_range(0, 16, 0.1) var length = 0.0
+@export_range(0, 16, 0.1) var start_length = 0.0
 @export var note_type = 0
 @export var time = 0.0
 @export var note_skin: NoteSkin
@@ -16,6 +17,7 @@ var tempo = 60.0
 var seconds_per_beat = 0.0
 var scroll = 1.0
 var can_press = false
+var last_length: float = 0.0
 
 var direction = "left"
 var animation = "left"
@@ -76,11 +78,17 @@ func _process(delta):
 		$"Tail/Tail End".position.y = line_length
 		$Tail.scale.y = scroll
 		
-		if $Tail.points.size() == 0:
-				$Tail.add_point(Vector2(0, 0))
-				$Tail.add_point(Vector2(0, line_length))
-		else:
-				$Tail.set_point_position(1, Vector2(0, line_length))
+		if last_length != length: $Tail.points = [ Vector2( 0, 0 ), Vector2( 0, line_length ) ]
+
+		
+		var end_direction: Vector2 = Vector2.DOWN
+		
+		if $Tail.points.size() > 1:
+			end_direction = $Tail.points[ $Tail.points.size() - 1 ] - $Tail.points[ $Tail.points.size() - 2 ]
+		
+		$"Tail/Tail End".position = $Tail.get_point_position( $Tail.points.size() - 1 )
+		$"Tail/Tail End".rotation = end_direction.angle()
+		
 	else:
 		
 		$Tail.visible = false

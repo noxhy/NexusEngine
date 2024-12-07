@@ -49,7 +49,7 @@ func _ready():
 	
 	for button in $"UI/Button Manager".get_children():
 		
-		button.position.y = ( 720.0 / ( button_count ) ) * i
+		button.position.y = ( 720.0 / ( button_count ) ) * ( i - ( button_count / 2.0 ) + 0.5 )
 		button.play( button.animation )
 		i += 1
 	
@@ -95,7 +95,7 @@ func update_selection(i: int):
 	old_node.play_animation("idle")
 	
 	var old_node_tween = create_tween()
-	old_node_tween.tween_property( old_node, "scale", old_node.scale - Vector2(0.1, 0.1), 0.2 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	old_node_tween.tween_property( old_node, "scale", old_node.scale - Vector2(0.05, 0.05), 0.2 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 	selected = wrapi( i, 0, options.keys().size())
 	$"Audio/Menu Scroll".play()
@@ -104,10 +104,10 @@ func update_selection(i: int):
 	new_node.play_animation("selected")
 	
 	var camera_tween = create_tween()
-	camera_tween.tween_property( $Camera2D, "position", new_node.position, 0.2 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	camera_tween.tween_property( $Camera2D, "position", new_node.position, 0.25 ).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	var new_node_tween = create_tween()
-	new_node_tween.tween_property( new_node, "scale", new_node.scale + Vector2(0.1, 0.1), 0.2 ).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	new_node_tween.tween_property( new_node, "scale", new_node.scale + Vector2(0.05, 0.05), 0.2 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 # Called when an option was selected
@@ -120,7 +120,7 @@ func select_option(i: int):
 	can_press = false
 	
 	var camera_tween = create_tween()
-	camera_tween.tween_property( $Camera2D, "zoom", Vector2(1.2, 1.2), 0.5 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	camera_tween.tween_property( $Camera2D, "zoom", Vector2(1.1, 1.1), 0.5 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 	for n in options.keys():
 		

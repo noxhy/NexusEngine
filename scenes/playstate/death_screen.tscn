@@ -15,8 +15,8 @@ glow_levels/1 = 1.0
 glow_levels/2 = 1.0
 glow_levels/4 = 1.0
 glow_normalized = true
-glow_strength = 1.36
-glow_bloom = 0.18
+glow_strength = 0.71
+glow_bloom = 0.42
 glow_blend_mode = 1
 
 [sub_resource type="Animation" id="Animation_shx3s"]

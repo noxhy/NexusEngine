@@ -70,7 +70,7 @@ func _process(delta):
 		var grid_scaler = note.seconds_per_beat * note.scroll_speed * 0.25
 		note.grid_size = Vector2( 1000.0 * grid_scaler, 1000 * grid_scaler )
 		
-		if time_difference < 0.164:
+		if time_difference < 0.198:
 			
 			note.can_press = true
 			
@@ -97,8 +97,8 @@ func _process(delta):
 						
 						$"Hold Cover".play_animation( "cover " + strum_name )
 						note.position.y = 0
-						note.length -= ( tempo / 60.0 ) * song_speed * delta
-						note.length -= ( AudioServer.get_output_latency() + AudioServer.get_time_since_last_mix() ) / ( tempo / 60.0 ) * delta
+						note.length = ( ( note.time - offset ) + ( note.start_length * note.seconds_per_beat ) ) - song_position
+						note.length /= note.seconds_per_beat
 						
 						if note.get_node("Note").visible:
 							
@@ -127,14 +127,13 @@ func _process(delta):
 						
 					
 					continue
-			
 		
-		if time_difference <= -0.164:
+		if ( time_difference + ( note.start_length * note.seconds_per_beat - offset - delta ) ) <= -0.198:
 				
 				note_list.erase( note )
 				note.queue_free()
 				
-				emit_signal( "note_miss", note.time - time_difference, self.get_name(), note.length, note.note_type, time_difference )
+				emit_signal( "note_miss", note.time - time_difference, self.get_name(), note.length, note.note_type, time_difference + ( note.length * note.seconds_per_beat ) )
 	
 	
 	# Inputs
@@ -160,7 +159,7 @@ func _process(delta):
 						
 						var time_difference = ( note.time - offset ) - ( song_position ) - delta
 						time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
-						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
+						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference + ( note.length * note.seconds_per_beat ) )
 					
 					else:
 						
@@ -186,7 +185,6 @@ func _process(delta):
 				if !SettingsHandeler.get_setting( "ghost_tapping" ):
 					emit_signal( "note_miss", 0, self.get_name(), 0, -1, 0 )
 	
-	
 	elif Input.is_action_pressed(input):
 		
 		
@@ -207,11 +205,8 @@ func _process(delta):
 							state = STATE.GLOW
 							
 							note.position.y = 0
-							var time_difference = ( note.time - offset ) - ( song_position ) - delta
-							time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
-							note.length -= ( tempo / 60.0 ) * song_speed * delta
-							note.length -= ( AudioServer.get_output_latency() + AudioServer.get_time_since_last_mix() ) / ( tempo / 60.0 ) * delta
-							note.time = song_position + ( ( note.tempo / 60.0 ) * song_speed * delta * ( 0.8 / song_speed ) )
+							note.length = ( ( note.time - offset ) + ( note.start_length * note.seconds_per_beat ) ) - song_position
+							note.length /= note.seconds_per_beat
 							note.get_node("Note").visible = false
 							
 							emit_signal( "note_holding", note.time, self.get_name(), note.note_type )
@@ -235,7 +230,6 @@ func _process(delta):
 								
 								note_list.erase( note )
 								note.queue_free()
-								
 			
 			elif state != STATE.GLOW:
 				
@@ -246,6 +240,7 @@ func _process(delta):
 		if can_press:
 			
 			state = STATE.IDLE
+			
 			if $"Hold Cover".animation != "cover " + strum_name + " end":
 				$"Hold Cover".visible = false
 	
@@ -306,6 +301,7 @@ func create_note(time: float, length: float, note_type: int, tempo: float):
 	
 	note_instance.time = time
 	note_instance.length = length
+	note_instance.start_length = length
 	note_instance.note_type = note_type
 	note_instance.grid_size = Vector2( 1000 * seconds_per_beat, 1000 * seconds_per_beat )
 	var scaler = seconds_per_beat * scroll_speed

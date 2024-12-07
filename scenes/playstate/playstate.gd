@@ -13,7 +13,6 @@ signal setup_finished()
 @onready var combo_numbers_handeler_node = preload( "res://scenes/instances/playstate/combo_numbers_handeler.tscn" )
 @onready var countdown_node = preload( "res://scenes/playstate/countdown.tscn" )
 
-
 @export_group("Nodes")
 
 @export var host: Node2D
@@ -55,7 +54,8 @@ var death_stats = {
 var strums: Array = []
 var characters: Array = []
 
-var bop_delay: int = 16
+# How often the damera bops. Based off the step rate in the conductor.
+var bop_rate: int = 16
 
 var song_started: bool = false
 var song_start_offset: float = -4.0
@@ -65,6 +65,11 @@ var song_position: float = 0.0
 var position_delta: float = 0.0
 var position_lerp: float = 0.0
 var sync_timer: float = 0.0
+
+# The index of the latest loaded note
+var current_note: int = -1
+# The index of the latest loaded event
+var current_event: int = -1
 
 var accuracy: float
 var timings_sum: float
@@ -104,9 +109,12 @@ func _ready():
 	
 	strums = ui.strums
 	
-	# This is how to do botplay
-	# strums[0].set_auto_play( true )
-	# strums[0].set_press( false )
+	if SettingsHandeler.get_setting("botplay"):
+		
+		for strum in strums:
+			
+			strum.set_auto_play( true )
+			strum.set_press( false )
 	
 	if SettingsHandeler.get_setting( "downscroll" ): ui.downscroll_ui()
 	if SettingsHandeler.get_setting( "streamer_mode" ): ui.streamer_ui()
@@ -188,6 +196,8 @@ func _process(delta):
 				AudioServer.get_time_since_last_mix() - \
 				AudioServer.get_output_latency()
 	
+	# Idk how exactly this works I stole this code from sqirradotdev
+	
 	position_delta = abs( position_lerp - song_position )
 	position_lerp += delta * music_host.get_node("Instrumental").pitch_scale
 	
@@ -199,7 +209,24 @@ func _process(delta):
 	sync_timer -= delta
 	conductor.tempo = get_tempo_at( clamp( song_position, 0, music_host.get_node("Instrumental").stream.get_length() ) )
 	
-	render_section( song_position, conductor.seconds_per_beat * 4 )
+	
+	# Instead of before where I would do a linear search per section, a faster method
+	# would just be to iterate through as the song is playing, making it faster
+	var notes_list = chart.get_note_data()
+	
+	if current_note < notes_list.size():
+		
+		var note = notes_list[current_note]
+		
+		if note[0] <= ( song_position + conductor.seconds_per_beat * 4 ):
+			
+			var time: float = note[0]
+			var lane: int = note[1]
+			var length: float = note[2]
+			var type: int = note[3]
+			
+			emit_signal( "create_note", time, lane, length, type, get_tempo_at( time ) )
+			current_note += 1
 	
 	for strum in strums:
 		
@@ -207,25 +234,24 @@ func _process(delta):
 		strum.set_song_position( position_lerp )
 		strum.set_song_speed( music_host.get_node("Instrumental").pitch_scale )
 	
-	var events = chart.get_events_data()
-	
-	for i in events:
+	if music_host.get_node("Instrumental").playing:
 		
-		var time: float = i[0]
-		var event_name: String = i[1]
-		var event_parameters: Array = i[2]
+		var events_list = chart.get_events_data()
 		
-		if (time < ( song_position - conductor.seconds_per_beat) ) || ( time > (song_position + conductor.seconds_per_beat) ):
-			continue
-		else:
+		if current_event < events_list.size():
 			
-			if (time < song_position):
+			var event = events_list[current_event]
+			
+			if event[0] <= song_position:
 				
-				print( event_name, " ", str( event_parameters ) )
+				var time: float = event[0]
+				var event_name: String = event[1]
+				var event_parameters: Array = event[2]
 				
+				print( "Song Event: ", event_name, " ", str(event_parameters) )
 				basic_event( time, event_name, event_parameters )
-				events.erase( i )
-				break
+				current_event += 1
+
 
 
 #
@@ -261,7 +287,7 @@ func play_song( time: float ):
 	
 	song_started = false
 	song_start_time = time - chart.offset
-	song_start_offset = time - chart.offset - ( seconds_per_beat * 4 )
+	song_start_offset = song_start_time - ( seconds_per_beat * 4 )
 	
 	if time >= seconds_per_beat * 4:
 		
@@ -278,44 +304,30 @@ func play_song( time: float ):
 		countdown_instance.play( ui_skin.countdown_animation )
 		countdown_instance.seek( time )
 	
-	for i in chart.chart_data.notes:
-		
-		var note_time: float = i[0]
-		
-		if note_time < song_start_time:
-			chart.chart_data.notes.erase(i)
-		else:
-			continue
-	
-	for i in chart.chart_data.events:
-		
-		var note_time: float = i[0]
-		
-		if note_time < song_start_time:
-			chart.chart_data.events.erase(i)
-		else:
-			continue
+	var notes_list = chart.get_note_data()
+	current_note = bsearch_left_range( notes_list, notes_list.size(), time )
+	var events_list = chart.get_events_data()
+	current_event = bsearch_left_range( events_list, events_list.size(), time )
 
 
-func render_section( song_position: float, distance: float ):
+## Binary Search of notes and events, gives the index of the note nearest to the given time
+func bsearch_left_range( value_set: Array, length: int, left_range: float ) -> int:
 	
+	if ( length == 0 ): return -1
+	if ( value_set[ length - 1 ][0] < left_range ): return -1
 	
-	for i in chart.chart_data.notes:
+	var low: int = 0
+	var high: int = length - 1
+	
+	while ( low <= high ):
 		
-		var time: float = i[0]
-		var lane: int = i[1]
-		var note_length: float = i[2]
-		var note_type: int = i[3]
+		var mid: int = low + int( ( high - low ) / 2 )
 		
-		if ( time < ( song_position ) ) || ( time > (song_position + distance) ):
-			continue
-		
-		else:
-			
-			emit_signal( "create_note", time, lane, note_length, note_type, get_tempo_at( time ) )
-			
-			for j in chart.chart_data.notes.count( i ):
-				chart.chart_data.notes.erase( i )
+		if ( value_set[mid][0] >= left_range ): high = mid - 1
+		else: low = mid + 1
+	
+	return high + 1
+
 
 
 func get_rating( time: float ) -> String:
@@ -323,12 +335,12 @@ func get_rating( time: float ) -> String:
 	var rating: String
 	
 	var ratings = [
-		[ time <= 0.018, "epic" ],
-		[ time <= 0.043, "sick" ],
-		[ time <= 0.076, "good" ],
-		[ time <= 0.106, "bad" ],
-		[ time <= 0.127, "shit" ],
-		[ time <= 0.164, "miss" ],
+		[ time <= 0.0125, "epic" ],
+		[ time <= 0.045, "sick" ],
+		[ time <= 0.090, "good" ],
+		[ time <= 0.135, "bad" ],
+		[ time <= 0.160, "shit" ],
+		[ time <= 0.198, "miss" ],
 	]
 	
 	for condition in ratings:
@@ -387,12 +399,12 @@ func basic_event( time: float, event_name: String, event_parameters: Array ):
 		tween.set_trans( Tween.TRANS_CUBIC ).set_ease( Tween.EASE_OUT )
 		tween.tween_property( camera, "target_zoom", new_zoom, zoom_time )
 	
-	elif event_name == "bop_delay":
-		bop_delay = int( event_parameters[0] )
+	elif event_name == "bop_delay" || event_name == "bop_rate":
+		bop_rate = int( event_parameters[0] )
 	
 	elif event_name == "lerping":
 		
-		var lerping = bool( event_parameters[0] )
+		var lerping = true if event_parameters[0] == "true" else false
 		ui.lerping = lerping
 		camera.lerping = lerping
 	
@@ -441,7 +453,7 @@ func new_beat(current_beat, measure_relative):
 
 func new_step(current_step, measure_relative):
 	
-	if current_step % bop_delay == 0:
+	if current_step % bop_rate == 0:
 		
 		camera.zoom += Vector2(0.05, 0.05)
 		
@@ -528,8 +540,7 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 			health -= ( 1 + clamp( combo / 20.0, 0, 20 ) ) * ( length + 1 )
 			music_host.get_node("Vocals").volume_db = -80
 			update_ui_stats()
-		
-		elif note_type == 0:
+		else:
 			
 			health -= ( 4 + clamp( combo / 20.0, 0, 20 ) ) * ( length + 1 )
 			combo = 0

@@ -24,11 +24,10 @@ theme = ExtResource("1_tg56e")
 theme_override_constants/outline_size = 12
 theme_override_font_sizes/font_size = 24
 tab_alignment = 1
-current_tab = 2
+current_tab = 0
 script = ExtResource("2_f8jhe")
 
 [node name="Gameplay" type="TabBar" parent="."]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -77,6 +76,11 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "Calibrate Offset"
 
+[node name="Botplay" parent="Gameplay/ScrollContainer/VBoxContainer" instance=ExtResource("2_tn18n")]
+layout_mode = 2
+setting_name = "botplay"
+display_name = "Botplay"
+
 [node name="Preferences" type="TabBar" parent="."]
 visible = false
 layout_mode = 2
@@ -94,7 +98,7 @@ layout_mode = 2
 
 [node name="Master Volume" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
-min = -80.0
+min = -60.0
 max = 0.0
 value_name = "db"
 setting_name = "master_volume"
@@ -102,7 +106,7 @@ display_name = "Master Volume"
 
 [node name="Music Volume2" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
-min = -80.0
+min = -60.0
 max = 0.0
 value_name = "db"
 setting_name = "music_volume"
@@ -110,7 +114,7 @@ display_name = "Music Volume"
 
 [node name="SFX Volume3" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
-min = -80.0
+min = -60.0
 max = 0.0
 value_name = "db"
 setting_name = "sfx_volume"
@@ -147,6 +151,7 @@ setting_name = "note_splashes"
 display_name = "Note Splashes"
 
 [node name="Controls" type="TabBar" parent="."]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

@@ -68,30 +68,36 @@ bus = &"SFX"
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 0
 offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
+scale = Vector2(5, 5)
+transform = Transform2D(5, 0, 0, 5, 640, 360)
 follow_viewport_enabled = true
+follow_viewport_scale = 0.2
 
 [node name="Button Manager" type="Node2D" parent="UI"]
 
 [node name="Story Mode" parent="UI/Button Manager" instance=ExtResource("2_ll3w7")]
-position = Vector2(2.08189e-12, -168)
+position = Vector2(-12.5, -267)
 
 [node name="Freeplay" parent="UI/Button Manager" instance=ExtResource("4_hiw7n")]
+position = Vector2(-12.5, -87)
 
 [node name="Credits" parent="UI/Button Manager" instance=ExtResource("8_ya104")]
-position = Vector2(0, 184)
+position = Vector2(-12.5, 93)
 animation_names = {
 "idle": "credits idle",
 "selected": "credits selected"
 }
 
 [node name="Options" parent="UI/Button Manager" instance=ExtResource("6_v3nl2")]
-position = Vector2(0, 352)
+position = Vector2(-12.5, 273)
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
+scale = Vector2(10.64, 10.64)
+transform = Transform2D(10.64, 0, 0, 10.64, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.1
 
 [node name="Background" type="AnimatedSprite2D" parent="Background"]
 sprite_frames = SubResource("SpriteFrames_tynp6")

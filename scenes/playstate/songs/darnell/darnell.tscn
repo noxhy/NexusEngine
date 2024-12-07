@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c8853lemkr1jc"]
+[gd_scene load_steps=17 format=3 uid="uid://c8853lemkr1jc"]
 
 [ext_resource type="Script" path="res://scenes/playstate/songs/darnell/darnell.gd" id="1_kfw18"]
 [ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_dkpbc"]
@@ -7,11 +7,20 @@
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_gia47"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_r1tdt"]
 [ext_resource type="PackedScene" uid="uid://o04ewby7jkf1" path="res://scenes/instances/stages/4chan_philly/4chan_philly.tscn" id="7_xhwu8"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_fwncm"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_i8fmv"]
-[ext_resource type="PackedScene" path="res://scenes/instances/characters/pico.tscn" id="9_vixx2"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_d1m0c"]
+[ext_resource type="PackedScene" uid="uid://bs78qo116i5i8" path="res://scenes/instances/characters/pico.tscn" id="9_vixx2"]
 [ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="10_1osac"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_6x4dq"]
 [ext_resource type="PackedScene" uid="uid://biw6xh624onjh" path="res://scenes/instances/characters/nene.tscn" id="11_6d88t"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_a2iw0"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1fe3a"]
+streams_count = 3
+stream_0/stream = ExtResource("8_fwncm")
+stream_1/stream = ExtResource("9_d1m0c")
+stream_2/stream = ExtResource("10_6x4dq")
 
 [node name="Darnell" type="Node2D"]
 script = ExtResource("1_kfw18")
@@ -48,6 +57,17 @@ bus = &"Music"
 bus = &"Music"
 
 [node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1fe3a")
+bus = &"SFX"
+
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1fe3a")
+volume_db = -8.0
 bus = &"SFX"
 
 [node name="Conductor" type="Node" parent="."]
