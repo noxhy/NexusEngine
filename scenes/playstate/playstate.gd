@@ -184,8 +184,8 @@ func _process(delta):
 		
 		pause_scene_instance.song_title = song_data.title
 		pause_scene_instance.credits = song_data.artist
-		
 		if GameHandeler.freeplay: pause_scene_instance.deaths = GameHandeler.deaths
+		
 		else: pause_scene_instance.deaths = GameHandeler.week_deaths
 		
 		host.add_child( pause_scene_instance )
@@ -266,11 +266,9 @@ func _process(delta):
 				current_event += 1
 
 
-
 #
 # Util
 #
-
 
 ##  Gets the tempo at a certain time in seconds
 func get_tempo_at(time: float) -> float:
@@ -361,7 +359,8 @@ func get_rating( time: float ) -> String:
 	var rating: String
 	
 	var ratings = [
-		[ time <= 0.0125, "epic" ],
+		# [ time <= 0.0125, "epic" ], This is useless now because of how gold perfect works
+		# im keeping it tho just in case people want it
 		[ time <= 0.045, "sick" ],
 		[ time <= 0.090, "good" ],
 		[ time <= 0.135, "bad" ],
@@ -538,7 +537,8 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 		if combo > GameHandeler.tallies["max_combo"]: GameHandeler.tallies["max_combo"] = combo
 		
 		accuracy = ( timings_sum / entries )
-		if misses == 0: rating = "fc_" + rating
+		if ( GameHandeler.tallies.epic + GameHandeler.tallies.sick ) == GameHandeler.tallies.total_notes:
+			rating = "fc_" + rating
 		
 		show_combo( rating, combo )
 		

@@ -82,7 +82,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(0.241484, 1),
 "update": 0,
-"values": [Vector2(1280, -288), Vector2(64, -288)]
+"values": [Vector2(1280, -280), Vector2(64, -280)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lkqyl"]

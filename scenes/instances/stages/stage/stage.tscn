@@ -45,7 +45,7 @@ color = Color(0.585938, 0.338745, 0.54152, 1)
 energy = 7.4
 range_layer_min = -128
 texture = ExtResource("4_frumy")
-texture_scale = 1.5
+texture_scale = 1.2
 
 [node name="Props" type="CanvasLayer" parent="." groups=["parallax"]]
 layer = -2

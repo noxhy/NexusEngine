@@ -35,12 +35,12 @@ func update_selection( i: int ):
 	selected = wrapi( i, 0, difficulties.size() )
 	i = selected
 	
-	$OffsetSprite.play_animation( difficulties[i] )
+	%"Difficulty Display".play_animation( difficulties[i] )
 	
 	var tween = create_tween()
-	$OffsetSprite.scale = Vector2( 1.1, 1.1 )
+	%"Difficulty Display".scale = Vector2( 1.1, 1.1 )
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property( $OffsetSprite, "scale", Vector2( 1, 1 ), 0.2 )
+	tween.tween_property( %"Difficulty Display", "scale", Vector2( 1, 1 ), 0.2 )
 	
 	%Scroll.play()
 

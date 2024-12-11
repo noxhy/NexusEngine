@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce4fecrbyxrux"]
+
+[ext_resource type="SpriteFrames" uid="uid://cadj43xs00flg" path="res://assets/sprites/menus/difficulties.res" id="1_jakc6"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_g1448"]
+
+[node name="Difficulty Display" type="AnimatedSprite2D"]
+unique_name_in_owner = true
+z_index = 1
+sprite_frames = ExtResource("1_jakc6")
+animation = &"erect"
+script = ExtResource("2_g1448")
+animation_names = {
+"easy": "easy",
+"erect": "erect",
+"hard": "hard",
+"nightmare": "nightmare",
+"normal": "normal"
+}

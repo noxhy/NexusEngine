@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://lh8hi5dk1sja"]
+[gd_scene load_steps=27 format=3 uid="uid://lh8hi5dk1sja"]
 
 [ext_resource type="Script" path="res://scenes/story mode/story_mode.gd" id="1_obutf"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="2_4mkcq"]
@@ -9,7 +9,9 @@
 [ext_resource type="FontFile" uid="uid://coivso5sghc2p" path="res://assets/fonts/fnf font.ttf" id="6_arlsh"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="7_5xrda"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="8_npxap"]
+[ext_resource type="PackedScene" uid="uid://jjd6x75uoj1x" path="res://scenes/instances/freeplay/freeplay_arrow.tscn" id="9_gdyqo"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="9_qcirc"]
+[ext_resource type="PackedScene" uid="uid://ce4fecrbyxrux" path="res://scenes/instances/difficulty_display.tscn" id="10_fvhjj"]
 [ext_resource type="PackedScene" uid="uid://dwn3bvltjsem4" path="res://scenes/instances/characters/daddy_dearest.tscn" id="10_p6gkq"]
 [ext_resource type="PackedScene" uid="uid://dddh323rffgon" path="res://scenes/instances/characters/spooky_kids.tscn" id="11_2m25c"]
 [ext_resource type="PackedScene" uid="uid://bs78qo116i5i8" path="res://scenes/instances/characters/pico.tscn" id="12_14fgl"]
@@ -18,6 +20,8 @@
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/senpai.tscn" id="15_tem1l"]
 [ext_resource type="PackedScene" path="res://scenes/instances/characters/tankman.tscn" id="16_k4au0"]
 [ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="17_wjhul"]
+[ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="21_xb8ni"]
+[ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="22_8sq52"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jcj1m"]
 font = ExtResource("6_arlsh")
@@ -30,9 +34,15 @@ font_size = 24
 font_color = Color(0.764706, 0.309804, 0.380392, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_bh7wr"]
-font = ExtResource("7_5xrda")
+font = ExtResource("21_xb8ni")
 font_size = 32
 font_color = Color(0.537255, 0.537255, 0.537255, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_b44de"]
+font = ExtResource("22_8sq52")
+font_size = 32
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
@@ -116,6 +126,21 @@ SONG 3"
 label_settings = SubResource("LabelSettings_74q7x")
 horizontal_alignment = 1
 uppercase = true
+
+[node name="Left Arrow" parent="UI/Week UI/SubViewport" instance=ExtResource("9_gdyqo")]
+z_index = 1
+position = Vector2(928, 64)
+input = "ui_left"
+
+[node name="Right Arrow" parent="UI/Week UI/SubViewport" instance=ExtResource("9_gdyqo")]
+z_index = 1
+position = Vector2(1248, 64)
+rotation = 3.14159
+scale = Vector2(1, -1)
+input = "ui_right"
+
+[node name="Difficulty Display" parent="UI/Week UI/SubViewport" instance=ExtResource("10_fvhjj")]
+position = Vector2(1088, 64)
 
 [node name="Week Display" type="SubViewportContainer" parent="UI"]
 offset_top = 88.0
@@ -268,6 +293,16 @@ offset_bottom = 88.0
 text = "WEEK NAME"
 label_settings = SubResource("LabelSettings_bh7wr")
 horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+metadata/_edit_lock_ = true
+
+[node name="Week Score" type="Label" parent="UI"]
+offset_left = 16.0
+offset_right = 1264.0
+offset_bottom = 88.0
+text = "LEVEL SCORE: 0"
+label_settings = SubResource("LabelSettings_b44de")
 vertical_alignment = 1
 uppercase = true
 metadata/_edit_lock_ = true
