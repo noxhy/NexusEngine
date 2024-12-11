@@ -11,7 +11,6 @@ extends Node2D
 	"Nexus Engine": [
 		[ "Noah", preload( "res://assets/sprites/menus/credits/icons/noah.png" ) ],
 		[ "Koi", preload( "res://assets/sprites/menus/credits/icons/icon-koi.png" ) ],
-		[ "Kazzyrus", preload( "res://assets/sprites/menus/credits/icons/kazzyrus.png" ) ],
 		[ "KostyaGame", preload( "res://assets/sprites/menus/credits/icons/empty.png" ) ],
 		[ "PieDaDude", preload( "res://assets/sprites/menus/credits/icons/piesatou.png" ) ],
 	],
@@ -31,7 +30,6 @@ extends Node2D
 	
 	"Noah": ["Made the damn engine.", "link", "https://www.youtube.com/channel/UCH5BbTqMfiO-Cxhtx3drsqA"],
 	"Koi": ["Miss sprite", "link", "https://twitter.com/toasted_milk_"],
-	"Kazzyrus": ["EPIC! Sprite", "link", "https://twitter.com/kazzyrus"],
 	"The Funkin Crew\'": ["Friday Night Funkin\' Game", "link", "https://www.newgrounds.com/portal/view/770371"],
 	"PieDaDude": ["Lock and Arrow Sprite", "link", "https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ" ],
 	"KostyaGame": ["Dad losing icon", null],

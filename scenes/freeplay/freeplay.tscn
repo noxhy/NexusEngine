@@ -124,13 +124,4 @@ z_index = -1
 texture = ExtResource("5_xlpwk")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Background"]
-visible = false
-offset_left = -832.0
-offset_top = -360.0
-offset_right = -82.0001
-offset_bottom = 606.0
-rotation = -0.185005
-color = Color(0, 0, 0, 0.505882)
-
 [connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
