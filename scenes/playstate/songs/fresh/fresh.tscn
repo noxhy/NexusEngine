@@ -1,11 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://blj8dbuorj1h0"]
+[gd_scene load_steps=18 format=3 uid="uid://blj8dbuorj1h0"]
 
 [ext_resource type="Script" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_xeyw4"]
-[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_y6xle"]
-[ext_resource type="Resource" uid="uid://ctkmitu373pv1" path="res://assets/charts/Fresh Erect - nightmare.tres" id="3_1nt3h"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_y6xle"]
+[ext_resource type="Resource" uid="uid://hf15wrofqaey" path="res://assets/songs/playable songs/fresh/fresh_erect.tres" id="3_mynbq"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_8nme4"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_uia00"]
-[ext_resource type="PackedScene" path="res://scenes/instances/stages/stage/stage.tscn" id="6_egett"]
+[ext_resource type="PackedScene" uid="uid://cymgv4pu0e1rh" path="res://scenes/instances/stages/stage/stage.tscn" id="6_egett"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="7_e1lys"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_8rd3j"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="8_euc1j"]
@@ -15,6 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_lm4uy"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="11_pruvp"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_b2bjn"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5gnfm"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8nsr4"]
 streams_count = 3
@@ -31,10 +33,10 @@ host = NodePath("..")
 ui = NodePath("../UI")
 camera = NodePath("../Camera")
 conductor = NodePath("../Conductor")
-music_host = NodePath("../Audio")
+music_host = NodePath("../Audio Host")
 rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
-chart = ExtResource("3_1nt3h")
+song_data = ExtResource("3_mynbq")
 note_skin = ExtResource("4_8nme4")
 ui_skin = ExtResource("5_uia00")
 combo_scale_multiplier = Vector2(0.8, 0.8)
@@ -45,25 +47,26 @@ unique_name_in_owner = true
 [node name="Camera" parent="." instance=ExtResource("7_e1lys")]
 position = Vector2(640, 432)
 position_smoothing_speed = 3.0
-target_zoom = Vector2(1.25, 1.25)
+target_zoom = Vector2(1.1, 1.1)
 
-[node name="Audio" type="Node" parent="."]
+[node name="Audio Host" type="Node" parent="."]
 
-[node name="Vocals" type="AudioStreamPlayer" parent="Audio"]
+[node name="Vocals" type="AudioStreamPlayer" parent="Audio Host"]
+stream = SubResource("AudioStreamPolyphonic_5gnfm")
 bus = &"Music"
 
-[node name="Instrumental" type="AudioStreamPlayer" parent="Audio"]
+[node name="Instrumental" type="AudioStreamPlayer" parent="Audio Host"]
 bus = &"Music"
 
-[node name="Hit Sound" type="AudioStreamPlayer" parent="Audio"]
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Audio Host"]
 bus = &"SFX"
 
-[node name="Miss Sound" type="AudioStreamPlayer" parent="Audio"]
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Audio Host"]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_8nsr4")
 bus = &"SFX"
 
-[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Audio"]
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Audio Host"]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_8nsr4")
 volume_db = -8.0
@@ -71,7 +74,7 @@ bus = &"SFX"
 
 [node name="Conductor" type="Node" parent="."]
 script = ExtResource("8_euc1j")
-stream_player = NodePath("../Audio/Instrumental")
+stream_player = NodePath("../Audio Host/Instrumental")
 
 [node name="World" type="CanvasLayer" parent="."]
 layer = 10
@@ -80,23 +83,23 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Position 1" type="Marker2D" parent="World"]
-position = Vector2(117.5, 58.5)
+position = Vector2(114.5, 10.5)
 gizmo_extents = 18.3
 
 [node name="Position 2" type="Marker2D" parent="World"]
-position = Vector2(-93.5, 18.5)
+position = Vector2(-69.5, -5.5)
 gizmo_extents = 26.5
 
 [node name="Position 3" type="Marker2D" parent="World"]
-position = Vector2(0, 32)
+position = Vector2(10.5, -21.5)
 gizmo_extents = 26.5
 
 [node name="Rating Marker" type="Marker2D" parent="World"]
-position = Vector2(115, -48)
+position = Vector2(-132, -116)
 gizmo_extents = 20.0
 
 [node name="Combo Marker" type="Marker2D" parent="World"]
-position = Vector2(192, -16)
+position = Vector2(-55, -84)
 gizmo_extents = 20.0
 
 [node name="Characters" type="CanvasLayer" parent="."]
@@ -107,21 +110,24 @@ follow_viewport_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("9_dqjx1")]
 unique_name_in_owner = true
+modulate = Color(0.855469, 0.851814, 0.761902, 1)
 z_index = 1
-position = Vector2(248, 266)
-scale = Vector2(0.6, 0.6)
+position = Vector2(400, 288)
+scale = Vector2(0.7, 0.7)
 
 [node name="Enemy" parent="Characters" instance=ExtResource("10_f8uei")]
 unique_name_in_owner = true
+modulate = Color(0.868225, 0.867188, 1, 1)
 z_index = 1
-position = Vector2(-168, 266)
-scale = Vector2(0.6, 0.6)
+position = Vector2(-344, 288)
+scale = Vector2(0.7, 0.7)
 
 [node name="Metronome" parent="Characters" instance=ExtResource("11_pruvp")]
 unique_name_in_owner = true
+modulate = Color(0.910156, 0.83194, 0.870437, 1)
 z_index = -1
-position = Vector2(0, 216)
-scale = Vector2(0.6, 0.6)
+position = Vector2(96, 272)
+scale = Vector2(0.7, 0.7)
 
 [node name="UI" parent="." instance=ExtResource("12_b2bjn")]
 layer = 10

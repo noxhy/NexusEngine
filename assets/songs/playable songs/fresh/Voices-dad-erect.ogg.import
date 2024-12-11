@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://yvplwuarpfd2"
+path="res://.godot/imported/Voices-dad-erect.ogg-27ddac490ae20de96bed1279241f9a17.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/fresh/Voices-dad-erect.ogg"
+dest_files=["res://.godot/imported/Voices-dad-erect.ogg-27ddac490ae20de96bed1279241f9a17.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

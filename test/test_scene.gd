@@ -1,12 +1,10 @@
 extends Node2D
 
-@export var dialogue: Dialogue = Dialogue.new()
-
+@export_file("*.swf") var animation_file
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
-	$"Dialogue Display".text = dialogue.dialogue
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

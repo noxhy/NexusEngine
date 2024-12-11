@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cw85perbwjqqy"]
 
-[ext_resource type="PackedScene" path="res://scenes/instances/stages/stage/stage.tscn" id="1_q4bjy"]
+[ext_resource type="PackedScene" uid="uid://cymgv4pu0e1rh" path="res://scenes/instances/stages/stage/stage.tscn" id="1_q4bjy"]
 [ext_resource type="Script" path="res://scenes/options/offset_calibrator.gd" id="1_to22u"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="3_wcm4s"]
 [ext_resource type="AudioStream" uid="uid://bsv6t5iw2tl3t" path="res://assets/songs/menu songs/offset song.ogg" id="4_65mtm"]
@@ -77,8 +77,8 @@ offset_top = 136.0
 offset_right = 640.0
 offset_bottom = 232.0
 text = "Press any key to calibrate your offset
-(This may not be entirely accurate)
-(Your offset might also need to be negative instead of positive)"
+(Positive: Early, Negative: Late)
+(This may not be entirely accurate)"
 label_settings = SubResource("LabelSettings_3110b")
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -4,12 +4,4 @@
 
 [node name="Test Scene" type="Node2D"]
 script = ExtResource("1_2vri4")
-
-[node name="Dialogue Display" type="Label" parent="."]
-offset_left = 64.0
-offset_top = 64.0
-offset_right = 104.0
-offset_bottom = 87.0
-text = "Dialogue Display:
-
-"
+animation_file = "<null>"

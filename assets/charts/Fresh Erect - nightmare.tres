@@ -4,11 +4,6 @@
 
 [resource]
 script = ExtResource("1_5u0fr")
-vocals = "res://assets/songs/playable songs/fresh/vocals.ogg"
-instrumental = "res://assets/songs/playable songs/fresh/Inst-erect.ogg"
-artist = "kawai sprite + Saruky"
-song_title = "Fresh Erect"
-difficulty = "nightmare"
 scroll_speed = 2.3
 offset = 0.0
 chart_data = {

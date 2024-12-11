@@ -60,7 +60,6 @@ func _process(delta):
 	for note in note_list:
 		
 		var time_difference = ( note.time - offset ) - ( song_position ) - delta
-		time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 		var progress = time_difference / ( note.seconds_per_beat * 4 )
 		
 		note.scroll_speed = scroll_speed
@@ -158,7 +157,6 @@ func _process(delta):
 						pressing = false
 						
 						var time_difference = ( note.time - offset ) - ( song_position ) - delta
-						time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference + ( note.length * note.seconds_per_beat ) )
 					
 					else:
@@ -166,7 +164,6 @@ func _process(delta):
 						$"Hold Cover".play_animation( "cover " + strum_name )
 						
 						var time_difference = ( note.time - offset ) - ( song_position ) - delta
-						time_difference -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 						emit_signal( "note_hit", note.time, self.get_name(), note.note_type, time_difference )
 						
 						if !pressing:

@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://cms2hdcllf8xo"
+path="res://.godot/imported/color_filter.tpsheet-ec0d51ed4bd17402845c62feabf88a27.res"
+
+[deps]
+
+files=["res://color_filter.sprites/1.tres"]
+
+source_file="res://color_filter.tpsheet"
+dest_files=["res://.godot/imported/color_filter.tpsheet-ec0d51ed4bd17402845c62feabf88a27.res", "res://color_filter.sprites/1.tres"]
+
+[params]
+

@@ -20,6 +20,8 @@ config/icon="res://icon.png"
 Global="*res://scenes/global/global.tscn"
 Transitions="*res://scenes/global/transitions.tscn"
 SettingsHandeler="*res://scenes/global/settings_handeler.gd"
+GameHandeler="*res://scenes/global/game_handeler.gd"
+SaveHandeler="*res://scenes/global/save_handeler.gd"
 
 [display]
 

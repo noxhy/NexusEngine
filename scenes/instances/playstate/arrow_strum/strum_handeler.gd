@@ -10,6 +10,7 @@ signal note_miss( time: float, lane: int, length: float, note_type: int, hit_tim
 @export var strum_count = 4
 @export var note_skin = NoteSkin.new()
 @export var strums = PackedStringArray()
+@export var id: int = 0
 
 @export var can_press = true
 @export var auto_play = false

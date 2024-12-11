@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://c8853lemkr1jc"]
+[gd_scene load_steps=18 format=3 uid="uid://c8853lemkr1jc"]
 
 [ext_resource type="Script" path="res://scenes/playstate/songs/darnell/darnell.gd" id="1_kfw18"]
-[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_dkpbc"]
-[ext_resource type="Resource" uid="uid://c5458ckp01ax5" path="res://assets/charts/Darnell - hard.tres" id="3_n6hyq"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_dkpbc"]
+[ext_resource type="Resource" uid="uid://hp2n1h7ndfh6" path="res://assets/songs/playable songs/darnell/darnell.tres" id="3_hqkup"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_fnsyj"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_gia47"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_r1tdt"]
@@ -15,6 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_6x4dq"]
 [ext_resource type="PackedScene" uid="uid://biw6xh624onjh" path="res://scenes/instances/characters/nene.tscn" id="11_6d88t"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_a2iw0"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_oxpka"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1fe3a"]
 streams_count = 3
@@ -34,7 +36,7 @@ conductor = NodePath("../Conductor")
 music_host = NodePath("../Music")
 rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
-chart = ExtResource("3_n6hyq")
+song_data = ExtResource("3_hqkup")
 note_skin = ExtResource("4_fnsyj")
 ui_skin = ExtResource("5_gia47")
 combo_scale_multiplier = Vector2(1.2, 1.2)
@@ -51,6 +53,7 @@ unique_name_in_owner = true
 [node name="Music" type="Node" parent="."]
 
 [node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+stream = SubResource("AudioStreamPolyphonic_oxpka")
 bus = &"Music"
 
 [node name="Instrumental" type="AudioStreamPlayer" parent="Music"]

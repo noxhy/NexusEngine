@@ -5,12 +5,15 @@ extends Node2D
 @export var album_list: Array[Album]
 
 @onready var menu_option_node = preload( "res://scenes/instances/menu_option.tscn" )
+@onready var difficulty_selector_node = preload( "res://scenes/freeplay/difficulty_selector.tscn" )
 @onready var options: Array[Song]
 
-
-var option_nodes = []
+var option_nodes: Array = []
 var selected_album: int = 0
 var selected_song: int = 0
+var selected_difficulty: int = 0
+var difficulty: String
+var difficulty_index: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -27,12 +30,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
-	if options[selected_song].chart != null:
-		
-		$Conductor.tempo = get_tempo_at( $Audio/Music.get_playback_position(), options[selected_song].chart )
-		$Conductor.offset = options[selected_song].chart.offset + SettingsHandeler.get_setting( "offset" )
-
+	pass
 
 # Input Handler
 func _input(event):
@@ -94,11 +92,9 @@ func load_page(i: int):
 	
 	for song_file in options:
 		
-		song_file.chart.chart_data.erase( "notes" )
-		song_file.chart.chart_data.erase( "events" )
 		var menu_option_instance = menu_option_node.instantiate()
 		
-		menu_option_instance.option_name = song_file.chart.song_title
+		menu_option_instance.option_name = song_file.title
 		menu_option_instance.icon = song_file.icons.get_frame_texture( "default", 0 )
 		menu_option_instance.position = Vector2( -1000, object_amount * 175 )
 		
@@ -110,8 +106,8 @@ func load_page(i: int):
 	$"UI/Album Cover".texture = album_list[i].cover
 	$"UI/Album Cover".scale.x = 176.0 / album_list[i].cover.get_width()
 	$"UI/Album Cover".scale.y = $"UI/Album Cover".scale.x
-	$"UI/Album Name".text = album_list[i].name
-	$"UI/Album Song List".text = album_list[i].credits
+	%"Album Name".text = album_list[i].name
+	%"Album Song List".text = album_list[i].credits
 	
 	$UI/Arrow.position = Vector2( -1000, 0 )
 	var tween = create_tween()
@@ -125,12 +121,15 @@ func update_selection(i: int):
 	var index = -selected_song
 	
 	var song_file = options[i]
-	var chart = song_file.chart
+	difficulty = song_file.difficulties.keys()[ difficulty_index % song_file.difficulties.size() ]
+	var difficulty_data = song_file.difficulties[difficulty]
+	var chart = load(difficulty_data.chart)
 	$"Audio/Menu Scroll".play()
-	$Audio/Music.stream = load( chart.instrumental )
-	$Audio/Music.volume_db = -80
+	$Audio/Music.stream = song_file.instrumental
+	$Audio/Music.volume_db = -60
 	$Audio/Music.play()
 	
+	$Conductor.tempo = song_file.tempo
 	
 	var tween = create_tween()
 	tween.set_parallel()
@@ -157,7 +156,7 @@ func update_selection(i: int):
 		tween.tween_property( $Audio/Music, "volume_db", 0, 1 )
 	else:
 		
-		tween.tween_property( $Audio/Music, "volume_db", -80, 1 )
+		tween.tween_property( $Audio/Music, "volume_db", -60, 1 )
 	
 	if song_file.icons.has_animation( "winning" ) && !song_file.locked:
 		option_nodes[i].icon = song_file.icons.get_frame_texture( "winning", 0 )
@@ -174,31 +173,72 @@ func select_option(i: int):
 		if song_file.locked: return
 		
 		can_click = false
+		
+		# This is so you don't have to go to the selection menu even if there's
+		# only one difficulty
+		if song_file.difficulties.size() == 1: difficulty = song_file.difficulties.keys()[0]
+		else:
+			
+			var difficulty_selector_instance = difficulty_selector_node.instantiate()
+			
+			difficulty_selector_instance.difficulties = song_file.difficulties.keys()
+			
+			add_child(difficulty_selector_instance)
+			
+			# This function call exists cause of how .connect works
+			difficulty_selector_instance.connect( "selected_difficulty", self.set_difficulty )
+			get_tree().paused = true
+			
+			await difficulty_selector_instance.selected_difficulty
+			
+			difficulty_selector_instance.queue_free()
+			
+			print( "difficulty: ", difficulty )
+		
+		# I wish i could use null but I have "null" as the base case.
+		if difficulty == "null":
+			
+			$"Audio/Menu Cancel".play()
+			can_click = true
+			return
+		
 		$"Audio/Menu Confirm".play()
 		
-		$"Screen Flash".visible = true
 		var tween = create_tween()
 		tween.set_parallel()
-		tween.tween_property( $"Screen Flash/ColorRect", "color", Color( 1, 1, 1, 0 ), 0.2 )
 		
-		tween.tween_property( $Audio/Music, "volume_db", -80, 1 )
+		tween.tween_property( $Audio/Music, "volume_db", -60, 1 )
 		
 		for j in option_nodes:
 			
-			if j != option_nodes[i]:
+			if j != option_nodes[selected_song]:
 				
-				tween.tween_property( j, "position", j.position - Vector2(2000, 0), 0.5 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+				tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+				tween.tween_property( j, "position", j.position - Vector2( 2000, 0 ), 0.5 )
 		
 		Transitions.transition("down")
 		
 		await get_tree().create_timer(1).timeout
 		
 		Global.stop_song()
-		var scene = song_file.scene
-		Global.freeplay = true
-		Global.freeplay_album_option = selected_album
-		Global.freeplay_song_option = i
-		Global.change_scene_to( scene )
+		
+		play_song( song_file, difficulty )
+
+# I hate that this function has to exist but it does to even have the signal be useful
+func set_difficulty( new: String ): difficulty = new
+
+
+# Doesn't actually play the audio, just sends you to the scene
+func play_song( song: Song, difficulty: String ):
+	
+	var scene = song.scene
+	if song.difficulties[difficulty].has("scene"): scene = song.difficulties[difficulty].scene
+	
+	GameHandeler.difficulty = difficulty
+	GameHandeler.freeplay = true
+	Global.freeplay_album_option = selected_album
+	Global.freeplay_song_option = selected_song
+	Global.change_scene_to( scene )
 
 
 func _on_conductor_new_beat(current_beat, measure_relative):
@@ -206,25 +246,3 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 	if SettingsHandeler.get_setting("ui_bops"):
 		
 		Global.bop_tween( $Camera2D, "zoom", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )
-
-
-# Util
-
-
-##  Gets the tempo at a certain time in seconds
-func get_tempo_at(time: float, chart: Chart) -> float:
-	
-	var tempo_dict = chart.get_tempos_data()
-	var keys = tempo_dict.keys()
-	
-	var tempo_output = 0.0
-	
-	for i in keys.size():
-		var dict_time = keys[i]
-		
-		if time >= dict_time:
-			tempo_output = tempo_dict.get(keys[i])
-		else:
-			continue
-	
-	return tempo_output

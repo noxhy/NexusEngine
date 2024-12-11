@@ -5,7 +5,7 @@ extends Node2D
 
 @export var song_title: String = ""
 @export var credits: String = ""
-@export var freeplay: bool = true
+@export var deaths: int = 0
 
 var options: Dictionary = {
 	
@@ -25,7 +25,7 @@ var options: Dictionary = {
 	},
 	
 	"exit": {
-		"option_name": "Exit to Menu",
+		"option_name": "Exit",
 		"icon": null,
 	},
 	
@@ -42,8 +42,9 @@ func _ready():
 	tween.tween_property( $Audio/Music, "volume_db", 0, 4 )
 	$AnimationPlayer.play( "intro" )
 	
-	$"UI/Song Credits".text = song_title + " - " + credits
-	$UI/Mode.text = "Freeplay" if freeplay == true else "Story Mode"
+	%"Song Name".text = song_title
+	%"Other Info".text = "Artist: " + credits
+	%"Other Info".text += "\n" + str(deaths) + " Blue Balls"
 	
 	render_options()
 	update_selection( selected )
@@ -131,7 +132,9 @@ func select_option( i: int ):
 		
 		get_tree().paused = false
 		
-		if Global.freeplay:
+		GameHandeler.reset_stats()
+		
+		if GameHandeler.freeplay:
 			
 			Global.change_scene_to( "res://scenes/freeplay/freeplay.tscn" )
 		else:

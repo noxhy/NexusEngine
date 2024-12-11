@@ -1,0 +1,191 @@
+[gd_scene load_steps=9 format=3 uid="uid://cnu4wa5x8qwp5"]
+
+[ext_resource type="Script" path="res://scenes/freeplay/difficulty_selector.gd" id="1_1tipg"]
+[ext_resource type="SpriteFrames" uid="uid://cadj43xs00flg" path="res://assets/sprites/menus/difficulties.res" id="1_mnc4k"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="2_lmn2j"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_s0ilr"]
+[ext_resource type="PackedScene" uid="uid://jjd6x75uoj1x" path="res://scenes/instances/freeplay/freeplay_arrow.tscn" id="3_8hml4"]
+
+[sub_resource type="Animation" id="Animation_a31c2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OffsetSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Left Arrow:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-136, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Right Arrow:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(128, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:can_press")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_eenre"]
+resource_name = "start"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OffsetSprite:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.34151, 1),
+"update": 0,
+"values": [Vector2(0, 1000), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Left Arrow:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.34151, 1),
+"update": 0,
+"values": [Vector2(-136, 1000), Vector2(-160, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Right Arrow:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.34151, 1),
+"update": 0,
+"values": [Vector2(128, 1000), Vector2(160, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:can_press")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mgni6"]
+_data = {
+"RESET": SubResource("Animation_a31c2"),
+"start": SubResource("Animation_eenre")
+}
+
+[node name="Difficulty Selector" type="CanvasLayer"]
+process_mode = 2
+layer = 2
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+script = ExtResource("1_1tipg")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Scroll" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("2_lmn2j")
+bus = &"SFX"
+
+[node name="OffsetSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_mnc4k")
+animation = &"erect"
+script = ExtResource("2_s0ilr")
+animation_names = {
+"easy": "easy",
+"erect": "erect",
+"hard": "hard",
+"nightmare": "nightmare",
+"normal": "normal"
+}
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.6)
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mgni6")
+}
+
+[node name="Left Arrow" parent="." instance=ExtResource("3_8hml4")]
+z_index = 1
+position = Vector2(-136, 0)
+input = "ui_left"
+
+[node name="Right Arrow" parent="." instance=ExtResource("3_8hml4")]
+z_index = 1
+position = Vector2(128, 0)
+scale = Vector2(-1, 1)
+input = "ui_right"

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cp2wxj2okk1ng"
+path="res://.godot/imported/Voices-darnell.ogg-34f4f09bc43fc0eb23494890c66a3658.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/darnell/Voices-darnell.ogg"
+dest_files=["res://.godot/imported/Voices-darnell.ogg-34f4f09bc43fc0eb23494890c66a3658.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

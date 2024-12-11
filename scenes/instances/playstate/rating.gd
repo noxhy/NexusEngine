@@ -26,7 +26,7 @@ func _ready():
 	
 	$OffsetSprite.play_animation( rating )
 	
-	motion = Vector2( randf_range( -1, 1 ), -2 )
+	motion = Vector2( randf_range( -0.5, 0.5 ), -2 )
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

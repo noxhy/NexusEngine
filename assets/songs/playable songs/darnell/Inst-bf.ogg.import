@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bgb4g6xajpj0c"
+path="res://.godot/imported/Inst-bf.ogg-63856c0cf6461116ece9348c4b7d2163.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/darnell/Inst-bf.ogg"
+dest_files=["res://.godot/imported/Inst-bf.ogg-63856c0cf6461116ece9348c4b7d2163.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

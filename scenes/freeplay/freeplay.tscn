@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://gbra80y44814"]
+[gd_scene load_steps=16 format=3 uid="uid://gbra80y44814"]
 
 [ext_resource type="Script" path="res://scenes/freeplay/freeplay.gd" id="1_8wllq"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="1_d85pb"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="7_tn0af"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="7_yte2n"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="8_sfkso"]
+[ext_resource type="Texture2D" uid="uid://cgytynqqgidyi" path="res://assets/sprites/menus/freeplay/album covers/volume1.png" id="9_u33nh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_w0sdm"]
 font = ExtResource("7_yte2n")
@@ -51,18 +52,6 @@ bus = &"SFX"
 stream = ExtResource("7_tn0af")
 bus = &"SFX"
 
-[node name="Screen Flash" type="CanvasLayer" parent="."]
-layer = 2
-visible = false
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
-
-[node name="ColorRect" type="ColorRect" parent="Screen Flash"]
-offset_left = -640.0
-offset_top = -361.0
-offset_right = 640.0
-offset_bottom = 360.0
-
 [node name="UI" type="CanvasLayer" parent="."]
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
@@ -71,7 +60,8 @@ follow_viewport_enabled = true
 [node name="Album Cover" type="Sprite2D" parent="UI"]
 z_index = 2
 position = Vector2(224, -264)
-scale = Vector2(0.156, 0.156)
+scale = Vector2(0.64, 0.64)
+texture = ExtResource("9_u33nh")
 
 [node name="Arrow" type="Sprite2D" parent="UI"]
 z_index = 2
@@ -80,6 +70,7 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("6_gjlmt")
 
 [node name="Album Name" type="Label" parent="UI"]
+unique_name_in_owner = true
 z_index = 2
 anchors_preset = 8
 anchor_left = 0.5
@@ -98,6 +89,7 @@ vertical_alignment = 1
 text_overrun_behavior = 4
 
 [node name="Album Song List" type="Label" parent="UI"]
+unique_name_in_owner = true
 z_index = 2
 anchors_preset = -1
 anchor_left = 0.225
@@ -107,7 +99,7 @@ anchor_bottom = 0.489
 offset_left = 40.0
 offset_top = -391.84
 offset_right = 35.52
-offset_bottom = -528.08
+offset_bottom = -624.08
 text = "Album Credits"
 label_settings = SubResource("LabelSettings_mxklt")
 autowrap_mode = 3

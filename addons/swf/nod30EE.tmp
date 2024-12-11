@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcd30ct28jtcp"]
+
+[ext_resource type="Script" path="res://addons/swf/swf_animation.gd" id="1_y53sq"]
+[ext_resource type="JSON" path="res://animation.json" id="2_0w6n4"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Swf" type="Node2D" parent="."]
+script = ExtResource("1_y53sq")
+animation_data = ExtResource("2_0w6n4")

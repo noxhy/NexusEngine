@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Song" load_steps=6 format=3 uid="uid://hf15wrofqaey"]
+
+[ext_resource type="SpriteFrames" uid="uid://dfkjqte638jkv" path="res://assets/sprites/playstate/icons/daddy_dearest.tres" id="1_uxubk"]
+[ext_resource type="AudioStream" uid="uid://bnhoikcd6i2xw" path="res://assets/songs/playable songs/fresh/Inst-erect.ogg" id="2_dbaga"]
+[ext_resource type="Script" path="res://resources/song.gd" id="2_llp1b"]
+[ext_resource type="AudioStream" uid="uid://sy5omj4rmjsm" path="res://assets/songs/playable songs/fresh/Voices-bf-erect.ogg" id="3_w0lba"]
+[ext_resource type="AudioStream" uid="uid://yvplwuarpfd2" path="res://assets/songs/playable songs/fresh/Voices-dad-erect.ogg" id="4_bdsd7"]
+
+[resource]
+script = ExtResource("2_llp1b")
+vocals = Array[AudioStream]([ExtResource("3_w0lba"), ExtResource("4_bdsd7")])
+instrumental = ExtResource("2_dbaga")
+tempo = 125.0
+scene = "res://scenes/playstate/songs/fresh/fresh.tscn"
+difficulties = {
+"nightmare": {
+"chart": "res://assets/charts/Fresh Erect - nightmare.tres"
+}
+}
+title = "Fresh Erect"
+artist = "Kohta Takahashi (feat. Saruky)"
+icons = ExtResource("1_uxubk")
+display_color = Color(0.956863, 0.572549, 1, 1)
+locked = false

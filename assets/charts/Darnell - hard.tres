@@ -4,11 +4,6 @@
 
 [resource]
 script = ExtResource("1")
-vocals = "res://assets/songs/playable songs/darnell/vocals.ogg"
-instrumental = "res://assets/songs/playable songs/darnell/Inst.ogg"
-artist = "kawai sprite"
-song_title = "Darnell"
-difficulty = "hard"
 scroll_speed = 1.9
 offset = 0.0
 chart_data = {

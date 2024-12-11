@@ -4,11 +4,6 @@
 
 [resource]
 script = ExtResource("1")
-vocals = "res://assets/songs/playable songs/thorns/vocals.ogg"
-instrumental = "res://assets/songs/playable songs/thorns/Inst-erect.ogg"
-artist = "kawai sprite + Saster"
-song_title = "Thorns Erect"
-difficulty = "nightmare"
 scroll_speed = 1.9
 offset = 0.0
 chart_data = {

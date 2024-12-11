@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://3lsteqprekbp"
+path="res://.godot/imported/Voices-bf-bf.ogg-7eb27c6d3ad5190537d95e31ef764e32.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/darnell/Voices-bf-bf.ogg"
+dest_files=["res://.godot/imported/Voices-bf-bf.ogg-7eb27c6d3ad5190537d95e31ef764e32.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

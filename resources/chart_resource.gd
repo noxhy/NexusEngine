@@ -3,19 +3,8 @@
 extends Resource
 class_name Chart
 
-@export_group("Music")
-
-@export_file("*.mp3", "*.ogg") var vocals = ""
-@export_file("*.mp3", "*.ogg") var instrumental = ""
-
-@export_group("Credits") 
-
-@export var artist = ""
-@export var song_title = ""
-
 @export_group("Chart Data")
 
-@export var difficulty = ""
 @export_range(0.0, 5.0, 0.1) var scroll_speed = 1.0
 ## Says the [code]offset[/code] of the chart, negative is [b]early[/b], positive is [b]late[/b]
 @export var offset = 0.0
@@ -26,12 +15,12 @@ class_name Chart
 	
 	"notes": [],
 	"events": [],
-	"tempos": {0.0: 60},
-	"meters": {0.0: [4, 16]},
+	"tempos": { 0.0: 60 },
+	"meters": { 0.0: [ 4, 16 ] },
 	
 }
 
-func get_note_data() -> Array: return chart_data.get("notes")
+func get_notes_data() -> Array: return chart_data.get("notes")
 
 func get_events_data() -> Array: return chart_data.get("events")
 

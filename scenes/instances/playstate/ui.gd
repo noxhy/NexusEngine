@@ -28,8 +28,8 @@ func _process(delta):
 	# $Performance.text = "Accuracy: " + str( snappedf( accuracy * 100, 0.01 ) ) + "%"
 	# $Performance.text += " • " + "Rank: " + rank
 	
-	$Performance.text = "Score: " + str( score )
-	$Performance.text += " • " + "Misses: " + str( misses )
+	$Performance.text = "Score: " + Global.format_number(score)
+	$Performance.text += " • " + "Misses: " + str(misses)
 	
 	
 	update_health_bar( lerp( $"Health Bar".value, target_health, 0.1 ) )

@@ -1,0 +1,33 @@
+{
+	"textures": [
+		{
+			"image": "color_filter.png",
+			"size": {
+				"w": 253,
+				"h": 192
+			},
+			"sprites": [
+				{
+					"filename": "1.png",
+					"region": {
+						"x": 1,
+						"y": 1,
+						"w": 251,
+						"h": 190
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:dbd8058a5f1608a048f9363476accda1:c7fe58646ceb9c052399d4666a8f9be7:5204d6ddc1eaafc485ebff0a4705a4cd$"
+	}
+}

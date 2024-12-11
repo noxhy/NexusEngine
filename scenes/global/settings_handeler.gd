@@ -115,7 +115,7 @@ func set_keybind( keybind_name: String, keycode: int, index: int ):
 
 func get_keycode_string( keycodes: Array ):
 	
-	var output: String
+	var output: String = ""
 	
 	for i in keycodes:
 		

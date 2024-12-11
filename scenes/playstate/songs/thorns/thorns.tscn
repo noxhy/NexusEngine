@@ -1,8 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://bggq8kbjfwq6b"]
+[gd_scene load_steps=21 format=3 uid="uid://bggq8kbjfwq6b"]
 
 [ext_resource type="Script" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_fcfx0"]
-[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_d5rna"]
-[ext_resource type="Resource" uid="uid://b7j50fpfcgwpm" path="res://assets/charts/Thorns Erect - nightmare.tres" id="3_8uubk"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_d5rna"]
+[ext_resource type="Resource" uid="uid://w4bp628gcfr7" path="res://assets/songs/playable songs/thorns/thorns.tres" id="3_ihc3i"]
 [ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_8wb6g"]
 [ext_resource type="Resource" uid="uid://dsqgb7q6eq1mf" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_4pyv7"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_uhlqh"]
@@ -15,6 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_ffvus"]
 [ext_resource type="PackedScene" uid="uid://blyod30lc1qk0" path="res://scenes/instances/characters/girlfriend pixel.tscn" id="11_vat3l"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_tmnnb"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_c5btx"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jvtyf"]
 streams_count = 3
@@ -55,7 +57,7 @@ conductor = NodePath("../Conductor")
 music_host = NodePath("../Music")
 rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
-chart = ExtResource("3_8uubk")
+song_data = ExtResource("3_ihc3i")
 note_skin = ExtResource("4_8wb6g")
 ui_skin = ExtResource("5_4pyv7")
 combo_scale_multiplier = Vector2(0.65, 0.65)
@@ -71,6 +73,7 @@ unique_name_in_owner = true
 [node name="Music" type="Node" parent="."]
 
 [node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+stream = SubResource("AudioStreamPolyphonic_c5btx")
 bus = &"Music"
 
 [node name="Instrumental" type="AudioStreamPlayer" parent="Music"]

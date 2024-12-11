@@ -1,55 +1,130 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=12 format=3 uid="uid://cymgv4pu0e1rh"]
 
 [ext_resource type="Script" path="res://scenes/instances/stage.gd" id="1_iml2w"]
-[ext_resource type="Texture2D" uid="uid://6pi11ljrilgm" path="res://assets/sprites/stages/stage/stagefront.png" id="2_b5rx8"]
-[ext_resource type="Texture2D" uid="uid://8qo2852alr0h" path="res://assets/sprites/stages/stage/stagecurtains.png" id="2_d3lcs"]
-[ext_resource type="Texture2D" uid="uid://dr4fqx4n06r2t" path="res://assets/sprites/stages/stage/stage_light.png" id="3_d8kd8"]
-[ext_resource type="Texture2D" uid="uid://clx7fvv51hw6e" path="res://assets/sprites/stages/stage/stageback.png" id="3_ltdrm"]
+[ext_resource type="Texture2D" uid="uid://h6h76orxl7xp" path="res://assets/sprites/stages/stage/lights.png" id="2_amnec"]
+[ext_resource type="Texture2D" uid="uid://bj82xcj3ff6ll" path="res://assets/sprites/stages/stage/bg.png" id="2_rgkbg"]
+[ext_resource type="Texture2D" uid="uid://b3ovsxv0ai7mf" path="res://assets/sprites/stages/stage/server.png" id="3_cjt0b"]
+[ext_resource type="SpriteFrames" uid="uid://cfw1m3r0ssw6x" path="res://assets/sprites/stages/stage/crowd.res" id="3_e2oij"]
+[ext_resource type="Texture2D" uid="uid://cccjebisjhp56" path="res://assets/sprites/stages/stage/brightLightSmall.png" id="3_pxro2"]
+[ext_resource type="Texture2D" uid="uid://3inorclwtdh5" path="res://assets/sprites/stages/stage/lightAbove.png" id="4_frumy"]
+[ext_resource type="Texture2D" uid="uid://psq8cupbyw0d" path="res://assets/sprites/stages/stage/lightgreen.png" id="4_v8tiy"]
+[ext_resource type="Texture2D" uid="uid://bic76oh3k3kn3" path="res://assets/sprites/stages/stage/lightred.png" id="5_ful52"]
+[ext_resource type="Texture2D" uid="uid://b6osf3stktvot" path="res://assets/sprites/stages/stage/backDark.png" id="6_1uitl"]
+[ext_resource type="Texture2D" uid="uid://c2tcifva8pysg" path="res://assets/sprites/stages/stage/orangeLight.png" id="8_shdpk"]
 
-[node name="stage" type="Node2D"]
+[node name="Stage" type="Node2D"]
 script = ExtResource("1_iml2w")
 
-[node name="Curtains" type="CanvasLayer" parent="." groups=["parallax"]]
-layer = -1
+[node name="Lights" type="CanvasLayer" parent="." groups=["parallax"]]
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
-follow_viewport_scale = 0.8
+follow_viewport_scale = 0.9
 
-[node name="Stagecurtains" type="Sprite2D" parent="Curtains"]
-z_index = 1
-position = Vector2(45.977, 45.977)
-scale = Vector2(0.696, 0.696)
-texture = ExtResource("2_d3lcs")
+[node name="Lights2" type="Sprite2D" parent="Lights"]
+position = Vector2(66.25, -267.5)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_amnec")
 metadata/_edit_lock_ = true
 
-[node name="StageLight" type="Sprite2D" parent="Curtains"]
-position = Vector2(-470, -270)
-rotation = -0.240855
-texture = ExtResource("3_d8kd8")
+[node name="PointLight2D" type="PointLight2D" parent="Lights"]
+z_index = -1
+position = Vector2(605, -151)
+color = Color(1, 0.862366, 0.570313, 1)
+energy = 13.75
+blend_mode = 2
+range_layer_min = -128
+range_layer_max = -2
+texture = ExtResource("3_pxro2")
+texture_scale = 0.75
 
-[node name="StageLight2" type="Sprite2D" parent="Curtains"]
-position = Vector2(550, -270)
-rotation = 0.240855
-scale = Vector2(-1, 1)
-texture = ExtResource("3_d8kd8")
+[node name="PointLight2D2" type="PointLight2D" parent="Lights"]
+z_index = -2
+position = Vector2(608, -151)
+color = Color(0.585938, 0.338745, 0.54152, 1)
+energy = 7.4
+range_layer_min = -128
+texture = ExtResource("4_frumy")
+texture_scale = 1.5
 
-[node name="Stage Front" type="CanvasLayer" parent="."]
+[node name="Props" type="CanvasLayer" parent="." groups=["parallax"]]
 layer = -2
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="Server" type="Sprite2D" parent="Props"]
+z_index = -1
+position = Vector2(-404, 64)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_cjt0b")
+metadata/_edit_lock_ = true
+
+[node name="PointLight2D" type="PointLight2D" parent="Props"]
+position = Vector2(-417, -69)
+color = Color(0.202332, 0.609375, 0.246852, 1)
+energy = 9.58
+range_layer_min = -128
+range_layer_max = -1
+texture = ExtResource("4_v8tiy")
+texture_scale = 0.75
+metadata/_edit_lock_ = true
+
+[node name="PointLight2D2" type="PointLight2D" parent="Props"]
+position = Vector2(-366, 166)
+color = Color(0.777344, 0.103241, 0.103241, 1)
+energy = 11.41
+blend_mode = 2
+range_layer_min = -128
+range_layer_max = -1
+texture = ExtResource("5_ful52")
+metadata/_edit_lock_ = true
+
+[node name="Stage" type="CanvasLayer" parent="."]
+layer = -3
 offset = Vector2(640, 248)
-scale = Vector2(1.25, 1.25)
-transform = Transform2D(1.25, 0, 0, 1.25, 640, 248)
+transform = Transform2D(1, 0, 0, 1, 640, 248)
 follow_viewport_enabled = true
 
-[node name="Stagefront" type="Sprite2D" parent="Stage Front"]
-position = Vector2(33.3143, 342)
-scale = Vector2(0.54, 0.54)
-texture = ExtResource("2_b5rx8")
+[node name="Bg" type="Sprite2D" parent="Stage"]
+position = Vector2(112, 112)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_rgkbg")
 metadata/_edit_lock_ = true
 
-[node name="Stageback" type="Sprite2D" parent="Stage Front"]
+[node name="PointLight2D" type="PointLight2D" parent="Stage"]
+position = Vector2(76, 123)
+color = Color(0.6875, 0.508947, 0.467285, 1)
+energy = 2.36
+blend_mode = 2
+range_layer_min = -128
+range_layer_max = -2
+texture = ExtResource("8_shdpk")
+texture_scale = 0.7
+metadata/_edit_lock_ = true
+
+[node name="Crowd" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -4
+offset = Vector2(640, 248)
+transform = Transform2D(1, 0, 0, 1, 640, 248)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Crowd"]
+modulate = Color(0.57629, 0.519409, 0.578125, 1)
+position = Vector2(392, 168)
+scale = Vector2(0.7, 0.7)
+sprite_frames = ExtResource("3_e2oij")
+animation = &"Symbol 2 instance 1"
+autoplay = "Symbol 2 instance 1"
+frame = 1
+frame_progress = 0.739647
+metadata/_edit_lock_ = true
+
+[node name="BackDark" type="Sprite2D" parent="Crowd"]
 z_index = -1
-position = Vector2(25.3142, 115)
-scale = Vector2(0.605714, 0.605714)
-texture = ExtResource("3_ltdrm")
+position = Vector2(33.6842, 139.368)
+scale = Vector2(1.47647, 1)
+texture = ExtResource("6_1uitl")
 metadata/_edit_lock_ = true

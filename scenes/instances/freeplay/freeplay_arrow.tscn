@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://jjd6x75uoj1x"]
+
+[ext_resource type="SpriteFrames" uid="uid://2d3tvqlosgdj" path="res://assets/sprites/menus/freeplay_arrow.res" id="1_oqlwp"]
+[ext_resource type="Script" path="res://scenes/instances/freeplay/freeplay_arrow.gd" id="1_pwf8c"]
+[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_ej41f"]
+
+[node name="Arrow Sprite" type="Node2D"]
+script = ExtResource("1_pwf8c")
+
+[node name="OffsetSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_oqlwp")
+animation = &"arrow pointer loop"
+autoplay = "arrow pointer loop"
+frame_progress = 0.633546
+script = ExtResource("2_ej41f")
+metadata/_edit_lock_ = true

@@ -106,11 +106,6 @@ func _ready():
 	update_selection( selected )
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 # Input Handler
 func _input(event):
 	
@@ -183,7 +178,7 @@ func select_option( i: int ):
 		
 		Global.stop_song()
 		var scene = options.get( options.keys()[i] ).scene
-		Global.freeplay = false
+		GameHandeler.freeplay = false
 		Global.change_scene_to(scene)
 
 

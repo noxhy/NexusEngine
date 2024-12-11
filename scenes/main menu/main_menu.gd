@@ -137,9 +137,9 @@ func select_option(i: int):
 		
 		Global.stop_song()
 	
-	Transitions.transition("down")
+	Transitions.transition("fade")
 	
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 	
 	var scene = ( options.get( options.keys()[i] ) ).scene
 	Global.change_scene_to(scene)

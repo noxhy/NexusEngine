@@ -7,7 +7,6 @@ var new_scene: String = "res://test/test_scene.tscn"
 var debug_info: String = ""
 var fullscreen = false
 
-var freeplay = true
 var freeplay_album_option: int = 0
 var freeplay_song_option: int = 0
 
@@ -129,6 +128,21 @@ func float_to_time(time: float) -> String:
 		return str( minutes ) + ":0" + str( int( seconds ) % 60 ) + str( milliseconds ).trim_prefix("0")
 	else:
 		return str( minutes ) + ":" + str( int( seconds ) % 60 ) + str( milliseconds ).trim_prefix("0")
+
+func format_number(num: int) -> String:
+	
+	var output: String = str(num).trim_prefix("-").reverse()
+	var len: int = output.length()
+	
+	var char: int = 0
+	for i in range(len):
+		
+		if char % 3 == 0 && char != 0: output = output.insert(char, ",")
+		char += 1
+	
+	output = output.reverse()
+	if num < 0: output = "-" + output
+	return output
 
 
 # Visual Util

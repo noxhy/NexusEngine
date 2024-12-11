@@ -19,7 +19,7 @@ uniform float slant : hint_range(-1.0, 1.0) = 0.2;
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;
 
 uniform sampler2D noise: repeat_enable, filter_nearest;
-uniform float speed : hint_range(0.05, 0.5) = 0.1;
+uniform float speed : hint_range(0.01, 1.0, 0.01) = 0.1;
 uniform float strength : hint_range(0.005, 0.5) = 0.1;
 uniform float warp_sensitivity : hint_range(0.0, 1.0) = 0.5;
 

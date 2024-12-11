@@ -1,0 +1,299 @@
+[gd_scene load_steps=29 format=3 uid="uid://q0a40tn5u1c8"]
+
+[ext_resource type="Script" path="res://scenes/instances/stages/4chan_philly/philly_foggy.gd" id="1_bid2y"]
+[ext_resource type="Shader" path="res://shaders/raindrops.gdshader" id="2_cbdcp"]
+[ext_resource type="Shader" path="res://shaders/rain.gdshader" id="3_kp02p"]
+[ext_resource type="Texture2D" uid="uid://b33ljabpofc6k" path="res://assets/sprites/stages/philly_fog/mistFront.png" id="4_bea4p"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/stages/philly_fog/paper.res" id="4_qjvst"]
+[ext_resource type="Texture2D" uid="uid://c2wb3d8olk51s" path="res://assets/sprites/stages/philly_fog/mistMid.png" id="5_2aa8y"]
+[ext_resource type="Texture2D" uid="uid://ypujlj07sg6a" path="res://assets/sprites/stages/philly_fog/phillyForeground.png" id="5_snyiq"]
+[ext_resource type="SpriteFrames" uid="uid://68lqf7sn112e" path="res://assets/sprites/stages/philly_fog/traffic_lights.res" id="6_bclsq"]
+[ext_resource type="Texture2D" uid="uid://c32dfjwg1xqyh" path="res://assets/sprites/stages/philly_fog/mistBack.png" id="6_tsu2e"]
+[ext_resource type="Texture2D" uid="uid://bpm3n8ysg300t" path="res://assets/sprites/stages/philly_fog/phillyTraffic_lightmap.png" id="7_5mxyp"]
+[ext_resource type="PackedScene" uid="uid://ceow5qkjab7tv" path="res://scenes/instances/stages/4chan_philly/car_foggy.tscn" id="8_t1p8r"]
+[ext_resource type="Texture2D" uid="uid://dvc4exgttrdqh" path="res://assets/sprites/stages/philly_fog/phillyConstruction.png" id="9_7jreh"]
+[ext_resource type="Texture2D" uid="uid://dg5tlfnodg5e0" path="res://assets/sprites/stages/philly_fog/phillyForegroundCity.png" id="10_bss50"]
+[ext_resource type="Texture2D" uid="uid://cqiue7t1gtqt5" path="res://assets/sprites/stages/philly_fog/phillyHighway.png" id="11_or7ph"]
+[ext_resource type="Texture2D" uid="uid://5mhil32a5ot8" path="res://assets/sprites/stages/philly_fog/phillyHighwayLights.png" id="12_xv6av"]
+[ext_resource type="Texture2D" uid="uid://b2v8falt6oedu" path="res://assets/sprites/stages/philly_streets/phillyHighwayLights_lightmap.png" id="13_dsbwp"]
+[ext_resource type="Texture2D" uid="uid://d3cteyy3nnyvj" path="res://assets/sprites/stages/philly_fog/phillySkyline.png" id="14_m631u"]
+[ext_resource type="Texture2D" uid="uid://i5dojrnbbaql" path="res://assets/sprites/stages/philly_fog/phillySkybox.png" id="16_wyc0k"]
+
+[sub_resource type="Gradient" id="Gradient_0qh3h"]
+interpolation_mode = 2
+colors = PackedColorArray(0, 0, 0, 1, 0.796234, 0.90854, 0.914063, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f5xmg"]
+gradient = SubResource("Gradient_0qh3h")
+use_hdr = true
+
+[sub_resource type="Environment" id="Environment_twc2p"]
+background_mode = 3
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/5 = 0.0
+glow_intensity = 0.64
+glow_strength = 0.58
+glow_bloom = 0.03
+glow_blend_mode = 1
+glow_hdr_threshold = 1.5
+fog_mode = 1
+fog_light_color = Color(0.918793, 0.92303, 0.929688, 1)
+fog_light_energy = 2.11
+fog_density = 0.7472
+fog_height = 189.05
+fog_depth_curve = 4.43828
+adjustment_enabled = true
+adjustment_saturation = 0.87
+adjustment_color_correction = SubResource("GradientTexture1D_f5xmg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5glym"]
+shader = ExtResource("2_cbdcp")
+shader_parameter/frequency = 3.8
+shader_parameter/size = 0.013
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gopr5"]
+seed = 10
+frequency = 0.0573
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ovujy"]
+seamless = true
+noise = SubResource("FastNoiseLite_gopr5")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_abbn4"]
+shader = ExtResource("3_kp02p")
+shader_parameter/rain_amount = 4.0
+shader_parameter/near_rain_length = 0.622
+shader_parameter/far_rain_length = 0.283
+shader_parameter/near_rain_width = 0.01
+shader_parameter/far_rain_width = 0.01
+shader_parameter/near_rain_transparency = 1.0
+shader_parameter/far_rain_transparency = 0.5
+shader_parameter/rain_color = Color(0, 0.34375, 1, 1)
+shader_parameter/base_rain_speed = 3.517
+shader_parameter/additional_rain_speed = 0.292
+shader_parameter/slant = -0.059
+shader_parameter/speed = 0.9
+shader_parameter/strength = 0.1
+shader_parameter/warp_sensitivity = 0.257
+shader_parameter/noise = SubResource("NoiseTexture2D_ovujy")
+
+[sub_resource type="Shader" id="Shader_h4t1j"]
+code = "shader_type canvas_item;
+
+uniform float energy : hint_range(0.1, 2.0, 0.01) = 1.;
+uniform sampler2D screen_texture : hint_screen_texture;
+
+void fragment() {
+	
+	COLOR = texture( screen_texture, SCREEN_UV ) + ( texture( TEXTURE, UV ) * energy );
+	
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbpm6"]
+shader = SubResource("Shader_h4t1j")
+shader_parameter/energy = 0.49
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vcvph"]
+shader = SubResource("Shader_h4t1j")
+shader_parameter/energy = 0.43
+
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_bid2y")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_twc2p")
+
+[node name="Rain Drops" type="CanvasLayer" parent="."]
+layer = 3
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="Rain Drops"]
+material = SubResource("ShaderMaterial_5glym")
+offset_left = -1280.0
+offset_top = -728.0
+offset_right = 1288.0
+offset_bottom = 632.0
+color = Color(1, 1, 1, 0)
+
+[node name="Rain" type="CanvasLayer" parent="."]
+layer = 2
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="Rain"]
+material = SubResource("ShaderMaterial_abbn4")
+offset_left = -1280.0
+offset_top = -728.0
+offset_right = 1288.0
+offset_bottom = 632.0
+color = Color(1, 1, 1, 0)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = 1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(2048, 0)
+
+[node name="MistFront" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+material = SubResource("ShaderMaterial_bbpm6")
+position = Vector2(0, -72)
+texture = ExtResource("4_bea4p")
+
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
+layer = -3
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2"]
+motion_mirroring = Vector2(2048, 0)
+
+[node name="MistBack" type="Sprite2D" parent="ParallaxBackground2/ParallaxLayer"]
+material = SubResource("ShaderMaterial_vcvph")
+position = Vector2(-11.7895, -429.053)
+texture = ExtResource("5_2aa8y")
+
+[node name="ParallaxBackground3" type="ParallaxBackground" parent="."]
+layer = -3
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground3"]
+motion_mirroring = Vector2(2048, 0)
+
+[node name="MistBack" type="Sprite2D" parent="ParallaxBackground3/ParallaxLayer"]
+material = SubResource("ShaderMaterial_vcvph")
+position = Vector2(-11.7895, -429.053)
+texture = ExtResource("6_tsu2e")
+
+[node name="Foreground" type="CanvasLayer" parent="."]
+layer = 0
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Foreground"]
+position = Vector2(0, 173)
+sprite_frames = ExtResource("4_qjvst")
+animation = &"Paper Blowing instance 1"
+frame = 47
+frame_progress = 1.0
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -2
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="PhillyForeground" type="Sprite2D" parent="Background"]
+position = Vector2(0, 24)
+texture = ExtResource("5_snyiq")
+
+[node name="Traffic Light" type="AnimatedSprite2D" parent="Background"]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(702, -81)
+sprite_frames = ExtResource("6_bclsq")
+animation = &"redtogreen"
+
+[node name="PointLight2D" type="PointLight2D" parent="Background"]
+position = Vector2(696, -88)
+color = Color(0.90625, 0.90625, 0.90625, 1)
+energy = 2.0
+range_layer_min = -100
+range_layer_max = -1
+texture = ExtResource("7_5mxyp")
+
+[node name="Cars Layer" type="CanvasLayer" parent="." groups=["parallax"]]
+unique_name_in_owner = true
+layer = -5
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="Car" parent="Cars Layer" instance=ExtResource("8_t1p8r")]
+position = Vector2(833.684, 120)
+direction = -1
+
+[node name="Background2" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -6
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="PhillyConstruction" type="Sprite2D" parent="Background2"]
+position = Vector2(1002.11, -216.842)
+texture = ExtResource("9_7jreh")
+
+[node name="Background3" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -7
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.925
+
+[node name="PhillyForegroundCity" type="Sprite2D" parent="Background3"]
+position = Vector2(380.541, -161.081)
+texture = ExtResource("10_bss50")
+
+[node name="Background4" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -8
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.9
+
+[node name="PhillyHighway" type="Sprite2D" parent="Background4"]
+position = Vector2(-408.889, -368.889)
+texture = ExtResource("11_or7ph")
+
+[node name="Background5" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -9
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
+
+[node name="PhillyHighwayLights" type="Sprite2D" parent="Background5"]
+position = Vector2(-581.053, -503.158)
+texture = ExtResource("12_xv6av")
+
+[node name="PointLight2D" type="PointLight2D" parent="Background5"]
+z_index = 1
+position = Vector2(-581.053, -503.158)
+energy = 1.72
+range_layer_min = -100
+range_layer_max = 1
+texture = ExtResource("13_dsbwp")
+
+[node name="Background6" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.9
+
+[node name="PhillySkyline" type="Sprite2D" parent="Background6"]
+position = Vector2(124.444, -262.222)
+texture = ExtResource("14_m631u")
+
+[node name="Background7" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = -11
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+follow_viewport_scale = 0.9
+
+[node name="PhillySkybox" type="Sprite2D" parent="Background7"]
+position = Vector2(-26.6667, -377.778)
+texture = ExtResource("16_wyc0k")

@@ -68,7 +68,6 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 	var animations = ["left", "down", "up", "right"]
 	
 	if !strum_handeler.enemy_slot:
-		
 		characters[0].play_animation( animations[ lane ] )
 	else:
 		characters[1].play_animation( animations[ lane ] )
