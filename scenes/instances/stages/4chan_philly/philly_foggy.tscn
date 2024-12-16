@@ -62,18 +62,18 @@ noise = SubResource("FastNoiseLite_gopr5")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_abbn4"]
 shader = ExtResource("3_kp02p")
-shader_parameter/rain_amount = 4.0
-shader_parameter/near_rain_length = 0.622
-shader_parameter/far_rain_length = 0.283
-shader_parameter/near_rain_width = 0.01
-shader_parameter/far_rain_width = 0.01
+shader_parameter/rain_amount = 10.0
+shader_parameter/near_rain_length = 0.442
+shader_parameter/far_rain_length = 0.178
+shader_parameter/near_rain_width = 0.027
+shader_parameter/far_rain_width = 0.028
 shader_parameter/near_rain_transparency = 1.0
 shader_parameter/far_rain_transparency = 0.5
 shader_parameter/rain_color = Color(0, 0.34375, 1, 1)
 shader_parameter/base_rain_speed = 3.517
 shader_parameter/additional_rain_speed = 0.292
 shader_parameter/slant = -0.059
-shader_parameter/speed = 0.9
+shader_parameter/speed = 0.3
 shader_parameter/strength = 0.1
 shader_parameter/warp_sensitivity = 0.257
 shader_parameter/noise = SubResource("NoiseTexture2D_ovujy")
@@ -134,45 +134,49 @@ color = Color(1, 1, 1, 0)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = 1
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
 motion_mirroring = Vector2(2048, 0)
 
 [node name="MistFront" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 material = SubResource("ShaderMaterial_bbpm6")
-position = Vector2(0, -72)
 texture = ExtResource("4_bea4p")
+centered = false
 
 [node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
 layer = -3
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
+offset = Vector2(-12, -360)
+transform = Transform2D(1, 0, 0, 1, -12, -360)
 follow_viewport_enabled = true
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2"]
+motion_scale = Vector2(0, 0)
 motion_mirroring = Vector2(2048, 0)
 
 [node name="MistBack" type="Sprite2D" parent="ParallaxBackground2/ParallaxLayer"]
 material = SubResource("ShaderMaterial_vcvph")
-position = Vector2(-11.7895, -429.053)
 texture = ExtResource("5_2aa8y")
+centered = false
 
 [node name="ParallaxBackground3" type="ParallaxBackground" parent="."]
 layer = -3
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
+offset = Vector2(-12, -360)
+transform = Transform2D(1, 0, 0, 1, -12, -360)
 follow_viewport_enabled = true
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground3"]
+motion_scale = Vector2(0, 0)
 motion_mirroring = Vector2(2048, 0)
 
 [node name="MistBack" type="Sprite2D" parent="ParallaxBackground3/ParallaxLayer"]
 material = SubResource("ShaderMaterial_vcvph")
-position = Vector2(-11.7895, -429.053)
 texture = ExtResource("6_tsu2e")
+centered = false
 
 [node name="Foreground" type="CanvasLayer" parent="."]
 layer = 0

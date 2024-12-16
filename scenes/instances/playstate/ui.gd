@@ -37,7 +37,7 @@ func _process(delta):
 
 func _physics_process(delta):
 	
-	scale = lerp( scale,  target_scale, lerp_weight )
+	scale = lerp( scale, target_scale, lerp_weight )
 
 
 # Util

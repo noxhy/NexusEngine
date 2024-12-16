@@ -102,7 +102,7 @@ func get_rank() -> String:
 	if tallies.total_notes > 0: grade = float( tallies.epic + tallies.sick + tallies.good ) / tallies.total_notes
 	
 	var accuracies = [
-		[ tallies.epic == tallies.total_notes, "gold_perfect" ],
+		[ ( tallies.epic + tallies.sick ) == tallies.total_notes, "gold" ],
 		[ grade == 1, "perfect" ],
 		[ grade >= 0.90, "excellent" ],
 		[ grade >= 0.80, "great" ],

@@ -24,10 +24,11 @@ theme = ExtResource("1_tg56e")
 theme_override_constants/outline_size = 12
 theme_override_font_sizes/font_size = 24
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 script = ExtResource("2_f8jhe")
 
 [node name="Gameplay" type="TabBar" parent="."]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -82,7 +83,6 @@ setting_name = "botplay"
 display_name = "Botplay"
 
 [node name="Preferences" type="TabBar" parent="."]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -149,6 +149,11 @@ display_name = "Hit Sounds"
 layout_mode = 2
 setting_name = "note_splashes"
 display_name = "Note Splashes"
+
+[node name="Tween Strums" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("2_tn18n")]
+layout_mode = 2
+setting_name = "tween_strums"
+display_name = "Tween Stumlines"
 
 [node name="Controls" type="TabBar" parent="."]
 visible = false

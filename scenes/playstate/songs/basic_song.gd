@@ -94,10 +94,9 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 	
 	if !strum_handeler.enemy_slot:
 		
-		if note_type != -1: %"Miss Sound".play()
-		else: %"Anti-Spam Sound".play()
-		
+		if note_type == -1: %"Anti-Spam Sound".play()
 		characters[0].play_animation( "miss_" + animations[ lane ] )
+	
 	else:
 		characters[1].play_animation( "miss_" + animations[ lane ] )
 	
@@ -110,4 +109,5 @@ func _on_new_event(time, event_name, event_parameters):
 
 func _on_combo_break():
 	
+	%"Miss Sound".play()
 	characters[2].play_animation( "cry" )

@@ -24,6 +24,7 @@ var default_settings: Dictionary = {
 	"master_volume": 0,
 	"music_volume": 0,
 	"sfx_volume": 0,
+	"tween_strums": true,
 	
 	# Misc
 	

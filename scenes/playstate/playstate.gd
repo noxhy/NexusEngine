@@ -517,13 +517,16 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 			
 			health -= 0.5
 			timings_sum += 0.25
-			combo = 0
+			combo = -1
+			
+			note_miss( time, lane, 0, -1, hit_time, strum_handeler )
+			emit_signal("combo_break")
 		
 		elif rating == "shit":
 			
 			health -= 1
 			timings_sum += -1
-			combo = 0
+			combo = -1
 			
 			note_miss( time, lane, 0, -1, hit_time, strum_handeler )
 			emit_signal("combo_break")
