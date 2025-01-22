@@ -10,7 +10,7 @@ var voice_preview_generator
 var stream : AudioStreamWAV = null
 var stream_length := 0.0
 
-@export_file("*.wav", "*.ogg") var stream_path: String:
+@export_file("*.wav") var stream_path: String:
 	set(new_path):
 		stream_path = new_path
 		_update_preview()
@@ -33,7 +33,7 @@ func _update_preview():
 	if stream_path in ["", "res://", "user://"]:
 		texture = null
 		return
-
+	
 	stream = load(stream_path)
 	stream_length = stream.get_length() if stream else 0.0
 	voice_preview_generator.generate_preview(stream)

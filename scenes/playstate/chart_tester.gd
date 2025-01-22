@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var characters = []
-@onready var camera_positions = [ $"World/Position 1", $"World/Position 2" ]
+@onready var camera_positions = [$"World/Position 1", $"World/Position 2", $"World/Position 3"]
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
@@ -12,13 +12,11 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Transitions.transition("down fade out")
+	$UI.set_player_color(Color.GREEN)
+	$UI.set_enemy_color(Color.RED)
 	
-	$UI.set_player_color( Color.GREEN )
-	$UI.set_enemy_color( Color.RED )
-	
-	# strums[0].set_auto_play( true )
-	# strums[0].set_press( false )
+	playstate_host.song_data = ChartHandeler.song
+	playstate_host.chart = load(playstate_host.song_data.difficulties[GameHandeler.difficulty].chart)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -69,20 +67,12 @@ func note_holding(time, lane, note_type, strum_handeler):
 
 func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 	
+	if !strum_handeler.enemy_slot: if note_type == -1: %"Anti-Spam Sound".play()
 	playstate_host.note_miss( time, lane, length, note_type, hit_time, strum_handeler )
 
 
 func new_event(time, event_name, event_parameters):
-	
-	if event_name == "scroll_speed":
-		
-		var scroll_speed = float( event_parameters[0] )
-		var tween_time = 0 if event_parameters[1] == "" else float( event_parameters[1] )
-		
-		for strum in playstate_host.strums:
-			
-			for lane in strum.strums.size() - 1:
-				
-				var tween = create_tween()
-				tween.set_trans( Tween.TRANS_CUBIC ).set_ease( Tween.EASE_OUT )
-				tween.tween_method( strum.set_scroll_speed, strum.get_scroll_speed( lane ), scroll_speed, tween_time )
+	pass
+
+
+func _on_combo_break(): %"Miss Sound".play()

@@ -275,7 +275,6 @@ texture = ExtResource("12_xv6av")
 [node name="PointLight2D" type="PointLight2D" parent="Background5"]
 z_index = 1
 position = Vector2(-581.053, -503.158)
-energy = 1.72
 range_layer_min = -100
 range_layer_max = 1
 texture = ExtResource("13_dsbwp")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmjgk2qf3nl2i"]
+
+[ext_resource type="Script" path="res://scenes/instances/chart editor/grid.gd" id="1_47gyd"]
+[ext_resource type="Texture2D" uid="uid://cwck3e2gsfjr2" path="res://assets/sprites/menus/chart editor/tile.png" id="2_g31er"]
+
+[node name="Grid" type="Node2D"]
+script = ExtResource("1_47gyd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+texture_filter = 1
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("2_g31er")
+stretch_mode = 1

@@ -96,9 +96,12 @@ var self_delta: float = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	# This delay is so variables initialize
+	await host.ready
+	
 	Global.song_scene = Global.new_scene
 	
-	chart = load( song_data.difficulties[GameHandeler.difficulty].chart )
+	chart = load(song_data.difficulties[GameHandeler.difficulty].chart)
 	
 	music_host.get_node("Instrumental").stream = song_data.instrumental
 	music_host.get_node("Instrumental").connect( "finished", song_finished )
@@ -114,9 +117,6 @@ func _ready():
 	
 	ui.set_credits( song_data.title, song_data.artist )
 	play_song( 0.0 )
-	
-	# This delay is so variables initialize
-	await host.ready
 	
 	pause_scene = ui_skin.pause_scene
 	
@@ -381,7 +381,7 @@ func get_rating( time: float ) -> String:
 func score_note( hit_time: float ):
 	
 	var factor: float = 1.0 - ( 1.0 / ( 1.0 + exp( -SCORING_SLOPE * ( ( hit_time - SCORING_OFFSET ) * 1000 ) ) ) )
-	var add: int = int(MAX_SCORE * factor + MIN_SCORE)
+	var add: int = int( MAX_SCORE * factor + MIN_SCORE )
 	add = clamp( add, MIN_SCORE, MAX_SCORE )
 	score += add
 
@@ -457,7 +457,8 @@ func song_finished():
 	if GameHandeler.freeplay:
 		
 		GameHandeler.reset_stats()
-		get_tree().change_scene_to_file( "res://scenes/freeplay/freeplay.tscn" )
+		if GameHandeler.play_mode == GameHandeler.PLAY_MODE.CHARTING: get_tree().change_scene_to_file("res://scenes/chart editor/chart_editor.tscn")
+		else: get_tree().change_scene_to_file("res://scenes/freeplay/freeplay.tscn")
 	else:
 		
 		Global.change_scene_to( next_scene )
@@ -489,10 +490,10 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 	
 	if !strum_handeler.enemy_slot:
 		
-		if SettingsHandeler.get_setting( "hit_sounds" ): music_host.get_node("Hit Sound").play()
+		if SettingsHandeler.get_setting("hit_sounds"): music_host.get_node("Hit Sound").play()
 		
-		var rating = get_rating( abs( hit_time ) )
-		var strum_node = strum_handeler.get_strum( lane )
+		var rating = get_rating(abs(hit_time))
+		var strum_node = strum_handeler.get_strum(lane)
 		
 		GameHandeler.tallies[rating] += 1
 		GameHandeler.tallies["total_notes"] += 1

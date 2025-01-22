@@ -72,6 +72,8 @@ func _process(delta):
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start( 1.5 )
 	
+	elif Input.is_action_just_pressed("reload"): get_tree().reload_current_scene()
+	
 	AudioServer.set_bus_volume_db( 0, SettingsHandeler.get_setting( "master_volume" ) )
 	AudioServer.set_bus_volume_db( 1, SettingsHandeler.get_setting( "music_volume" ) )
 	AudioServer.set_bus_volume_db( 2, SettingsHandeler.get_setting( "sfx_volume" ) )
@@ -125,7 +127,7 @@ func set_window_title( title: String ): DisplayServer.window_set_title( "Friday 
 func float_to_time(time: float) -> String:
 	
 	var minutes = int( time / 60 )
-	var seconds = int( time ) % 60
+	var seconds = int(time) % 60
 	var milliseconds = (time - int(time))
 	milliseconds = snapped(milliseconds, 0.001)
 	

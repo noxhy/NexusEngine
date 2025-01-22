@@ -1,8 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://b02o8v8d3n5om"]
-
-[ext_resource type="Texture2D" uid="uid://c88305i62883a" path="res://spirit2159src.png" id="1_vnocj"]
-
-[resource]
-atlas = ExtResource("1_vnocj")
-region = Rect2(1463, 876, 218, 240)
-margin = Rect2(4, 2, 4, 2)

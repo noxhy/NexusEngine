@@ -1,12 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://c56g0k7u2k6wo"]
+[gd_scene load_steps=13 format=3 uid="uid://c56g0k7u2k6wo"]
 
 [ext_resource type="Script" path="res://scenes/playstate/chart_tester.gd" id="1_ep6vc"]
-[ext_resource type="PackedScene" path="res://scenes/playstate/playstate.tscn" id="2_ajkug"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_ajkug"]
 [ext_resource type="Resource" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_srd2m"]
 [ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="3_pxsf5"]
 [ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="4_laa4w"]
 [ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="4_y3wph"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="5_g7go4"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="5_xum45"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="6_66rma"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="7_q0pwq"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_7580e"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_w5q6i"]
+streams_count = 3
+stream_0/stream = ExtResource("5_xum45")
+stream_1/stream = ExtResource("6_66rma")
+stream_2/stream = ExtResource("7_q0pwq")
 
 [node name="Chart Tester" type="Node2D"]
 script = ExtResource("1_ep6vc")
@@ -22,16 +33,29 @@ rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
 note_skin = ExtResource("4_laa4w")
 ui_skin = ExtResource("2_srd2m")
+next_scene = "res://scenes/chart editor/chart_editor.tscn"
 
 [node name="Music" type="Node" parent="."]
 
 [node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+stream = SubResource("AudioStreamPolyphonic_7580e")
 bus = &"Music"
 
 [node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
 bus = &"Music"
 
 [node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_w5q6i")
+bus = &"SFX"
+
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_w5q6i")
+volume_db = -8.0
 bus = &"SFX"
 
 [node name="Conductor" type="Node" parent="."]
@@ -48,12 +72,13 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Position 1" type="Marker2D" parent="World"]
-position = Vector2(232, 32)
 gizmo_extents = 18.3
 
 [node name="Position 2" type="Marker2D" parent="World"]
-position = Vector2(-176, 48)
-gizmo_extents = 26.5
+gizmo_extents = 18.3
+
+[node name="Position 3" type="Marker2D" parent="World"]
+gizmo_extents = 18.3
 
 [node name="Rating Marker" type="Marker2D" parent="World"]
 position = Vector2(-80, -40)

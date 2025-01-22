@@ -126,7 +126,7 @@ func select_option( i: int ):
 	elif option == "restart":
 		
 		get_tree().paused = false
-		Global.change_scene_to( Global.new_scene )
+		get_tree().reload_current_scene()
 	
 	elif option == "exit":
 		

@@ -37,25 +37,43 @@ var measure_relative_step = 0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	
-	if get_node(stream_player).playing:
+	var time = get_node(stream_player).get_playback_position()
+	time -= AudioServer.get_output_latency()
+	
+	current_beat = get_beat_at(time)
+	current_step = get_step_at(time)
+	
+	measure_relative_beat = current_beat % beats_per_measure
+	measure_relative_step = current_step % steps_per_measure
+	
+	seconds_per_beat = 60.0 / tempo
+	
+	# This detects if the beat or step changes
+	if old_step != current_step:
 		
-		var time = get_node(stream_player).get_playback_position() + offset
-		time -= AudioServer.get_output_latency()
+		old_step = current_step
+		emit_signal("new_step", current_step, measure_relative_step)
+	
+	if old_beat != current_beat:
 		
-		current_beat = int(time * tempo / 60.0)
-		@warning_ignore("integer_division")
-		current_step = int( time * ( tempo * (steps_per_measure / beats_per_measure) ) / 60.0 )
-		
-		measure_relative_beat = current_beat % beats_per_measure
-		measure_relative_step = current_step % steps_per_measure
-		
-		seconds_per_beat = 60.0 / tempo
-		
-		# This detects if the beat or step changes
-		if old_step != current_step:
-			old_step = current_step
-			emit_signal("new_step", current_step, measure_relative_step)
-			
-			if old_beat != current_beat:
-				old_beat = current_beat
-				emit_signal("new_beat", current_beat, measure_relative_beat)
+			old_beat = current_beat
+			emit_signal("new_beat", current_beat, measure_relative_beat)
+
+
+func get_beat_at(time: float) -> int:
+	
+	time += offset
+	return int(time / seconds_per_beat)
+
+
+func get_step_at(time: float) -> int:
+	
+	time += offset
+	@warning_ignore("integer_division")
+	return int(time / (seconds_per_beat / (steps_per_measure / beats_per_measure)))
+
+
+func get_measure_at(time: float) -> int:
+	
+	time += offset
+	return int(time / (seconds_per_beat  * beats_per_measure))

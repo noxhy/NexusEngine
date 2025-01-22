@@ -3,15 +3,18 @@
 extends Node2D
 class_name Note
 
+const font = preload("res://assets/fonts/Bold Normal Text.ttf")
+
 @export_range(0, 16, 0.1) var length = 0.0
 @export_range(0, 16, 0.1) var start_length = 0.0
 @export var note_type = 0
 @export var time = 0.0
 @export var note_skin: NoteSkin
+@export var chart_note: bool = false
 
 @export_group("Length Modifiers")
 @export_range(0.1, 5, 0.1) var scroll_speed = 1.0
-@export var grid_size = Vector2(64, 64)
+@export var grid_size = Vector2(128, 128)
 
 var tempo = 60.0
 var seconds_per_beat = 0.0
@@ -22,13 +25,13 @@ var last_length: float = 0.0
 var direction = "left"
 var animation = "left"
 
+var on_screen = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	$Note.sprite_frames = note_skin.notes_texture
 	$"Tail/Tail End".sprite_frames = note_skin.notes_texture
-	scale = Vector2( note_skin.notes_scale, note_skin.notes_scale )
 	
 	if note_skin.animation_names != null:
 		
@@ -43,7 +46,6 @@ func _ready():
 	var tail_animation = $Note.get_real_animation( animation + " tail" )
 	$Tail.texture = $Note.sprite_frames.get_frame_texture( tail_animation, 0 )
 	
-	$Tail.width = note_skin.sustain_width
 	$Note.offsets = note_skin.offsets
 	
 	if note_skin.pixel_texture:
@@ -51,44 +53,75 @@ func _ready():
 		$Note.texture_filter = TEXTURE_FILTER_NEAREST
 		$Tail.texture_filter = TEXTURE_FILTER_NEAREST
 		$"Tail/Tail End".texture_filter = TEXTURE_FILTER_NEAREST
+	
+	if !chart_note:
+		
+		scale = Vector2(note_skin.notes_scale, note_skin.notes_scale)
+		$Tail.width = note_skin.sustain_width
+	else:
+		
+		# scale = grid_size / Vector2(note_skin.notes_scale, note_skin.notes_scale)
+		scale = Vector2(1, 1)
+		$Note.scale = grid_size / ( Vector2( $Note.sprite_frames.get_frame_texture($Note.animation, 0).get_width(), $Note.sprite_frames.get_frame_texture($Note.animation, 0).get_height()) )
+		$Tail.width = note_skin.sustain_width * $Note.scale.x
+		$"Tail/Tail End".scale = $Note.scale
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	seconds_per_beat = 60.0 / tempo
-	
-	var line_length = length
-	line_length *= scroll_speed
-	line_length *= grid_size.y
-	line_length = abs(line_length)
-	
-	# line_length -= grid_size.y / 2
-	line_length /= note_skin.notes_scale
-	
-	if length != 0:
-		
-		$Tail.visible = true
+	if on_screen:
 		
 		var tail_animation = $"Tail/Tail End".animation
 		var texture = $"Tail/Tail End".sprite_frames.get_frame_texture( tail_animation, 0 )
 		
-		$"Tail/Tail End".offset.x = texture.get_width() * 0.5
-		# line_length -= $"Tail/Tail End".offset.x
-		$"Tail/Tail End".position.y = line_length
-		$Tail.scale.y = scroll
+		seconds_per_beat = 60.0 / tempo
 		
-		if last_length != length: $Tail.points = [ Vector2( 0, 0 ), Vector2( 0, line_length ) ]
+		var line_length = length
+		line_length *= scroll_speed
+		line_length *= grid_size.y
+		line_length = abs(line_length)
+		if !chart_note: line_length /= note_skin.notes_scale
+		
+		if length != 0:
+			
+			$Tail.visible = true
+			
+			$"Tail/Tail End".offset.x = texture.get_width() * 0.5
+			if chart_note:
+				
+				line_length -= $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x
+				if line_length < $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x:
+					line_length = $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x
+			$"Tail/Tail End".position.y = line_length
+			
+			$Tail.scale.y = scroll
+			
+			if last_length != length: $Tail.points = [Vector2(0, 0), Vector2(0, line_length)]
+			
+			var end_direction: Vector2 = Vector2.DOWN
+			
+			if $Tail.points.size() > 1:
+				end_direction = $Tail.points[$Tail.points.size() - 1] - $Tail.points[$Tail.points.size() - 2]
+			
+			$"Tail/Tail End".position = $Tail.get_point_position($Tail.points.size() - 1)
+			$"Tail/Tail End".rotation = end_direction.angle()
+			
+			$VisibleOnScreenNotifier2D.rect.size = grid_size + Vector2( 0, line_length * 1.1 )
+		
+		else:
+			
+			$Tail.visible = false
 
-		
-		var end_direction: Vector2 = Vector2.DOWN
-		
-		if $Tail.points.size() > 1:
-			end_direction = $Tail.points[ $Tail.points.size() - 1 ] - $Tail.points[ $Tail.points.size() - 2 ]
-		
-		$"Tail/Tail End".position = $Tail.get_point_position( $Tail.points.size() - 1 )
-		$"Tail/Tail End".rotation = end_direction.angle()
-		
-	else:
-		
-		$Tail.visible = false
+
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
+	
+	on_screen = true
+	$Note.visible = on_screen
+	$Tail.visible = on_screen
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	
+	on_screen = false
+	$Note.visible = on_screen
+	$Tail.visible = on_screen

@@ -38,8 +38,8 @@ adjustment_color_correction = SubResource("GradientTexture1D_f5xmg")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bg07j"]
 shader = ExtResource("2_0df5w")
-shader_parameter/frequency = 3.7
-shader_parameter/size = 0.024
+shader_parameter/frequency = 2.6
+shader_parameter/size = 0.015
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gopr5"]
 seed = 10
@@ -193,7 +193,7 @@ texture = ExtResource("6_tj78g")
 [node name="PointLight2D" type="PointLight2D" parent="Background5"]
 z_index = 1
 position = Vector2(-581.053, -503.158)
-energy = 8.84
+energy = 1.15
 range_layer_min = -100
 range_layer_max = 1
 texture = ExtResource("7_aje2x")

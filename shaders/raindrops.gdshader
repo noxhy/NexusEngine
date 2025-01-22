@@ -34,35 +34,35 @@ void fragment()
 vec2 u = SCREEN_UV,
      v = SCREEN_UV * 0.1,
      n = noise(v*200.); // Displacement
-   
+
   fragColor = textureLod(iChannel0, u, 2.5);
-   
+
   // Loop through the different inverse sizes of drops
   for (float r = 4. ; r > frequency ; r--) {
     vec2 x = iResolution.xy * r * size, // Number of potential drops (in a grid)
        p = 6.28 * u * x + (n - .5) * 2.,
        s = sin(p);
-     
+
     // Current drop properties. Coordinates are rounded to ensure a
     // consistent value among the fragment of a given drop.
     //vec4 d = texture(iChannel1, round(u * x - 0.25) / x);
     vec2 v = round(u * x - 0.25) / x;
     vec4 d = vec4(noise(v*200.), noise(v));
-     
+
     // Drop shape and fading
     float t = (s.x+s.y) * max(0., 1. - fract(iTime * (d.b + .1) + d.g) * 2.);;
-     
+
     // d.r -> only x% of drops are kept on, with x depending on the size of drops
     if (d.r < (5.-r)*.08 && t > .5) {
       // Drop normal
       vec3 v = normalize(-vec3(cos(p), mix(.2, 2., t-.5)));
        //fragColor = vec4(v * 0.5 + 0.5, 1.0); // show normals
-       
+
       // Poor man's refraction (no visual need to do more)
       fragColor = texture(iChannel0, u - v.xy * .3);
     }
   }
-   
+
   // Debug noise function
   //f = vec4(n, 0.0, 1.0);
 }

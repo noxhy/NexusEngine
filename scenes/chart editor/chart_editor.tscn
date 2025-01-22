@@ -1,0 +1,207 @@
+[gd_scene load_steps=13 format=3 uid="uid://c3lux2ajoe1g6"]
+
+[ext_resource type="Script" path="res://scenes/chart editor/chart_editor.gd" id="1_ugmsy"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="2_dontb"]
+[ext_resource type="PackedScene" uid="uid://dmjgk2qf3nl2i" path="res://scenes/instances/chart editor/grid.tscn" id="2_i6pv1"]
+[ext_resource type="AudioStream" uid="uid://bhbl74dwlqyhk" path="res://assets/sounds/conductor/conductor sfx.mp3" id="3_myxvx"]
+[ext_resource type="Theme" uid="uid://bebg8dyoq0am0" path="res://assets/themes/chart_editor.tres" id="3_noq2o"]
+[ext_resource type="Texture2D" uid="uid://byl3boevtc02p" path="res://assets/sprites/menus/chart editor/play_button.png" id="4_f11ek"]
+[ext_resource type="Texture2D" uid="uid://crpue80aij4bq" path="res://assets/sprites/menus/chart editor/menuDesat.png" id="4_g6hlb"]
+[ext_resource type="Texture2D" uid="uid://dpb5afc48uqvb" path="res://assets/sprites/menus/chart editor/restart_button.png" id="5_ruic6"]
+[ext_resource type="Texture2D" uid="uid://c7ka0o15iv6a3" path="res://assets/sprites/menus/chart editor/rewind_button.png" id="6_henw2"]
+[ext_resource type="Texture2D" uid="uid://hf58qhc23n5c" path="res://assets/sprites/menus/chart editor/fast_forward_button.png" id="6_u1nu8"]
+[ext_resource type="Texture2D" uid="uid://dwtgyv6xf866j" path="res://assets/sprites/menus/chart editor/skip_button.png" id="9_jmk4o"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_50rmr"]
+
+[node name="chart_editor" type="Node2D"]
+script = ExtResource("1_ugmsy")
+divider_color = Color(1, 1, 1, 1)
+current_time_color = Color(0.758, 0, 1, 1)
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("2_dontb")
+stream_player = NodePath("../Audio/Instrumental")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamPolyphonic_50rmr")
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+bus = &"Music"
+
+[node name="Conductor Beat" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("3_myxvx")
+pitch_scale = 2.0
+bus = &"SFX"
+
+[node name="Conductor Off Beat" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("3_myxvx")
+bus = &"SFX"
+
+[node name="Conductor Step" type="AudioStreamPlayer" parent="Audio"]
+unique_name_in_owner = true
+stream = ExtResource("3_myxvx")
+volume_db = -80.0
+pitch_scale = 1.5
+bus = &"SFX"
+
+[node name="Grid Layer" type="ParallaxBackground" parent="."]
+layer = -1
+offset = Vector2(640, 64)
+transform = Transform2D(1, 0, 0, 1, 640, 64)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Grid Layer"]
+motion_mirroring = Vector2(0, 576)
+
+[node name="Grid" parent="Grid Layer/ParallaxLayer" instance=ExtResource("2_i6pv1")]
+unique_name_in_owner = true
+grid_size = Vector2(36, 36)
+columns = 10
+grid_color = Color(0.329412, 0.329412, 0.329412, 1)
+event_column_color = Color(0.152941, 0.152941, 0.152941, 0.47451)
+position_column_color = Color(0.152941, 0.152941, 0.152941, 0.47451)
+
+[node name="Notes Layer" type="CanvasLayer" parent="."]
+layer = 2
+offset = Vector2(640, 64)
+transform = Transform2D(1, 0, 0, 1, 640, 64)
+follow_viewport_enabled = true
+
+[node name="UI Borders" type="CanvasLayer" parent="."]
+layer = 9
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Upper Border" type="ColorRect" parent="UI Borders"]
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = -328.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="Lower Border" type="ColorRect" parent="UI Borders"]
+offset_left = -640.0
+offset_top = 312.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Song Slider" type="HSlider" parent="UI"]
+unique_name_in_owner = true
+offset_left = -640.0
+offset_top = 296.0
+offset_right = 640.0
+offset_bottom = 312.0
+focus_mode = 1
+theme = ExtResource("3_noq2o")
+step = 0.001
+ticks_on_borders = true
+metadata/_edit_lock_ = true
+
+[node name="Lower UI" type="HBoxContainer" parent="UI"]
+clip_children = 1
+custom_minimum_size = Vector2(1280, 48)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = 312.0
+offset_right = -640.0
+offset_bottom = -360.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+theme = ExtResource("3_noq2o")
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Current Time Label" type="Label" parent="UI/Lower UI"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+text = "CURRENT TIME"
+vertical_alignment = 1
+
+[node name="Skip to Beginning" type="Button" parent="UI/Lower UI"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("5_ruic6")
+flat = true
+
+[node name="Skip Backward" type="Button" parent="UI/Lower UI"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("6_henw2")
+flat = true
+
+[node name="Play Button" type="Button" parent="UI/Lower UI"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+icon = ExtResource("4_f11ek")
+flat = true
+
+[node name="Skip Forward" type="Button" parent="UI/Lower UI"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("6_u1nu8")
+flat = true
+
+[node name="Skip to End" type="Button" parent="UI/Lower UI"]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("9_jmk4o")
+flat = true
+
+[node name="Time Left Label" type="Label" parent="UI/Lower UI"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+text = "TIME LEFT"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Upper UI" type="HBoxContainer" parent="UI"]
+clip_children = 1
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = -328.0
+metadata/_edit_lock_ = true
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -128
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="MenuDesat" type="Sprite2D" parent="Background"]
+modulate = Color(0.152344, 0.152344, 0.152344, 1)
+texture = ExtResource("4_g6hlb")
+metadata/_edit_lock_ = true
+
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]
+[connection signal="finished" from="Audio/Instrumental" to="." method="_on_instrumental_finished"]
+[connection signal="value_changed" from="UI/Song Slider" to="." method="_on_song_slider_value_changed"]
+[connection signal="pressed" from="UI/Lower UI/Skip to Beginning" to="." method="_on_skip_to_beginning_pressed"]
+[connection signal="pressed" from="UI/Lower UI/Skip Backward" to="." method="_on_skip_backward_pressed"]
+[connection signal="toggled" from="UI/Lower UI/Play Button" to="." method="_on_play_button_toggled"]
+[connection signal="pressed" from="UI/Lower UI/Skip Forward" to="." method="_on_skip_forward_pressed"]
+[connection signal="pressed" from="UI/Lower UI/Skip to End" to="." method="_on_skip_to_end_pressed"]

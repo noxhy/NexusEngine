@@ -12,7 +12,8 @@ class_name Character
 @export var icons: SpriteFrames = preload( "res://assets/sprites/playstate/icons/face.tres" )
 @export var color: Color = Color(0.168627, 0.121569, 0.203922)
 
-var can_idle = true
+var current_animation: String = idle_animation
+var can_idle: bool = true
 
 func _ready():
 	
@@ -40,10 +41,12 @@ func play_animation(animation_name: String = "", time: float = -1.0):
 			var animatiom_speed: float = $AnimatedSprite2D.sprite_frames.get_animation_speed( real_animation_name )
 			var frame_count: int = $AnimatedSprite2D.sprite_frames.get_frame_count( real_animation_name ) 
 			
+			current_animation = animation_name
 			$AnimatedSprite2D.play( real_animation_name, frame_count / ( animatiom_speed * time ) )
 			
 		else:
 			
+			current_animation = animation_name
 			$AnimatedSprite2D.play( real_animation_name, 1 )
 		
 		$AnimatedSprite2D.frame = 0

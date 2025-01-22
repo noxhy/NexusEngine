@@ -105,6 +105,7 @@ slope = 0.45
 animation_names = {
 "cheer": "combo celebration 1 nene instance 1",
 "cheer_2": "fawn nene instance 1",
+"cry": "laughing nene instance 1",
 "idle": "Nene Abot Idle instance 1",
 "knife_idle": "knife high held instance 1",
 "knife_lower": "knife lower instance 1",
@@ -128,8 +129,6 @@ position = Vector2(0, -311)
 sprite_frames = ExtResource("3_dojva")
 animation = &"Nene Abot Idle instance 1"
 autoplay = "Idle"
-frame = 29
-frame_progress = 1.0
 metadata/_edit_lock_ = true
 
 [node name="Eye White" type="ColorRect" parent="."]

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Song" load_steps=5 format=3 uid="uid://oxl0exqgwkt4"]
+
+[ext_resource type="SpriteFrames" uid="uid://dt82dx1mf15r" path="res://assets/sprites/playstate/icons/face.tres" id="1_3voy8"]
+[ext_resource type="Script" path="res://resources/song.gd" id="2_tuadb"]
+[ext_resource type="AudioStream" uid="uid://ct4vbphk62ep4" path="res://assets/songs/playable songs/cycles/Inst.mp3" id="2_ybkii"]
+[ext_resource type="AudioStream" uid="uid://banvfrox4sxi3" path="res://assets/songs/playable songs/cycles/Voices.mp3" id="4_d55no"]
+
+[resource]
+script = ExtResource("2_tuadb")
+vocals = Array[AudioStream]([ExtResource("4_d55no")])
+instrumental = ExtResource("2_ybkii")
+tempo = 114.0
+scene = "res://scenes/playstate/songs/cycles/cycles.tscn"
+difficulties = {
+"hard": {
+"chart": "res://assets/charts/Cycles D-Side - hard.tres"
+}
+}
+title = "Cycles"
+artist = "idk"
+icons = ExtResource("1_3voy8")
+display_color = Color(1, 1, 1, 1)
+locked = false

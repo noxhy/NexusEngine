@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bhbl74dwlqyhk"
+path="res://.godot/imported/conductor sfx.mp3-86d66349e26b518100213fe2cb54f944.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/conductor/conductor sfx.mp3"
+dest_files=["res://.godot/imported/conductor sfx.mp3-86d66349e26b518100213fe2cb54f944.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

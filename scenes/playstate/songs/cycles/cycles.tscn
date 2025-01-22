@@ -1,0 +1,131 @@
+[gd_scene load_steps=18 format=3 uid="uid://y8q7y706073a"]
+
+[ext_resource type="Script" path="res://scenes/playstate/songs/cycles/cycles.gd" id="1_qsimt"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_itoam"]
+[ext_resource type="Resource" uid="uid://oxl0exqgwkt4" path="res://assets/songs/playable songs/cycles/cycles.tres" id="3_nwdvw"]
+[ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="8_004w8"]
+[ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="9_hpk52"]
+[ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="10_sc0bg"]
+[ext_resource type="PackedScene" uid="uid://q0a40tn5u1c8" path="res://scenes/instances/stages/4chan_philly/philly_foggy.tscn" id="11_8pxo0"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="12_jvj2j"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="13_otlqi"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="14_dttuc"]
+[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="15_xn17n"]
+[ext_resource type="PackedScene" path="res://scenes/instances/characters/boyfriend.tscn" id="16_pja5f"]
+[ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="17_mngbn"]
+[ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="18_bmx3w"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="19_wlyqq"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_oxpka"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1fe3a"]
+streams_count = 3
+stream_0/stream = ExtResource("12_jvj2j")
+stream_1/stream = ExtResource("13_otlqi")
+stream_2/stream = ExtResource("14_dttuc")
+
+[node name="Cycles" type="Node2D"]
+script = ExtResource("1_qsimt")
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_itoam")]
+process_mode = 1
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Music")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+song_data = ExtResource("3_nwdvw")
+note_skin = ExtResource("8_004w8")
+ui_skin = ExtResource("9_hpk52")
+combo_scale_multiplier = Vector2(1.2, 1.2)
+
+[node name="Camera" parent="." instance=ExtResource("10_sc0bg")]
+position = Vector2(640, 360)
+zoom = Vector2(0.85, 0.85)
+position_smoothing_speed = 3.0
+target_zoom = Vector2(0.85, 0.85)
+
+[node name="Stage" parent="." instance=ExtResource("11_8pxo0")]
+unique_name_in_owner = true
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+stream = SubResource("AudioStreamPolyphonic_oxpka")
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1fe3a")
+bus = &"SFX"
+
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1fe3a")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("15_xn17n")
+stream_player = NodePath("../Music/Instrumental")
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(320, -40)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(0, -64)
+gizmo_extents = 26.5
+
+[node name="Position 3" type="Marker2D" parent="World"]
+position = Vector2(192, -76)
+gizmo_extents = 26.5
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(384, -168)
+gizmo_extents = 30.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(512, -120)
+gizmo_extents = 40.0
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("16_pja5f")]
+unique_name_in_owner = true
+position = Vector2(640, 288)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("17_mngbn")]
+unique_name_in_owner = true
+position = Vector2(-528, 240)
+
+[node name="Metronome" parent="Characters" instance=ExtResource("18_bmx3w")]
+unique_name_in_owner = true
+position = Vector2(80, 176)
+
+[node name="UI" parent="." instance=ExtResource("19_wlyqq")]
+layer = 10
+
+[connection signal="combo_break" from="PlayState Host" to="." method="_on_combo_break"]
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="_on_new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

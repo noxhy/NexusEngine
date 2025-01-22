@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="1_2uxlt"]
 [ext_resource type="Script" path="res://scenes/dialogue editor/dialogue_editor.gd" id="1_qnh8h"]
-[ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://themes/tool.tres" id="3_5f2t6"]
+[ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://assets/themes/tool.tres" id="3_5f2t6"]
 [ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="4_6y6ni"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bq5l8"]

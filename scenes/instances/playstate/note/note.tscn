@@ -15,6 +15,7 @@ note_skin = ExtResource("2_sl16p")
 [node name="Note" type="AnimatedSprite2D" parent="."]
 z_index = 1
 use_parent_material = true
+scale = Vector2(1.065, 1.065)
 sprite_frames = ExtResource("2_r4bqa")
 animation = &"left"
 script = ExtResource("4_kfabs")
@@ -42,7 +43,7 @@ joint_mode = 2
 use_parent_material = true
 rotation = 1.5708
 sprite_frames = ExtResource("2_r4bqa")
-animation = &"end"
+animation = &"left"
 offset = Vector2(300, 2.08189e-12)
 script = ExtResource("4_kfabs")
 animation_names = {
@@ -51,3 +52,11 @@ animation_names = {
 "right end": "right end",
 "up end": "up end"
 }
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(6080, 6080)
+scale = Vector2(640, 640)
+rect = Rect2(-10, -10, 1, 1)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

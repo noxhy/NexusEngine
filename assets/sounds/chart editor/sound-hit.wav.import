@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bodc4sfit172e"
+path="res://.godot/imported/sound-hit.wav-e8b4d7b32c038667df026322fdfb3627.sample"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/sound-hit.wav"
+dest_files=["res://.godot/imported/sound-hit.wav-e8b4d7b32c038667df026322fdfb3627.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

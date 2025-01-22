@@ -1,6 +1,5 @@
 @tool
 extends Node2D
-
 class_name SwfAnimation
 
 signal play_end

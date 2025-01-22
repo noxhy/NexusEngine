@@ -17,9 +17,18 @@ extends Node
 	
 }
 
+enum PLAY_MODE {
+	
+	STORY_MODE,
+	FREEPLAY,
+	CHARTING,
+	PRACTICE
+	
+}
 
 var freeplay: bool = true
 var difficulty: String
+var play_mode = PLAY_MODE.FREEPLAY
 
 var week_score: int = 0
 var week_deaths: int = 0
