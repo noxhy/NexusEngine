@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cou57umxr05wh"
+path="res://.godot/imported/metronome1.ogg-541033f678bec3c03c80d521ac275f4a.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/metronome1.ogg"
+dest_files=["res://.godot/imported/metronome1.ogg-541033f678bec3c03c80d521ac275f4a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

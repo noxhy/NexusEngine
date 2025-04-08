@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c8rh6efwpf1f4" path="res://assets/sprites/menus/story mode/week icons/week6.png" id="7_r1gti"]
 [ext_resource type="Texture2D" uid="uid://o2ebd6w66lrc" path="res://assets/sprites/menus/story mode/week icons/week7.png" id="8_3u0ud"]
 [ext_resource type="Texture2D" uid="uid://dxmfvagkwoxws" path="res://assets/sprites/menus/story mode/week icons/weekend1.png" id="9_na7qk"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="9_xp24p"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="9_xp24p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6d3aw"]
 animations = [{

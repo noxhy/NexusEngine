@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cpci1337c6gt3"]
 
-[ext_resource type="Script" path="res://scenes/instances/stages/4chan_philly/car.gd" id="1_l6mam"]
+[ext_resource type="Script" uid="uid://crv78v5bn62qu" path="res://scenes/instances/stages/4chan_philly/car.gd" id="1_l6mam"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/stages/philly_streets/cars.res" id="1_reimm"]
 
 [node name="Car" type="Node2D"]

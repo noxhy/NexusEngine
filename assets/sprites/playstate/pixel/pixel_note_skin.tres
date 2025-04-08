@@ -2,21 +2,31 @@
 
 [ext_resource type="SpriteFrames" uid="uid://ceg7w3ebtiywi" path="res://assets/sprites/playstate/pixel/arrow/notes.tres" id="1_ky7o3"]
 [ext_resource type="AudioStream" uid="uid://dcshy6cfnwrkl" path="res://assets/sounds/menu sounds/hitsound.wav" id="1_piid7"]
-[ext_resource type="SpriteFrames" uid="uid://dwiycp58qb6ig" path="res://assets/sprites/playstate/pixel/arrow/hold_covers.res" id="2_aa26k"]
-[ext_resource type="Script" path="res://resources/note_skin.gd" id="2_v4kjh"]
+[ext_resource type="SpriteFrames" uid="uid://cogig0ulrnksv" path="res://assets/sprites/playstate/pixel/hold_covers/sustain_cover.res" id="2_g1mvk"]
+[ext_resource type="Script" uid="uid://rwa2lqwuhfdc" path="res://resources/note_skin.gd" id="2_v4kjh"]
 [ext_resource type="SpriteFrames" uid="uid://bf1aiuwvslsn2" path="res://assets/sprites/playstate/pixel/arrow/strums.tres" id="3_6f2u5"]
-[ext_resource type="SpriteFrames" path="res://assets/sprites/playstate/pixel/arrow/splashes/note_splashes.res" id="3_l0k6u"]
+[ext_resource type="SpriteFrames" uid="uid://d0ex5ejqswdjf" path="res://assets/sprites/playstate/pixel/arrow/splashes/note_splashes.res" id="3_l0k6u"]
 
 [resource]
 script = ExtResource("2_v4kjh")
 strums_texture = ExtResource("3_6f2u5")
 notes_texture = ExtResource("1_ky7o3")
 splashes_texture = ExtResource("3_l0k6u")
-hold_covers_texture = ExtResource("2_aa26k")
+hold_covers_texture = ExtResource("2_g1mvk")
 pixel_texture = true
 notes_scale = 6.75
+splash_scale = 4.5
 sustain_width = 7
-hold_covers_scale = 1.1
-animation_names = {}
-offsets = {}
+hold_covers_scale = 6.0
+animation_names = Dictionary[String, String]({})
+offsets = Dictionary[String, Vector2]({
+"cover down": Vector2(25, -3),
+"cover down end": Vector2(25, -3),
+"cover left": Vector2(25, -3),
+"cover left end": Vector2(25, -3),
+"cover right": Vector2(25, -3),
+"cover right end": Vector2(25, -3),
+"cover up": Vector2(25, -3),
+"cover up end": Vector2(25, -3)
+})
 hit_sound = ExtResource("1_piid7")

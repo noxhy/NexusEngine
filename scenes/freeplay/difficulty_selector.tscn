@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cnu4wa5x8qwp5"]
 
-[ext_resource type="Script" path="res://scenes/freeplay/difficulty_selector.gd" id="1_1tipg"]
+[ext_resource type="Script" uid="uid://ce03uftq0kk3j" path="res://scenes/freeplay/difficulty_selector.gd" id="1_1tipg"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="2_lmn2j"]
 [ext_resource type="PackedScene" uid="uid://jjd6x75uoj1x" path="res://scenes/instances/freeplay/freeplay_arrow.tscn" id="3_8hml4"]
 [ext_resource type="PackedScene" uid="uid://ce4fecrbyxrux" path="res://scenes/instances/difficulty_display.tscn" id="3_nyydv"]
@@ -134,8 +134,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mgni6"]
 _data = {
-"RESET": SubResource("Animation_a31c2"),
-"start": SubResource("Animation_eenre")
+&"RESET": SubResource("Animation_a31c2"),
+&"start": SubResource("Animation_eenre")
 }
 
 [node name="Difficulty Selector" type="CanvasLayer"]

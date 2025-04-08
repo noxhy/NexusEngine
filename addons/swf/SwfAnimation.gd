@@ -62,7 +62,7 @@ var internal_data: Dictionary = {}
 func _set(property: StringName, value: Variant) -> bool:
 	if property.begins_with("swf_"):
 		internal_data[property] = value
-		if property == "swf_current_animation" && animation_names.size() > 0:
+		if property == "swf_current_animation" and animation_names.size() > 0:
 			current_movie_clip = MovieClip.new(animations[animation_names[value]].total_frames, animations[animation_names[value]]["timelines"])
 		return true
 	return false
@@ -76,7 +76,7 @@ func _process(delta: float) -> void:
 	# TODO: 动画播放
 	if !preview:
 		return
-	if animations == null || current_movie_clip == null:
+	if animations == null or current_movie_clip == null:
 		return
 	# 总帧数
 	total_frames = current_movie_clip["total_frames"]
@@ -120,7 +120,7 @@ func run_frame(movie_clip: MovieClip, blend_mode: String, filters: Array = [], p
 		if depth_frame.index >= frames.size():
 			continue
 		var frame = frames[depth_frame.index]
-		if frame.place_frame > movie_clip.current_frame || (frame.place_frame + depth_frame.duration) > movie_clip.current_frame:
+		if frame.place_frame > movie_clip.current_frame or (frame.place_frame + depth_frame.duration) > movie_clip.current_frame:
 			continue
 		if depth_frame.duration < movie_clip.total_frames:
 			depth_frame.duration += 1

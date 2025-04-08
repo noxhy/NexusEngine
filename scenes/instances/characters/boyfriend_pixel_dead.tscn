@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://cbplauofubxhu"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_ybjrm"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_ybjrm"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/boyfriend pixel/boyfriend_pixel_dead.res" id="2_1xd7e"]
 
 [node name="Boyfriend Pixel Dead" type="Node2D"]

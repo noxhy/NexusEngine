@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://civkgglbefejt"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_oe8gf"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_oe8gf"]
 [ext_resource type="Texture2D" uid="uid://jngqjlsc37d3" path="res://assets/sprites/playstate/icons/icon-parents.png" id="2_uoe7k"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/mom dad christmas/mom_dad_christmas.res" id="3_o01a6"]
 

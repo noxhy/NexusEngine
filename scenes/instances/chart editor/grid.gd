@@ -48,24 +48,24 @@ func _process(_delta):
 
 func _draw():
 	
-	## Color's the events column (the last one)
-	var rect = Rect2(get_real_position(Vector2(columns - 1, 0)), get_real_position(Vector2(columns, rows)) - get_real_position(Vector2(columns - 1, 0)))
+	## Color's the events column (the first one)
+	var rect = Rect2(get_real_position(Vector2(0, 0)), get_real_position(Vector2(columns, rows)) - get_real_position(Vector2(columns - 1, 0)))
 	draw_rect(rect, event_column_color)
 	
-	## Color's the position column (the first one)
-	rect = Rect2(get_real_position(Vector2(0, 0)), get_real_position(Vector2(1, rows)) - get_real_position(Vector2(0, 0)))
+	## Color's the position column (the last one)
+	rect = Rect2(get_real_position(Vector2(columns - 1, 0)), get_real_position(Vector2(1, rows)) - get_real_position(Vector2(0, 0)))
 	draw_rect(rect, position_column_color)
 
-## Returns the relative position of the top left corner of a gridspace
-func get_real_position(location: Vector2) -> Vector2:
+## Returns the relative position of a grid position from the top left corner of a gridspace
+func get_real_position(location: Vector2, snap: Vector2 = grid_size) -> Vector2:
 	
-	var output: Vector2 = Vector2(location) * grid_size * zoom
+	var output: Vector2 = Vector2(location) * snap * zoom
 	output += $TextureRect.position
 	return output
 
 ## Returns the grid position of a location
-func get_grid_position(location: Vector2) -> Vector2:
+func get_grid_position(location: Vector2, snap: Vector2 = grid_size) -> Vector2:
 	
 	var output: Vector2 = location - $TextureRect.position
-	output /= grid_size * zoom
+	output /= snap * zoom
 	return output

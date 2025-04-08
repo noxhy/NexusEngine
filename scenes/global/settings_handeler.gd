@@ -33,6 +33,9 @@ var default_settings: Dictionary = {
 	"streamer_mode": false, # Hides less important UI elements, streamer mode ui function is called
 	"show_performance": true, # Shows FPS, Memory, delta and shit
 	
+	# Charting
+	"autosave": true,
+	
 	"keybinds": {
 		
 		# Keybinds
@@ -65,7 +68,7 @@ var default_settings: Dictionary = {
 
 func load_settings():
 	
-	if load( save_path ) == null || settings.version != 2:
+	if load( save_path ) == null or settings.version != 2:
 		init_settings()
 	
 	settings = load( save_path )

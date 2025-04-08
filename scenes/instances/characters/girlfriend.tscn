@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bpv5demojrg67"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_krhuq"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_krhuq"]
 [ext_resource type="Texture2D" uid="uid://cxu20hb7y7adt" path="res://assets/sprites/playstate/icons/girlfriend.png" id="2_hksi1"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/girlfriend/girlfriend.res" id="3_0woem"]
 

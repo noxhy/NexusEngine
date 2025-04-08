@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://krhxbwnjnr7r"]
+[gd_scene load_steps=7 format=3 uid="uid://krhxbwnjnr7r"]
 
-[ext_resource type="Script" path="res://scenes/instances/playstate/note/note.gd" id="1_7ee17"]
+[ext_resource type="Script" uid="uid://dc0yd85m6dsa7" path="res://scenes/instances/playstate/note/note.gd" id="1_7ee17"]
 [ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://assets/sprites/playstate/developer/arrow/notes.tres" id="2_r4bqa"]
 [ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="2_sl16p"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="4_kfabs"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="4_kfabs"]
 [ext_resource type="Texture2D" uid="uid://ds5jlynhtryxg" path="res://assets/sprites/playstate/developer/arrow/tail.png" id="5_2n521"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lm34o"]
+font_size = 64
+outline_size = 32
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Note" type="Node2D"]
 use_parent_material = true
@@ -19,7 +24,7 @@ scale = Vector2(1.065, 1.065)
 sprite_frames = ExtResource("2_r4bqa")
 animation = &"left"
 script = ExtResource("4_kfabs")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "down",
 "down tail": "down tail",
 "left": "left",
@@ -28,7 +33,25 @@ animation_names = {
 "right tail": "right tail",
 "up": "up",
 "up tail": "up tail"
-}
+})
+
+[node name="Label" type="Label" parent="."]
+visible = false
+top_level = true
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = -1216.0
+offset_bottom = -656.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+label_settings = SubResource("LabelSettings_lm34o")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Tail" type="Line2D" parent="."]
 visible = false
@@ -46,12 +69,12 @@ sprite_frames = ExtResource("2_r4bqa")
 animation = &"left"
 offset = Vector2(300, 2.08189e-12)
 script = ExtResource("4_kfabs")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down end": "down end",
 "left end": "left end",
 "right end": "right end",
 "up end": "up end"
-}
+})
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(6080, 6080)

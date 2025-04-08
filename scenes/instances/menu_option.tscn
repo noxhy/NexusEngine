@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://55odtbd2v2ql"]
 
 [ext_resource type="FontFile" uid="uid://coivso5sghc2p" path="res://assets/fonts/fnf font.ttf" id="1_r5x6d"]
-[ext_resource type="Script" path="res://scenes/instances/menu_option.gd" id="1_tf7lj"]
+[ext_resource type="Script" uid="uid://cqm4c08o6008r" path="res://scenes/instances/menu_option.gd" id="1_tf7lj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7p2h4"]
 resource_local_to_scene = true

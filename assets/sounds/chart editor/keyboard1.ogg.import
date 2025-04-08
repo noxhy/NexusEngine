@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://s88wsjen8kj7"
+path="res://.godot/imported/keyboard1.ogg-b5dee6850b48c926391926fd5dd2d2e5.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/keyboard1.ogg"
+dest_files=["res://.godot/imported/keyboard1.ogg-b5dee6850b48c926391926fd5dd2d2e5.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

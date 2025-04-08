@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ci23mkh7e35ir"
+path="res://.godot/imported/BlephinInst.ogg-8efffaa1bb9c0af5bbb2e7fbcd20d876.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/blephin/BlephinInst.ogg"
+dest_files=["res://.godot/imported/BlephinInst.ogg-8efffaa1bb9c0af5bbb2e7fbcd20d876.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

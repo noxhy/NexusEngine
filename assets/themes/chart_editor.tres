@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=32 format=3 uid="uid://bebg8dyoq0am0"]
+[gd_resource type="Theme" load_steps=35 format=3 uid="uid://bebg8dyoq0am0"]
 
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="1_gx4r6"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="2_ktiq5"]
@@ -116,6 +116,33 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.345098, 0.368627, 0.690196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5nguq"]
+content_margin_left = 4.0
+bg_color = Color(0.172549, 0.14902, 0.25098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obcll"]
+content_margin_left = 4.0
+bg_color = Color(0.172549, 0.14902, 0.25098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xkhqg"]
+content_margin_left = 4.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44yi2"]
 bg_color = Color(0, 0, 0, 1)
@@ -235,6 +262,7 @@ expand_margin_left = 2.0
 expand_margin_right = 2.0
 
 [resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_outline_color = Color(0, 0, 0, 1)
 Button/constants/outline_size = 6
 Button/font_sizes/font_size = 16
@@ -262,6 +290,10 @@ LineEdit/styles/focus = SubResource("StyleBoxFlat_cuf5t")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_5hsif")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_ctms5")
 MenuButton/font_sizes/font_size = 12
+OptionButton/fonts/font = ExtResource("1_gx4r6")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_5nguq")
+OptionButton/styles/hover_pressed = SubResource("StyleBoxFlat_obcll")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_xkhqg")
 Panel/styles/panel = null
 PopupDialog/styles/panel = SubResource("StyleBoxFlat_44yi2")
 ProgressBar/styles/bg = SubResource("StyleBoxFlat_knb81")

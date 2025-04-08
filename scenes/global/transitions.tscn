@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://ilhf3k3in4ph"]
 
-[ext_resource type="Script" path="res://scenes/global/transitions.gd" id="1_si25f"]
+[ext_resource type="Script" uid="uid://imjuinehs3it" path="res://scenes/global/transitions.gd" id="1_si25f"]
 
 [sub_resource type="Animation" id="Animation_gnbau"]
 length = 0.001
@@ -100,9 +100,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pcf60"]
 _data = {
-"RESET": SubResource("Animation_gnbau"),
-"down": SubResource("Animation_0d3dk"),
-"fade": SubResource("Animation_ymoni")
+&"RESET": SubResource("Animation_gnbau"),
+&"down": SubResource("Animation_0d3dk"),
+&"fade": SubResource("Animation_ymoni")
 }
 
 [sub_resource type="Gradient" id="Gradient_tdgh5"]

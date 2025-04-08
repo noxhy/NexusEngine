@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://cigsmwajnw2jq"]
 
-[ext_resource type="Script" path="res://scenes/instances/playstate/ui.gd" id="1_pm5h1"]
+[ext_resource type="Script" uid="uid://byu172po8rot7" path="res://scenes/instances/playstate/ui.gd" id="1_pm5h1"]
 [ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="2_6rygd"]
 [ext_resource type="PackedScene" uid="uid://ce3dgr61438sa" path="res://scenes/instances/playstate/arrow_strum/4key_strums.tscn" id="2_58g8k"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="4_jqq0h"]
@@ -9,6 +9,7 @@
 
 [sub_resource type="Animation" id="Animation_x83yl"]
 length = 0.001
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -69,9 +70,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eqvj4"]
 _data = {
-"RESET": SubResource("Animation_x83yl"),
-"credits_hide": SubResource("Animation_35xwb"),
-"credits_show": SubResource("Animation_nbuux")
+&"RESET": SubResource("Animation_x83yl"),
+&"credits_hide": SubResource("Animation_35xwb"),
+&"credits_show": SubResource("Animation_nbuux")
 }
 
 [sub_resource type="FontVariation" id="FontVariation_s6w0x"]
@@ -147,7 +148,7 @@ lerp_weight = 0.085
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_eqvj4")
+&"": SubResource("AnimationLibrary_eqvj4")
 }
 
 [node name="Player Strum" parent="." instance=ExtResource("2_58g8k")]

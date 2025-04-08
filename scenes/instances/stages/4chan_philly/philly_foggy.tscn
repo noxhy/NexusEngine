@@ -1,8 +1,8 @@
 [gd_scene load_steps=29 format=3 uid="uid://q0a40tn5u1c8"]
 
-[ext_resource type="Script" path="res://scenes/instances/stages/4chan_philly/philly_foggy.gd" id="1_bid2y"]
-[ext_resource type="Shader" path="res://shaders/raindrops.gdshader" id="2_cbdcp"]
-[ext_resource type="Shader" path="res://shaders/rain.gdshader" id="3_kp02p"]
+[ext_resource type="Script" uid="uid://bf0yovnh0ds6q" path="res://scenes/instances/stages/4chan_philly/philly_foggy.gd" id="1_bid2y"]
+[ext_resource type="Shader" uid="uid://cn1tl4764rmon" path="res://shaders/raindrops.gdshader" id="2_cbdcp"]
+[ext_resource type="Shader" uid="uid://dw0lfwemfmrel" path="res://shaders/rain.gdshader" id="3_kp02p"]
 [ext_resource type="Texture2D" uid="uid://b33ljabpofc6k" path="res://assets/sprites/stages/philly_fog/mistFront.png" id="4_bea4p"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/stages/philly_fog/paper.res" id="4_qjvst"]
 [ext_resource type="Texture2D" uid="uid://c2wb3d8olk51s" path="res://assets/sprites/stages/philly_fog/mistMid.png" id="5_2aa8y"]
@@ -53,8 +53,8 @@ shader_parameter/frequency = 3.8
 shader_parameter/size = 0.013
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gopr5"]
-seed = 10
-frequency = 0.0573
+seed = 14
+frequency = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ovujy"]
 seamless = true
@@ -62,37 +62,37 @@ noise = SubResource("FastNoiseLite_gopr5")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_abbn4"]
 shader = ExtResource("3_kp02p")
-shader_parameter/rain_amount = 10.0
-shader_parameter/near_rain_length = 0.442
+shader_parameter/rain_amount = 15.0
+shader_parameter/near_rain_length = 0.457
 shader_parameter/far_rain_length = 0.178
-shader_parameter/near_rain_width = 0.027
-shader_parameter/far_rain_width = 0.028
+shader_parameter/near_rain_width = 0.034
+shader_parameter/far_rain_width = 0.01
 shader_parameter/near_rain_transparency = 1.0
 shader_parameter/far_rain_transparency = 0.5
 shader_parameter/rain_color = Color(0, 0.34375, 1, 1)
-shader_parameter/base_rain_speed = 3.517
-shader_parameter/additional_rain_speed = 0.292
+shader_parameter/base_rain_speed = 2.287
+shader_parameter/additional_rain_speed = 0.243
 shader_parameter/slant = -0.059
-shader_parameter/speed = 0.3
-shader_parameter/strength = 0.1
-shader_parameter/warp_sensitivity = 0.257
 shader_parameter/noise = SubResource("NoiseTexture2D_ovujy")
+shader_parameter/speed = 0.1
+shader_parameter/strength = 0.123
+shader_parameter/warp_sensitivity = 0.257
 
 [sub_resource type="Shader" id="Shader_h4t1j"]
 code = "shader_type canvas_item;
 
 uniform float energy : hint_range(0.1, 2.0, 0.01) = 1.;
-uniform sampler2D screen_texture : hint_screen_texture;
+uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 
 void fragment() {
-	
-	COLOR = texture( screen_texture, SCREEN_UV ) + ( texture( TEXTURE, UV ) * energy );
-	
+
+	COLOR = texture(screen_texture, SCREEN_UV) + (texture(TEXTURE, UV) * energy);
+
 }"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bbpm6"]
 shader = SubResource("Shader_h4t1j")
-shader_parameter/energy = 0.49
+shader_parameter/energy = 0.58
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vcvph"]
 shader = SubResource("Shader_h4t1j")

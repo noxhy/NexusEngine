@@ -1,0 +1,28 @@
+{
+  "version": "2.2.4",
+  "songName": "Blephin",
+  "artist": "tsuyunoshi",
+  "charter": "noxhy",
+  "playData": {
+	"songVariations": ["bf"],
+	"difficulties": ["hard"],
+	"characters": {
+	  "album": "volume3",
+	  "player": "pico-playable",
+	  "girlfriend": "nene",
+	  "opponent": "darnell",
+	  "instrumental": "",
+	  "altInstrumentals": ["bf"]
+	},
+	"stage": "phillyStreets",
+	"noteStyle": "funkin",
+	"ratings": { "hard": 4 },
+	"album": "volume3",
+	"previewStart": 0,
+	"previewEnd": 15000
+  },
+  "timeFormat": "ms",
+  "timeChanges": [
+	{ "t": 0, "b": 0, "bpm": 103, "n": 4, "d": 4, "bt": [4, 4, 4, 4] }
+  ]
+}

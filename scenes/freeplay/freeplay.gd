@@ -19,17 +19,17 @@ var difficulty_index: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Global.set_window_title( "Freeplay Menu" )
-	Global.freeplay_album_option = wrap( Global.freeplay_album_option, 0, album_list.size() )
+	Global.set_window_title("Freeplay Menu")
+	Global.freeplay_album_option = wrap(Global.freeplay_album_option, 0, album_list.size())
 	
-	load_page( Global.freeplay_album_option )
-	Global.freeplay_song_option = wrap( Global.freeplay_song_option, 0, options.size() )
+	load_page(Global.freeplay_album_option)
+	Global.freeplay_song_option = wrap(Global.freeplay_song_option, 0, options.size())
 	
-	update_selection( Global.freeplay_song_option )
+	update_selection(Global.freeplay_song_option)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 # Input Handler
@@ -122,8 +122,6 @@ func update_selection(i: int):
 	
 	var song_file = options[i]
 	difficulty = song_file.difficulties.keys()[ difficulty_index % song_file.difficulties.size() ]
-	var difficulty_data = song_file.difficulties[difficulty]
-	var chart = load(difficulty_data.chart)
 	$"Audio/Menu Scroll".play()
 	$Audio/Music.stream = song_file.instrumental
 	$Audio/Music.volume_db = -60
@@ -158,7 +156,7 @@ func update_selection(i: int):
 		
 		tween.tween_property( $Audio/Music, "volume_db", -60, 1 )
 	
-	if song_file.icons.has_animation( "winning" ) && !song_file.locked:
+	if song_file.icons.has_animation( "winning" ) and !song_file.locked:
 		option_nodes[i].icon = song_file.icons.get_frame_texture( "winning", 0 )
 
 
@@ -228,12 +226,14 @@ func select_option(i: int):
 func set_difficulty( new: String ): difficulty = new
 
 
+@warning_ignore("shadowed_variable")
 # Doesn't actually play the audio, just sends you to the scene
 func play_song( song: Song, difficulty: String ):
 	
 	var scene = song.scene
 	if song.difficulties[difficulty].has("scene"): scene = song.difficulties[difficulty].scene
 	
+	GameHandeler.play_mode = GameHandeler.PLAY_MODE.FREEPLAY
 	GameHandeler.difficulty = difficulty
 	GameHandeler.freeplay = true
 	Global.freeplay_album_option = selected_album
@@ -241,6 +241,7 @@ func play_song( song: Song, difficulty: String ):
 	Global.change_scene_to( scene )
 
 
+@warning_ignore("unused_parameter")
 func _on_conductor_new_beat(current_beat, measure_relative):
 	
 	if SettingsHandeler.get_setting("ui_bops"):

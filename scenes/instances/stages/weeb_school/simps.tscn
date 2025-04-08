@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://ch1yo286ve0mt"]
 
 [ext_resource type="SpriteFrames" path="res://assets/sprites/stages/weeb_school/simps.res" id="1_sqtcn"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_riicu"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="2_riicu"]
 
 [node name="Simps" type="AnimatedSprite2D"]
 texture_filter = 1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dikvwu1vkcjqq"]
 
 [ext_resource type="SpriteFrames" uid="uid://b7cugwdmdjj55" path="res://assets/sprites/menus/main menu/menu_freeplay.res" id="1_qeorp"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_k5k1f"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="2_k5k1f"]
 
 [node name="OffsetSprite" type="AnimatedSprite2D"]
 sprite_frames = ExtResource("1_qeorp")

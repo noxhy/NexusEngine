@@ -1,46 +1,19 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://c641vxfiu033w"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_e2dgr"]
-[ext_resource type="Texture2D" uid="uid://ee2igx8pcqyw" path="res://assets/sprites/playstate/icons/icon-senpai.png" id="2_3mxli"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_e2dgr"]
+[ext_resource type="SpriteFrames" uid="uid://d3utv1veneoej" path="res://assets/sprites/playstate/icons/senpai.tres" id="2_ue7od"]
 [ext_resource type="SpriteFrames" uid="uid://d3eo6fcoflew3" path="res://assets/sprites/characters/senpai/senpai.res" id="3_neexf"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e88gg"]
-atlas = ExtResource("2_3mxli")
-region = Rect2(0, 0, 150, 150)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_givs5"]
-atlas = ExtResource("2_3mxli")
-region = Rect2(150, 0, 150, 150)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_wibst"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e88gg")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_givs5")
-}],
-"loop": true,
-"name": &"losing",
-"speed": 5.0
-}]
 
 [node name="Senpai" type="Node2D"]
 script = ExtResource("1_e2dgr")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "SENPAI DOWN NOTE instance 1",
 "idle": "Senpai Idle instance 1",
 "left": "SENPAI LEFT NOTE instance 1",
 "right": "SENPAI RIGHT NOTE instance 1",
 "up": "SENPAI UP NOTE instance 1"
-}
-offsets = {
+})
+offsets = Dictionary[String, Vector2]({
 "Angry Senpai DOWN NOTE instance 1": Vector2(-1.5, -64),
 "Angry Senpai Idle instance 1": Vector2(2.08189e-12, -64),
 "Angry Senpai LEFT NOTE instance 1": Vector2(-3.5, -64),
@@ -51,8 +24,8 @@ offsets = {
 "SENPAI RIGHT NOTE instance 1": Vector2(-0.5, -64),
 "SENPAI UP NOTE instance 1": Vector2(-2.5, -69.5),
 "Senpai Idle instance 1": Vector2(2.08189e-12, -64)
-}
-icons = SubResource("SpriteFrames_wibst")
+})
+icons = ExtResource("2_ue7od")
 color = Color(0.890196, 0.533333, 0.294118, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

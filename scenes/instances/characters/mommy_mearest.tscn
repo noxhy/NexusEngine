@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://dmjvwrm6q7mid"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_yjg8a"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_yjg8a"]
 [ext_resource type="Texture2D" uid="uid://cqneanku0adg3" path="res://assets/sprites/playstate/icons/icon-mom.png" id="2_2e6or"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/mommy mearest/mommy_mearest.res" id="2_40xde"]
 

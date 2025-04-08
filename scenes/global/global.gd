@@ -139,13 +139,13 @@ func float_to_time(time: float) -> String:
 func format_number(num: int) -> String:
 	
 	var output: String = str(num).trim_prefix("-").reverse()
-	var len: int = output.length()
+	var length: int = output.length()
 	
-	var char: int = 0
-	for i in range(len):
+	var character: int = 0
+	for i in range(length):
 		
-		if char % 3 == 0 && char != 0: output = output.insert(char, ",")
-		char += 1
+		if character % 3 == 0 and character != 0: output = output.insert(character, ",")
+		character += 1
 	
 	output = output.reverse()
 	if num < 0: output = "-" + output

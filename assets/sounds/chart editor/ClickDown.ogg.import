@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ba5b36e5657aa"
+path="res://.godot/imported/ClickDown.ogg-281629847bc4238423a446c5480c470b.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/ClickDown.ogg"
+dest_files=["res://.godot/imported/ClickDown.ogg-281629847bc4238423a446c5480c470b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

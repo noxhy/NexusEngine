@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu3admb08u8lx"]
+
+[ext_resource type="Script" uid="uid://buyi1bwatoedv" path="res://scenes/instances/chart editor/history_button.gd" id="1_4fexm"]
+
+[node name="Button" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Action"
+alignment = 0
+script = ExtResource("1_4fexm")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

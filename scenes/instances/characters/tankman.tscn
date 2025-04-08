@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://cvw5oumi78kvr"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_jvrgr"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_jvrgr"]
 [ext_resource type="Texture2D" uid="uid://1maoevhwp1gf" path="res://assets/sprites/playstate/icons/icon-tankman.png" id="2_y2cvw"]
 [ext_resource type="SpriteFrames" uid="uid://bswm8b7clqim1" path="res://assets/sprites/characters/tankman/tankman.res" id="3_kv1vj"]
 

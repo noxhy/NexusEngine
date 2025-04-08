@@ -1,15 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://c56g0k7u2k6wo"]
+[gd_scene load_steps=16 format=3 uid="uid://c56g0k7u2k6wo"]
 
-[ext_resource type="Script" path="res://scenes/playstate/chart_tester.gd" id="1_ep6vc"]
+[ext_resource type="Script" uid="uid://dcpna0cpia0dx" path="res://scenes/playstate/chart_tester.gd" id="1_ep6vc"]
 [ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_ajkug"]
-[ext_resource type="Resource" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_srd2m"]
-[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="3_pxsf5"]
+[ext_resource type="Resource" uid="uid://bvphmxy3ecutv" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_srd2m"]
+[ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="3_pxsf5"]
 [ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="4_laa4w"]
-[ext_resource type="PackedScene" path="res://scenes/instances/playstate/play_state_camera.tscn" id="4_y3wph"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="4_y3wph"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="5_g7go4"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="5_xum45"]
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="6_66rma"]
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="7_q0pwq"]
+[ext_resource type="Texture2D" uid="uid://crpue80aij4bq" path="res://assets/sprites/menus/chart editor/menuDesat.png" id="11_6k7lv"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="12_chcqi"]
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_7580e"]
 
@@ -18,6 +20,11 @@ streams_count = 3
 stream_0/stream = ExtResource("5_xum45")
 stream_1/stream = ExtResource("6_66rma")
 stream_2/stream = ExtResource("7_q0pwq")
+
+[sub_resource type="LabelSettings" id="LabelSettings_xphcd"]
+font = ExtResource("12_chcqi")
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Chart Tester" type="Node2D"]
 script = ExtResource("1_ep6vc")
@@ -65,6 +72,17 @@ stream_player = NodePath("../Music/Instrumental")
 [node name="Camera" parent="." instance=ExtResource("4_y3wph")]
 position = Vector2(640, 360)
 
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -128
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+
+[node name="Background" type="Sprite2D" parent="Background"]
+unique_name_in_owner = true
+show_behind_parent = true
+z_index = -256
+texture = ExtResource("11_6k7lv")
+
 [node name="World" type="CanvasLayer" parent="."]
 layer = -1
 offset = Vector2(640, 360)
@@ -81,14 +99,22 @@ gizmo_extents = 18.3
 gizmo_extents = 18.3
 
 [node name="Rating Marker" type="Marker2D" parent="World"]
-position = Vector2(-80, -40)
+position = Vector2(256, -104)
 gizmo_extents = 20.0
 
 [node name="Combo Marker" type="Marker2D" parent="World"]
-position = Vector2(104, 0)
+position = Vector2(352, -64)
 gizmo_extents = 20.0
 
 [node name="UI" parent="." instance=ExtResource("5_g7go4")]
+
+[node name="Chart Stats" type="Label" parent="UI"]
+offset_left = -128.0
+offset_top = -104.0
+offset_right = 128.0
+offset_bottom = 152.0
+label_settings = SubResource("LabelSettings_xphcd")
+autowrap_mode = 3
 
 [connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
 [connection signal="new_event" from="PlayState Host" to="." method="new_event"]

@@ -1,8 +1,8 @@
 extends AnimatedSprite2D
 class_name OffsetSprite
 
-@export var animation_names = { "default": "default", }
-@export var offsets = { "default": Vector2(0, 0), }
+@export var animation_names: Dictionary[String, String] = { "default": "default", }
+@export var offsets: Dictionary[String, Vector2] = { "default": Vector2(0, 0), }
 
 
 func play_animation(animation_name: String = ""):

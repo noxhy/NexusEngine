@@ -28,7 +28,7 @@ func do_it():
 	var err = xml_parser.read()
 	while err == OK:
 		
-		if xml_parser.get_node_type() == XMLParser.NODE_ELEMENT || xml_parser.get_node_type() == XMLParser.NODE_ELEMENT_END:
+		if xml_parser.get_node_type() == XMLParser.NODE_ELEMENT or xml_parser.get_node_type() == XMLParser.NODE_ELEMENT_END:
 			
 			print("--- " + xml_parser.get_node_name() + " ---")
 			
@@ -64,7 +64,7 @@ func do_it():
 				var num_frames = frames.get_frame_count(cur_anim_name)
 				var prev_frame = frames.get_frame_texture(cur_anim_name, num_frames - 1) if num_frames > 0 else null
 				
-				if optimize && prev_frame && new_region == prev_frame.region && new_margin == prev_frame.margin:
+				if optimize and prev_frame and new_region == prev_frame.region and new_margin == prev_frame.margin:
 					
 					print("optimizing " + str(num_frames))
 					

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cj4cuq6neq1lf"]
 
 [ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://assets/themes/tool.tres" id="1_0ca1f"]
-[ext_resource type="Script" path="res://scenes/instances/dialgoue editor/dialogue_line.gd" id="2_dfr6i"]
+[ext_resource type="Script" uid="uid://c25af0kpj2b5m" path="res://scenes/instances/dialgoue editor/dialogue_line.gd" id="2_dfr6i"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qpygn"]
 content_margin_left = 8.0

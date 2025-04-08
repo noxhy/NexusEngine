@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://darhx23v4e15y"]
 
 [ext_resource type="Theme" uid="uid://cbwyjej6x2d78" path="res://assets/themes/tool.tres" id="1_vtw0l"]
-[ext_resource type="Script" path="res://scenes/instances/options/keybind_button.gd" id="2_nnenw"]
+[ext_resource type="Script" uid="uid://do062uyfox1je" path="res://scenes/instances/options/keybind_button.gd" id="2_nnenw"]
 
 [node name="Button" type="Button"]
 custom_minimum_size = Vector2(192, 32)

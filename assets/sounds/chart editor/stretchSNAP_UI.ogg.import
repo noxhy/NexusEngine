@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://sxjc1dfjq7eu"
+path="res://.godot/imported/stretchSNAP_UI.ogg-186e361cdb992fb445e09ddcb93b4119.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/stretchSNAP_UI.ogg"
+dest_files=["res://.godot/imported/stretchSNAP_UI.ogg-186e361cdb992fb445e09ddcb93b4119.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

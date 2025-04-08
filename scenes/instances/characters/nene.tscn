@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://biw6xh624onjh"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/nene.gd" id="1_4sh7w"]
+[ext_resource type="Script" uid="uid://c6ny8maae4h3x" path="res://scenes/instances/characters/nene.gd" id="1_4sh7w"]
 [ext_resource type="SpriteFrames" uid="uid://b4tvh3dq0qark" path="res://assets/sprites/characters/nene/nene.res" id="3_dojva"]
 [ext_resource type="Texture2D" uid="uid://c52jx1hd3csrh" path="res://assets/sprites/characters/nene/stereoBG.png" id="3_o2xqu"]
 [ext_resource type="Texture2D" uid="uid://caknetpbu50v2" path="res://assets/sprites/characters/nene/eyes.png" id="3_olp7v"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/nene/a-bot_visualzier.res" id="4_spo4n"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="5_uhb7d"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="5_uhb7d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m6gpj"]
 atlas = ExtResource("3_olp7v")
@@ -94,8 +94,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kj0rl"]
 _data = {
-"look_left": SubResource("Animation_pr5vd"),
-"look_right": SubResource("Animation_kky0r")
+&"look_left": SubResource("Animation_pr5vd"),
+&"look_right": SubResource("Animation_kky0r")
 }
 
 [node name="Nene" type="Node2D" node_paths=PackedStringArray("visualizer_nodes")]

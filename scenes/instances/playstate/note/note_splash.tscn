@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://c23s1pbajtga2"]
 
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="1_ugy7i"]
-[ext_resource type="Script" path="res://scenes/instances/playstate/note/note_splash.gd" id="1_y21l8"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="1_ugy7i"]
+[ext_resource type="Script" uid="uid://c0va4fda67atq" path="res://scenes/instances/playstate/note/note_splash.gd" id="1_y21l8"]
 
 [node name="Note Splash" type="Node2D"]
 z_index = 2

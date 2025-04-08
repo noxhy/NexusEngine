@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bdbqayhnogbk5"
+path="res://.godot/imported/exitWindow.ogg-d48f7d2a38418bedcb794daf6919238a.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/exitWindow.ogg"
+dest_files=["res://.godot/imported/exitWindow.ogg-d48f7d2a38418bedcb794daf6919238a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

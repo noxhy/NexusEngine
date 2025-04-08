@@ -1,46 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://c0x8vb06f0nkw"]
+[gd_scene load_steps=4 format=3 uid="uid://c0x8vb06f0nkw"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_e2dgr"]
-[ext_resource type="Texture2D" uid="uid://bl71g0wqqeclc" path="res://assets/sprites/playstate/icons/icon-senpaiAngry.png" id="2_svkfj"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_e2dgr"]
+[ext_resource type="SpriteFrames" uid="uid://cuxtqiopvssp7" path="res://assets/sprites/playstate/icons/angry_senpai.tres" id="2_usrxy"]
 [ext_resource type="SpriteFrames" uid="uid://d3eo6fcoflew3" path="res://assets/sprites/characters/senpai/senpai.res" id="3_neexf"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dutp8"]
-atlas = ExtResource("2_svkfj")
-region = Rect2(0, 0, 150, 150)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7te8o"]
-atlas = ExtResource("2_svkfj")
-region = Rect2(150, 0, 150, 150)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_65jdt"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dutp8")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7te8o")
-}],
-"loop": true,
-"name": &"losing",
-"speed": 5.0
-}]
 
 [node name="Senpai" type="Node2D"]
 script = ExtResource("1_e2dgr")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "Angry Senpai DOWN NOTE instance 1",
 "idle": "Angry Senpai Idle instance 1",
 "left": "Angry Senpai LEFT NOTE instance 1",
 "right": "Angry Senpai RIGHT NOTE instance 1",
 "up": "Angry Senpai UP NOTE instance 1"
-}
-offsets = {
+})
+offsets = Dictionary[String, Vector2]({
 "Angry Senpai DOWN NOTE instance 1": Vector2(-1.5, -64),
 "Angry Senpai Idle instance 1": Vector2(-0.5, -63.5),
 "Angry Senpai LEFT NOTE instance 1": Vector2(-3.5, -64),
@@ -51,8 +24,8 @@ offsets = {
 "SENPAI RIGHT NOTE instance 1": Vector2(-0.5, -64),
 "SENPAI UP NOTE instance 1": Vector2(-2.5, -69.5),
 "Senpai Idle instance 1": Vector2(2.08189e-12, -64)
-}
-icons = SubResource("SpriteFrames_65jdt")
+})
+icons = ExtResource("2_usrxy")
 color = Color(0.854902, 0.305882, 0.486275, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

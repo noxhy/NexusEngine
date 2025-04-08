@@ -14,12 +14,13 @@ class_name NoteSkin
 @export_subgroup("Texture Scaling")
 
 @export var notes_scale = 1.0
+@export var splash_scale = 1.0
 @export var sustain_width = 0
 @export var hold_covers_scale = 1.0
 
 @export_subgroup("Offsets")
-@export var animation_names = {}
-@export var offsets = {}
+@export var animation_names: Dictionary[String, String] = {}
+@export var offsets: Dictionary[String, Vector2] = {}
 
 @export_subgroup("Audio")
 @export var hit_sound: AudioStream

@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://by2sf7r6otryi"]
 
 [ext_resource type="SpriteFrames" uid="uid://bkox4ut1mmgul" path="res://assets/sprites/objects/speaker.res" id="1_76mpl"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_lr3gt"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="2_lr3gt"]
 
 [node name="Speaker" type="AnimatedSprite2D"]
 position = Vector2(0, -176)

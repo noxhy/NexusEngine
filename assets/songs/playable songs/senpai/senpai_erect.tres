@@ -2,7 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://d3utv1veneoej" path="res://assets/sprites/playstate/icons/senpai.tres" id="2_ka8cm"]
 [ext_resource type="AudioStream" uid="uid://dix77f2qmvgyw" path="res://assets/songs/playable songs/senpai/Inst-erect.ogg" id="3_fsh74"]
-[ext_resource type="Script" path="res://resources/song.gd" id="3_wyscp"]
+[ext_resource type="Script" uid="uid://watdarflaprc" path="res://resources/song.gd" id="3_wyscp"]
 [ext_resource type="AudioStream" uid="uid://bdpvv4r3xlqpm" path="res://assets/songs/playable songs/senpai/Voices-bf-pixel-erect.ogg" id="4_3ywtw"]
 [ext_resource type="AudioStream" uid="uid://cd0gb6yy72s0y" path="res://assets/songs/playable songs/senpai/Voices-senpai-erect.ogg" id="5_37pie"]
 
@@ -12,11 +12,11 @@ vocals = Array[AudioStream]([ExtResource("4_3ywtw"), ExtResource("5_37pie")])
 instrumental = ExtResource("3_fsh74")
 tempo = 158.0
 scene = "res://scenes/playstate/songs/senpai/senpai.tscn"
-difficulties = {
+difficulties = Dictionary[String, Dictionary]({
 "nightmare": {
 "chart": "res://assets/charts/Senpai Erect - nightmare.tres"
 }
-}
+})
 title = "Senpai Erect"
 artist = "kawai sprite"
 icons = ExtResource("2_ka8cm")

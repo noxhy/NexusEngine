@@ -8,9 +8,8 @@ const MAX_FREQUENCY: float = 3000.0 # Maximum frequency captured
 const IMAGE_HEIGHT: int = 64
 
 var image_compression: float = 10.0 # How many samples in one pixel
-var background_color = Color(0.2, 0.2, 0.4, 0.5)
-var foreground_color = Color.SILVER
-
+var background_color = Color(0.0, 0.0, 0.0, 0.1)
+var foreground_color = Color(0.9, 0.8, 1, 0.8)
 
 
 
@@ -92,7 +91,7 @@ func generate_preview(stream: AudioStreamWAV, image_max_width: int = 500):
 	
 	var img_width = floor(reduced_data_size/image_compression) # Again floor as we discard remaining samples
 	var img = Image.create(img_width, IMAGE_HEIGHT, true, Image.FORMAT_RGBA8)
-	img.fill(Color.DARK_SLATE_GRAY)
+	img.fill(background_color)
 	
 	var sample_i = 0
 	var img_x = 0

@@ -17,8 +17,8 @@ class_name UISkin
 
 @export_subgroup("Offsets")
 
-@export var animation_names = {}
-@export var offsets = {}
+@export var animation_names: Dictionary[String, String] = {}
+@export var offsets: Dictionary[String, Vector2] = {}
 
 @export_subgroup("Scenes")
 

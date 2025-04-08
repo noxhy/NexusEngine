@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dddh323rffgon"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_3qf0p"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_3qf0p"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/spooky kids/spooky_kids.res" id="2_gedfe"]
 [ext_resource type="Texture2D" uid="uid://c72nt4q16hkkh" path="res://assets/sprites/playstate/icons/icon-spooky.png" id="2_noaia"]
 

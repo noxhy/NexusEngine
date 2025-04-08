@@ -10,7 +10,7 @@ func save():
 
 func load_save():
 	
-	if load( save_path ) == null || save_file.version != 1:
+	if load( save_path ) == null or save_file.version != 1:
 		init()
 	
 	save_file = load( save_path )

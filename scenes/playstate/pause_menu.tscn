@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://djhqiluiy02ao"]
 
-[ext_resource type="Script" path="res://scenes/playstate/pause_menu.gd" id="1_kynsm"]
-[ext_resource type="Shader" path="res://shaders/blur.gdshader" id="1_p4mtm"]
+[ext_resource type="Script" uid="uid://w2wf71visfm7" path="res://scenes/playstate/pause_menu.gd" id="1_kynsm"]
+[ext_resource type="Shader" uid="uid://bjlt3yq805r3t" path="res://shaders/blur.gdshader" id="1_p4mtm"]
 [ext_resource type="AudioStream" uid="uid://clklult1rkiyx" path="res://assets/songs/menu songs/breakfast.ogg" id="2_kxcr8"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_blhjj"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="4_wf52a"]
@@ -87,8 +87,8 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lkqyl"]
 _data = {
-"RESET": SubResource("Animation_yvwx3"),
-"intro": SubResource("Animation_2eyce")
+&"RESET": SubResource("Animation_yvwx3"),
+&"intro": SubResource("Animation_2eyce")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_0uk4b"]
@@ -115,7 +115,7 @@ script = ExtResource("1_kynsm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_lkqyl")
+&"": SubResource("AnimationLibrary_lkqyl")
 }
 
 [node name="Audio" type="Node" parent="."]

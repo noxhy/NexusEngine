@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://rrkhugilc67r"
+path="res://.godot/imported/noteErase.ogg-3512a813e1463472e49fe5ae25415b97.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/noteErase.ogg"
+dest_files=["res://.godot/imported/noteErase.ogg-3512a813e1463472e49fe5ae25415b97.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

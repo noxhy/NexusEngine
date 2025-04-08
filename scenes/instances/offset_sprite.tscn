@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b4rxx1ufbjt17"]
 
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="1_2v0dc"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="1_2v0dc"]
 
 [node name="Offset Sprite" type="AnimatedSprite2D"]
 script = ExtResource("1_2v0dc")

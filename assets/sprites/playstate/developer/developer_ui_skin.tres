@@ -1,8 +1,8 @@
-[gd_resource type="Resource" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="UISkin" load_steps=4 format=3 uid="uid://bvphmxy3ecutv"]
 
 [ext_resource type="SpriteFrames" uid="uid://c802qdqdog3ia" path="res://assets/sprites/playstate/developer/rating/ratings.tres" id="1_ifch6"]
 [ext_resource type="SpriteFrames" uid="uid://b7h7qi3th3rb8" path="res://assets/sprites/playstate/developer/rating/combo_numbers.tres" id="1_n60qe"]
-[ext_resource type="Script" path="res://resources/ui_skin.gd" id="1_viwnt"]
+[ext_resource type="Script" uid="uid://bhm743f04ojig" path="res://resources/ui_skin.gd" id="1_viwnt"]
 
 [resource]
 script = ExtResource("1_viwnt")
@@ -15,3 +15,4 @@ numbers_spacing = 64
 animation_names = {}
 offsets = {}
 countdown_animation = "developer_countdown"
+pause_scene = "res://scenes/playstate/pause_menu.tscn"

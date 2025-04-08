@@ -32,7 +32,7 @@ func _process(delta):
 	$Performance.text += " • " + "Misses: " + str(misses)
 	
 	
-	update_health_bar( lerp( $"Health Bar".value, target_health, 0.1 ) )
+	update_health_bar( lerp( $"Health Bar".value, target_health, 0.115 ) )
 
 
 func _physics_process(delta):
@@ -85,7 +85,6 @@ func update_health_bar( health: float ):
 				enemy_icon.animation = condition[2]
 			break
 
-
 func downscroll_ui():
 	
 	$"Player Strum".position.y *= -1
@@ -107,5 +106,5 @@ func set_credits( song_name: String, artist_names: String ):
 	$"Song Credits/ColorRect/Label".text += artist_names
 
 
-func show_credits(): $AnimationPlayer.play( "credits_show" )
-func hide_credits(): $AnimationPlayer.play( "credits_hide" )
+func show_credits(): $AnimationPlayer.play("credits_show")
+func hide_credits(): $AnimationPlayer.play("credits_hide")

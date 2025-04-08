@@ -214,6 +214,7 @@ func select_option( i: int ):
 		
 		Global.stop_song()
 		var scene = options.get( options.keys()[i] ).scene
+		GameHandeler.play_mode = GameHandeler.PLAY_MODE.STORY_MODE
 		GameHandeler.freeplay = false
 		Global.change_scene_to(scene)
 

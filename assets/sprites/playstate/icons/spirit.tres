@@ -2,19 +2,19 @@
 
 [ext_resource type="Texture2D" uid="uid://rkb3ksfhkja1" path="res://assets/sprites/playstate/icons/icon-spirit.png" id="1_xdwv6"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mcfy7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfvyj"]
 atlas = ExtResource("1_xdwv6")
-region = Rect2(0, 0, 150, 150)
+region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_atvqq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1bpd"]
 atlas = ExtResource("1_xdwv6")
-region = Rect2(150, 0, 150, 150)
+region = Rect2(128, 0, 128, 128)
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mcfy7")
+"texture": SubResource("AtlasTexture_jfvyj")
 }],
 "loop": true,
 "name": &"default",
@@ -22,7 +22,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_atvqq")
+"texture": SubResource("AtlasTexture_b1bpd")
 }],
 "loop": true,
 "name": &"losing",

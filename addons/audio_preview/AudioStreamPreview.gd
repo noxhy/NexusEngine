@@ -21,7 +21,7 @@ func _ready():
 	add_child(voice_preview_generator)
 	voice_preview_generator.generation_progress.connect(_on_generation_progress)
 	voice_preview_generator.texture_ready.connect(_on_texture_ready)
-	
+	self.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	
 	_update_preview()
 
@@ -36,7 +36,7 @@ func _update_preview():
 	
 	stream = load(stream_path)
 	stream_length = stream.get_length() if stream else 0.0
-	voice_preview_generator.generate_preview(stream)
+	voice_preview_generator.generate_preview(stream, self.size.x * 10)
 	emit_signal("generation_started")
 
 func _on_generation_progress(normalized_progress: float):

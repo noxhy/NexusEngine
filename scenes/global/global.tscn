@@ -1,12 +1,12 @@
 [gd_scene load_steps=5 format=3 uid="uid://c1xj54jogmqul"]
 
-[ext_resource type="Script" path="res://scenes/global/global.gd" id="1_swfdr"]
+[ext_resource type="Script" uid="uid://cjdqxjkevt2iw" path="res://scenes/global/global.gd" id="1_swfdr"]
 [ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="2_77tff"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_q1yt6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_harfc"]
 font = ExtResource("2_77tff")
-font_size = 24
+font_size = 18
 
 [node name="Global" type="Node2D"]
 process_mode = 3

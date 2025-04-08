@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://rka5qxbj0svd"
+path="res://.godot/imported/noteLay.ogg-00c73b4f2b21ceae67b434f2151ef96f.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/noteLay.ogg"
+dest_files=["res://.godot/imported/noteLay.ogg-00c73b4f2b21ceae67b434f2151ef96f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

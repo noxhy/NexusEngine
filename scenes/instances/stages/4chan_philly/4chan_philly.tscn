@@ -1,9 +1,9 @@
 [gd_scene load_steps=24 format=3 uid="uid://o04ewby7jkf1"]
 
-[ext_resource type="Script" path="res://scenes/instances/stages/4chan_philly/4chan_philly.gd" id="1_osrb8"]
-[ext_resource type="Shader" path="res://shaders/raindrops.gdshader" id="2_0df5w"]
+[ext_resource type="Script" uid="uid://df3mvgqvkhgri" path="res://scenes/instances/stages/4chan_philly/4chan_philly.gd" id="1_osrb8"]
+[ext_resource type="Shader" uid="uid://cn1tl4764rmon" path="res://shaders/raindrops.gdshader" id="2_0df5w"]
 [ext_resource type="Texture2D" uid="uid://qh7u8c8w87q0" path="res://assets/sprites/stages/philly_streets/phillyForeground.png" id="2_ivyoc"]
-[ext_resource type="Shader" path="res://shaders/rain.gdshader" id="2_xd4wj"]
+[ext_resource type="Shader" uid="uid://dw0lfwemfmrel" path="res://shaders/rain.gdshader" id="2_xd4wj"]
 [ext_resource type="SpriteFrames" uid="uid://de6iwhwjvpwoi" path="res://assets/sprites/stages/philly_streets/traffic_lights.res" id="3_4rwr1"]
 [ext_resource type="Texture2D" uid="uid://cdclp4qq6210j" path="res://assets/sprites/stages/philly_streets/SpraycanPile.png" id="3_iqa2f"]
 [ext_resource type="Texture2D" uid="uid://c3tul66ee8e36" path="res://assets/sprites/stages/philly_streets/phillyConstruction.png" id="3_uikep"]
@@ -62,10 +62,10 @@ shader_parameter/rain_color = Color(0, 0.34375, 1, 1)
 shader_parameter/base_rain_speed = 3.804
 shader_parameter/additional_rain_speed = 0.292
 shader_parameter/slant = -0.075
+shader_parameter/noise = SubResource("NoiseTexture2D_ovujy")
 shader_parameter/speed = 0.11
 shader_parameter/strength = 0.1
 shader_parameter/warp_sensitivity = 0.257
-shader_parameter/noise = SubResource("NoiseTexture2D_ovujy")
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_osrb8")

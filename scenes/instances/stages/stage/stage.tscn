@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://cymgv4pu0e1rh"]
 
-[ext_resource type="Script" path="res://scenes/instances/stage.gd" id="1_iml2w"]
+[ext_resource type="Script" uid="uid://bgx1imb2x4q8y" path="res://scenes/instances/stage.gd" id="1_iml2w"]
 [ext_resource type="Texture2D" uid="uid://h6h76orxl7xp" path="res://assets/sprites/stages/stage/lights.png" id="2_amnec"]
 [ext_resource type="Texture2D" uid="uid://bj82xcj3ff6ll" path="res://assets/sprites/stages/stage/bg.png" id="2_rgkbg"]
 [ext_resource type="Texture2D" uid="uid://b3ovsxv0ai7mf" path="res://assets/sprites/stages/stage/server.png" id="3_cjt0b"]
@@ -66,7 +66,7 @@ position = Vector2(-417, -69)
 color = Color(0.202332, 0.609375, 0.246852, 1)
 energy = 9.58
 range_layer_min = -128
-range_layer_max = -1
+range_layer_max = -2
 texture = ExtResource("4_v8tiy")
 texture_scale = 0.75
 metadata/_edit_lock_ = true
@@ -77,7 +77,7 @@ color = Color(0.777344, 0.103241, 0.103241, 1)
 energy = 11.41
 blend_mode = 2
 range_layer_min = -128
-range_layer_max = -1
+range_layer_max = -2
 texture = ExtResource("5_ful52")
 metadata/_edit_lock_ = true
 

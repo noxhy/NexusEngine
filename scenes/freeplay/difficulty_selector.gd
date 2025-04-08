@@ -14,7 +14,7 @@ func _ready() -> void:
 	$AnimationPlayer.play("start")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	
 	if can_press:
 		

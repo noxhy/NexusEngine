@@ -1,46 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://dghi5ce8cupic"]
+[gd_scene load_steps=4 format=3 uid="uid://dghi5ce8cupic"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_8s5sa"]
-[ext_resource type="Texture2D" uid="uid://rkb3ksfhkja1" path="res://assets/sprites/playstate/icons/icon-spirit.png" id="2_jt8w2"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_8s5sa"]
+[ext_resource type="SpriteFrames" uid="uid://cdmsewf24ks2q" path="res://assets/sprites/playstate/icons/spirit.tres" id="2_s66hv"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/spirit/spirit.res" id="3_1ui7q"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mcfy7"]
-atlas = ExtResource("2_jt8w2")
-region = Rect2(0, 0, 150, 150)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_atvqq"]
-atlas = ExtResource("2_jt8w2")
-region = Rect2(150, 0, 150, 150)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_xny2p"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mcfy7")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_atvqq")
-}],
-"loop": true,
-"name": &"losing",
-"speed": 5.0
-}]
 
 [node name="Spirit" type="Node2D"]
 script = ExtResource("1_8s5sa")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "pixel_down",
 "idle": "df_idle",
 "left": "pixel_left",
 "right": "pixel_right",
 "up": "pixel_up"
-}
-icons = SubResource("SpriteFrames_xny2p")
+})
+icons = ExtResource("2_s66hv")
 color = Color(0.8, 0.262745, 0.439216, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

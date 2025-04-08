@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ctj2p08mc0bhc"
+path="res://.godot/imported/hitNoteOpponent.ogg-2867661d93ff03c004a2cfbf27d0cfab.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/chart editor/hitNoteOpponent.ogg"
+dest_files=["res://.godot/imported/hitNoteOpponent.ogg-2867661d93ff03c004a2cfbf27d0cfab.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

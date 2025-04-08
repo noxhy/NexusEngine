@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Song" load_steps=5 format=3 uid="uid://dil4w112nqady"]
+
+[ext_resource type="SpriteFrames" uid="uid://dt82dx1mf15r" path="res://assets/sprites/playstate/icons/face.tres" id="1_6tw18"]
+[ext_resource type="AudioStream" uid="uid://y51u1u4erleq" path="res://assets/songs/playable songs/slide my way/tsu song chillection inst.ogg" id="2_cehdb"]
+[ext_resource type="Script" uid="uid://watdarflaprc" path="res://resources/song.gd" id="2_v07th"]
+[ext_resource type="AudioStream" uid="uid://dvygs4ndkft3d" path="res://assets/songs/playable songs/slide my way/vocals grahahaha.ogg" id="4_deo3f"]
+
+[resource]
+script = ExtResource("2_v07th")
+vocals = Array[AudioStream]([ExtResource("4_deo3f")])
+instrumental = ExtResource("2_cehdb")
+tempo = 103.0
+scene = ""
+difficulties = Dictionary[String, Dictionary]({
+"hard": {
+"chart": "res://assets/charts/Slide my Way.tres"
+}
+})
+title = "Slide my Way"
+artist = "tsuyunoshi"
+icons = ExtResource("1_6tw18")
+display_color = Color(1, 1, 1, 1)
+locked = false

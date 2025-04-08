@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://hhmw8wb13s7f"]
 
-[ext_resource type="Script" path="res://scenes/instances/options/options_node_range.gd" id="1_inlog"]
+[ext_resource type="Script" uid="uid://6q0jm3vj2kh" path="res://scenes/instances/options/options_node_range.gd" id="1_inlog"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bf8dt"]
 font_size = 24

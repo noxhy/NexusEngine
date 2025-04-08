@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://l713j3okh2iq"]
 
-[ext_resource type="Script" path="res://scenes/playstate/playstate.gd" id="1_sutwb"]
+[ext_resource type="Script" uid="uid://cmgmd88pfh7dd" path="res://scenes/playstate/playstate.gd" id="1_sutwb"]
 
 [node name="PlayState Host" type="Node"]
 script = ExtResource("1_sutwb")

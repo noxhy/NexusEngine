@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://b7qewyyacub5m"]
 
 [ext_resource type="SpriteFrames" uid="uid://c771gm7j20lte" path="res://assets/sprites/objects/speaker_pixel.tres" id="1_aewuf"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_eqgj0"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="2_eqgj0"]
 
 [node name="Speaker" type="AnimatedSprite2D"]
 texture_filter = 1

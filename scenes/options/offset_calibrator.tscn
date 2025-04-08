@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://cw85perbwjqqy"]
 
 [ext_resource type="PackedScene" uid="uid://cymgv4pu0e1rh" path="res://scenes/instances/stages/stage/stage.tscn" id="1_q4bjy"]
-[ext_resource type="Script" path="res://scenes/options/offset_calibrator.gd" id="1_to22u"]
-[ext_resource type="Script" path="res://scenes/instances/conductor.gd" id="3_wcm4s"]
+[ext_resource type="Script" uid="uid://disrmsl28koee" path="res://scenes/options/offset_calibrator.gd" id="1_to22u"]
+[ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="3_wcm4s"]
 [ext_resource type="AudioStream" uid="uid://bsv6t5iw2tl3t" path="res://assets/songs/menu songs/offset song.ogg" id="4_65mtm"]
 [ext_resource type="AudioStream" uid="uid://baajtpwp5hvdp" path="res://assets/sounds/menu sounds/snare.mp3" id="5_picn5"]
 [ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="6_q07ox"]
-[ext_resource type="PackedScene" path="res://scenes/instances/objects/speaker.tscn" id="6_rhpjf"]
+[ext_resource type="PackedScene" uid="uid://by2sf7r6otryi" path="res://scenes/instances/objects/speaker.tscn" id="6_rhpjf"]
 [ext_resource type="SpriteFrames" uid="uid://bkox4ut1mmgul" path="res://assets/sprites/objects/speaker.res" id="7_ftngd"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="8_48d4v"]
 
@@ -54,10 +54,10 @@ follow_viewport_enabled = true
 [node name="Speaker" parent="UI" instance=ExtResource("6_rhpjf")]
 position = Vector2(0, 88)
 sprite_frames = ExtResource("7_ftngd")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "bump": "IDLE",
 "idle": "BUMP"
-}
+})
 metadata/_edit_lock_ = true
 
 [node name="Offset Label" type="Label" parent="UI"]

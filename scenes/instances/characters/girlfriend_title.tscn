@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dirqojr6g5tpn"]
 
-[ext_resource type="Script" path="res://scenes/instances/characters/character.gd" id="1_ep0lb"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_ep0lb"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/characters/girlfriend title/girlfriend_title.res" id="3_ktqsh"]
 
 [node name="Girlfriend" type="Node2D"]

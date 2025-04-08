@@ -1,7 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://j4nwqbrbuj4b"]
+[gd_scene load_steps=3 format=3 uid="uid://j4nwqbrbuj4b"]
 
-[ext_resource type="Script" path="res://test/test_scene.gd" id="1_2vri4"]
+[ext_resource type="Script" uid="uid://cqc11g8jkoqxq" path="res://test/test_scene.gd" id="1_2vri4"]
+[ext_resource type="Resource" uid="uid://ctxgdhk4xjq2v" path="res://assets/charts/Slide my Way.tres" id="2_bhvwx"]
 
 [node name="Test Scene" type="Node2D"]
 script = ExtResource("1_2vri4")
-animation_file = "<null>"
+chart = ExtResource("2_bhvwx")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 448.0
+offset_top = 128.0
+offset_right = 832.0
+offset_bottom = 576.0
+focus_mode = 2
+selection_enabled = true
+metadata/_edit_lock_ = true

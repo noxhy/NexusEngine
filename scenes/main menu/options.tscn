@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://deq86v7ryf1jq"]
 
 [ext_resource type="SpriteFrames" uid="uid://dgb77avcfsrwk" path="res://assets/sprites/menus/main menu/menu_options.res" id="1_dundt"]
-[ext_resource type="Script" path="res://scenes/instances/offset_sprite.gd" id="2_1l3ep"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="2_1l3ep"]
 
 [node name="Options" type="AnimatedSprite2D"]
 sprite_frames = ExtResource("1_dundt")

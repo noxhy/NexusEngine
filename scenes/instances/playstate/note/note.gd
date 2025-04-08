@@ -24,6 +24,7 @@ var last_length: float = 0.0
 
 var direction = "left"
 var animation = "left"
+var lane: int = 0
 
 var on_screen = false
 

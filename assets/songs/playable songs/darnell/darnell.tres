@@ -2,7 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://digynxqrdoj3g" path="res://assets/sprites/playstate/icons/darnell.tres" id="1_aowy4"]
 [ext_resource type="AudioStream" uid="uid://deteafbs1bs7o" path="res://assets/songs/playable songs/darnell/Inst.ogg" id="2_nloel"]
-[ext_resource type="Script" path="res://resources/song.gd" id="3_yici6"]
+[ext_resource type="Script" uid="uid://watdarflaprc" path="res://resources/song.gd" id="3_yici6"]
 [ext_resource type="AudioStream" uid="uid://bt86n7p0cydn3" path="res://assets/songs/playable songs/darnell/Voices-pico.ogg" id="4_umsgd"]
 [ext_resource type="AudioStream" uid="uid://cp2wxj2okk1ng" path="res://assets/songs/playable songs/darnell/Voices-darnell.ogg" id="5_ngael"]
 
@@ -12,7 +12,7 @@ vocals = Array[AudioStream]([ExtResource("4_umsgd"), ExtResource("5_ngael")])
 instrumental = ExtResource("2_nloel")
 tempo = 155.0
 scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
-difficulties = {
+difficulties = Dictionary[String, Dictionary]({
 "hard": {
 "chart": "res://assets/charts/Darnell - hard.tres"
 },
@@ -20,7 +20,7 @@ difficulties = {
 "chart": "res://assets/charts/Darnell (Bf Mix) - hard.tres",
 "scene": "res://scenes/playstate/songs/darnell/darnell_bf.tscn"
 }
-}
+})
 title = "Darnell"
 artist = "kawai sprite"
 icons = ExtResource("1_aowy4")

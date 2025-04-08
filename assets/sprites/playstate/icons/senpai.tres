@@ -2,19 +2,19 @@
 
 [ext_resource type="Texture2D" uid="uid://ee2igx8pcqyw" path="res://assets/sprites/playstate/icons/icon-senpai.png" id="1_s5wb5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e88gg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_841fo"]
 atlas = ExtResource("1_s5wb5")
-region = Rect2(0, 0, 150, 150)
+region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_givs5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7qm8"]
 atlas = ExtResource("1_s5wb5")
-region = Rect2(150, 0, 150, 150)
+region = Rect2(128, 0, 128, 128)
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_e88gg")
+"texture": SubResource("AtlasTexture_841fo")
 }],
 "loop": true,
 "name": &"default",
@@ -22,7 +22,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_givs5")
+"texture": SubResource("AtlasTexture_i7qm8")
 }],
 "loop": true,
 "name": &"losing",
