@@ -53,7 +53,7 @@ vec2 u = SCREEN_UV,
     float t = (s.x+s.y) * max(0., 1. - fract(iTime * (d.b + .1) + d.g) * 2.);;
 
     // d.r -> only x% of drops are kept on, with x depending on the size of drops
-    if (d.r < (5.-r)*.08 and t > .5) {
+    if (d.r < (5.-r) *.08 && t > .5) {
       // Drop normal
       vec3 v = normalize(-vec3(cos(p), mix(.2, 2., t-.5)));
        //fragColor = vec4(v * 0.5 + 0.5, 1.0); // show normals

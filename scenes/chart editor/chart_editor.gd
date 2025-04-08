@@ -242,6 +242,7 @@ func _process(delta: float) -> void:
 									start_lane = lane
 									start_time = time
 									
+									print("Selected notes: ", selected_notes)
 									var k: int = 0
 									for j in selected_notes:
 										
@@ -250,8 +251,11 @@ func _process(delta: float) -> void:
 								
 								else:
 									
-									selected_notes = [find_note(lane, time)]
-									selected_note_nodes = [selected_notes[0]]
+									var index: int = find_note(lane, time)
+									selected_notes = [index]
+									selected_note_nodes = [note_list[index]]
+									min_lane = lane
+									max_lane = lane
 		
 		else:
 			
@@ -296,6 +300,7 @@ func _process(delta: float) -> void:
 									j += 1
 								
 								if SettingsHandeler.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
+	
 	
 	if Input.is_action_pressed("mouse_left"):
 		
@@ -348,20 +353,14 @@ func _process(delta: float) -> void:
 								var time_distance = cursor_time - start_time
 								changed_length = (abs(lane_distance) > 0 or abs(time_distance) > 0)
 								
-								print("min lane: ", min_lane)
-								print("max lane: ", max_lane)
-								
 								var diff: int = max_lane - min_lane
 								
 								if ((min_lane + lane_distance) >= 0 and (max_lane + lane_distance) < ChartHandeler.strum_count):
 									
 									if changed_length:
 										
-										var temp: Array = selected_notes
-										selected_notes = []
-										
 										var j: int = 0
-										for i in temp:
+										for i in selected_notes:
 											
 											var note: Array = chart.get_notes_data()[i]
 											
@@ -384,6 +383,7 @@ func _process(delta: float) -> void:
 										start_lane += lane_distance
 										min_lane += lane_distance
 										max_lane = min_lane + diff
+	
 	
 	if Input.is_action_just_released("mouse_left"):
 		
@@ -446,11 +446,24 @@ func _process(delta: float) -> void:
 		
 		if moving_notes:
 			
+			print("before move: ", selected_notes)
+			var temp: Array = []
 			for note in selected_note_nodes:
 				
 				place_note(note.time, note.lane, note.length, note.note_type, true)
+				temp.append([note.lane, note.time])
+				note_list.erase(note)
 				note.queue_free()
 			
+			selected_notes = []
+			selected_note_nodes = []
+			for packet in temp:
+				
+				var index: int = find_note(packet[0], packet[1])
+				selected_notes.append(index)
+				selected_note_nodes.append(note_list[index])
+			
+			print("after move: ", selected_notes)
 			moving_notes = false
 			%"Note Place".play()
 	
@@ -680,16 +693,16 @@ func load_song_path(path: String, difficulty: Variant = null):
 
 func load_chart(file: Chart, ghost: bool = false):
 	
+	selected_notes = []
+	selected_note_nodes = []
+	
 	if !ghost:
 		
 		for n in note_list: n.queue_free()
 		note_list = []
 	
 	for note in file.get_notes_data():
-		
 		place_note(note[0], note[1], note[2], note[3])
-		selected_notes = []
-
 
 func new_file(path: String, song: Song):
 	
@@ -704,6 +717,7 @@ func new_file(path: String, song: Song):
 	can_chart = true
 
 ## Adds an instance of a note on the chart editor, placed boolean adds it to the chart data.
+## Reset the select notes and note nodes list before calling moved
 func place_note(time: float, lane: int, length: float, type: int, placed: bool = false, moved: bool = false):
 	
 	var directions = ["left", "down", "up", "right"]
@@ -741,14 +755,18 @@ func place_note(time: float, lane: int, length: float, type: int, placed: bool =
 			if !moved:
 				
 				selected_notes = [L]
-				selected_note_nodes = [note_list[L]]
+				selected_note_nodes = [note_instance]
+				min_lane = lane
+				max_lane = lane
 		
 		else:
 			
 			note_list.append(note_instance)
 			chart.chart_data["notes"].append([time, lane, length, type])
 			selected_notes = [chart.get_notes_data().size() - 1]
-			selected_note_nodes = [note_list[chart.get_notes_data().size() - 1]]
+			selected_note_nodes = [note_instance]
+			min_lane = lane
+			max_lane = lane
 		
 	else:
 		note_list.append(note_instance)

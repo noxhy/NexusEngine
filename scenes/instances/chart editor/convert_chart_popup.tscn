@@ -104,6 +104,7 @@ min_size = Vector2i(320, 320)
 ok_button_text = "Open"
 dialog_hide_on_ok = true
 file_mode = 1
+root_subfolder = "res://assets/songs/playable songs/"
 filters = PackedStringArray("*.mp3", "*.ogg")
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
@@ -134,6 +135,7 @@ min_size = Vector2i(320, 320)
 ok_button_text = "Open"
 dialog_hide_on_ok = true
 file_mode = 0
+root_subfolder = "res://assets/songs/playable songs/"
 filters = PackedStringArray("*.mp3", "*.ogg")
 
 [node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
@@ -179,8 +181,7 @@ min_size = Vector2i(320, 320)
 ok_button_text = "Open"
 dialog_hide_on_ok = true
 file_mode = 0
-access = 2
-root_subfolder = "res://"
+root_subfolder = "res://assets/songs/playable songs/"
 filters = PackedStringArray("*.json")
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer"]
