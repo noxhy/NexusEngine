@@ -11,8 +11,7 @@ The original engine can be played here: https://gamejolt.com/games/fnf-nexus-eng
 ## Credits
 
 - [Noah](https://www.youtube.com/channel/UCH5BbTqMfiO-Cxhtx3drsqA) - Head Developer
-- [Koi](https://twitter.com/toasted_milk_) - Credits menu button and Miss sprite
-- [Kazzyrus](https://twitter.com/kazzyrus) - EPIC! sprite
+- [Koi](https://twitter.com/toasted_milk_) - Miss sprite
 - [PieDaDude](https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ) - Lock and Arrow sprite
 - KostyaGame - Dad losing icon
 - [sqirradotdev](https://github.com/sqirradotdev) - Smooth arrow Lerping function.
