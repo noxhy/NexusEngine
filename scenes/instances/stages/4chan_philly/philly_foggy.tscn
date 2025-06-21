@@ -132,8 +132,12 @@ offset_right = 1288.0
 offset_bottom = 632.0
 color = Color(1, 1, 1, 0)
 
+[node name="Parallax2D" type="Parallax2D" parent="."]
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-layer = 1
+layer = 2
+offset = Vector2(-12, -360)
+transform = Transform2D(1, 0, 0, 1, -12, -360)
 follow_viewport_enabled = true
 scroll_ignore_camera_zoom = true
 
@@ -143,6 +147,7 @@ motion_mirroring = Vector2(2048, 0)
 
 [node name="MistFront" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 material = SubResource("ShaderMaterial_bbpm6")
+position = Vector2(20, 325)
 texture = ExtResource("4_bea4p")
 centered = false
 

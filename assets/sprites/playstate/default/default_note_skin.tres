@@ -15,8 +15,18 @@ splashes_texture = ExtResource("3_3w5ev")
 hold_covers_texture = ExtResource("2_hgpr1")
 pixel_texture = false
 notes_scale = 0.78
+splash_scale = 1.0
 sustain_width = 50
 hold_covers_scale = 1.2
 animation_names = Dictionary[String, String]({})
-offsets = Dictionary[String, Vector2]({})
+offsets = Dictionary[String, Vector2]({
+"cover down": Vector2(0, 0),
+"cover down end": Vector2(0, 0),
+"cover left": Vector2(0, 0),
+"cover left end": Vector2(0, 0),
+"cover right": Vector2(0, 0),
+"cover right end": Vector2(0, 0),
+"cover up": Vector2(0, 0),
+"cover up end": Vector2(0, 0)
+})
 hit_sound = ExtResource("1_7y8y0")

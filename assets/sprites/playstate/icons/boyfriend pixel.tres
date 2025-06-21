@@ -4,11 +4,11 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_je20v"]
 atlas = ExtResource("1_je20v")
-region = Rect2(0, 0, 128, 128)
+region = Rect2(0, 0, 144, 144)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fef3n"]
 atlas = ExtResource("1_je20v")
-region = Rect2(128, 0, 128, 128)
+region = Rect2(144, 0, 144, 144)
 
 [resource]
 animations = [{

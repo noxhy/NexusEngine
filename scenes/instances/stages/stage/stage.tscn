@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cymgv4pu0e1rh"]
+[gd_scene load_steps=14 format=3 uid="uid://cymgv4pu0e1rh"]
 
 [ext_resource type="Script" uid="uid://bgx1imb2x4q8y" path="res://scenes/instances/stage.gd" id="1_iml2w"]
 [ext_resource type="Texture2D" uid="uid://h6h76orxl7xp" path="res://assets/sprites/stages/stage/lights.png" id="2_amnec"]
@@ -12,8 +12,27 @@
 [ext_resource type="Texture2D" uid="uid://b6osf3stktvot" path="res://assets/sprites/stages/stage/backDark.png" id="6_1uitl"]
 [ext_resource type="Texture2D" uid="uid://c2tcifva8pysg" path="res://assets/sprites/stages/stage/orangeLight.png" id="8_shdpk"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uylt5"]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_v20k1"]
+blend_mode = 1
+
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_iml2w")
+
+[node name="Lights2" type="CanvasLayer" parent="." groups=["parallax"]]
+layer = 2
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="PointLight2D2" type="Sprite2D" parent="Lights2"]
+z_index = 385
+material = SubResource("CanvasItemMaterial_uylt5")
+position = Vector2(424, -32)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("8_shdpk")
 
 [node name="Lights" type="CanvasLayer" parent="." groups=["parallax"]]
 offset = Vector2(640, 360)
@@ -22,30 +41,17 @@ follow_viewport_enabled = true
 follow_viewport_scale = 0.9
 
 [node name="Lights2" type="Sprite2D" parent="Lights"]
+z_index = 1
 position = Vector2(66.25, -267.5)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_amnec")
 metadata/_edit_lock_ = true
 
-[node name="PointLight2D" type="PointLight2D" parent="Lights"]
-z_index = -1
-position = Vector2(605, -151)
-color = Color(1, 0.862366, 0.570313, 1)
-energy = 13.75
-blend_mode = 2
-range_layer_min = -128
-range_layer_max = -2
+[node name="PointLight2D" type="Sprite2D" parent="Lights"]
+material = SubResource("CanvasItemMaterial_v20k1")
+position = Vector2(622.222, -158.889)
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("3_pxro2")
-texture_scale = 0.75
-
-[node name="PointLight2D2" type="PointLight2D" parent="Lights"]
-z_index = -2
-position = Vector2(608, -151)
-color = Color(0.585938, 0.338745, 0.54152, 1)
-energy = 7.4
-range_layer_min = -128
-texture = ExtResource("4_frumy")
-texture_scale = 1.2
 
 [node name="Props" type="CanvasLayer" parent="." groups=["parallax"]]
 layer = -2
@@ -87,21 +93,16 @@ offset = Vector2(640, 248)
 transform = Transform2D(1, 0, 0, 1, 640, 248)
 follow_viewport_enabled = true
 
+[node name="PointLight2D2" type="Sprite2D" parent="Stage"]
+material = SubResource("CanvasItemMaterial_v20k1")
+position = Vector2(632, -16)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_frumy")
+
 [node name="Bg" type="Sprite2D" parent="Stage"]
 position = Vector2(112, 112)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_rgkbg")
-metadata/_edit_lock_ = true
-
-[node name="PointLight2D" type="PointLight2D" parent="Stage"]
-position = Vector2(76, 123)
-color = Color(0.6875, 0.508947, 0.467285, 1)
-energy = 2.36
-blend_mode = 2
-range_layer_min = -128
-range_layer_max = -2
-texture = ExtResource("8_shdpk")
-texture_scale = 0.7
 metadata/_edit_lock_ = true
 
 [node name="Crowd" type="CanvasLayer" parent="." groups=["parallax"]]
@@ -112,19 +113,15 @@ follow_viewport_enabled = true
 follow_viewport_scale = 0.95
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Crowd"]
-modulate = Color(0.57629, 0.519409, 0.578125, 1)
-position = Vector2(392, 168)
+position = Vector2(572.632, 139.368)
 scale = Vector2(0.7, 0.7)
 sprite_frames = ExtResource("3_e2oij")
 animation = &"Symbol 2 instance 1"
 autoplay = "Symbol 2 instance 1"
-frame = 1
-frame_progress = 0.739647
+frame_progress = 0.0231083
 metadata/_edit_lock_ = true
 
 [node name="BackDark" type="Sprite2D" parent="Crowd"]
 z_index = -1
-position = Vector2(33.6842, 139.368)
-scale = Vector2(1.47647, 1)
+position = Vector2(572.631, 113.053)
 texture = ExtResource("6_1uitl")
-metadata/_edit_lock_ = true

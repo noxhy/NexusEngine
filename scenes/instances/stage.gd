@@ -32,7 +32,7 @@ func _ready():
 			
 			i.scale *= self.scale
 			i.rotation = self.rotation
-			i.offset += self.position
+			if !(i is Parallax2D): i.offset += self.position
 			i.visible = self.visible
 
 func bop(allow_slow: bool = false):

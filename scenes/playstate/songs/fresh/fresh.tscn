@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://blj8dbuorj1h0"]
+[gd_scene load_steps=22 format=3 uid="uid://blj8dbuorj1h0"]
 
 [ext_resource type="Script" uid="uid://7hv1pn58e04v" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_xeyw4"]
 [ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_y6xle"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_lm4uy"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="11_pruvp"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_b2bjn"]
+[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://shaders/adjust_hsv.gdshader" id="14_orev5"]
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5gnfm"]
 
@@ -23,6 +24,27 @@ streams_count = 3
 stream_0/stream = ExtResource("8_8rd3j")
 stream_1/stream = ExtResource("9_8uy3k")
 stream_2/stream = ExtResource("10_lm4uy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ygtui"]
+shader = ExtResource("14_orev5")
+shader_parameter/hue = 12.0
+shader_parameter/saturation = 0.0
+shader_parameter/contrast = 7.0
+shader_parameter/brightness = -23.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_orev5"]
+shader = ExtResource("14_orev5")
+shader_parameter/hue = -33.0
+shader_parameter/saturation = 0.0
+shader_parameter/contrast = -23.0
+shader_parameter/brightness = -33.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8srk8"]
+shader = ExtResource("14_orev5")
+shader_parameter/hue = -9.0
+shader_parameter/saturation = 0.0
+shader_parameter/contrast = -4.0
+shader_parameter/brightness = -30.0
 
 [node name="Fresh" type="Node2D"]
 script = ExtResource("1_xeyw4")
@@ -110,24 +132,27 @@ follow_viewport_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("9_dqjx1")]
 unique_name_in_owner = true
-modulate = Color(0.855469, 0.851814, 0.761902, 1)
 z_index = 1
+material = SubResource("ShaderMaterial_ygtui")
 position = Vector2(400, 288)
 scale = Vector2(0.7, 0.7)
+metadata/_edit_lock_ = true
 
 [node name="Enemy" parent="Characters" instance=ExtResource("10_f8uei")]
 unique_name_in_owner = true
-modulate = Color(0.868225, 0.867188, 1, 1)
 z_index = 1
+material = SubResource("ShaderMaterial_orev5")
 position = Vector2(-344, 288)
 scale = Vector2(0.7, 0.7)
+metadata/_edit_lock_ = true
 
 [node name="Metronome" parent="Characters" instance=ExtResource("11_pruvp")]
 unique_name_in_owner = true
-modulate = Color(0.910156, 0.83194, 0.870437, 1)
 z_index = -1
+material = SubResource("ShaderMaterial_8srk8")
 position = Vector2(96, 272)
 scale = Vector2(0.7, 0.7)
+metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("12_b2bjn")]
 layer = 10

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bg3coqaywlx5b"]
+[gd_scene load_steps=27 format=3 uid="uid://bg3coqaywlx5b"]
 
 [ext_resource type="Script" uid="uid://dphgey4vagoa2" path="res://scenes/playstate/songs/darnell/darnell_bf.gd" id="1_5tuvg"]
 [ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_6qtee"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="13_h84qt"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="14_1x41t"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="15_dj0ml"]
+[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://shaders/adjust_hsv.gdshader" id="17_goysl"]
 
 [sub_resource type="Resource" id="Resource_2mjoq"]
 script = ExtResource("5_ljkyt")
@@ -26,7 +27,7 @@ vocals = Array[AudioStream]([ExtResource("6_kr4ko"), ExtResource("7_qdunf")])
 instrumental = ExtResource("4_a0105")
 tempo = 155.0
 scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
-difficulties = {
+difficulties = Dictionary[String, Dictionary]({
 "hard": {
 "chart": "res://assets/charts/Darnell - hard.tres"
 },
@@ -34,7 +35,7 @@ difficulties = {
 "chart": "res://assets/charts/Darnell (Bf Mix) - hard.tres",
 "scene": "res://scenes/playstate/songs/darnell/darnell_bf.tscn"
 }
-}
+})
 title = "Darnell (Bf Mix)"
 artist = "Saruky"
 icons = ExtResource("3_drwo4")
@@ -48,6 +49,27 @@ streams_count = 3
 stream_0/stream = ExtResource("8_0887o")
 stream_1/stream = ExtResource("9_l3w6d")
 stream_2/stream = ExtResource("10_0l8eg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kuluq"]
+shader = ExtResource("17_goysl")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -40.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kw6yb"]
+shader = ExtResource("17_goysl")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -40.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_040ww"]
+shader = ExtResource("17_goysl")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -40.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
 
 [node name="Darnell Bf Mix" type="Node2D"]
 script = ExtResource("1_5tuvg")
@@ -136,14 +158,17 @@ follow_viewport_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("12_m4war")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kuluq")
 position = Vector2(640, 288)
 
 [node name="Enemy" parent="Characters" instance=ExtResource("13_h84qt")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kw6yb")
 position = Vector2(-528, 240)
 
 [node name="Metronome" parent="Characters" instance=ExtResource("14_1x41t")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_040ww")
 position = Vector2(80, 176)
 
 [node name="UI" parent="." instance=ExtResource("15_dj0ml")]

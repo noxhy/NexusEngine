@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0hemd80dbblr"
-path="res://.godot/imported/BOYFRIEND.png-13f0d6fe4824adce7f35bc226048d579.ctex"
+uid="uid://df0ywyw481kgc"
+path="res://.godot/imported/trickynomas.png-5fd7d5faabfcec6a1a5e7c42a12375cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/boyfriend/BOYFRIEND.png"
-dest_files=["res://.godot/imported/BOYFRIEND.png-13f0d6fe4824adce7f35bc226048d579.ctex"]
+source_file="res://assets/sprites/characters/tricky/trickynomas.png"
+dest_files=["res://.godot/imported/trickynomas.png-5fd7d5faabfcec6a1a5e7c42a12375cc.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

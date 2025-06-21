@@ -33,24 +33,25 @@ animations = [{
 
 [node name="Character" type="Node2D"]
 script = ExtResource("1_oe8gf")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "Parent Down Note Dad",
 "idle": "Parent Christmas Idle",
 "left": "Parent Left Note Dad",
 "right": "Parent Right Note Dad",
 "up": "Parent Up Note Dad"
-}
-offsets = {
+})
+offsets = Dictionary[String, Vector2]({
 "Parent Christmas Idle": Vector2(-80, -344),
 "Parent Down Note Dad": Vector2(-60, -332),
 "Parent Left Note Dad": Vector2(-94, -355),
 "Parent Right Note Dad": Vector2(-38, -334),
 "Parent Up Note Dad": Vector2(-76, -354)
-}
+})
 icons = SubResource("SpriteFrames_2yo0j")
 color = Color(0.832031, 0.412766, 0.786174, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 position = Vector2(-80, -344)
 sprite_frames = ExtResource("3_o01a6")
 animation = &"Parent Christmas Idle"

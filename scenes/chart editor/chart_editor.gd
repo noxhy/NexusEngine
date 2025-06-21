@@ -463,6 +463,8 @@ func _process(delta: float) -> void:
 				selected_notes.append(index)
 				selected_note_nodes.append(note_list[index])
 			
+			selected_notes.sort()
+			
 			print("after move: ", selected_notes)
 			moving_notes = false
 			%"Note Place".play()
@@ -703,6 +705,7 @@ func load_chart(file: Chart, ghost: bool = false):
 	
 	for note in file.get_notes_data():
 		place_note(note[0], note[1], note[2], note[3])
+
 
 func new_file(path: String, song: Song):
 	
