@@ -1,9 +1,9 @@
 [gd_scene load_steps=24 format=3 uid="uid://o04ewby7jkf1"]
 
 [ext_resource type="Script" uid="uid://df3mvgqvkhgri" path="res://scenes/instances/stages/4chan_philly/4chan_philly.gd" id="1_osrb8"]
-[ext_resource type="Shader" uid="uid://cn1tl4764rmon" path="res://shaders/raindrops.gdshader" id="2_0df5w"]
+[ext_resource type="Shader" uid="uid://cn1tl4764rmon" path="res://assets/shaders/raindrops.gdshader" id="2_0df5w"]
 [ext_resource type="Texture2D" uid="uid://qh7u8c8w87q0" path="res://assets/sprites/stages/philly_streets/phillyForeground.png" id="2_ivyoc"]
-[ext_resource type="Shader" uid="uid://dw0lfwemfmrel" path="res://shaders/rain.gdshader" id="2_xd4wj"]
+[ext_resource type="Shader" uid="uid://dw0lfwemfmrel" path="res://assets/shaders/rain.gdshader" id="2_xd4wj"]
 [ext_resource type="SpriteFrames" uid="uid://de6iwhwjvpwoi" path="res://assets/sprites/stages/philly_streets/traffic_lights.res" id="3_4rwr1"]
 [ext_resource type="Texture2D" uid="uid://cdclp4qq6210j" path="res://assets/sprites/stages/philly_streets/SpraycanPile.png" id="3_iqa2f"]
 [ext_resource type="Texture2D" uid="uid://c3tul66ee8e36" path="res://assets/sprites/stages/philly_streets/phillyConstruction.png" id="3_uikep"]
@@ -43,7 +43,8 @@ shader_parameter/size = 0.015
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gopr5"]
 seed = 10
-frequency = 0.0573
+frequency = 0.0017
+fractal_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ovujy"]
 seamless = true
@@ -74,9 +75,9 @@ script = ExtResource("1_osrb8")
 environment = SubResource("Environment_bd4bl")
 
 [node name="Rain Drops" type="CanvasLayer" parent="."]
+layer = 4
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
-follow_viewport_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="Rain Drops"]
 material = SubResource("ShaderMaterial_bg07j")

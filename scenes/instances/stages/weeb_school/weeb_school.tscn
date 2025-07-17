@@ -12,7 +12,7 @@
 
 [node name="weed_school" type="Node2D"]
 script = ExtResource("1_5a47v")
-slow_boppers = PackedStringArray("Boppers/Simps")
+slow_boppers = Array[NodePath]([NodePath("Boppers/Simps")])
 
 [node name="Boppers" type="CanvasLayer" parent="." groups=["parallax"]]
 layer = -1

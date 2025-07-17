@@ -37,10 +37,10 @@ func _input(event):
 		if Global.song_scene != null:
 			
 			Global.stop_song()
-			Global.change_scene_to( Global.song_scene )
+			Global.change_scene_to(Global.song_scene)
 		else:
 			
-			Global.change_scene_to( "res://scenes/main menu/main_menu.tscn" )
+			Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

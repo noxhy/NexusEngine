@@ -15,7 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_lm4uy"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="11_pruvp"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_b2bjn"]
-[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://shaders/adjust_hsv.gdshader" id="14_orev5"]
+[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://assets/shaders/adjust_hsv.gdshader" id="14_orev5"]
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5gnfm"]
 

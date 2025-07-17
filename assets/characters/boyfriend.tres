@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="PlayableCharacter" load_steps=9 format=3 uid="uid://c73l5wk1k58mp"]
+
+[ext_resource type="Script" uid="uid://baldo0u3dda86" path="res://resources/playable_character.gd" id="1_la1qj"]
+[ext_resource type="AudioStream" uid="uid://dp3j2qhpuv6xd" path="res://assets/songs/menu songs/results/boyfriend/resultsSHIT-intro.ogg" id="1_uxaqb"]
+[ext_resource type="AudioStream" uid="uid://clklult1rkiyx" path="res://assets/songs/menu songs/pause menu/breakfast.ogg" id="1_ww678"]
+[ext_resource type="AudioStream" uid="uid://cfndri37mey1i" path="res://assets/songs/menu songs/results/boyfriend/resultsEXCELLENT-intro.ogg" id="2_cmn6o"]
+[ext_resource type="AudioStream" uid="uid://brvwivjswbekg" path="res://assets/songs/menu songs/results/boyfriend/resultsEXCELLENT.ogg" id="4_amo3e"]
+[ext_resource type="AudioStream" uid="uid://dxg0jrm60tjm" path="res://assets/songs/menu songs/results/boyfriend/resultsNORMAL.ogg" id="5_ba2pp"]
+[ext_resource type="AudioStream" uid="uid://dla8l3ws7tid8" path="res://assets/songs/menu songs/results/boyfriend/resultsSHIT.ogg" id="6_lbt1l"]
+[ext_resource type="AudioStream" uid="uid://ce35a74i5sv80" path="res://assets/songs/menu songs/results/boyfriend/resultsPERFECT.ogg" id="7_ue4wv"]
+
+[resource]
+script = ExtResource("1_la1qj")
+pause_song = ExtResource("1_ww678")
+result_songs = Dictionary[String, AudioStream]({
+"excellent": ExtResource("4_amo3e"),
+"gold": ExtResource("7_ue4wv"),
+"good": ExtResource("5_ba2pp"),
+"great": ExtResource("5_ba2pp"),
+"loss": ExtResource("6_lbt1l"),
+"perfect": ExtResource("7_ue4wv")
+})
+normal_intro = ExtResource("2_cmn6o")
+loss_intro = ExtResource("1_uxaqb")
+result_nodes = Dictionary[String, String]({
+"excellent": "res://scenes/instances/results/boyfriend/excellent.tscn",
+"gold": "res://scenes/instances/results/boyfriend/perfect.tscn",
+"good": "res://scenes/instances/results/boyfriend/good.tscn",
+"great": "res://scenes/instances/results/boyfriend/great.tscn",
+"loss": "res://scenes/instances/results/boyfriend/loss.tscn",
+"perfect": "res://scenes/instances/results/boyfriend/perfect.tscn"
+})

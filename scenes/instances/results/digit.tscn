@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bys528didpcsu"]
+
+[ext_resource type="Script" uid="uid://b6w7bc0m8s3n4" path="res://scenes/instances/results/digit.gd" id="1_6f0e6"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/menus/results/tallie_numbers.res" id="1_cwoct"]
+
+[node name="Digit" type="Node2D"]
+script = ExtResource("1_6f0e6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_cwoct")
+animation = &"0 small"

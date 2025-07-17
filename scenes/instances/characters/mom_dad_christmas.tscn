@@ -37,15 +37,23 @@ animation_names = Dictionary[String, String]({
 "down": "Parent Down Note Dad",
 "idle": "Parent Christmas Idle",
 "left": "Parent Left Note Dad",
+"mom_down": "Parent Down Note Mom",
+"mom_left": "Parent Left Note Mom",
+"mom_right": "Parent Right Note Mom",
+"mom_up": "Parent Up Note Mom",
 "right": "Parent Right Note Dad",
 "up": "Parent Up Note Dad"
 })
 offsets = Dictionary[String, Vector2]({
 "Parent Christmas Idle": Vector2(-80, -344),
 "Parent Down Note Dad": Vector2(-60, -332),
+"Parent Down Note Mom": Vector2(-62, -332),
 "Parent Left Note Dad": Vector2(-94, -355),
+"Parent Left Note Mom": Vector2(-101, -354),
 "Parent Right Note Dad": Vector2(-38, -334),
-"Parent Up Note Dad": Vector2(-76, -354)
+"Parent Right Note Mom": Vector2(-45, -334),
+"Parent Up Note Dad": Vector2(-76, -354),
+"Parent Up Note Mom": Vector2(-76, -357)
 })
 icons = SubResource("SpriteFrames_2yo0j")
 color = Color(0.832031, 0.412766, 0.786174, 1)

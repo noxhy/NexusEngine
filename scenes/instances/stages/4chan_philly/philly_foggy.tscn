@@ -1,9 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://q0a40tn5u1c8"]
+[gd_scene load_steps=26 format=3 uid="uid://q0a40tn5u1c8"]
 
 [ext_resource type="Script" uid="uid://bf0yovnh0ds6q" path="res://scenes/instances/stages/4chan_philly/philly_foggy.gd" id="1_bid2y"]
-[ext_resource type="Shader" uid="uid://cn1tl4764rmon" path="res://shaders/raindrops.gdshader" id="2_cbdcp"]
-[ext_resource type="Shader" uid="uid://dw0lfwemfmrel" path="res://shaders/rain.gdshader" id="3_kp02p"]
-[ext_resource type="Texture2D" uid="uid://b33ljabpofc6k" path="res://assets/sprites/stages/philly_fog/mistFront.png" id="4_bea4p"]
+[ext_resource type="Shader" uid="uid://cn1tl4764rmon" path="res://assets/shaders/raindrops.gdshader" id="2_cbdcp"]
+[ext_resource type="Shader" uid="uid://dw0lfwemfmrel" path="res://assets/shaders/rain.gdshader" id="3_kp02p"]
 [ext_resource type="SpriteFrames" path="res://assets/sprites/stages/philly_fog/paper.res" id="4_qjvst"]
 [ext_resource type="Texture2D" uid="uid://c2wb3d8olk51s" path="res://assets/sprites/stages/philly_fog/mistMid.png" id="5_2aa8y"]
 [ext_resource type="Texture2D" uid="uid://ypujlj07sg6a" path="res://assets/sprites/stages/philly_fog/phillyForeground.png" id="5_snyiq"]
@@ -53,8 +52,9 @@ shader_parameter/frequency = 3.8
 shader_parameter/size = 0.013
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gopr5"]
-seed = 14
-frequency = 1.0
+seed = 10
+frequency = 0.0017
+fractal_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ovujy"]
 seamless = true
@@ -65,7 +65,7 @@ shader = ExtResource("3_kp02p")
 shader_parameter/rain_amount = 15.0
 shader_parameter/near_rain_length = 0.457
 shader_parameter/far_rain_length = 0.178
-shader_parameter/near_rain_width = 0.034
+shader_parameter/near_rain_width = 0.01
 shader_parameter/far_rain_width = 0.01
 shader_parameter/near_rain_transparency = 1.0
 shader_parameter/far_rain_transparency = 0.5
@@ -78,25 +78,8 @@ shader_parameter/speed = 0.1
 shader_parameter/strength = 0.123
 shader_parameter/warp_sensitivity = 0.257
 
-[sub_resource type="Shader" id="Shader_h4t1j"]
-code = "shader_type canvas_item;
-
-uniform float energy : hint_range(0.1, 2.0, 0.01) = 1.;
-uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
-
-void fragment() {
-
-	COLOR = texture(screen_texture, SCREEN_UV) + (texture(TEXTURE, UV) * energy);
-
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbpm6"]
-shader = SubResource("Shader_h4t1j")
-shader_parameter/energy = 0.58
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vcvph"]
-shader = SubResource("Shader_h4t1j")
-shader_parameter/energy = 0.43
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_31vgc"]
+blend_mode = 1
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_bid2y")
@@ -105,10 +88,9 @@ script = ExtResource("1_bid2y")
 environment = SubResource("Environment_twc2p")
 
 [node name="Rain Drops" type="CanvasLayer" parent="."]
-layer = 3
+layer = 4
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
-follow_viewport_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="Rain Drops"]
 material = SubResource("ShaderMaterial_5glym")
@@ -132,55 +114,97 @@ offset_right = 1288.0
 offset_bottom = 632.0
 color = Color(1, 1, 1, 0)
 
-[node name="Parallax2D" type="Parallax2D" parent="."]
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-layer = 2
-offset = Vector2(-12, -360)
-transform = Transform2D(1, 0, 0, 1, -12, -360)
+[node name="Foreground2" type="CanvasLayer" parent="."]
+offset = Vector2(0, 160)
+transform = Transform2D(1, 0, 0, 1, 0, 160)
 follow_viewport_enabled = true
-scroll_ignore_camera_zoom = true
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0, 0)
-motion_mirroring = Vector2(2048, 0)
+[node name="Parallax2D" type="Parallax2D" parent="Foreground2"]
+scroll_scale = Vector2(1.2, 1.2)
+scroll_offset = Vector2(2048, 0)
+repeat_size = Vector2(2048, 0)
+autoscroll = Vector2(172, 0)
+repeat_times = 3
 
-[node name="MistFront" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-material = SubResource("ShaderMaterial_bbpm6")
-position = Vector2(20, 325)
-texture = ExtResource("4_bea4p")
-centered = false
-
-[node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
-layer = -3
-offset = Vector2(-12, -360)
-transform = Transform2D(1, 0, 0, 1, -12, -360)
-follow_viewport_enabled = true
-scroll_ignore_camera_zoom = true
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2"]
-motion_scale = Vector2(0, 0)
-motion_mirroring = Vector2(2048, 0)
-
-[node name="MistBack" type="Sprite2D" parent="ParallaxBackground2/ParallaxLayer"]
-material = SubResource("ShaderMaterial_vcvph")
+[node name="MistMid" type="Sprite2D" parent="Foreground2/Parallax2D"]
+modulate = Color(0.360784, 0.360784, 0.360784, 0.6)
+z_index = 1000
+material = SubResource("CanvasItemMaterial_31vgc")
+position = Vector2(-650, -100)
 texture = ExtResource("5_2aa8y")
 centered = false
 
-[node name="ParallaxBackground3" type="ParallaxBackground" parent="."]
-layer = -3
-offset = Vector2(-12, -360)
-transform = Transform2D(1, 0, 0, 1, -12, -360)
-follow_viewport_enabled = true
-scroll_ignore_camera_zoom = true
+[node name="Parallax2D2" type="Parallax2D" parent="Foreground2"]
+scroll_scale = Vector2(1.1, 1.1)
+repeat_size = Vector2(2048, 0)
+autoscroll = Vector2(150, 0)
+repeat_times = 3
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground3"]
-motion_scale = Vector2(0, 0)
-motion_mirroring = Vector2(2048, 0)
+[node name="MistMid" type="Sprite2D" parent="Foreground2/Parallax2D2"]
+modulate = Color(0.360784, 0.360784, 0.360784, 0.6)
+z_index = 1000
+material = SubResource("CanvasItemMaterial_31vgc")
+position = Vector2(-650, -100)
+texture = ExtResource("5_2aa8y")
+centered = false
 
-[node name="MistBack" type="Sprite2D" parent="ParallaxBackground3/ParallaxLayer"]
-material = SubResource("ShaderMaterial_vcvph")
+[node name="Parallax2D3" type="Parallax2D" parent="Foreground2"]
+scroll_scale = Vector2(1.2, 1.2)
+repeat_size = Vector2(2048, 0)
+autoscroll = Vector2(-80, 0)
+repeat_times = 3
+
+[node name="MistMid" type="Sprite2D" parent="Foreground2/Parallax2D3"]
+modulate = Color(0.360784, 0.360784, 0.360784, 0.8)
+z_index = 1001
+material = SubResource("CanvasItemMaterial_31vgc")
+position = Vector2(-650, -100)
 texture = ExtResource("6_tsu2e")
+centered = false
+
+[node name="Parallax2D4" type="Parallax2D" parent="Foreground2"]
+scroll_scale = Vector2(0.95, 0.95)
+repeat_size = Vector2(1638.4, 0)
+autoscroll = Vector2(-50, 0)
+repeat_times = 3
+
+[node name="MistMid" type="Sprite2D" parent="Foreground2/Parallax2D4"]
+modulate = Color(0.360784, 0.360784, 0.360784, 0.501961)
+z_index = 99
+material = SubResource("CanvasItemMaterial_31vgc")
+position = Vector2(-650, -100)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_2aa8y")
+centered = false
+
+[node name="Parallax2D5" type="Parallax2D" parent="Foreground2"]
+scroll_scale = Vector2(0.8, 0.8)
+repeat_size = Vector2(1433.6, 0)
+autoscroll = Vector2(40, 0)
+repeat_times = 3
+
+[node name="MistMid" type="Sprite2D" parent="Foreground2/Parallax2D5"]
+modulate = Color(0.360784, 0.360784, 0.360784, 1)
+z_index = 88
+material = SubResource("CanvasItemMaterial_31vgc")
+position = Vector2(-650, -100)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("6_tsu2e")
+centered = false
+
+[node name="Parallax2D6" type="Parallax2D" parent="Foreground2"]
+scroll_scale = Vector2(0.5, 0.5)
+repeat_size = Vector2(2252.8, 0)
+autoscroll = Vector2(20, 0)
+repeat_times = 4
+
+[node name="MistMid" type="Sprite2D" parent="Foreground2/Parallax2D6"]
+modulate = Color(0.360784, 0.360784, 0.360784, 1)
+z_index = 39
+material = SubResource("CanvasItemMaterial_31vgc")
+position = Vector2(-650, -100)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("5_2aa8y")
 centered = false
 
 [node name="Foreground" type="CanvasLayer" parent="."]

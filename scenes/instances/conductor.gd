@@ -56,8 +56,8 @@ func _process(_delta):
 	
 	if old_beat != current_beat:
 		
-			old_beat = current_beat
-			emit_signal("new_beat", current_beat, measure_relative_beat)
+		old_beat = current_beat
+		emit_signal("new_beat", current_beat, measure_relative_beat)
 
 
 func get_beat_at(time: float) -> int:

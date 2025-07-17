@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dxg0jrm60tjm"
+path="res://.godot/imported/resultsNORMAL.ogg-79a6b0760ad8b9f79702748ba20deda3.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/results/boyfriend/resultsNORMAL.ogg"
+dest_files=["res://.godot/imported/resultsNORMAL.ogg-79a6b0760ad8b9f79702748ba20deda3.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

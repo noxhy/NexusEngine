@@ -23,6 +23,7 @@ SettingsHandeler="*res://scenes/global/settings_handeler.gd"
 GameHandeler="*res://scenes/global/game_handeler.gd"
 SaveHandeler="*res://scenes/global/save_handeler.gd"
 ChartHandeler="*res://scenes/global/chart_handeler.gd"
+Preload="*res://preload.gd"
 
 [display]
 
@@ -33,7 +34,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/gdanimate/plugin.cfg")
 
 [input]
 

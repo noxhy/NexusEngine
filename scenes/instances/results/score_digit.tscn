@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://jen63sgjafxu"]
+
+[ext_resource type="Script" uid="uid://syfreraq8pwo" path="res://scenes/instances/results/score_digit.gd" id="1_u4i8l"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/menus/results/score_digital_numbers.res" id="2_u4i8l"]
+
+[node name="Digit" type="Node2D"]
+script = ExtResource("1_u4i8l")
+animation_names = Dictionary[int, String]({
+-1: "DISABLED",
+0: "ZERO DIGITAL",
+1: "ONE DIGITAL",
+2: "TWO DIGITAL",
+3: "THREE DIGITAL",
+4: "FOUR DIGITAL",
+5: "FIVE DIGITAL",
+6: "SIX DIGITAL",
+7: "SEVEN DIGITAL",
+8: "EIGHT DIGITAL",
+9: "NINE DIGITAL"
+})
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.415, 0)
+sprite_frames = ExtResource("2_u4i8l")
+animation = &"DISABLED"

@@ -1,17 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://j4nwqbrbuj4b"]
+[gd_scene load_steps=6 format=3 uid="uid://j4nwqbrbuj4b"]
 
 [ext_resource type="Script" uid="uid://cqc11g8jkoqxq" path="res://test/test_scene.gd" id="1_2vri4"]
-[ext_resource type="Resource" uid="uid://ctxgdhk4xjq2v" path="res://assets/charts/Slide my Way.tres" id="2_bhvwx"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="2_lr5j1"]
+[ext_resource type="PackedScene" uid="uid://dfpj0jopo6l1a" path="res://scenes/instances/results/tally_display.tscn" id="3_56kpk"]
+[ext_resource type="PackedScene" uid="uid://d1wj3tkjvp2xi" path="res://scenes/instances/results/score_display.tscn" id="4_gaudv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lr5j1"]
 
 [node name="Test Scene" type="Node2D"]
+material = SubResource("ShaderMaterial_lr5j1")
 script = ExtResource("1_2vri4")
-chart = ExtResource("2_bhvwx")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 448.0
-offset_top = 128.0
-offset_right = 832.0
-offset_bottom = 576.0
-focus_mode = 2
-selection_enabled = true
-metadata/_edit_lock_ = true
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("2_lr5j1")
+atlas = "res://assets/sprites/menus/results/results-bf/resultsEXCELLENT"
+frame = 230
+playing = true
+loop_frame = 27
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+
+[node name="Tally Display" parent="." instance=ExtResource("3_56kpk")]
+position = Vector2(768, 128)
+number = 1234567890
+
+[node name="Score Display" parent="." instance=ExtResource("4_gaudv")]
+position = Vector2(640, 400)
+number = 1234567890
+spacing = 63.895

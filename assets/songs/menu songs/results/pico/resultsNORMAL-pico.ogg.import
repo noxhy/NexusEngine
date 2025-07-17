@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ceo3yo6r572we"
+path="res://.godot/imported/resultsNORMAL-pico.ogg-e6e62125c1f0da92dda64bb0c7f47cb7.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/results/pico/resultsNORMAL-pico.ogg"
+dest_files=["res://.godot/imported/resultsNORMAL-pico.ogg-e6e62125c1f0da92dda64bb0c7f47cb7.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

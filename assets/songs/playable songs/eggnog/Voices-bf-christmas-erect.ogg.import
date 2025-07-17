@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bjwjegy8gdhva"
+path="res://.godot/imported/Voices-bf-christmas-erect.ogg-a6db6cdf12c9e54166b7f8cc1e9dfbfc.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/eggnog/Voices-bf-christmas-erect.ogg"
+dest_files=["res://.godot/imported/Voices-bf-christmas-erect.ogg-a6db6cdf12c9e54166b7f8cc1e9dfbfc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

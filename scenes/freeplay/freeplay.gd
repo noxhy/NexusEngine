@@ -2,8 +2,6 @@ extends Node2D
 
 @export var can_click: bool = true
 
-@export var album_list: Array[Album]
-
 @onready var menu_option_node = preload( "res://scenes/instances/menu_option.tscn" )
 @onready var difficulty_selector_node = preload( "res://scenes/freeplay/difficulty_selector.tscn" )
 @onready var options: Array[Song]
@@ -14,12 +12,17 @@ var selected_song: int = 0
 var selected_difficulty: int = 0
 var difficulty: String
 var difficulty_index: int = 0
+var album_list: Array[Album]
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	Global.set_window_title("Freeplay Menu")
+	# idk how to cast a regular array to a typed one it keeps giving me an error.
+	var _album_list = Preload.character_data[GameHandeler.current_character]["albums"]
+	for album in _album_list:
+		album_list.append(album)
 	Global.freeplay_album_option = wrap(Global.freeplay_album_option, 0, album_list.size())
 	
 	load_page(Global.freeplay_album_option)
@@ -191,7 +194,7 @@ func select_option(i: int):
 			
 			difficulty_selector_instance.queue_free()
 			
-			print( "difficulty: ", difficulty )
+			print("difficulty: ", difficulty)
 		
 		# I wish i could use null but I have "null" as the base case.
 		if difficulty == "null":

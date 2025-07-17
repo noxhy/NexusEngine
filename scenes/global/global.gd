@@ -15,6 +15,7 @@ var death_stats: Dictionary = {}
 var song_scene = "res://test/test_scene.tscn"
 
 var max_memory: float = 0.0
+var transitioning: bool = false
 
 
 func _ready():
@@ -33,7 +34,7 @@ func _process(delta):
 		$"UI/Performance Label".text = "FPS: " + str( Engine.get_frames_per_second() )
 		$"UI/Performance Label".text += "\nDelta: " + str( snappedf(delta, 0.001) )
 		var memory = snapped( OS.get_static_memory_usage() / 1024.0 / 1024.0, 0.01 )
-		if memory > max_memory: max_memory = memory
+		max_memory = max(max_memory, memory)
 		$"UI/Performance Label".text += "\nMEM: " + str( memory ) + " MB"
 		$"UI/Performance Label".text += " / " + str( max_memory ) + " MB"
 	
@@ -84,6 +85,7 @@ func _process(delta):
 
 func change_scene_to(path: String):
 	
+	transitioning = true
 	get_tree().change_scene_to_packed(loading_screen)
 	new_scene = path
 

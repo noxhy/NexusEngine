@@ -72,6 +72,7 @@ func _ready():
 	var tween = create_tween()
 	tween.tween_property($Audio/Music, "volume_db", 0, 4)
 	$AnimationPlayer.play("intro")
+	Global.set_window_title("Paused")
 	
 	%"Song Name".text = song_title
 	%"Other Info".text = "Artist: " + credits
@@ -98,12 +99,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	Global.set_window_title("Paused")
-	
 	if Input.is_action_just_pressed("ui_up"):
 		
 		selected -= 1
 		update_selection(selected)
+	
 	elif Input.is_action_just_pressed("ui_down"):
 		
 		selected += 1
@@ -156,7 +156,7 @@ func update_selection(i: int):
 
 
 
-func select_option( i: int ):
+func select_option(i: int):
 	
 	var option = options.keys()[i]
 	

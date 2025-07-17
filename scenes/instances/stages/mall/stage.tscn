@@ -1,0 +1,148 @@
+[gd_scene load_steps=15 format=3 uid="uid://ofcr80jgray3"]
+
+[ext_resource type="Script" uid="uid://bgx1imb2x4q8y" path="res://scenes/instances/stage.gd" id="1_8gejj"]
+[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://assets/shaders/adjust_hsv.gdshader" id="2_l4rv2"]
+[ext_resource type="SpriteFrames" uid="uid://bloyytxjba2pp" path="res://assets/sprites/stages/mall/santa.res" id="2_uhonm"]
+[ext_resource type="SpriteFrames" uid="uid://bhckl31rft307" path="res://assets/sprites/stages/mall/bottom_boppers.res" id="3_imb35"]
+[ext_resource type="Texture2D" uid="uid://bcrb2ympbpysw" path="res://assets/sprites/stages/mall/fgSnow.png" id="4_8lbyi"]
+[ext_resource type="Texture2D" uid="uid://e3d1icg8o1a8" path="res://assets/sprites/stages/mall/bgWalls.png" id="5_amhim"]
+[ext_resource type="Texture2D" uid="uid://dx3vw7sod57fy" path="res://assets/sprites/stages/mall/white.png" id="5_efmgv"]
+[ext_resource type="Texture2D" uid="uid://cq7egni0f15p3" path="res://assets/sprites/stages/mall/christmasTree.png" id="8_80ofe"]
+[ext_resource type="Texture2D" uid="uid://heetxdcoewng" path="res://assets/sprites/stages/mall/bgEscalator.png" id="9_qsvqw"]
+[ext_resource type="SpriteFrames" uid="uid://s0ft3n06lttj" path="res://assets/sprites/stages/mall/upper_boppers.res" id="10_gfjtv"]
+
+[sub_resource type="Gradient" id="Gradient_l4rv2"]
+colors = PackedColorArray(0, 0, 0, 1, 0.933594, 0.984436, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_efmgv"]
+gradient = SubResource("Gradient_l4rv2")
+
+[sub_resource type="Environment" id="Environment_80ofe"]
+background_mode = 3
+adjustment_enabled = true
+adjustment_saturation = 0.95
+adjustment_color_correction = SubResource("GradientTexture1D_efmgv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s1ajr"]
+shader = ExtResource("2_l4rv2")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -5.0
+shader_parameter/contrast = 0.0
+shader_parameter/brightness = 0.0
+
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_8gejj")
+fast_boppers = Array[NodePath]([NodePath("Characters/Santa"), NodePath("foreground/Parallax2D3/Lower Boppers"), NodePath("Backround/Parallax2D2/Upper Boppers")])
+metadata/_custom_type_script = "uid://bgx1imb2x4q8y"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_80ofe")
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+scale = Vector2(0.8, 0.8)
+transform = Transform2D(0.8, 0, 0, 0.8, 0, 0)
+follow_viewport_enabled = true
+
+[node name="Santa" type="AnimatedSprite2D" parent="Characters"]
+z_index = 210
+material = SubResource("ShaderMaterial_s1ajr")
+sprite_frames = ExtResource("2_uhonm")
+animation = &"santa idle in fear"
+autoplay = "idle"
+centered = false
+offset = Vector2(-840, 150)
+
+[node name="foreground" type="CanvasLayer" parent="."]
+layer = -2
+scale = Vector2(0.8, 0.8)
+transform = Transform2D(0.8, 0, 0, 0.8, 0, 0)
+follow_viewport_enabled = true
+
+[node name="Parallax2D3" type="Parallax2D" parent="foreground"]
+z_index = 50
+scroll_scale = Vector2(0.9, 0.9)
+
+[node name="Lower Boppers" type="AnimatedSprite2D" parent="foreground/Parallax2D3"]
+material = SubResource("ShaderMaterial_s1ajr")
+sprite_frames = ExtResource("3_imb35")
+animation = &"bottomBop"
+centered = false
+offset = Vector2(-410, 100)
+
+[node name="Parallax2D" type="Parallax2D" parent="foreground"]
+z_index = 49
+scroll_scale = Vector2(0.85, 0.85)
+
+[node name="Fog" type="Sprite2D" parent="foreground/Parallax2D"]
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("5_efmgv")
+centered = false
+offset = Vector2(-1000, 100)
+
+[node name="Parallax2D2" type="Parallax2D" parent="foreground"]
+z_index = 60
+
+[node name="FgSnow" type="Sprite2D" parent="foreground/Parallax2D2"]
+texture = ExtResource("4_8lbyi")
+centered = false
+offset = Vector2(-1150, 680)
+
+[node name="Parallax2D4" type="Parallax2D" parent="foreground"]
+z_index = 60
+
+[node name="ColorRect" type="ColorRect" parent="foreground/Parallax2D4"]
+offset_left = -1200.0
+offset_top = 800.0
+offset_right = 4200.0
+offset_bottom = 3800.0
+color = Color(0.952941, 0.956863, 0.960784, 1)
+
+[node name="Backround" type="CanvasLayer" parent="."]
+layer = -3
+scale = Vector2(0.8, 0.8)
+transform = Transform2D(0.8, 0, 0, 0.8, 0, 0)
+follow_viewport_enabled = true
+
+[node name="Parallax2D" type="Parallax2D" parent="Backround"]
+z_index = 10
+scroll_scale = Vector2(0.2, 0.2)
+
+[node name="BgWalls" type="Sprite2D" parent="Backround/Parallax2D"]
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("5_amhim")
+centered = false
+offset = Vector2(-1000, -440)
+
+[node name="Parallax2D3" type="Parallax2D" parent="Backround"]
+z_index = 40
+scroll_scale = Vector2(0.4, 0.4)
+
+[node name="ChristmasTree" type="Sprite2D" parent="Backround/Parallax2D3"]
+texture = ExtResource("8_80ofe")
+centered = false
+offset = Vector2(370, -250)
+
+[node name="Escalator" type="Parallax2D" parent="Backround"]
+z_index = 30
+scroll_scale = Vector2(0.3, 0.3)
+
+[node name="BgWalls" type="Sprite2D" parent="Backround/Escalator"]
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("9_qsvqw")
+centered = false
+offset = Vector2(-1100, -440)
+metadata/_edit_lock_ = true
+
+[node name="Parallax2D2" type="Parallax2D" parent="Backround"]
+z_index = 20
+scroll_scale = Vector2(0.33, 0.33)
+
+[node name="Upper Boppers" type="AnimatedSprite2D" parent="Backround/Parallax2D2"]
+position = Vector2(0, 160)
+scale = Vector2(0.85, 0.85)
+sprite_frames = ExtResource("10_gfjtv")
+animation = &"upperBop"
+centered = false
+offset = Vector2(-240, -40)
+metadata/_edit_lock_ = true

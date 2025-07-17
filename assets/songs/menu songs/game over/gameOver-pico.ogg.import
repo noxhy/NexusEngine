@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bx2dp4n1416a5"
+path="res://.godot/imported/gameOver-pico.ogg-380974cbf0c6157167516c3b4f4ba414.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/game over/gameOver-pico.ogg"
+dest_files=["res://.godot/imported/gameOver-pico.ogg-380974cbf0c6157167516c3b4f4ba414.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

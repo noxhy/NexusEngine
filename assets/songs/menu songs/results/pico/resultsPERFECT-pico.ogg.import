@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bjw4ot02i6liv"
+path="res://.godot/imported/resultsPERFECT-pico.ogg-367f17fc6fddebc3a2e71eb13c4f11bb.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/results/pico/resultsPERFECT-pico.ogg"
+dest_files=["res://.godot/imported/resultsPERFECT-pico.ogg-367f17fc6fddebc3a2e71eb13c4f11bb.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

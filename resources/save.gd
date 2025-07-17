@@ -8,3 +8,4 @@ class_name Save
 ## To put a song/week in highscores it needs to be a dictionary
 ## ex) "darnell": { "hard": { "highscore": 2418414, "grade": 94 }, "erect": { "highscore": 3298517, "grade": 99 } }
 @export var song_stats: Dictionary = {}
+@export var week_stats: Dictionary = {}

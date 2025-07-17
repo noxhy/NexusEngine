@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dla8l3ws7tid8"
+path="res://.godot/imported/resultsSHIT.ogg-7016f464ff5be59e1c1760303de45aeb.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/results/boyfriend/resultsSHIT.ogg"
+dest_files=["res://.godot/imported/resultsSHIT.ogg-7016f464ff5be59e1c1760303de45aeb.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

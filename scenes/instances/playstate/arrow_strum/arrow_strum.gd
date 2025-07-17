@@ -261,7 +261,8 @@ func _process(delta):
 			$OffsetSprite.play_animation(strum_name)
 			
 			var tween = create_tween()
-			tween.tween_property($OffsetSprite, "scale", Vector2(note_skin.notes_scale, note_skin.notes_scale), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			tween.tween_property($OffsetSprite, "scale", Vector2(note_skin.notes_scale, note_skin.notes_scale), 0.1)
 		
 		STATE.PRESSED:
 			press_strum()
@@ -345,7 +346,8 @@ func glow_strum():
 	if SettingsHandeler.get_setting("tween_strums"):
 		
 		var tween = create_tween()
-		tween.tween_property($OffsetSprite, "scale", Vector2(note_scale, note_scale), 0.05).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.tween_property($OffsetSprite, "scale", Vector2(note_scale, note_scale), 0.05)
 
 
 func press_strum():
@@ -358,7 +360,8 @@ func press_strum():
 	if SettingsHandeler.get_setting("tween_strums"):
 		
 		var tween = create_tween()
-		tween.tween_property($OffsetSprite, "scale", Vector2(note_scale, note_scale), 0.05).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.tween_property($OffsetSprite, "scale", Vector2(note_scale, note_scale), 0.05)
 
 
 func _on_offset_sprite_animation_finished():

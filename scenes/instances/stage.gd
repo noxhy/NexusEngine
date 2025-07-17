@@ -2,8 +2,8 @@
 extends Node2D
 class_name Stage
 
-@export var slow_boppers: PackedStringArray
-@export var fast_boppers: PackedStringArray
+@export var slow_boppers: Array[NodePath]
+@export var fast_boppers: Array[NodePath]
 
 var tempo: float = 60.0
 
@@ -56,10 +56,20 @@ func bop(allow_slow: bool = false):
 					var frame_count: int = get_node(i).sprite_frames.get_frame_count(real_animation_name) 
 					
 					get_node(i).speed_scale = frame_count / (animatiom_speed * time)
+			
+			elif get_node(i) is AnimatedSprite2D:
+				
+				get_node(i).play(get_node(i).animation)
+				get_node(i).set_frame_and_progress(0, 0)
 	
 	for i in fast_boppers:
 		
 		if get_node(i) is OffsetSprite:
 			
 			get_node(i).play_animation("idle")
+			get_node(i).set_frame_and_progress(0, 0)
+		
+		elif get_node(i) is AnimatedSprite2D:
+			
+			get_node(i).play(get_node(i).animation)
 			get_node(i).set_frame_and_progress(0, 0)

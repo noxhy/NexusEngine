@@ -53,7 +53,7 @@ var death_stats = {
 }
 
 @export var pause_scene = "res://scenes/playstate/pause_menu.tscn"
-@export var next_scene = "res://scenes/story mode/story_mode.tscn"
+@export var next_scene = "res://scenes/results/results.tscn"
 
 var strums: Array = []
 var characters: Array = []
@@ -294,7 +294,7 @@ func get_tempo_at(time: float) -> float:
 
 func play_song(time: float):
 	
-	GameHandeler.started_song()
+	GameHandeler.started_song(song_data)
 	conductor.tempo = get_tempo_at(-chart.offset + time)
 	conductor.seconds_per_beat = 60.0 / conductor.tempo
 	conductor.offset = chart.offset + SettingsHandeler.get_setting("offset")
@@ -410,9 +410,16 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 		var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
 		var zoom_time = 0 if event_parameters[1] == "" else float(event_parameters[1])
 		
+		var temp: bool = camera.lerping
+		camera.lerping = false
 		var tween = create_tween()
-		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel(true)
 		tween.tween_property(camera, "target_zoom", new_zoom, zoom_time * song_speed)
+		tween.tween_property(camera, "zoom", new_zoom, zoom_time * song_speed)
+		
+		await tween.finished
+		
+		camera.lerping = temp
 	
 	elif event_name == "bop_delay" or event_name == "bop_rate":
 		bop_rate = int(event_parameters[0])
@@ -459,9 +466,8 @@ func song_finished():
 	
 	if GameHandeler.freeplay:
 		
-		GameHandeler.reset_stats()
 		if GameHandeler.play_mode == GameHandeler.PLAY_MODE.CHARTING: get_tree().change_scene_to_file("res://scenes/chart editor/chart_editor.tscn")
-		else: get_tree().change_scene_to_file("res://scenes/freeplay/freeplay.tscn")
+		else: get_tree().change_scene_to_file("res://scenes/results/results.tscn")
 	else:
 		
 		Global.change_scene_to(next_scene)
@@ -585,7 +591,7 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 		
 		else:
 			
-			score -= 10
+			score -= 100
 			health -= (4 + clamp(combo / 20.0, 0, 20)) * (length + 1)
 			combo = 0
 			misses += 1

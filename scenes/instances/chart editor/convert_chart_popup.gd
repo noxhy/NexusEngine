@@ -131,9 +131,9 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 			
 			else: parameters.append(str(i.v))
 			
-			if event == "FocusCamera": parameters = [ str(i.v.char) ]
-			if event == "ZoomCamera": parameters = [ str(i.v.zoom), str(i.v.duration * (seconds_per_beat / 16.0)) ]
-			if event == "SetCameraBop": parameters = [ str(i.v.rate * 4) ]
+			if event == "FocusCamera": parameters = [str(i.v.char)]
+			elif event == "ZoomCamera": parameters = [str(i.v.zoom), str(i.v.duration * (seconds_per_beat / 16.0))]
+			elif event == "SetCameraBop": parameters = [str(i.v.rate * 4)]
 			
 			event_data.append([ time, event_name, parameters ])
 	

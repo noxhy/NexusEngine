@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5suhy07ww51g"]
+
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="1_fi00i"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(-248, 0)
+script = ExtResource("1_fi00i")
+atlas = "res://assets/sprites/menus/results/results-bf/resultsSHIT"
+frame = 241
+playing = true
+auto_start = true
+loop_frame = 149
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"

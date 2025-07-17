@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://lh8hi5dk1sja"]
+[gd_scene load_steps=28 format=3 uid="uid://lh8hi5dk1sja"]
 
 [ext_resource type="Script" uid="uid://xeoejs8fvqem" path="res://scenes/story mode/story_mode.gd" id="1_obutf"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="2_4mkcq"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dcuxa2yfg27xc" path="res://scenes/instances/characters/boyfriend pixel.tscn" id="14_6o7s3"]
 [ext_resource type="PackedScene" uid="uid://c641vxfiu033w" path="res://scenes/instances/characters/senpai.tscn" id="15_tem1l"]
 [ext_resource type="PackedScene" uid="uid://cvw5oumi78kvr" path="res://scenes/instances/characters/tankman.tscn" id="16_k4au0"]
+[ext_resource type="PackedScene" uid="uid://civkgglbefejt" path="res://scenes/instances/characters/mom_dad_christmas.tscn" id="17_dlfty"]
 [ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="17_wjhul"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="21_xb8ni"]
 [ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="22_8sq52"]
@@ -227,15 +228,9 @@ position = Vector2(640, 164)
 modulate = Color(0, 0, 0, 1)
 position = Vector2(292, 236)
 
-[node name="Mommy Mearest" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("13_ofi8l")]
+[node name="Character" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("17_dlfty")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-225, 350)
-scale = Vector2(0.7, 0.7)
-
-[node name="Daddy Dearest" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("10_p6gkq")]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-420, 416)
-scale = Vector2(0.829, 0.829)
+position = Vector2(-288, 436)
 
 [node name="Week 6" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -266,6 +261,7 @@ rotation = 3.14159
 scale = Vector2(0.904, -0.904)
 
 [node name="Weekend 1" type="Node2D" parent="UI/Week Display/SubViewport"]
+visible = false
 position = Vector2(640, 164)
 
 [node name="Pico" parent="UI/Week Display/SubViewport/Weekend 1" groups=["bop"] instance=ExtResource("12_14fgl")]
@@ -277,14 +273,6 @@ scale = Vector2(0.944, 0.944)
 modulate = Color(0, 0, 0, 1)
 position = Vector2(-230, 260)
 scale = Vector2(0.994, 0.994)
-
-[node name="Week 9" type="Node2D" parent="UI/Week Display/SubViewport"]
-visible = false
-position = Vector2(640, 164)
-
-[node name="Spooky Kids" parent="UI/Week Display/SubViewport/Week 9" groups=["tween_bop"] instance=ExtResource("11_2m25c")]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(100, 250)
 
 [node name="Week Name" type="Label" parent="UI"]
 offset_left = 16.0

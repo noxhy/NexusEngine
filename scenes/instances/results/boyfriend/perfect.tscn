@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyrcehub5js66"]
+
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="1_0hsde"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(472, 0)
+script = ExtResource("1_0hsde")
+atlas = "res://assets/sprites/menus/results/results-bf/resultsPERFECT"
+auto_start = true
+loop_frame = 137
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"

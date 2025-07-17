@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bfcqox2jxtxgl"
+path="res://.godot/imported/resultsSHIT-pico.ogg-fb7a5e12e4db84167fb0a960d97bcddc.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/menu songs/results/pico/resultsSHIT-pico.ogg"
+dest_files=["res://.godot/imported/resultsSHIT-pico.ogg-fb7a5e12e4db84167fb0a960d97bcddc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

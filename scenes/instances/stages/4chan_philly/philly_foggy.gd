@@ -17,10 +17,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	$ParallaxBackground/ParallaxLayer.motion_offset.x += 150.0 * delta
-	$ParallaxBackground2/ParallaxLayer.motion_offset.x -= 70.0 * delta
-	$ParallaxBackground3/ParallaxLayer.motion_offset.x += 70.0 * delta
-	
 	var index = 0
 	
 	# This is janky don't do this

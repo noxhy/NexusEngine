@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfpj0jopo6l1a"]
+
+[ext_resource type="Script" uid="uid://bjn0iv14f2uvb" path="res://scenes/instances/results/tally_display.gd" id="1_5s1gq"]
+
+[node name="Tally Display" type="Node2D"]
+script = ExtResource("1_5s1gq")

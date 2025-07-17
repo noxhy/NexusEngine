@@ -10,6 +10,7 @@ func _ready():
 	
 	scene = Global.new_scene
 	SettingsHandeler.load_settings()
+	SaveHandeler.load_save()
 	ResourceLoader.load_threaded_request(scene)
 
 
@@ -23,7 +24,9 @@ func _process(_delta):
 	
 	if scene_load_status == ResourceLoader.THREAD_LOAD_LOADED:
 		
-		get_tree().change_scene_to_packed( ResourceLoader.load_threaded_get( scene ) )
+		get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene))
+		Global.transitioning = false
+		Transitions.resume()
 
 
 func _input(event):

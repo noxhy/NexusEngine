@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6udmr785ti2d"]
+
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="1_k5vj2"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(40, -16)
+script = ExtResource("1_k5vj2")
+atlas = "res://assets/sprites/menus/results/results-bf/resultsGREAT/bf"
+frame = 36
+playing = true
+auto_start = true
+loop_frame = 13
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+
+[node name="AnimateSymbol2" type="Node2D" parent="."]
+position = Vector2(-120, -64)
+script = ExtResource("1_k5vj2")
+atlas = "res://assets/sprites/menus/results/results-bf/resultsGREAT/gf"
+frame = 31
+playing = true
+auto_start = true
+loop_frame = 8
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
