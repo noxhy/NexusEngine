@@ -2,8 +2,8 @@ extends Node2D
 
 @export var can_click: bool = true
 
-@onready var menu_option_node = preload( "res://scenes/instances/menu_option.tscn" )
-@onready var difficulty_selector_node = preload( "res://scenes/freeplay/difficulty_selector.tscn" )
+@onready var menu_option_node = preload("res://scenes/instances/freeplay/capsule.tscn")
+@onready var difficulty_selector_node = preload("res://scenes/freeplay/difficulty_selector.tscn")
 @onready var options: Array[Song]
 
 var option_nodes: Array = []
@@ -41,10 +41,8 @@ func _input(event):
 	if can_click:
 		
 		if event.is_action_pressed("ui_up"):
-			
 			update_selection( selected_song - 1 )
 		elif event.is_action_pressed("ui_down"):
-			
 			update_selection( selected_song + 1 )
 		elif event.is_action_pressed("ui_left"):
 			
@@ -59,7 +57,6 @@ func _input(event):
 				load_page( selected_album + 1 )
 				update_selection( selected_song % option_nodes.size() )
 		elif event.is_action_pressed("ui_accept"):
-			
 			select_option(selected_song)
 		elif event.is_action_pressed("ui_cancel"):
 			
@@ -78,9 +75,7 @@ func _input(event):
 
 func load_page(i: int):
 	
-	
 	for j in option_nodes.size():
-		
 		
 		option_nodes[0].queue_free()
 		option_nodes.remove_at(0)
@@ -97,34 +92,31 @@ func load_page(i: int):
 		
 		var menu_option_instance = menu_option_node.instantiate()
 		
-		menu_option_instance.option_name = song_file.title
-		menu_option_instance.icon = song_file.icons.get_frame_texture( "default", 0 )
-		menu_option_instance.position = Vector2( -1000, object_amount * 175 )
+		menu_option_instance.text = song_file.title
+		menu_option_instance.icon = song_file.icons.get_frame_texture("default", 0)
+		menu_option_instance.position = Vector2(-1000, object_amount * 110 - 120)
+		menu_option_instance.scale = Vector2(0.7, 0.7)
 		
-		$UI.add_child( menu_option_instance )
+		$UI.add_child(menu_option_instance)
 		
-		option_nodes.append( menu_option_instance )
+		option_nodes.append(menu_option_instance)
 		object_amount += 1
 	
 	$"UI/Album Cover".texture = album_list[i].cover
-	$"UI/Album Cover".scale.x = 176.0 / album_list[i].cover.get_width()
+	$"UI/Album Cover".scale.x = 262.0 / album_list[i].cover.get_width()
 	$"UI/Album Cover".scale.y = $"UI/Album Cover".scale.x
 	%"Album Name".text = album_list[i].name
 	%"Album Song List".text = album_list[i].credits
-	
-	$UI/Arrow.position = Vector2( -1000, 0 )
-	var tween = create_tween()
-	tween.tween_property( $UI/Arrow, "position", Vector2( -568, 0 ), 0.5 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 func update_selection(i: int):
 	
-	selected_song = wrapi( i, 0, option_nodes.size() )
+	selected_song = wrapi(i, 0, option_nodes.size())
 	i = selected_song
-	var index = -selected_song
+	var index: int = 0
 	
 	var song_file = options[i]
-	difficulty = song_file.difficulties.keys()[ difficulty_index % song_file.difficulties.size() ]
+	difficulty = song_file.difficulties.keys()[difficulty_index % song_file.difficulties.size()]
 	$"Audio/Menu Scroll".play()
 	$Audio/Music.stream = song_file.instrumental
 	$Audio/Music.volume_db = -60
@@ -138,29 +130,28 @@ func update_selection(i: int):
 	for j in option_nodes:
 		
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		var node_position = Vector2( -570 + 58 + ( 25 * index ), index * 175 )
-		tween.tween_property( j, "position", node_position, 0.5 )
+		var node_position = Vector2(-280 + (60 * sin(index - selected_song)), (index - selected_song) * 110 - 80)
+		tween.tween_property(j, "position", node_position, 0.5)
 		
-		j.modulate = Color( 0.5, 0.5, 0.5 )
-		j.icon = options[ index + selected_song ].icons.get_frame_texture( "default", 0 )
+		if index == selected_song:
+			
+			if song_file.icons.has_animation("winning") and !song_file.locked:
+				option_nodes[i].icon = song_file.icons.get_frame_texture("winning", 0)
+			j.state = "selected"
+		else:
+			
+			j.icon = options[index].icons.get_frame_texture("default", 0)
+			j.state = "idle"
 		
-		if options[ index + selected_song ].locked:
-			j.icon = load( "res://assets/sprites/menus/freeplay/lock_small.png" )
+		if options[index].locked:
+			j.icon = load("res://assets/sprites/menus/freeplay/lock_small.png")
 		
 		index += 1
 	
-	option_nodes[i].modulate = Color( 1, 1, 1 )
-	tween.tween_property( $Background/Background, "modulate", song_file.display_color, 1 )
-	
 	if !song_file.locked: 
-		
-		tween.tween_property( $Audio/Music, "volume_db", 0, 1 )
+		tween.tween_property($Audio/Music, "volume_db", 0, 1)
 	else:
-		
-		tween.tween_property( $Audio/Music, "volume_db", -60, 1 )
-	
-	if song_file.icons.has_animation( "winning" ) and !song_file.locked:
-		option_nodes[i].icon = song_file.icons.get_frame_texture( "winning", 0 )
+		tween.tween_property($Audio/Music, "volume_db", -60, 1)
 
 
 # Called when an option was selected

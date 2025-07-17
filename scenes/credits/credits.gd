@@ -31,7 +31,7 @@ extends Node2D
 	"Noah": ["Made the damn engine.", "link", "https://www.youtube.com/channel/UCH5BbTqMfiO-Cxhtx3drsqA"],
 	"Koi": ["Miss sprite", "link", "https://twitter.com/toasted_milk_"],
 	"The Funkin Crew\'": ["Friday Night Funkin\' Game", "link", "https://www.newgrounds.com/portal/view/770371"],
-	"PieDaDude": ["Lock and Arrow Sprite", "link", "https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ" ],
+	"PieDaDude": ["Lock Sprite", "link", "https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ" ],
 	"KostyaGame": ["Dad losing icon", null],
 	
 }
@@ -45,11 +45,11 @@ var selected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Global.set_window_title( "Credits Menu" )
+	Global.set_window_title("Credits Menu")
 	
 	if Global.song_playing():
 		
-		$Audio/Music.play( Global.get_song_position() )
+		$Audio/Music.play(Global.get_song_position())
 	else:
 		
 		Global.play_song($Audio/Music.stream.resource_path)
@@ -64,7 +64,7 @@ func _ready():
 		menu_option_instance.option_name = i
 		menu_option_instance.position = Vector2( -1000, object_amount * 175 )
 		menu_option_instance.modulate = Color( 1, 1, 1, 1 )
-		menu_option_instance.get_node("Label").label_settings.font = preload( "res://assets/fonts/Bold Italitc Normal Text.ttf" )
+		menu_option_instance.get_node("Label").label_settings.font = preload("res://assets/fonts/Bold Italitc Normal Text.ttf")
 		menu_option_instance.get_node("Label").label_settings.font_size = 56
 		
 		$UI.add_child( menu_option_instance )

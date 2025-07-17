@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p4fqdhnshin2"
-path="res://.godot/imported/arrow.png-ab221f232bdf25d6281e65df52359ea1.ctex"
+uid="uid://5b2u1q1kihtj"
+path="res://.godot/imported/clearBox.png-ff152978ef79516fdcd67094f534662c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/menus/freeplay/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-ab221f232bdf25d6281e65df52359ea1.ctex"]
+source_file="res://assets/sprites/menus/freeplay/clearBox.png"
+dest_files=["res://.godot/imported/clearBox.png-ff152978ef79516fdcd67094f534662c.ctex"]
 
 [params]
 
