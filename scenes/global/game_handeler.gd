@@ -107,7 +107,7 @@ func get_rank() -> String:
 	
 	var _tallies = week_tallies
 	if _tallies.total_notes > 0:
-		grade = float(_tallies.epic + _tallies.sick + _tallies.good - tallies.miss) / _tallies.total_notes
+		grade = float(_tallies.epic + _tallies.sick + _tallies.good - _tallies.miss) / _tallies.total_notes
 	else:
 		grade = 0
 	

@@ -24,5 +24,4 @@ difficulties = Dictionary[String, Dictionary]({
 title = "Darnell"
 artist = "kawai sprite"
 icons = ExtResource("1_aowy4")
-display_color = Color(0.67, 0.4, 1, 1)
 locked = false

@@ -20,5 +20,4 @@ difficulties = Dictionary[String, Dictionary]({
 title = "Senpai Erect"
 artist = "kawai sprite"
 icons = ExtResource("2_ka8cm")
-display_color = Color(0.996094, 0.951408, 0.58754, 1)
 locked = false

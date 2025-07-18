@@ -356,7 +356,6 @@ func bsearch_left_range(value_set: Array, length: int, left_range: float) -> int
 	return high + 1
 
 
-
 func get_rating(time: float) -> String:
 	
 	var rating: String
@@ -466,18 +465,18 @@ func song_finished():
 	
 	if GameHandeler.freeplay:
 		
-		if GameHandeler.play_mode == GameHandeler.PLAY_MODE.CHARTING: get_tree().change_scene_to_file("res://scenes/chart editor/chart_editor.tscn")
-		else: get_tree().change_scene_to_file("res://scenes/results/results.tscn")
+		match GameHandeler.play_mode:
+			
+			GameHandeler.PLAY_MODE.CHARTING:
+				Global.change_scene_to("res://scenes/playstate/chart_tester.gd")
+			_:
+				Global.change_scene_to("res://scenes/results/results.tscn")
 	else:
-		
 		Global.change_scene_to(next_scene)
-
 
 # Conductor Util
 
-
 func new_beat(current_beat, measure_relative):
-	
 	ui.icon_bop(conductor.seconds_per_beat * 0.5 * (1 / music_host.get_node("Instrumental").pitch_scale))
 
 
@@ -488,9 +487,7 @@ func new_step(current_step, measure_relative):
 		camera.zoom += camera_bop_strength
 		if SettingsHandeler.get_setting("ui_bops"): ui.scale += ui_bop_strength
 
-
 # Strum Util
-
 
 func note_hit(time, lane, note_type, hit_time, strum_handeler):
 	

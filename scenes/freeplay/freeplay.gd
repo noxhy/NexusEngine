@@ -130,7 +130,7 @@ func update_selection(i: int):
 	for j in option_nodes:
 		
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		var node_position = Vector2(-280 + (60 * sin(index - selected_song)), (index - selected_song) * 110 - 80)
+		var node_position = Vector2(-270 + (60 * sin(index - selected_song + 1)), (index - selected_song) * 110 - 60)
 		tween.tween_property(j, "position", node_position, 0.5)
 		
 		if index == selected_song:

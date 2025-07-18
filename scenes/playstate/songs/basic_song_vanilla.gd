@@ -46,7 +46,6 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 
 
 func _on_conductor_new_step(current_step, measure_relative):
-	
 	playstate_host.new_step( current_step, measure_relative )
 
 
@@ -56,10 +55,8 @@ func _on_conductor_new_step(current_step, measure_relative):
 func _on_create_note(time, lane, note_length, note_type, tempo):
 	
 	if ( lane > 3 ):
-		
 		playstate_host.strums[1].create_note( time, lane % 4, note_length, note_type, tempo )
 	else:
-		
 		playstate_host.strums[0].create_note( time, lane % 4, note_length, note_type, tempo )
 
 

@@ -57,6 +57,7 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_accept"):
 		
+		GameHandeler.reset_stats()
 		Transitions.transition("down")
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)

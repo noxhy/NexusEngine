@@ -20,5 +20,4 @@ difficulties = Dictionary[String, Dictionary]({
 title = "Fresh Erect"
 artist = "Kohta Takahashi (feat. Saruky)"
 icons = ExtResource("1_uxubk")
-display_color = Color(0.956863, 0.572549, 1, 1)
 locked = false

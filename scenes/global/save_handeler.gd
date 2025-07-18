@@ -47,6 +47,7 @@ func remove_token(token: String):
 ## Returns true if the new score is a highscore.
 func set_song_stats(song: String, difficulty: String, score: int, grade: float) -> bool:
 	
+	var output: bool = false
 	if !save_file.song_stats.has(song): save_file.song_stats[song] = {}
 	if !save_file.song_stats[song].has(difficulty):
 		save_file.song_stats[song][difficulty] = {"highscore": -1, "grade": -1}
@@ -55,20 +56,22 @@ func set_song_stats(song: String, difficulty: String, score: int, grade: float) 
 	if (highscore == -1 || highscore < score):
 		
 		save_file.song_stats[song][difficulty]["highscore"] = score
-		return true
+		output = true
 	
 	# So you don't have to worry about checking it yourself
 	var _grade: float = get_grade(song, difficulty)
 	if (_grade == -1 || grade < _grade):
 		save_file.song_stats[song][difficulty]["grade"] = grade
+	
 	save()
-	return false
+	return output
 
 
 ## Sets the results data of a week for a certain difficulty
 ## Returns true if the new score is a highscore.
 func set_week_stats(week: String, difficulty: String, score: int, grade: float) -> bool:
 	
+	var output: bool = false
 	if !save_file.week_stats.has(week): save_file.week_stats[week] = {}
 	if !save_file.week_stats[week].has(difficulty):
 		save_file.week_stats[week][difficulty] = {"highscore": -1, "grade": -1}
@@ -77,14 +80,15 @@ func set_week_stats(week: String, difficulty: String, score: int, grade: float) 
 	if (highscore == -1 || highscore < score):
 		
 		save_file.week_stats[week][difficulty]["highscore"] = score
-		return true
+		output = true
 	
 	# So you don't have to worry about checking it yourself
 	var _grade: float = save_file.week_stats[week][difficulty]["grade"]
 	if (_grade == -1 || grade < _grade):
 		save_file.week_stats[week][difficulty]["grade"] = grade
+	
 	save()
-	return false
+	return output
 
 
 ## Gets the highscore of the difficulty of the song
