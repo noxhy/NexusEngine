@@ -1,16 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://bg3coqaywlx5b"]
+[gd_scene load_steps=22 format=3 uid="uid://bg3coqaywlx5b"]
 
 [ext_resource type="Script" uid="uid://dphgey4vagoa2" path="res://scenes/playstate/songs/darnell/darnell_bf.gd" id="1_5tuvg"]
 [ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_6qtee"]
-[ext_resource type="SpriteFrames" uid="uid://digynxqrdoj3g" path="res://assets/sprites/playstate/icons/darnell.tres" id="3_drwo4"]
-[ext_resource type="AudioStream" uid="uid://bgb4g6xajpj0c" path="res://assets/songs/playable songs/darnell/Inst-bf.ogg" id="4_a0105"]
+[ext_resource type="Resource" uid="uid://di088ppmiqtut" path="res://assets/songs/playable songs/darnell/darnell_bf.tres" id="3_ox0nb"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_p6l71"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_gelov"]
-[ext_resource type="Script" uid="uid://watdarflaprc" path="res://resources/song.gd" id="5_ljkyt"]
 [ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_gaavs"]
-[ext_resource type="AudioStream" uid="uid://3lsteqprekbp" path="res://assets/songs/playable songs/darnell/Voices-bf-bf.ogg" id="6_kr4ko"]
 [ext_resource type="PackedScene" uid="uid://q0a40tn5u1c8" path="res://scenes/instances/stages/4chan_philly/philly_foggy.tscn" id="7_jmd2r"]
-[ext_resource type="AudioStream" uid="uid://dtj5j85a144bc" path="res://assets/songs/playable songs/darnell/Voices-darnell-bf.ogg" id="7_qdunf"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_0887o"]
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_l3w6d"]
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_0l8eg"]
@@ -20,27 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="14_1x41t"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="15_dj0ml"]
 [ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://assets/shaders/adjust_hsv.gdshader" id="17_goysl"]
-
-[sub_resource type="Resource" id="Resource_2mjoq"]
-script = ExtResource("5_ljkyt")
-vocals = Array[AudioStream]([ExtResource("6_kr4ko"), ExtResource("7_qdunf")])
-instrumental = ExtResource("4_a0105")
-tempo = 155.0
-scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
-difficulties = Dictionary[String, Dictionary]({
-"hard": {
-"chart": "res://assets/charts/Darnell - hard.tres"
-},
-"nightmare": {
-"chart": "res://assets/charts/Darnell (Bf Mix) - hard.tres",
-"scene": "res://scenes/playstate/songs/darnell/darnell_bf.tscn"
-}
-})
-title = "Darnell (Bf Mix)"
-artist = "Saruky"
-icons = ExtResource("3_drwo4")
-display_color = Color(0.67, 0.4, 1, 1)
-locked = false
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_oxpka"]
 
@@ -83,7 +58,7 @@ conductor = NodePath("../Conductor")
 music_host = NodePath("../Music")
 rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
-song_data = SubResource("Resource_2mjoq")
+song_data = ExtResource("3_ox0nb")
 note_skin = ExtResource("4_p6l71")
 ui_skin = ExtResource("5_gelov")
 combo_scale_multiplier = Vector2(1.2, 1.2)

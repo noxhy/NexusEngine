@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Chart" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Chart" load_steps=2 format=3 uid="uid://cy61dvjbq0cfl"]
 
 [ext_resource type="Script" uid="uid://bvrhk01mogilj" path="res://resources/chart.gd" id="1_m6n32"]
 

@@ -170,7 +170,7 @@ func select_option(i: int):
 	
 	if can_click:
 		
-		var song_file = options[i]
+		var song_file = options[get_tree().get_nodes_in_group("instances")[i].index]
 		
 		# Lock Check
 		if song_file.locked: return
