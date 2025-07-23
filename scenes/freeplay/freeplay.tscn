@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://gbra80y44814"]
+[gd_scene load_steps=19 format=3 uid="uid://gbra80y44814"]
 
 [ext_resource type="Script" uid="uid://b6vcw0ly2036" path="res://scenes/freeplay/freeplay.gd" id="1_8wllq"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="1_d85pb"]
@@ -6,12 +6,19 @@
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_f88my"]
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_dca1q"]
 [ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="5_xlpwk"]
+[ext_resource type="Texture2D" uid="uid://5b2u1q1kihtj" path="res://assets/sprites/menus/freeplay/clearBox.png" id="7_jukaj"]
 [ext_resource type="PackedScene" uid="uid://cnu4wa5x8qwp5" path="res://scenes/freeplay/difficulty_selector.tscn" id="7_klryl"]
 [ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="7_tn0af"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="7_yte2n"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="8_sfkso"]
 [ext_resource type="Texture2D" uid="uid://cgytynqqgidyi" path="res://assets/sprites/menus/freeplay/album covers/volume1.png" id="9_u33nh"]
+[ext_resource type="PackedScene" uid="uid://d1wj3tkjvp2xi" path="res://scenes/instances/results/score_display.tscn" id="10_5d5kc"]
 [ext_resource type="Texture2D" uid="uid://d38vcbkkjx571" path="res://assets/sprites/menus/freeplay/pinkBack.png" id="11_j37bj"]
+[ext_resource type="SpriteFrames" uid="uid://dpt4oelxa4rxf" path="res://assets/sprites/menus/freeplay/highscore.res" id="12_d02cx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_d02cx"]
+font = ExtResource("7_yte2n")
+font_size = 38
 
 [sub_resource type="LabelSettings" id="LabelSettings_w0sdm"]
 font = ExtResource("7_yte2n")
@@ -59,6 +66,20 @@ offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
+[node name="ClearBox" type="Sprite2D" parent="Above"]
+z_index = 20
+position = Vector2(576, -328)
+texture = ExtResource("7_jukaj")
+
+[node name="Label" type="Label" parent="Above/ClearBox"]
+offset_left = -53.0
+offset_top = -17.0
+offset_right = 20.0
+offset_bottom = 35.0
+label_settings = SubResource("LabelSettings_d02cx")
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [node name="ColorRect" type="ColorRect" parent="Above"]
 z_index = 10
 offset_left = -643.0
@@ -66,6 +87,7 @@ offset_top = -360.0
 offset_right = 640.0
 offset_bottom = -296.0
 color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
 
 [node name="Difficulty Selector" parent="." instance=ExtResource("7_klryl")]
 follow_viewport_enabled = true
@@ -75,9 +97,16 @@ offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
+[node name="Score Display" parent="UI" instance=ExtResource("10_5d5kc")]
+position = Vector2(360, -208)
+scale = Vector2(0.7, 0.7)
+digits = 7
+tween_time = 0.25
+spacing = 60.0
+
 [node name="Album Cover" type="Sprite2D" parent="UI"]
 z_index = 2
-position = Vector2(444.434, 0.482147)
+position = Vector2(448, 96)
 rotation = 0.171042
 texture = ExtResource("9_u33nh")
 
@@ -118,6 +147,13 @@ text = "Album Credits"
 label_settings = SubResource("LabelSettings_mxklt")
 autowrap_mode = 3
 
+[node name="Highscore Text" type="AnimatedSprite2D" parent="UI"]
+position = Vector2(488, -271)
+sprite_frames = ExtResource("12_d02cx")
+animation = &"highscore small instance 1"
+autoplay = "highscore small instance 1"
+frame_progress = 0.851564
+
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 offset = Vector2(640, 360)
@@ -125,6 +161,7 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Background" type="Sprite2D" parent="Background"]
+modulate = Color(1, 0.75, 0.75, 1)
 z_index = -1
 texture = ExtResource("5_xlpwk")
 metadata/_edit_lock_ = true

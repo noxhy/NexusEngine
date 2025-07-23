@@ -11,6 +11,8 @@ var difficulty: String = "null"
 var album: Album
 var difficulty_songs: Dictionary
 
+var current_grade: int
+var current_highscore: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -121,7 +123,7 @@ func update_selection(i: int):
 	for j in instances:
 		
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		var node_position = Vector2(-270 + (60 * sin(index - i + 1)), (index -i) * 110 - 60)
+		var node_position = Vector2(-270 + (60 * sin(index - i + 1)), (index - i) * 110 - 60)
 		tween.tween_property(j, "position", node_position, 0.25)
 		
 		if index == i:
@@ -141,6 +143,17 @@ func update_selection(i: int):
 	
 	if !song_file.locked: 
 		tween.tween_property($Audio/Music, "volume_db", 0.0, 1)
+	
+	
+	var grade = SaveHandeler.get_grade(song_file.title, difficulty)
+	if grade == -1: grade = 0
+	tween.tween_method(
+		self.update_grade, current_grade, grade * 100, 0.3
+		).set_trans(Tween.TRANS_QUART)
+	
+	var highscore = SaveHandeler.get_highscore(song_file.title, difficulty)
+	highscore = max(0, highscore)
+	$"UI/Score Display".number = highscore
 
 
 # Called when an option was selected
@@ -198,8 +211,7 @@ func play_song(song: Song, difficulty: String):
 func _on_conductor_new_beat(current_beat, measure_relative):
 	
 	if SettingsHandeler.get_setting("ui_bops"):
-		
-		Global.bop_tween( $Camera2D, "zoom", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )
+		Global.bop_tween($Camera2D, "zoom", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)
 
 
 @warning_ignore("shadowed_variable")
@@ -209,3 +221,9 @@ func _on_difficulty_selector_selected_difficulty(difficulty: String) -> void:
 	load_page()
 	update_selection(Global.freeplay_song_option)
 	$"Audio/Menu Scroll".play()
+
+
+func update_grade(grade: int):
+	
+	$Above/ClearBox/Label.text = str(int(grade))
+	current_grade = grade

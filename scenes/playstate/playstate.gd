@@ -409,16 +409,10 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 		var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
 		var zoom_time = 0 if event_parameters[1] == "" else float(event_parameters[1])
 		
-		var temp: bool = camera.lerping
-		camera.lerping = false
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_parallel(true)
 		tween.tween_property(camera, "target_zoom", new_zoom, zoom_time * song_speed)
 		tween.tween_property(camera, "zoom", new_zoom, zoom_time * song_speed)
-		
-		await tween.finished
-		
-		camera.lerping = temp
 	
 	elif event_name == "bop_delay" or event_name == "bop_rate":
 		bop_rate = int(event_parameters[0])

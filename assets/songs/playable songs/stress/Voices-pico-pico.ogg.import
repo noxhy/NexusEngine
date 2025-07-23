@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://d1p5uqo2lbo2a"
+path="res://.godot/imported/Voices-pico-pico.ogg-9f7e10cbc4ac0b0ca3d73719fa8a6f75.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/stress/Voices-pico-pico.ogg"
+dest_files=["res://.godot/imported/Voices-pico-pico.ogg-9f7e10cbc4ac0b0ca3d73719fa8a6f75.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

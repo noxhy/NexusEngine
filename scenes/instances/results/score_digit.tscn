@@ -4,6 +4,7 @@
 [ext_resource type="SpriteFrames" path="res://assets/sprites/menus/results/score_digital_numbers.res" id="2_u4i8l"]
 
 [node name="Digit" type="Node2D"]
+use_parent_material = true
 script = ExtResource("1_u4i8l")
 animation_names = Dictionary[int, String]({
 -1: "DISABLED",
@@ -20,6 +21,7 @@ animation_names = Dictionary[int, String]({
 })
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 position = Vector2(3.415, 0)
 sprite_frames = ExtResource("2_u4i8l")
 animation = &"DISABLED"

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bwra5et2s4wsj"
+path="res://.godot/imported/Voices-tankman-pico.ogg-9c988908732d01708f7d0383ad3b5073.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/stress/Voices-tankman-pico.ogg"
+dest_files=["res://.godot/imported/Voices-tankman-pico.ogg-9c988908732d01708f7d0383ad3b5073.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

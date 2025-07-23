@@ -9,12 +9,14 @@ signal finished
 		digits = v
 		update_display()
 
+@export var tween_time: float = 2.0
+
 @export var number: int = 0:
 	set(v):
 		number = v
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(self, "_number", v, 2.0)
+		tween.tween_property(self, "_number", v, tween_time)
 		actual_digits = str(number).length()
 		update_display()
 		

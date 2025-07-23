@@ -60,7 +60,7 @@ func set_song_stats(song: String, difficulty: String, score: int, grade: float) 
 	
 	# So you don't have to worry about checking it yourself
 	var _grade: float = get_grade(song, difficulty)
-	if (_grade == -1 || grade < _grade):
+	if (_grade == -1 || _grade < grade):
 		save_file.song_stats[song][difficulty]["grade"] = grade
 	
 	save()

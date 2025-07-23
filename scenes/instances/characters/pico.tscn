@@ -33,7 +33,7 @@ animations = [{
 
 [node name="Pico" type="Node2D"]
 script = ExtResource("1_fxfjm")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "Pico Down Note",
 "idle": "Pico Idle Dance",
 "left": "Pico NOTE LEFT",
@@ -43,8 +43,8 @@ animation_names = {
 "miss_up": "pico Up note miss",
 "right": "Pico Note Right",
 "up": "pico Up note"
-}
-offsets = {
+})
+offsets = Dictionary[String, Vector2]({
 "Pico Down Note": Vector2(56, -136),
 "Pico Down Note MISS": Vector2(56, -152),
 "Pico Idle Dance": Vector2(16, -176),
@@ -54,14 +54,17 @@ offsets = {
 "Pico Note Right Miss": Vector2(64, -200),
 "pico Up note": Vector2(-16, -200),
 "pico Up note miss": Vector2(-8, -208)
-}
+})
 icons = SubResource("SpriteFrames_uwssi")
 color = Color(0.541176, 0.941176, 0.454902, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = -1
+use_parent_material = true
 position = Vector2(16, -176)
 sprite_frames = ExtResource("2_35c1i")
 animation = &"Pico Idle Dance"
+frame = 13
+frame_progress = 1.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

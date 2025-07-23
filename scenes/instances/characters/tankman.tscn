@@ -33,7 +33,7 @@ animations = [{
 
 [node name="Tankman" type="Node2D"]
 script = ExtResource("1_jvrgr")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "Tankman DOWN note 1",
 "idle": "Tankman Idle Dance 1",
 "left": "Tankman Note Left 1",
@@ -45,8 +45,8 @@ animation_names = {
 "right": "Tankman Right Note 1",
 "ugh": "TANKMAN UGH 1",
 "up": "Tankman UP note 1"
-}
-offsets = {
+})
+offsets = Dictionary[String, Vector2]({
 "PRETTY GOOD tankman 1": Vector2(-61, -243),
 "TANKMAN UGH 1": Vector2(-9, -229),
 "Tankman DOWN note 1": Vector2(0, -176),
@@ -58,12 +58,13 @@ offsets = {
 "Tankman Right Note MISS": Vector2(44, -227),
 "Tankman UP note 1": Vector2(0, -261),
 "Tankman UP note MISS": Vector2(0, -261)
-}
+})
 icons = SubResource("SpriteFrames_5cccw")
 color = Color(0.0313726, 0.0313726, 0.0313726, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = -1
+use_parent_material = true
 position = Vector2(-8, -232)
 sprite_frames = ExtResource("3_kv1vj")
 animation = &"Tankman Idle Dance 1"
