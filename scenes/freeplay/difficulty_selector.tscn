@@ -58,6 +58,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_eenre"]
 resource_name = "start"
+length = 0.5
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false

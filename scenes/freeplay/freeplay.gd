@@ -111,6 +111,8 @@ func update_selection(i: int):
 	$Audio/Music.volume_db = -60
 	$Audio/Music.play()
 	
+	$"Difficulty Selector".available_difficulties = song_file.difficulties.keys()
+	
 	$Conductor.tempo = song_file.tempo
 	
 	var tween = create_tween()
@@ -152,14 +154,7 @@ func select_option(i: int):
 		if song_file.locked: return
 		
 		can_click = false
-		
-		# I wish i could use null but I have "null" as the base case.
-		if difficulty == "null":
-			
-			$"Audio/Menu Cancel".play()
-			can_click = true
-			return
-		
+		$"Difficulty Selector".set_process(false)
 		$"Audio/Menu Confirm".play()
 		
 		var tween = create_tween()

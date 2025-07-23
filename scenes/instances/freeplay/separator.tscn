@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://1nbj34gy60ke"]
+
+[ext_resource type="Script" uid="uid://dq0yq7toe4r77" path="res://scenes/instances/freeplay/separator.gd" id="1_b7iy2"]
+[ext_resource type="Texture2D" uid="uid://ckfsscmfe5ark" path="res://assets/sprites/menus/freeplay/seperator.png" id="2_d8vxv"]
+
+[node name="Separator" type="Node2D"]
+script = ExtResource("1_b7iy2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_d8vxv")
