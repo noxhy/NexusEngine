@@ -1,19 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://dg6rnkjn5f5gm"]
+[gd_scene load_steps=8 format=3 uid="uid://cs1tqndyp3ow6"]
 
-[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_mx020"]
-[ext_resource type="Texture2D" uid="uid://dkvwg2x5r5kbe" path="res://assets/sprites/playstate/icons/boyfriend.png" id="2_b4ajg"]
-[ext_resource type="SpriteFrames" uid="uid://bvvc2hl0jc06w" path="res://assets/sprites/characters/boyfriend/boyfriend.res" id="3_cqa6h"]
+[ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://scenes/instances/characters/character.gd" id="1_lci0s"]
+[ext_resource type="Texture2D" uid="uid://dkvwg2x5r5kbe" path="res://assets/sprites/playstate/icons/boyfriend.png" id="2_ts4lu"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/characters/boyfriend christmas/boyfriend_christmas.res" id="3_lci0s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yyxw1"]
-atlas = ExtResource("2_b4ajg")
+atlas = ExtResource("2_ts4lu")
 region = Rect2(0, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cbf2j"]
-atlas = ExtResource("2_b4ajg")
+atlas = ExtResource("2_ts4lu")
 region = Rect2(150, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vyxe7"]
-atlas = ExtResource("2_b4ajg")
+atlas = ExtResource("2_ts4lu")
 region = Rect2(300, 0, 150, 150)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u3ypl"]
@@ -45,7 +45,7 @@ animations = [{
 
 [node name="Boyfriend" type="Node2D"]
 texture_filter = 4
-script = ExtResource("1_mx020")
+script = ExtResource("1_lci0s")
 animation_names = Dictionary[String, String]({
 "attack": "boyfriend attack",
 "cheer": "BF HEY!!",
@@ -85,7 +85,7 @@ color = Color(0.286275, 0.733333, 0.85098, 1)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 position = Vector2(-16, -160)
-sprite_frames = ExtResource("3_cqa6h")
+sprite_frames = ExtResource("3_lci0s")
 animation = &"BF idle dance"
 frame = 13
 frame_progress = 1.0

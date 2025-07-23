@@ -1,23 +1,23 @@
 extends Node2D
 
-@export var can_click: bool = true
+const MENU_OPTION_NODE = preload("res://scenes/instances/freeplay/capsule.tscn")
 
-@onready var menu_option_node = preload("res://scenes/instances/freeplay/capsule.tscn")
-@onready var difficulty_selector_node = preload("res://scenes/freeplay/difficulty_selector.tscn")
+@export var can_click: bool = true
+@export var difficulties: Array[String]
+
 @onready var options: Array[Song]
 
-var option_nodes: Array = []
 var selected_album: int = 0
 var selected_song: int = 0
-var selected_difficulty: int = 0
-var difficulty: String
-var difficulty_index: int = 0
+var difficulty: String = "null"
 var album_list: Array[Album]
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	difficulty = difficulties[0]
+	$"Difficulty Selector".difficulties = difficulties
 	Global.set_window_title("Freeplay Menu")
 	# idk how to cast a regular array to a typed one it keeps giving me an error.
 	var _album_list = Preload.character_data[GameHandeler.current_character]["albums"]
@@ -48,14 +48,18 @@ func _input(event):
 			
 			if album_list.size() > 1:
 				
-				load_page( selected_album - 1 )
-				update_selection( selected_song % option_nodes.size() )
+				load_page(selected_album - 1)
+				update_selection(
+					selected_song % get_tree().get_nodes_in_group("instances").size()
+					)
 		elif event.is_action_pressed("ui_right"):
 			
 			if album_list.size() > 1:
 				
-				load_page( selected_album + 1 )
-				update_selection( selected_song % option_nodes.size() )
+				load_page(selected_album + 1)
+				update_selection(
+					selected_song % get_tree().get_nodes_in_group("instances").size()
+					)
 		elif event.is_action_pressed("ui_accept"):
 			select_option(selected_song)
 		elif event.is_action_pressed("ui_cancel"):
@@ -75,32 +79,34 @@ func _input(event):
 
 func load_page(i: int):
 	
-	for j in option_nodes.size():
-		
-		option_nodes[0].queue_free()
-		option_nodes.remove_at(0)
-	
-	selected_album = wrapi( i, 0, album_list.size() )
+	get_tree().call_group("instances", "queue_free")
+	selected_album = wrapi(i, 0, album_list.size())
 	i = selected_album
 	
-	var album = album_list[ i ]
+	var album = album_list[i]
 	
 	var object_amount: int = -Global.freeplay_song_option
 	options = album.song_list
 	
+	var index: int = 0
 	for song_file in options:
 		
-		var menu_option_instance = menu_option_node.instantiate()
+		if !song_file.difficulties.has(difficulty):
+			index += 1
+			continue
+		
+		var menu_option_instance = MENU_OPTION_NODE.instantiate()
 		
 		menu_option_instance.text = song_file.title
 		menu_option_instance.icon = song_file.icons.get_frame_texture("default", 0)
-		menu_option_instance.position = Vector2(-1000, object_amount * 110 - 120)
+		menu_option_instance.position = Vector2(-270, -60)
 		menu_option_instance.scale = Vector2(0.7, 0.7)
+		menu_option_instance.index = index
 		
 		$UI.add_child(menu_option_instance)
-		
-		option_nodes.append(menu_option_instance)
+		menu_option_instance.add_to_group("instances")
 		object_amount += 1
+		index += 1
 	
 	$"UI/Album Cover".texture = album_list[i].cover
 	$"UI/Album Cover".scale.x = 262.0 / album_list[i].cover.get_width()
@@ -111,12 +117,17 @@ func load_page(i: int):
 
 func update_selection(i: int):
 	
-	selected_song = wrapi(i, 0, option_nodes.size())
+	var instances = get_tree().get_nodes_in_group("instances")
+	selected_song = wrapi(
+		i, 0, instances.size()
+		)
 	i = selected_song
 	var index: int = 0
 	
-	var song_file = options[i]
-	difficulty = song_file.difficulties.keys()[difficulty_index % song_file.difficulties.size()]
+	if instances.size() == 0:
+		return
+	
+	var song_file = options[instances[i].index]
 	$"Audio/Menu Scroll".play()
 	$Audio/Music.stream = song_file.instrumental
 	$Audio/Music.volume_db = -60
@@ -127,20 +138,20 @@ func update_selection(i: int):
 	var tween = create_tween()
 	tween.set_parallel()
 	
-	for j in option_nodes:
+	for j in instances:
 		
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		var node_position = Vector2(-270 + (60 * sin(index - selected_song + 1)), (index - selected_song) * 110 - 60)
-		tween.tween_property(j, "position", node_position, 0.5)
+		tween.tween_property(j, "position", node_position, 0.25)
 		
 		if index == selected_song:
 			
 			if song_file.icons.has_animation("winning") and !song_file.locked:
-				option_nodes[i].icon = song_file.icons.get_frame_texture("winning", 0)
+				j.icon = song_file.icons.get_frame_texture("winning", 0)
 			j.state = "selected"
 		else:
 			
-			j.icon = options[index].icons.get_frame_texture("default", 0)
+			j.icon = options[j.index].icons.get_frame_texture("default", 0)
 			j.state = "idle"
 		
 		if options[index].locked:
@@ -166,27 +177,6 @@ func select_option(i: int):
 		
 		can_click = false
 		
-		# This is so you don't have to go to the selection menu even if there's
-		# only one difficulty
-		if song_file.difficulties.size() == 1: difficulty = song_file.difficulties.keys()[0]
-		else:
-			
-			var difficulty_selector_instance = difficulty_selector_node.instantiate()
-			
-			difficulty_selector_instance.difficulties = song_file.difficulties.keys()
-			
-			add_child(difficulty_selector_instance)
-			
-			# This function call exists cause of how .connect works
-			difficulty_selector_instance.connect( "selected_difficulty", self.set_difficulty )
-			get_tree().paused = true
-			
-			await difficulty_selector_instance.selected_difficulty
-			
-			difficulty_selector_instance.queue_free()
-			
-			print("difficulty: ", difficulty)
-		
 		# I wish i could use null but I have "null" as the base case.
 		if difficulty == "null":
 			
@@ -201,12 +191,13 @@ func select_option(i: int):
 		
 		tween.tween_property( $Audio/Music, "volume_db", -60, 1 )
 		
+		var option_nodes = get_tree().get_nodes_in_group("instances")
 		for j in option_nodes:
 			
 			if j != option_nodes[selected_song]:
 				
 				tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-				tween.tween_property( j, "position", j.position - Vector2( 2000, 0 ), 0.5 )
+				tween.tween_property(j, "position", j.position - Vector2(2000, 0), 0.5)
 		
 		Transitions.transition("down")
 		
@@ -214,15 +205,12 @@ func select_option(i: int):
 		
 		Global.stop_song()
 		
-		play_song( song_file, difficulty )
-
-# I hate that this function has to exist but it does to even have the signal be useful
-func set_difficulty( new: String ): difficulty = new
+		play_song(song_file, difficulty)
 
 
 @warning_ignore("shadowed_variable")
 # Doesn't actually play the audio, just sends you to the scene
-func play_song( song: Song, difficulty: String ):
+func play_song(song: Song, difficulty: String):
 	
 	var scene = song.scene
 	if song.difficulties[difficulty].has("scene"): scene = song.difficulties[difficulty].scene
@@ -241,3 +229,11 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 	if SettingsHandeler.get_setting("ui_bops"):
 		
 		Global.bop_tween( $Camera2D, "zoom", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )
+
+
+func _on_difficulty_selector_selected_difficulty(difficulty: String) -> void:
+	
+	self.difficulty = difficulty
+	load_page(selected_album)
+	update_selection(selected_song)
+	$"Audio/Menu Scroll".play()

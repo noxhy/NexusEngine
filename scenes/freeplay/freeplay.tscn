@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://gbra80y44814"]
+[gd_scene load_steps=15 format=3 uid="uid://gbra80y44814"]
 
 [ext_resource type="Script" uid="uid://b6vcw0ly2036" path="res://scenes/freeplay/freeplay.gd" id="1_8wllq"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="1_d85pb"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_f88my"]
 [ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_dca1q"]
 [ext_resource type="Texture2D" uid="uid://dix7cy7ydksfi" path="res://assets/sprites/menus/background/main menu/menuDesat.png" id="5_xlpwk"]
+[ext_resource type="PackedScene" uid="uid://cnu4wa5x8qwp5" path="res://scenes/freeplay/difficulty_selector.tscn" id="7_klryl"]
 [ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="7_tn0af"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://assets/fonts/Bold Normal Text.ttf" id="7_yte2n"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="8_sfkso"]
@@ -23,6 +24,7 @@ font = ExtResource("8_sfkso")
 
 [node name="Freeplay" type="Node2D"]
 script = ExtResource("1_8wllq")
+difficulties = Array[String](["easy", "normal", "hard", "erect", "nightmare"])
 metadata/_edit_horizontal_guides_ = [88.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -50,6 +52,8 @@ bus = &"SFX"
 [node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("7_tn0af")
 bus = &"SFX"
+
+[node name="Difficulty Selector" parent="." instance=ExtResource("7_klryl")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 offset = Vector2(640, 360)
@@ -127,3 +131,4 @@ position = Vector2(-384, 0)
 texture = ExtResource("11_j37bj")
 
 [connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="selected_difficulty" from="Difficulty Selector" to="." method="_on_difficulty_selector_selected_difficulty"]

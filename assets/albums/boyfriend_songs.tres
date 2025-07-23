@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Album" load_steps=9 format=3 uid="uid://c0coafka6m5vs"]
+[gd_resource type="Resource" script_class="Album" load_steps=10 format=3 uid="uid://c0coafka6m5vs"]
 
 [ext_resource type="Texture2D" uid="uid://cgytynqqgidyi" path="res://assets/sprites/menus/freeplay/album covers/volume1.png" id="1_nld3m"]
 [ext_resource type="Script" uid="uid://c85optaap1atb" path="res://resources/album.gd" id="2_de8bw"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://hp2n1h7ndfh6" path="res://assets/songs/playable songs/darnell/darnell.tres" id="5_k2n3v"]
 [ext_resource type="Resource" uid="uid://6unqym76jb8m" path="res://assets/songs/playable songs/senpai/senpai_erect.tres" id="6_k0o3g"]
 [ext_resource type="Resource" uid="uid://w4bp628gcfr7" path="res://assets/songs/playable songs/thorns/thorns.tres" id="7_net75"]
+[ext_resource type="Resource" uid="uid://di088ppmiqtut" path="res://assets/songs/playable songs/darnell/darnell_bf.tres" id="9_3l6lo"]
 [ext_resource type="Resource" uid="uid://hk4gvyxu62ji" path="res://assets/songs/playable songs/eggnog/Eggnog Erect.res" id="10_nf846"]
 
 [resource]
@@ -14,4 +15,4 @@ script = ExtResource("2_de8bw")
 name = "Friday Night Funkin'"
 cover = ExtResource("1_nld3m")
 credits = "kawai sprite, Saruky, Saster and Kohta Takahashi"
-song_list = Array[ExtResource("3_dndsk")]([ExtResource("4_4t5a0"), ExtResource("5_k2n3v"), ExtResource("6_k0o3g"), ExtResource("7_net75"), ExtResource("10_nf846")])
+song_list = Array[ExtResource("3_dndsk")]([ExtResource("4_4t5a0"), ExtResource("5_k2n3v"), ExtResource("6_k0o3g"), ExtResource("7_net75"), ExtResource("10_nf846"), ExtResource("9_3l6lo")])

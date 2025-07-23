@@ -11,7 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_a74l0"]
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_bch62"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="11_ne2el"]
-[ext_resource type="PackedScene" uid="uid://dg6rnkjn5f5gm" path="res://scenes/instances/characters/boyfriend.tscn" id="12_5wi1q"]
+[ext_resource type="PackedScene" uid="uid://cs1tqndyp3ow6" path="res://scenes/instances/characters/boyfriend_christmas.tscn" id="12_8k6f7"]
 [ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://assets/shaders/adjust_hsv.gdshader" id="13_vkil6"]
 [ext_resource type="PackedScene" uid="uid://civkgglbefejt" path="res://scenes/instances/characters/mom_dad_christmas.tscn" id="14_5qnon"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="15_pd6oi"]
@@ -130,10 +130,8 @@ scale = Vector2(0.8, 0.8)
 transform = Transform2D(0.8, 0, 0, 0.8, 0, 0)
 follow_viewport_enabled = true
 
-[node name="Player" parent="Characters" instance=ExtResource("12_5wi1q")]
+[node name="Player" parent="Characters" instance=ExtResource("12_8k6f7")]
 unique_name_in_owner = true
-z_index = 1
-texture_filter = 0
 material = SubResource("ShaderMaterial_8k6f7")
 position = Vector2(1170, 828)
 

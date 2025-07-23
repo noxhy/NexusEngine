@@ -15,10 +15,6 @@ scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "hard": {
 "chart": "res://assets/charts/Darnell - hard.tres"
-},
-"nightmare": {
-"chart": "res://assets/charts/Darnell (Bf Mix) - hard.tres",
-"scene": "res://scenes/playstate/songs/darnell/darnell_bf.tscn"
 }
 })
 title = "Darnell"

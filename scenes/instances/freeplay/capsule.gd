@@ -5,6 +5,7 @@ extends Node2D
 var scroll_timer: float = 0.0
 var wait_timer: float = 0.0
 var positive: bool = true
+var index: int
 
 @export var icon: Texture2D:
 	set(v):

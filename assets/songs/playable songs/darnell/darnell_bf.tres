@@ -11,7 +11,7 @@ script = ExtResource("3_rmibb")
 vocals = Array[AudioStream]([ExtResource("4_2b4od"), ExtResource("5_edkun")])
 instrumental = ExtResource("2_1fdwb")
 tempo = 155.0
-scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
+scene = "res://scenes/playstate/songs/darnell/darnell_bf.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "hard": {
 "chart": "res://assets/charts/Darnell (Bf Mix) - hard.tres"
@@ -20,5 +20,4 @@ difficulties = Dictionary[String, Dictionary]({
 title = "Darnell (Bf Mix)"
 artist = "Saruky"
 icons = ExtResource("1_rjq1m")
-display_color = Color(0.67, 0.4, 1, 1)
 locked = false
