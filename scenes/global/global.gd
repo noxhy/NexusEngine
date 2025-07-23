@@ -7,7 +7,7 @@ var new_scene: String = "res://test/test_scene.tscn"
 var debug_info: String = ""
 var fullscreen = false
 
-var freeplay_album_option: int = 0
+var freeplay_difficulty: int = 0
 var freeplay_song_option: int = 0
 
 var death_stats: Dictionary = {}
@@ -19,7 +19,6 @@ var transitioning: bool = false
 
 
 func _ready():
-	
 	SettingsHandeler.load_settings()
 
 

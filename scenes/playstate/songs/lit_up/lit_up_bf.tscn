@@ -1,0 +1,156 @@
+[gd_scene load_steps=22 format=3 uid="uid://xi53lo6gb4v4"]
+
+[ext_resource type="Script" uid="uid://dphgey4vagoa2" path="res://scenes/playstate/songs/darnell/darnell_bf.gd" id="1_ctmmh"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_qpkph"]
+[ext_resource type="Resource" path="res://assets/songs/playable songs/lit up/Lit Up (Bf Mix).res" id="3_wqsah"]
+[ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_m8lbv"]
+[ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_n504w"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_p8u4p"]
+[ext_resource type="PackedScene" uid="uid://q0a40tn5u1c8" path="res://scenes/instances/stages/4chan_philly/philly_foggy.tscn" id="7_ka8bv"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_vctni"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_lwdkw"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_n8hp0"]
+[ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="11_ohu18"]
+[ext_resource type="PackedScene" uid="uid://dg6rnkjn5f5gm" path="res://scenes/instances/characters/boyfriend.tscn" id="12_n4iry"]
+[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://assets/shaders/adjust_hsv.gdshader" id="13_kxttw"]
+[ext_resource type="PackedScene" uid="uid://k3e5qpeoyea4" path="res://scenes/instances/characters/darnell.tscn" id="14_xa7p6"]
+[ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="15_jyanv"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="16_7xpc1"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_oxpka"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1fe3a"]
+streams_count = 3
+stream_0/stream = ExtResource("8_vctni")
+stream_1/stream = ExtResource("9_lwdkw")
+stream_2/stream = ExtResource("10_n8hp0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kuluq"]
+shader = ExtResource("13_kxttw")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -40.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kw6yb"]
+shader = ExtResource("13_kxttw")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -40.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_040ww"]
+shader = ExtResource("13_kxttw")
+shader_parameter/hue = -5.0
+shader_parameter/saturation = -40.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
+
+[node name="Lit Up Bf Mix" type="Node2D"]
+script = ExtResource("1_ctmmh")
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_qpkph")]
+process_mode = 1
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Music")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+song_data = ExtResource("3_wqsah")
+note_skin = ExtResource("4_m8lbv")
+ui_skin = ExtResource("5_n504w")
+combo_scale_multiplier = Vector2(1.2, 1.2)
+
+[node name="Camera" parent="." instance=ExtResource("6_p8u4p")]
+position = Vector2(640, 360)
+zoom = Vector2(0.85, 0.85)
+position_smoothing_speed = 3.0
+target_zoom = Vector2(0.85, 0.85)
+
+[node name="Stage" parent="." instance=ExtResource("7_ka8bv")]
+unique_name_in_owner = true
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+stream = SubResource("AudioStreamPolyphonic_oxpka")
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1fe3a")
+bus = &"SFX"
+
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1fe3a")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("11_ohu18")
+stream_player = NodePath("../Music/Instrumental")
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(320, -40)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(0, -64)
+gizmo_extents = 26.5
+
+[node name="Position 3" type="Marker2D" parent="World"]
+position = Vector2(192, -76)
+gizmo_extents = 26.5
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(384, -168)
+gizmo_extents = 30.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(512, -120)
+gizmo_extents = 40.0
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("12_n4iry")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kuluq")
+position = Vector2(640, 288)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("14_xa7p6")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_kw6yb")
+position = Vector2(-528, 240)
+
+[node name="Metronome" parent="Characters" instance=ExtResource("15_jyanv")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_040ww")
+position = Vector2(80, 176)
+
+[node name="UI" parent="." instance=ExtResource("16_7xpc1")]
+layer = 10
+
+[connection signal="combo_break" from="PlayState Host" to="." method="_on_combo_break"]
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="_on_new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

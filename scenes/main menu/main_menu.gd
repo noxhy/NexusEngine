@@ -58,11 +58,6 @@ func _ready():
 	update_selection( selected )
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 # Input Handler
 func _input(event):
 	

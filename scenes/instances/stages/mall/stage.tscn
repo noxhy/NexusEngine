@@ -95,7 +95,7 @@ z_index = 60
 offset_left = -1200.0
 offset_top = 800.0
 offset_right = 4200.0
-offset_bottom = 3800.0
+offset_bottom = 990.0
 color = Color(0.952941, 0.956863, 0.960784, 1)
 
 [node name="Backround" type="CanvasLayer" parent="."]

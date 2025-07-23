@@ -69,7 +69,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(0.34151, 1),
 "update": 0,
-"values": [Vector2(-136, 1000), Vector2(-160, 0)]
+"values": [Vector2(-136, -1000), Vector2(-160, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -81,7 +81,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(0.34151, 1),
 "update": 0,
-"values": [Vector2(128, 1000), Vector2(160, 0)]
+"values": [Vector2(128, -1000), Vector2(160, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -105,7 +105,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(0.34151, 1),
 "update": 0,
-"values": [Vector2(0, 1000), Vector2(0, 0)]
+"values": [Vector2(0, -1000), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mgni6"]

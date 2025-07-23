@@ -53,7 +53,22 @@ bus = &"SFX"
 stream = ExtResource("7_tn0af")
 bus = &"SFX"
 
+[node name="Above" type="CanvasLayer" parent="."]
+layer = 3
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="Above"]
+z_index = 10
+offset_left = -643.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = -296.0
+color = Color(0, 0, 0, 1)
+
 [node name="Difficulty Selector" parent="." instance=ExtResource("7_klryl")]
+follow_viewport_enabled = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 offset = Vector2(640, 360)
@@ -102,14 +117,6 @@ offset_bottom = -624.08
 text = "Album Credits"
 label_settings = SubResource("LabelSettings_mxklt")
 autowrap_mode = 3
-
-[node name="ColorRect" type="ColorRect" parent="UI"]
-z_index = 10
-offset_left = -643.0
-offset_top = -360.0
-offset_right = 640.0
-offset_bottom = -296.0
-color = Color(0, 0, 0, 1)
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
