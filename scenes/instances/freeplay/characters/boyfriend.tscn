@@ -1,0 +1,118 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1s7cbxg2o4m0"]
+
+[ext_resource type="Script" uid="uid://cblocwqwyjjjy" path="res://scenes/freeplay/freeplay_character.gd" id="1_uxy4b"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="2_re7fs"]
+[ext_resource type="FontFile" uid="uid://c7hwqqieqbc47" path="res://assets/fonts/Results Background.ttf" id="3_dcg1w"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6h7lv"]
+font = ExtResource("3_dcg1w")
+font_size = 80
+font_color = Color(1, 0.6, 0.388235, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dcg1w"]
+font = ExtResource("3_dcg1w")
+font_size = 48
+font_color = Color(1, 0.952941, 0.513726, 1)
+outline_size = 4
+outline_color = Color(1, 0.952941, 0.513726, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jjooh"]
+font = ExtResource("3_dcg1w")
+font_size = 48
+outline_size = 4
+
+[node name="FreeplayCharacter" type="Node2D"]
+show_behind_parent = true
+script = ExtResource("1_uxy4b")
+animation_data = Dictionary[String, String]({
+"character_select": "Boyfriend DJ to CS",
+"confirm": "Boyfriend DJ confirm",
+"idle": "Boyfriend DJ",
+"intro": "boyfriend dj intro",
+"lose": "Boyfriend DJ loss reaction 1",
+"win": "Boyfriend DJ fist pump"
+})
+animation = "idle"
+metadata/_custom_type_script = "uid://cblocwqwyjjjy"
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = -1656.0
+offset_top = -968.0
+offset_right = 1392.0
+offset_bottom = 368.0
+color = Color(1, 0.847059, 0.388235, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -848.0
+offset_top = -232.0
+offset_right = 848.0
+offset_bottom = -168.0
+color = Color(1, 0.85098, 0.0470588, 1)
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_offset = Vector2(-276, -56)
+repeat_size = Vector2(348, 120)
+autoscroll = Vector2(320, 0)
+repeat_times = 2
+
+[node name="Label" type="Label" parent="Parallax2D"]
+offset_left = 92.0
+offset_top = -304.0
+offset_right = 460.0
+offset_bottom = -115.0
+text = "BOYFRIEND
+"
+label_settings = SubResource("LabelSettings_6h7lv")
+
+[node name="Parallax2D2" type="Parallax2D" parent="."]
+scroll_offset = Vector2(-684, -624)
+repeat_size = Vector2(724, 0)
+autoscroll = Vector2(-360, 0)
+repeat_times = 2
+
+[node name="Label" type="Label" parent="Parallax2D2"]
+offset_left = -52.0
+offset_top = 104.0
+offset_right = 672.0
+offset_bottom = 205.0
+text = "HOT BLOODED IN MORE WAYS THAN ONE
+"
+label_settings = SubResource("LabelSettings_dcg1w")
+
+[node name="Parallax2D3" type="Parallax2D" parent="."]
+scroll_offset = Vector2(-684, -624)
+repeat_size = Vector2(724, 0)
+autoscroll = Vector2(-360, 0)
+repeat_times = 2
+
+[node name="Label" type="Label" parent="Parallax2D3"]
+offset_left = -52.0
+offset_top = 336.0
+offset_right = 672.0
+offset_bottom = 437.0
+text = "HOT BLOODED IN MORE WAYS THAN ONE
+"
+label_settings = SubResource("LabelSettings_dcg1w")
+
+[node name="Parallax2D4" type="Parallax2D" parent="."]
+scroll_offset = Vector2(40, -584)
+repeat_size = Vector2(345, 0)
+autoscroll = Vector2(-160, 0)
+repeat_times = 2
+
+[node name="Label" type="Label" parent="Parallax2D4"]
+offset_left = 156.0
+offset_top = 184.0
+offset_right = 481.0
+offset_bottom = 233.0
+text = "PROTECT YO NUTS"
+label_settings = SubResource("LabelSettings_jjooh")
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(448, -312)
+script = ExtResource("2_re7fs")
+atlas = "res://assets/sprites/menus/freeplay/characters/boyfriend"
+frame = 677
+playing = true
+auto_start = true
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"

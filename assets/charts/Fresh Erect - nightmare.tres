@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Chart" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Chart" load_steps=2 format=3 uid="uid://cy1m0v0jdxdxa"]
 
 [ext_resource type="Script" uid="uid://bvrhk01mogilj" path="res://resources/chart.gd" id="1_5u0fr"]
 
 [resource]
 script = ExtResource("1_5u0fr")
-scroll_speed = 2.3
+scroll_speed = 2.4
 offset = 0.0
 chart_data = {
 "events": [[0.0, "camera_position", ["1"]], [1.92, "camera_position", ["0"]], [3.84, "camera_position", ["1"]], [5.76, "camera_position", ["0"]], [8.16, "camera_position", ["1"]], [10.08, "camera_position", ["0"]], [12.0, "camera_position", ["1"]], [13.92, "camera_position", ["0"]], [15.36, "camera_position", ["1"]], [15.36, "camera_zoom", ["1.15", "0.96"]], [17.76, "camera_position", ["0"]], [19.2, "camera_position", ["1"]], [21.12, "camera_zoom", ["1.25", "0.96"]], [21.12, "camera_position", ["0"]], [23.04, "camera_position", ["2"]], [23.04, "camera_zoom", ["0.8", "0.96"]], [26.88, "camera_position", ["0"]], [26.88, "camera_zoom", ["1.1", "0.96"]], [30.24, "camera_zoom", ["1.15", "0.96"]], [30.72, "camera_position", ["2"]], [30.72, "camera_zoom", ["1.05", "0.96"]], [34.56, "camera_position", ["0"]], [34.56, "camera_zoom", ["1.15", "0.96"]], [35.52, "camera_zoom", ["1.2", "0.96"]], [36.48, "camera_zoom", ["1.15", "0.96"]], [37.44, "camera_zoom", ["1.1", "0.96"]], [38.4, "camera_zoom", ["1.05", "0.96"]], [38.88, "camera_position", ["1"]], [40.8, "camera_position", ["0"]], [42.72, "camera_position", ["1"]], [44.16, "camera_position", ["0"]], [44.16, "camera_zoom", ["0.85", "0.96"]], [44.64, "camera_zoom", ["1.15", "0.96"]], [45.12, "camera_zoom", ["1.1", "0.96"]], [46.08, "camera_position", ["1"]], [46.08, "camera_zoom", ["1.05", "0.96"]], [49.92, "camera_position", ["0"]], [50.88, "camera_zoom", ["1.55", "0.63"]], [53.76, "camera_zoom", ["1.35", "0.12"]], [54.24, "camera_position", ["2"]], [54.24, "camera_zoom", ["1.05", "0.96"]], [55.68, "camera_position", ["0"]], [58.08, "camera_position", ["2"]], [59.52, "camera_position", ["0"]], [61.44, "camera_zoom", ["1.15", "0.96"]], [65.28, "camera_zoom", ["1.2", "0.96"]], [66.24, "camera_zoom", ["1.25", "0.96"]], [67.2, "camera_zoom", ["1.2", "0.96"]], [68.16, "camera_zoom", ["1.15", "0.96"]], [69.12, "camera_zoom", ["1.25", "0.96"]], [72.96, "camera_zoom", ["1.35", "0.96"]]],

@@ -148,11 +148,13 @@ animation_names = Dictionary[String, String]({
 "up": "Tankman UP note 1"
 })
 
-[node name="Metronome" parent="Characters" instance=ExtResource("15_th3hl")]
+[node name="Metronome" parent="Characters" node_paths=PackedStringArray("music_host") instance=ExtResource("15_th3hl")]
 unique_name_in_owner = true
 z_index = -2
 position = Vector2(80, 180)
-update_rate = 0.012
+music_host = NodePath("../../Music/Instrumental")
+slope = 0.3
+update_rate = 0.04
 
 [node name="UI" parent="." instance=ExtResource("16_owg0q")]
 layer = 10

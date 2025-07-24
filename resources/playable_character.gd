@@ -7,3 +7,4 @@ class_name PlayableCharacter
 @export var normal_intro: AudioStream
 @export var loss_intro: AudioStream
 @export var result_nodes: Dictionary[String, String] = {"default": ""}
+@export var dj: PackedScene

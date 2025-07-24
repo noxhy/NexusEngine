@@ -14,6 +14,8 @@ var difficulty_songs: Dictionary
 var current_grade: int
 var current_highscore: int
 
+var dj: FreeplayCharacter
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -32,6 +34,17 @@ func _ready():
 			difficulty_songs[difficulty].append(song)
 	
 	Global.set_window_title("Freeplay Menu")
+	
+	var dj_scene = Preload.character_data[GameHandeler.current_character]["resource"].dj
+	
+	dj = dj_scene.instantiate()
+	
+	dj.position = Vector2(-32, 320)
+	
+	$Background/CardGlow.add_child(dj)
+	dj.add_to_group("djs")
+	dj.animated_symbol.connect("looped", self.dj_animation_looped)
+	dj.animation = "intro"
 	
 	load_page()
 
@@ -79,7 +92,7 @@ func load_page():
 		menu_option_instance.text = song_file.title
 		menu_option_instance.icon = song_file.icons.get_frame_texture("default", 0)
 		menu_option_instance.position = Vector2(-270, -60)
-		menu_option_instance.scale = Vector2(0.7, 0.7)
+		menu_option_instance.scale = Vector2(0.75, 0.75)
 		menu_option_instance.index = index
 		
 		$UI.add_child(menu_option_instance)
@@ -123,7 +136,7 @@ func update_selection(i: int):
 	for j in instances:
 		
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		var node_position = Vector2(-270 + (60 * sin(index - i + 1)), (index - i) * 110 - 60)
+		var node_position = Vector2(-270 + (60 * sin(index - i + 1)), (index - i) * 115 - 60)
 		tween.tween_property(j, "position", node_position, 0.25)
 		
 		if index == i:
@@ -183,6 +196,7 @@ func select_option(i: int):
 				tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 				tween.tween_property(j, "position", j.position - Vector2(2000, 0), 0.5)
 		
+		dj.animation = "confirm"
 		Global.freeplay_song_option = i
 		Transitions.transition("down")
 		
@@ -227,3 +241,9 @@ func update_grade(grade: int):
 	
 	$Above/ClearBox/Label.text = str(int(grade))
 	current_grade = grade
+
+
+func dj_animation_looped():
+	
+	if dj.animation == "intro":
+		dj.animation = "idle"

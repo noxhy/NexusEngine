@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="Chart" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Chart" load_steps=2 format=3 uid="uid://bxrrdewqwjvow"]
 
 [ext_resource type="Script" uid="uid://bvrhk01mogilj" path="res://resources/chart.gd" id="1"]
 
 [resource]
 script = ExtResource("1")
-scroll_speed = 1.9
+scroll_speed = 2.7
 offset = 0.0
 chart_data = {
 "events": [[0.0, "camera_position", ["1"]], [4.42105, "camera_position", ["0"]], [10.1053, "camera_position", ["2"]], [10.1053, "camera_zoom", ["0.9", "0.63157894736842"]], [15.1579, "camera_zoom", ["1", "0.63157894736842"]], [15.1579, "camera_position", ["0"]], [20.2105, "camera_position", ["2"]], [20.2105, "camera_zoom", ["0.9", "0.63157894736842"]], [25.2632, "camera_position", ["0"]], [25.2632, "camera_zoom", ["1", "0.63157894736842"]], [28.1053, "camera_zoom", ["1.1", "0.63157894736842"]], [30.3158, "camera_position", ["1"]], [30.3158, "camera_zoom", ["1", "0.63157894736842"]], [35.3684, "camera_position", ["0"]], [35.3684, "camera_zoom", ["0.95", "0.63157894736842"]], [38.8421, "camera_zoom", ["0.9", "0.63157894736842"]], [40.4211, "camera_position", ["1"]], [40.4211, "camera_zoom", ["1", "0.63157894736842"]], [42.3158, "camera_position", ["0"]], [50.5263, "camera_position", ["1"]], [51.7895, "camera_position", ["0"]], [60.6316, "camera_position", ["2"]], [60.6316, "camera_zoom", ["0.9", "0.63157894736842"]], [65.6842, "camera_position", ["0"]], [65.6842, "camera_zoom", ["1", "0.63157894736842"]], [69.4737, "camera_zoom", ["1.05", "0.63157894736842"]], [70.1053, "camera_zoom", ["1.1", "0.63157894736842"]], [70.4211, "camera_zoom", ["1.15", "0.63157894736842"]], [70.7368, "camera_position", ["2"]], [70.7368, "camera_zoom", ["0.9", "0.63157894736842"]], [75.7895, "camera_position", ["0"]], [78.3158, "camera_zoom", ["1", "0.63157894736842"]], [78.9474, "camera_zoom", ["0.9", "0.63157894736842"]], [80.8421, "camera_position", ["1"]], [80.8421, "camera_zoom", ["1", "0.63157894736842"]], [84.3158, "camera_position", ["0"]], [88.4211, "camera_zoom", ["1.05", "0.63157894736842"]], [89.0526, "camera_zoom", ["1", "0.63157894736842"]], [90.9474, "camera_position", ["2"]], [90.9474, "camera_zoom", ["0.9", "0.63157894736842"]], [96.0, "camera_position", ["0"]], [96.0, "camera_zoom", ["1", "0.63157894736842"]], [97.2632, "camera_zoom", ["1.1", "0.63157894736842"]], [98.5263, "camera_zoom", ["1", "0.63157894736842"]], [101.053, "camera_position", ["1"]], [106.105, "camera_position", ["0"]]],

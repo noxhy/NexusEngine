@@ -84,7 +84,7 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 		var chart_json = JSON.parse_string(chart_json_data)
 		
 		# Adding tempo data
-		for i in json.timeChanges: tempo_data.merge({ i.t: i.bpm }, true)
+		for i in json.timeChanges: tempo_data.merge({i.t: i.bpm}, true)
 		
 		# Adding Note Data
 		var note_types = []

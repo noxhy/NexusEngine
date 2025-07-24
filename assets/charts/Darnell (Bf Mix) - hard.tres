@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_m6n32")
-scroll_speed = 1.9
+scroll_speed = 2.6
 offset = 0.0
 chart_data = {
 "events": [[0.0, "camera_position", ["1"]], [3.09677, "camera_position", ["0"]], [6.19355, "camera_position", ["1"]], [9.29032, "camera_position", ["0"]], [12.3871, "camera_position", ["1"]], [18.5806, "camera_position", ["0"]], [24.7742, "camera_position", ["1"]], [30.9677, "camera_position", ["0"]], [37.1613, "camera_position", ["1"]], [43.3548, "camera_position", ["0"]], [49.5484, "camera_position", ["1"]], [53.0323, "camera_position", ["0"]], [55.7419, "camera_position", ["1"]], [58.8387, "camera_position", ["0"]], [61.9355, "camera_position", ["1"]], [65.0323, "camera_position", ["0"]], [68.129, "camera_position", ["1"]], [71.2258, "camera_position", ["0"]], [74.3226, "camera_position", ["1"]], [80.5161, "camera_position", ["0"]], [86.7097, "camera_position", ["1"]], [92.9032, "camera_position", ["0"]], [99.0968, "camera_position", ["1"]], [102.194, "camera_position", ["0"]], [105.29, "camera_position", ["1"]], [108.387, "camera_position", ["0"]], [111.484, "camera_position", ["1"]], [114.581, "camera_position", ["0"]], [117.677, "camera_position", ["1"]], [120.774, "camera_position", ["0"]]],

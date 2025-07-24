@@ -3,6 +3,8 @@
 extends Node2D
 class_name ArrowStrum
 
+const PIXELS_PER_SECOND = 450
+
 @onready var note_preload = preload("res://scenes/instances/playstate/note/note.tscn")
 @onready var splash_preload = preload("res://scenes/instances/playstate/note/note_splash.tscn")
 
@@ -59,15 +61,14 @@ func _process(delta):
 	## Note movement
 	for note in note_list:
 		
-		var time_difference = (note.time - offset) - (song_position) - delta
-		var progress = time_difference / (note.seconds_per_beat * 4)
+		var time_difference = (note.time - offset) - song_position - delta
 		
 		note.scroll_speed = scroll_speed
 		note.scroll = scroll
-		note.position.y = (1000.0 * scroll_speed * scroll) * progress
+		note.position.y = (PIXELS_PER_SECOND * time_difference * scroll_speed * scroll)
 		
-		var grid_scaler = note.seconds_per_beat * note.scroll_speed * 0.25
-		note.grid_size = Vector2(1000.0 * grid_scaler, 1000 * grid_scaler)
+		var grid_scaler = PIXELS_PER_SECOND * seconds_per_beat
+		note.grid_size = Vector2(grid_scaler, grid_scaler)
 		
 		if time_difference < 0.198:
 			

@@ -4,7 +4,6 @@ class_name AnimateSymbol extends Node2D
 ## Node that lets you play Adobe Animate Texture Atlases
 ## in Godot.
 
-
 ## The folder path to the atlas that is loaded.
 ## [br][br][b]Note[/b]: This automatically reloads the atlas when
 ## changed.
@@ -42,6 +41,7 @@ class_name AnimateSymbol extends Node2D
 ## [br][br]Loop loops the animation forever and Play Once just stops.
 @export_enum('Loop', 'Play Once') var loop_mode: String = 'Loop'
 @export var loop_frame: int = 0
+@export var loop_end_frame: int = -1
 
 @export_tool_button('Cache Atlas', 'Save') var cache_atlas := _cache_atlas
 @export_tool_button('Reload Atlas', 'Reload') var reload_atlas := _reload_atlas
@@ -62,6 +62,7 @@ var _filter_material: ShaderMaterial
 var _active_materials = {}
 var _color_transform: ColorTansform
 
+signal looped
 signal finished
 signal symbol_changed(symbol: String)
 
@@ -86,15 +87,19 @@ func _process(delta: float) -> void:
 		var frame_diff := _timer / (1.0 / _animation.framerate)
 		frame += floori(frame_diff)
 		_timer -= (1.0 / _animation.framerate) * frame_diff
-		if frame > _timeline.length - 1:
+		
+		var end_frame = _timeline.length - 1
+		if loop_end_frame != -1: end_frame = loop_end_frame
+		if frame > end_frame:
 			match loop_mode:
 				'Loop':
 					frame = loop_frame
+					looped.emit()
 				_:
 					if playing:
 						playing = false
 						finished.emit()
-					frame = _timeline.length - 1
+					frame = end_frame
 
 
 func _cache_atlas() -> void:

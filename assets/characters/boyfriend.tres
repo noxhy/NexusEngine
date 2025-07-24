@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="PlayableCharacter" load_steps=9 format=3 uid="uid://c73l5wk1k58mp"]
+[gd_resource type="Resource" script_class="PlayableCharacter" load_steps=10 format=3 uid="uid://c73l5wk1k58mp"]
 
 [ext_resource type="Script" uid="uid://baldo0u3dda86" path="res://resources/playable_character.gd" id="1_la1qj"]
+[ext_resource type="PackedScene" uid="uid://c1s7cbxg2o4m0" path="res://scenes/instances/freeplay/characters/boyfriend.tscn" id="1_lbt1l"]
 [ext_resource type="AudioStream" uid="uid://dp3j2qhpuv6xd" path="res://assets/songs/menu songs/results/boyfriend/resultsSHIT-intro.ogg" id="1_uxaqb"]
 [ext_resource type="AudioStream" uid="uid://clklult1rkiyx" path="res://assets/songs/menu songs/pause menu/breakfast.ogg" id="1_ww678"]
 [ext_resource type="AudioStream" uid="uid://cfndri37mey1i" path="res://assets/songs/menu songs/results/boyfriend/resultsEXCELLENT-intro.ogg" id="2_cmn6o"]
@@ -30,3 +31,4 @@ result_nodes = Dictionary[String, String]({
 "loss": "res://scenes/instances/results/boyfriend/loss.tscn",
 "perfect": "res://scenes/instances/results/boyfriend/perfect.tscn"
 })
+dj = ExtResource("1_lbt1l")

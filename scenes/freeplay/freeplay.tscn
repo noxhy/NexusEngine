@@ -152,7 +152,7 @@ position = Vector2(488, -271)
 sprite_frames = ExtResource("12_d02cx")
 animation = &"highscore small instance 1"
 autoplay = "highscore small instance 1"
-frame_progress = 0.851564
+frame_progress = 0.62573
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -167,12 +167,10 @@ texture = ExtResource("5_xlpwk")
 metadata/_edit_lock_ = true
 
 [node name="CardGlow" type="Sprite2D" parent="Background"]
-self_modulate = Color(1, 0.847059, 0.388235, 1)
 clip_children = 2
-z_index = -1
-texture_filter = 1
 position = Vector2(-384, 0)
 texture = ExtResource("11_j37bj")
+metadata/_edit_lock_ = true
 
 [connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
 [connection signal="selected_difficulty" from="Difficulty Selector" to="." method="_on_difficulty_selector_selected_difficulty"]
