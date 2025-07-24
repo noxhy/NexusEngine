@@ -252,7 +252,7 @@ func _process(delta):
 						
 						if note.length > 0:
 							
-							note.time = song_position + note.length * note.seconds_per_beat
+							note.time = song_position
 							note.start_length = note.length
 	
 	match state:
