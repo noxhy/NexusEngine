@@ -43,10 +43,10 @@ offset_bottom = 368.0
 color = Color(1, 0.847059, 0.388235, 1)
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -848.0
-offset_top = -232.0
-offset_right = 848.0
-offset_bottom = -168.0
+offset_left = -850.0
+offset_top = -230.0
+offset_right = 846.0
+offset_bottom = -170.0
 color = Color(1, 0.85098, 0.0470588, 1)
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
@@ -101,10 +101,10 @@ autoscroll = Vector2(-160, 0)
 repeat_times = 2
 
 [node name="Label" type="Label" parent="Parallax2D4"]
-offset_left = 156.0
-offset_top = 184.0
-offset_right = 481.0
-offset_bottom = 233.0
+offset_left = 161.0
+offset_top = 180.0
+offset_right = 486.0
+offset_bottom = 229.0
 text = "PROTECT YO NUTS"
 label_settings = SubResource("LabelSettings_jjooh")
 
@@ -112,7 +112,7 @@ label_settings = SubResource("LabelSettings_jjooh")
 position = Vector2(448, -312)
 script = ExtResource("2_re7fs")
 atlas = "res://assets/sprites/menus/freeplay/characters/boyfriend"
-frame = 677
+frame = 131
 playing = true
 auto_start = true
 metadata/_custom_type_script = "uid://dxb0ojnhycqox"

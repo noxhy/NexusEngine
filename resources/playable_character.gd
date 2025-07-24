@@ -1,5 +1,7 @@
 class_name PlayableCharacter
 
+@export_category("Songs")
+@export var album: Album
 @export_category("Menus")
 @export var pause_song: AudioStream
 @export_category("Results")

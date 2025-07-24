@@ -54,7 +54,7 @@ func started_song(song: Song):
 	tallies = DEFAULT_TALLIES.duplicate()
 	accuracy = 0.0
 	current_song = song
-	character = Preload.character_data[current_character]["resource"]
+	character = Preload.character_data[current_character]
 
 func finished_song(score: int):
 	

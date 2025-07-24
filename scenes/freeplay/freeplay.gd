@@ -21,7 +21,7 @@ func _ready():
 	
 	difficulty = difficulties[0] 
 	$"Difficulty Selector".difficulties = difficulties
-	album = Preload.character_data[GameHandeler.current_character]["album"]
+	album = Preload.character_data[GameHandeler.current_character].album
 	
 	@warning_ignore("shadowed_variable")
 	for difficulty in difficulties:
@@ -35,7 +35,7 @@ func _ready():
 	
 	Global.set_window_title("Freeplay Menu")
 	
-	var dj_scene = Preload.character_data[GameHandeler.current_character]["resource"].dj
+	var dj_scene = Preload.character_data[GameHandeler.current_character].dj
 	
 	dj = dj_scene.instantiate()
 	
@@ -125,6 +125,7 @@ func update_selection(i: int):
 	$Audio/Music.stream = song_file.instrumental
 	$Audio/Music.volume_db = -60
 	$Audio/Music.play()
+	%"Highscore Text".play("highscore small instance 1")
 	
 	$"Difficulty Selector".available_difficulties = song_file.difficulties.keys()
 	

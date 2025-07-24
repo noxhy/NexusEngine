@@ -148,6 +148,7 @@ label_settings = SubResource("LabelSettings_mxklt")
 autowrap_mode = 3
 
 [node name="Highscore Text" type="AnimatedSprite2D" parent="UI"]
+unique_name_in_owner = true
 position = Vector2(488, -271)
 sprite_frames = ExtResource("12_d02cx")
 animation = &"highscore small instance 1"
@@ -161,7 +162,7 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Background" type="Sprite2D" parent="Background"]
-modulate = Color(1, 0.75, 0.75, 1)
+modulate = Color(0.415125, 0.375137, 0.644531, 1)
 z_index = -1
 texture = ExtResource("5_xlpwk")
 metadata/_edit_lock_ = true
