@@ -24,11 +24,10 @@ theme = ExtResource("1_tg56e")
 theme_override_constants/outline_size = 12
 theme_override_font_sizes/font_size = 24
 tab_alignment = 1
-current_tab = 1
+current_tab = 0
 script = ExtResource("2_f8jhe")
 
 [node name="Gameplay" type="TabBar" parent="."]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -44,6 +43,7 @@ layout_mode = 2
 
 [node name="Downscroll" parent="Gameplay/ScrollContainer/VBoxContainer" instance=ExtResource("2_tn18n")]
 layout_mode = 2
+size_flags_horizontal = 0
 setting_name = "downscroll"
 display_name = "Downscroll"
 
@@ -54,6 +54,8 @@ display_name = "Ghost Tapping"
 
 [node name="Offset" parent="Gameplay/ScrollContainer/VBoxContainer" instance=ExtResource("3_ae3rr")]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 focus_mode = 1
 min = -500.0
 max = 500.0
@@ -69,10 +71,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 140.0
-offset_top = -15.0
-offset_right = 268.0
-offset_bottom = 16.0
+offset_left = 108.0
+offset_top = -12.0
+offset_right = 236.0
+offset_bottom = 13.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "Calibrate Offset"
@@ -83,6 +85,7 @@ setting_name = "botplay"
 display_name = "Botplay"
 
 [node name="Preferences" type="TabBar" parent="."]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -166,7 +169,6 @@ offset_left = 16.0
 offset_top = 17.0
 offset_right = 1136.0
 offset_bottom = 425.0
-scroll_vertical = 100
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/ScrollContainer"]
 layout_mode = 2
@@ -296,4 +298,9 @@ layout_mode = 2
 setting_name = "show_performance"
 display_name = "Show Performance"
 
+[node name="Clear Save" type="Button" parent="Miscellaneous/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Clear Save Data"
+
 [connection signal="pressed" from="Gameplay/ScrollContainer/VBoxContainer/Offset/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Miscellaneous/ScrollContainer/VBoxContainer/Clear Save" to="." method="_on_clear_save_pressed"]
