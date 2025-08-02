@@ -40,7 +40,7 @@ func _ready() -> void:
 		%"Song Name".text = str(GameHandeler.current_song.title, " by ", GameHandeler.current_song.artist)
 	else:
 		%"Song Name".text = str(GameHandeler.current_week)
-	grade = int(GameHandeler.grade * 100)
+	grade = min(int(GameHandeler.grade * 100), 100)
 	%"Clear Percentage".text = str(grade, "%")
 	
 	$AnimationPlayer.play("intro")

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bpvila071l7sq"
+path="res://.godot/imported/Voices-bf.ogg-10b617b4b1e9f3314307d19c47a2f32f.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/senpai/Voices-bf.ogg"
+dest_files=["res://.godot/imported/Voices-bf.ogg-10b617b4b1e9f3314307d19c47a2f32f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

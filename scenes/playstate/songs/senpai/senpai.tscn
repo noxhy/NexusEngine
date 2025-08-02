@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://c7ghh2lqshls8"]
+[gd_scene load_steps=18 format=3 uid="uid://dgaywwoiwkbeu"]
 
 [ext_resource type="Script" uid="uid://7hv1pn58e04v" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_j5tl6"]
 [ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_hvfki"]
-[ext_resource type="Resource" uid="uid://6unqym76jb8m" path="res://assets/songs/playable songs/senpai/senpai_erect.tres" id="3_fu2ob"]
+[ext_resource type="Resource" uid="uid://bkjoei2khee1u" path="res://assets/songs/playable songs/senpai/Senpai.res" id="3_u002g"]
 [ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_gvt2o"]
 [ext_resource type="Resource" uid="uid://dsqgb7q6eq1mf" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_0s4pd"]
 [ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_vhuvi"]
@@ -36,7 +36,7 @@ conductor = NodePath("../Conductor")
 music_host = NodePath("../Music")
 rating_position = NodePath("../World/Rating Marker")
 combo_position = NodePath("../World/Combo Marker")
-song_data = ExtResource("3_fu2ob")
+song_data = ExtResource("3_u002g")
 note_skin = ExtResource("4_gvt2o")
 ui_skin = ExtResource("5_0s4pd")
 combo_scale_multiplier = Vector2(0.65, 0.65)

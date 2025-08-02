@@ -103,21 +103,30 @@ func reset_stats():
 
 func get_week_accuracy() -> float: return total_accuracy / songs_played
 
-func get_rank() -> String:
+func get_rank(_grade: Variant = null) -> String:
 	
 	var _tallies = week_tallies
-	if _tallies.total_notes > 0:
-		grade = float(_tallies.epic + _tallies.sick + _tallies.good - _tallies.miss) / _tallies.total_notes
-	else:
-		grade = 0
+	
+	if _grade == null:
+		
+		if _tallies.total_notes > 0:
+			
+			if (_tallies.epic + _tallies.sick) == _tallies.total_notes:
+				_grade = 2
+			else:
+				_grade = float(_tallies.epic + _tallies.sick + _tallies.good - _tallies.miss) / _tallies.total_notes
+		else:
+			_grade = 0
+		
+		grade = _grade
 	
 	var accuracies = [
-		[(_tallies.epic + _tallies.sick) == _tallies.total_notes, "gold"],
-		[grade == 1, "perfect"],
-		[grade >= 0.90, "excellent"],
-		[grade >= 0.80, "great"],
-		[grade >= 0.60, "good"],
-		[grade >= 0, "loss"],
+		[_grade == 2, "gold"],
+		[_grade == 1, "perfect"],
+		[_grade >= 0.90, "excellent"],
+		[_grade >= 0.80, "great"],
+		[_grade >= 0.60, "good"],
+		[_grade >= 0, "loss"],
 	]
 	
 	for condition in accuracies: if condition[0]: return condition[1]

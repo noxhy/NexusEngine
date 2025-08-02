@@ -31,7 +31,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Character" type="Node2D"]
+[node name="Christmas" type="Node2D"]
 script = ExtResource("1_oe8gf")
 animation_names = Dictionary[String, String]({
 "down": "Parent Down Note Dad",

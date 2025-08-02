@@ -19,5 +19,4 @@ difficulties = Dictionary[String, Dictionary]({
 title = "Cycles"
 artist = "idk"
 icons = ExtResource("1_3voy8")
-display_color = Color(1, 1, 1, 1)
 locked = false

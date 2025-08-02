@@ -11,7 +11,7 @@ script = ExtResource("3_wyscp")
 vocals = Array[AudioStream]([ExtResource("4_3ywtw"), ExtResource("5_37pie")])
 instrumental = ExtResource("3_fsh74")
 tempo = 158.0
-scene = "res://scenes/playstate/songs/senpai/senpai.tscn"
+scene = "res://scenes/playstate/songs/senpai/senpai_erect.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "nightmare": {
 "chart": "res://assets/charts/Senpai Erect - nightmare.tres"

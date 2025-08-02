@@ -1,0 +1,137 @@
+[gd_scene load_steps=18 format=3 uid="uid://c7ghh2lqshls8"]
+
+[ext_resource type="Script" uid="uid://7hv1pn58e04v" path="res://scenes/playstate/songs/basic_song_vanilla.gd" id="1_j5tl6"]
+[ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_hvfki"]
+[ext_resource type="Resource" uid="uid://6unqym76jb8m" path="res://assets/songs/playable songs/senpai/senpai_erect.tres" id="3_fu2ob"]
+[ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_gvt2o"]
+[ext_resource type="Resource" uid="uid://dsqgb7q6eq1mf" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_0s4pd"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_vhuvi"]
+[ext_resource type="PackedScene" uid="uid://cd3leoxyqnk4m" path="res://scenes/instances/stages/weeb_school/weeb_school.tscn" id="7_mjcyn"]
+[ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="8_0rus8"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_vuprd"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_6rf7t"]
+[ext_resource type="PackedScene" uid="uid://dcuxa2yfg27xc" path="res://scenes/instances/characters/boyfriend pixel.tscn" id="9_cvimb"]
+[ext_resource type="PackedScene" uid="uid://c641vxfiu033w" path="res://scenes/instances/characters/senpai.tscn" id="10_2o85c"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_nu8t5"]
+[ext_resource type="PackedScene" uid="uid://blyod30lc1qk0" path="res://scenes/instances/characters/girlfriend pixel.tscn" id="11_norpj"]
+[ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="12_q80n4"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_lxccb"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_46pbp"]
+streams_count = 3
+stream_0/stream = ExtResource("8_vuprd")
+stream_1/stream = ExtResource("9_6rf7t")
+stream_2/stream = ExtResource("10_nu8t5")
+
+[node name="Senpai" type="Node2D"]
+script = ExtResource("1_j5tl6")
+
+[node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_hvfki")]
+process_mode = 1
+host = NodePath("..")
+ui = NodePath("../UI")
+camera = NodePath("../Camera")
+conductor = NodePath("../Conductor")
+music_host = NodePath("../Music")
+rating_position = NodePath("../World/Rating Marker")
+combo_position = NodePath("../World/Combo Marker")
+song_data = ExtResource("3_fu2ob")
+note_skin = ExtResource("4_gvt2o")
+ui_skin = ExtResource("5_0s4pd")
+combo_scale_multiplier = Vector2(0.65, 0.65)
+next_scene = "res://scenes/playstate/songs/thorns/thorns.tscn"
+
+[node name="Camera" parent="." instance=ExtResource("6_vhuvi")]
+position = Vector2(640, 432)
+position_smoothing_speed = 3.0
+target_zoom = Vector2(1.3, 1.3)
+
+[node name="Stage" parent="." instance=ExtResource("7_mjcyn")]
+unique_name_in_owner = true
+
+[node name="Music" type="Node" parent="."]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Music"]
+stream = SubResource("AudioStreamPolyphonic_lxccb")
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Music"]
+bus = &"Music"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Music"]
+bus = &"SFX"
+
+[node name="Miss Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_46pbp")
+bus = &"SFX"
+
+[node name="Anti-Spam Sound" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_46pbp")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("8_0rus8")
+stream_player = NodePath("../Music/Instrumental")
+
+[node name="World" type="CanvasLayer" parent="."]
+layer = 10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Position 1" type="Marker2D" parent="World"]
+position = Vector2(102, 104)
+gizmo_extents = 18.3
+
+[node name="Position 2" type="Marker2D" parent="World"]
+position = Vector2(-87, 72)
+gizmo_extents = 26.5
+
+[node name="Position 3" type="Marker2D" parent="World"]
+position = Vector2(0, 72)
+gizmo_extents = 120.7
+
+[node name="Rating Marker" type="Marker2D" parent="World"]
+position = Vector2(108, 28)
+gizmo_extents = 20.0
+
+[node name="Combo Marker" type="Marker2D" parent="World"]
+position = Vector2(192, 72)
+gizmo_extents = 20.0
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = -1
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Player" parent="Characters" instance=ExtResource("9_cvimb")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(216, 314)
+scale = Vector2(4, 4)
+
+[node name="Enemy" parent="Characters" instance=ExtResource("10_2o85c")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(-176, 314)
+scale = Vector2(4, 4)
+
+[node name="Metronome" parent="Characters" instance=ExtResource("11_norpj")]
+unique_name_in_owner = true
+z_index = -1
+position = Vector2(0, 288)
+scale = Vector2(4, 4)
+
+[node name="UI" parent="." instance=ExtResource("12_q80n4")]
+layer = 10
+
+[connection signal="combo_break" from="PlayState Host" to="." method="_on_combo_break"]
+[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
+[connection signal="new_event" from="PlayState Host" to="." method="_on_new_event"]
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

@@ -1,17 +1,17 @@
 extends Node2D
 
-@export var wait_time: float = 1.0
+@onready var animated_sprite = $AnimatedSprite2D
 
-var scroll_timer: float = 0.0
-var wait_timer: float = 0.0
-var positive: bool = true
 var index: int
+var rank: Variant = null
+var total: float = 0.0
 
 @export var icon: Texture2D:
 	set(v):
 		
 		icon = v
 		$Icon.texture = v
+
 
 @export var state: String:
 	set(v):
@@ -28,6 +28,7 @@ var index: int
 			%Label.label_settings.font_color = Color(1, 1, 1)
 			%Label.label_settings.outline_color = Color(0.039, 0.471, 0.576)
 
+
 @export var text: String:
 	set(v):
 		
@@ -37,26 +38,33 @@ var index: int
 
 func _process(delta: float) -> void:
 	
-	var scroll_bar: HScrollBar = $Container.get_h_scroll_bar()
-	if scroll_bar.max_value > 0:
+	var scroll_bar: HScrollBar = %Scroll.get_h_scroll_bar()
+	var diff = %Label.size.x - %Scroll.size.x
+	var half_diff = diff / 2
+	
+	if diff > 0:
 		
-		if wait_timer <= 0:
-			
-			var condition: bool = false
-			if positive:
-				
-				scroll_bar.value = int(scroll_timer)
-				var diff = %Label.size.x - $Container.size.x
-				condition = (scroll_bar.value >= diff)
-			else:
-				scroll_bar.value = int(scroll_bar.max_value - scroll_timer)
-				condition = (scroll_bar.value == 0)
-			
-			scroll_timer += delta * 50
-			if condition:
-				
-				wait_timer = wait_time
-				positive = !positive
-				scroll_timer = 0.0
-		else:
-			wait_timer -= delta
+		scroll_bar.value = cos(total) * -half_diff + half_diff
+		total += delta * 1.5
+	
+	var texture: Texture2D
+	if rank != null:
+		
+		texture = animated_sprite.sprite_frames.get_frame_texture(
+		animated_sprite.animation, animated_sprite.frame
+		)
+		$HBoxContainer/TextureRect.texture = texture
+		$HBoxContainer/TextureRect.visible = true
+	else:
+		$HBoxContainer/TextureRect.visible = false
+
+
+func display_rank(_rank: Variant):
+	
+	if _rank == "?":
+		_rank = null
+	
+	if _rank != null:
+		animated_sprite.play_animation(_rank)
+	
+	rank = _rank

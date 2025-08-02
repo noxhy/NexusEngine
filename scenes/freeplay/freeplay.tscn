@@ -162,10 +162,10 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Background" type="Sprite2D" parent="Background"]
-modulate = Color(0.415125, 0.375137, 0.644531, 1)
+unique_name_in_owner = true
 z_index = -1
+position = Vector2(128, 0)
 texture = ExtResource("5_xlpwk")
-metadata/_edit_lock_ = true
 
 [node name="CardGlow" type="Sprite2D" parent="Background"]
 clip_children = 2

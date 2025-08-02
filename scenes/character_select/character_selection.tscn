@@ -1,0 +1,212 @@
+[gd_scene load_steps=16 format=3 uid="uid://cffkc1rbk4pcv"]
+
+[ext_resource type="Script" uid="uid://brxadx3uf2n27" path="res://scenes/character_select/character_selection.gd" id="1_4oy2p"]
+[ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="1_xnc8d"]
+[ext_resource type="AudioStream" uid="uid://bova01kqk3s1m" path="res://assets/songs/menu songs/character_select/stayFunky.ogg" id="2_xehc6"]
+[ext_resource type="AudioStream" uid="uid://bdig7mekw6cmd" path="res://assets/sounds/character_select/CS_confirm.ogg" id="3_4tnne"]
+[ext_resource type="AudioStream" uid="uid://cqrmxvh0sig2q" path="res://assets/sounds/character_select/CS_select.ogg" id="4_206il"]
+[ext_resource type="Texture2D" uid="uid://cheqv5tx4cvjp" path="res://assets/sprites/menus/character_select/placement.png" id="5_xehc6"]
+[ext_resource type="Texture2D" uid="uid://c8abolokulimn" path="res://assets/sprites/menus/character_select/charSelectBG.png" id="6_4tnne"]
+[ext_resource type="Texture2D" uid="uid://co32pcaa122dd" path="res://assets/sprites/menus/character_select/curtains.png" id="8_umvhs"]
+[ext_resource type="Texture2D" uid="uid://c383kly37xe27" path="res://assets/sprites/menus/character_select/foregroundBlur.png" id="9_n7bm8"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="9_nit2l"]
+[ext_resource type="Texture2D" uid="uid://blrompebh3ov1" path="res://assets/sprites/menus/character_select/chooseDipshit.png" id="9_svyfo"]
+[ext_resource type="Texture2D" uid="uid://bue740k5rsunv" path="res://assets/sprites/menus/character_select/charLight.png" id="10_1divh"]
+[ext_resource type="SpriteFrames" uid="uid://dexqtp6l3yipy" path="res://assets/sprites/menus/character_select/dipshit_blue.res" id="10_4oy2p"]
+[ext_resource type="SpriteFrames" uid="uid://bwlxrvv47wu6t" path="res://assets/sprites/menus/character_select/dipshit_blur.res" id="11_svyfo"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_n7bm8"]
+blend_mode = 1
+
+[node name="Character Selection" type="Node2D"]
+script = ExtResource("1_4oy2p")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(640, 360)
+position_smoothing_speed = 2.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.02
+drag_top_margin = 0.02
+drag_right_margin = 0.02
+drag_bottom_margin = 0.02
+
+[node name="Conductor" type="Node" parent="."]
+script = ExtResource("1_xnc8d")
+stream_player = NodePath("../Audio/Music")
+tempo = 90.0
+metadata/_custom_type_script = "uid://b1blhjns06ilt"
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_xehc6")
+autoplay = true
+bus = &"Music"
+
+[node name="Confirm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_4tnne")
+bus = &"SFX"
+
+[node name="Select" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_206il")
+bus = &"SFX"
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -10
+offset = Vector2(640, 360)
+transform = Transform2D(1, 0, 0, 1, 640, 360)
+follow_viewport_enabled = true
+
+[node name="Placement" type="Sprite2D" parent="Background"]
+z_index = -4096
+texture = ExtResource("5_xehc6")
+metadata/_edit_lock_ = true
+
+[node name="Parallax2D5" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0.1, 0.1)
+
+[node name="CharSelectBg" type="Sprite2D" parent="Background/Parallax2D5"]
+z_index = -10
+position = Vector2(-8, -136)
+texture = ExtResource("6_4tnne")
+metadata/_edit_lock_ = true
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0.25, 0.25)
+metadata/_edit_lock_ = true
+
+[node name="Crowd" type="Node2D" parent="Background/Parallax2D"]
+z_index = -10
+position = Vector2(-704, -104)
+script = ExtResource("9_nit2l")
+atlas = "res://assets/sprites/menus/character_select/crowd"
+frame = 3
+playing = true
+auto_start = true
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+metadata/_edit_lock_ = true
+
+[node name="Parallax2D4" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0.5, 0.5)
+
+[node name="Stage" type="Node2D" parent="Background/Parallax2D4"]
+position = Vector2(-680, 80)
+script = ExtResource("9_nit2l")
+atlas = "res://assets/sprites/menus/character_select/charSelectStage"
+frame = 192
+playing = true
+auto_start = true
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+metadata/_edit_lock_ = true
+
+[node name="ForegroundBlur" type="Sprite2D" parent="Background/Parallax2D4"]
+texture = ExtResource("9_n7bm8")
+
+[node name="Parallax2D2" type="Parallax2D" parent="Background"]
+z_index = 10
+metadata/_edit_lock_ = true
+
+[node name="Curtains" type="Sprite2D" parent="Background/Parallax2D2"]
+position = Vector2(0, -143)
+texture = ExtResource("8_umvhs")
+metadata/_edit_lock_ = true
+
+[node name="Parallax2D3" type="Parallax2D" parent="Background"]
+z_index = 20
+scroll_scale = Vector2(1.1, 1.1)
+metadata/_edit_lock_ = true
+
+[node name="Speakers" type="Node2D" parent="Background/Parallax2D3"]
+position = Vector2(-712, 88)
+script = ExtResource("9_nit2l")
+atlas = "res://assets/sprites/menus/character_select/charSelectSpeakers"
+loop_mode = "Play Once"
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+metadata/_edit_lock_ = true
+
+[node name="Characters" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Lock Positions" type="Node" parent="Characters"]
+
+[node name="Parallax2D" type="Parallax2D" parent="Characters"]
+scroll_scale = Vector2(0.5, 0.5)
+
+[node name="CharLight" type="Sprite2D" parent="Characters/Parallax2D"]
+position = Vector2(904, 392)
+texture = ExtResource("10_1divh")
+metadata/_edit_lock_ = true
+
+[node name="CharLight2" type="Sprite2D" parent="Characters/Parallax2D"]
+position = Vector2(328, 384)
+texture = ExtResource("10_1divh")
+metadata/_edit_lock_ = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+offset = Vector2(640, 720.2)
+transform = Transform2D(1, 0, 0, 1, 640, 720.2)
+follow_viewport_enabled = true
+
+[node name="ChooseDipshit" type="Sprite2D" parent="UI"]
+z_index = -10
+position = Vector2(0, -416.2)
+texture = ExtResource("9_svyfo")
+metadata/_edit_lock_ = true
+
+[node name="Blue" type="AnimatedSprite2D" parent="UI/ChooseDipshit"]
+show_behind_parent = true
+sprite_frames = ExtResource("10_4oy2p")
+animation = &"CHOOSE horizontal offset instance 1"
+autoplay = "CHOOSE horizontal offset instance 1"
+frame_progress = 0.0282591
+metadata/_edit_lock_ = true
+
+[node name="Blur" type="AnimatedSprite2D" parent="UI/ChooseDipshit"]
+show_behind_parent = true
+z_index = -1
+material = SubResource("CanvasItemMaterial_n7bm8")
+sprite_frames = ExtResource("11_svyfo")
+animation = &"CHOOSE vertical offset instance 1"
+autoplay = "CHOOSE vertical offset instance 1"
+frame_progress = 0.290398
+metadata/_edit_lock_ = true
+
+[node name="Lock 1" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+modulate = Color(0.174561, 0.586519, 0.859375, 1)
+position = Vector2(0, -416.2)
+
+[node name="Lock 2" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(-96, -416.2)
+
+[node name="Lock 3" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(96, -416.2)
+
+[node name="Lock 4" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(0, -503.2)
+
+[node name="Lock 5" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(-96, -503.2)
+
+[node name="Lock 6" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(96, -503.2)
+
+[node name="Lock 8" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(-96, -328.2)
+
+[node name="Lock 7" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(0, -329.2)
+
+[node name="Lock 9" type="Marker2D" parent="UI"]
+unique_name_in_owner = true
+position = Vector2(96, -328.2)
+
+[connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]

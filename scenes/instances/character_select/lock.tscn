@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://48by53kv8bjm"]
+
+[ext_resource type="Script" uid="uid://chart0kfyasrs" path="res://scenes/instances/character_select/lock.gd" id="1_748hf"]
+[ext_resource type="Shader" uid="uid://c83hbfkcyxfxp" path="res://assets/shaders/lock.gdshader" id="1_f5u7k"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="2_748hf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_127s4"]
+resource_local_to_scene = true
+shader = ExtResource("1_f5u7k")
+shader_parameter/chroma_key = Color(0, 1, 0, 1)
+shader_parameter/replace_color = Color(1, 1, 1, 1)
+
+[node name="Lock" type="Node2D"]
+script = ExtResource("1_748hf")
+
+[node name="Lock" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_127s4")
+position = Vector2(-56, -72)
+script = ExtResource("2_748hf")
+atlas = "res://assets/sprites/menus/character_select/lock"
+frame = 2
+symbol = "LOCK TA"
+playing = true
+loop_end_frame = 2
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+
+[node name="Icon" type="Sprite2D" parent="."]

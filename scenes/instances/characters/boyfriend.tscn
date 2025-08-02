@@ -44,7 +44,6 @@ animations = [{
 }]
 
 [node name="Boyfriend" type="Node2D"]
-texture_filter = 4
 script = ExtResource("1_mx020")
 animation_names = Dictionary[String, String]({
 "attack": "boyfriend attack",

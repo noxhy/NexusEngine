@@ -7,7 +7,7 @@ const MENU_OPTION_NODE = preload("res://scenes/instances/freeplay/capsule.tscn")
 
 @onready var options: Array
 
-var difficulty: String = "null"
+var difficulty: String
 var album: Album
 var difficulty_songs: Dictionary
 
@@ -22,6 +22,10 @@ func _ready():
 	difficulty = difficulties[0] 
 	$"Difficulty Selector".difficulties = difficulties
 	album = Preload.character_data[GameHandeler.current_character].album
+	var background: Texture2D = Preload.character_data[GameHandeler.current_character].background
+	%Background.texture = background
+	%Background.scale.y = 720.0 / background.get_height()
+	%Background.scale.x = %Background.scale.y
 	
 	@warning_ignore("shadowed_variable")
 	for difficulty in difficulties:
@@ -96,6 +100,8 @@ func load_page():
 		menu_option_instance.index = index
 		
 		$UI.add_child(menu_option_instance)
+		var rank = GameHandeler.get_rank(SaveHandeler.get_grade(song_file.title, difficulty))
+		menu_option_instance.display_rank(rank)
 		menu_option_instance.add_to_group("instances")
 		index += 1
 	
@@ -157,7 +163,6 @@ func update_selection(i: int):
 	
 	if !song_file.locked: 
 		tween.tween_property($Audio/Music, "volume_db", 0.0, 1)
-	
 	
 	var grade = SaveHandeler.get_grade(song_file.title, difficulty)
 	if grade == -1: grade = 0

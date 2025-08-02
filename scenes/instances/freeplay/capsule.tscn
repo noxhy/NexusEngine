@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://qbce8ppotno0"]
+[gd_scene load_steps=8 format=3 uid="uid://qbce8ppotno0"]
 
 [ext_resource type="Script" uid="uid://4ir31o2pro22" path="res://scenes/instances/freeplay/capsule.gd" id="1_1nmrk"]
 [ext_resource type="SpriteFrames" uid="uid://4clsim45we1u" path="res://assets/sprites/menus/freeplay/capsule.res" id="1_vbem7"]
 [ext_resource type="Texture2D" uid="uid://c6h0t0s5r33rd" path="res://assets/sprites/menus/freeplay/lock.png" id="1_wa1ty"]
 [ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="2_v1ul3"]
 [ext_resource type="FontFile" uid="uid://bhwea5frxw2kr" path="res://assets/fonts/freeplay_song.ttf" id="4_1nmrk"]
+[ext_resource type="SpriteFrames" uid="uid://b05nhrgbkua1e" path="res://assets/sprites/menus/freeplay/rank_badges.res" id="6_lcnhi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lcnhi"]
 resource_local_to_scene = true
@@ -37,18 +38,47 @@ offsets = Dictionary[String, Vector2]({
 })
 metadata/_custom_type_script = "uid://d17yv6wfgl74w"
 
-[node name="Container" type="ScrollContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(368, 56)
 offset_left = 72.0
 offset_top = -32.0
-offset_right = 440.0
+offset_right = 444.0
 offset_bottom = 24.0
+
+[node name="Scroll" type="ScrollContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 0
 
-[node name="Label" type="Label" parent="Container"]
+[node name="Label" type="Label" parent="HBoxContainer/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
 size_flags_vertical = 6
 text = "Test"
 label_settings = SubResource("LabelSettings_lcnhi")
 vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 4
+stretch_mode = 6
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("6_lcnhi")
+script = ExtResource("2_v1ul3")
+animation_names = Dictionary[String, String]({
+"?": "default",
+"excellent": "EXCELLENT rank",
+"gold": "PERFECT rank GOLD",
+"good": "GOOD rank",
+"great": "GREAT rank",
+"loss": "LOSS rank",
+"perfect": "PERFECT rank"
+})
+metadata/_custom_type_script = "uid://d17yv6wfgl74w"

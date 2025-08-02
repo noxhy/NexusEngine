@@ -44,6 +44,7 @@ layout_mode = 2
 [node name="Downscroll" parent="Gameplay/ScrollContainer/VBoxContainer" instance=ExtResource("2_tn18n")]
 layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 4
 setting_name = "downscroll"
 display_name = "Downscroll"
 

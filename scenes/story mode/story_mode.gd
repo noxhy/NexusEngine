@@ -49,10 +49,10 @@ extends Node2D
 	"week5": {
 		"animation_name": "week5",
 		"display_node": $"UI/Week Display/SubViewport/Week 5",
-		"scene": "res://test/test_scene.tscn",
+		"scene": "res://scenes/playstate/songs/eggnog/eggnog.tscn",
 		"week_name": "Red Snow",
 		"song_list": "Cocoa\nEggnog\nWinter Horroland",
-		"difficulties": ["easy"],
+		"difficulties": ["nightmare"],
 	},
 	"week6": {
 		"animation_name": "week6",

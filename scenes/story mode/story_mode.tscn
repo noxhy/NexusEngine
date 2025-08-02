@@ -161,12 +161,13 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Tutorial" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Girlfriend" parent="UI/Week Display/SubViewport/Tutorial" groups=["tween_bop"] instance=ExtResource("9_qcirc")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-240, 286)
-scale = Vector2(0.7, 0.7)
+position = Vector2(-192, 132)
+scale = Vector2(0.425, 0.425)
 
 [node name="Week 1" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -174,25 +175,27 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 1" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Daddy Dearest" parent="UI/Week Display/SubViewport/Week 1" groups=["bop"] instance=ExtResource("10_p6gkq")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-320, 436)
-scale = Vector2(0.893, 0.893)
+position = Vector2(-192, 134)
+scale = Vector2(0.4, 0.4)
 
 [node name="Week 2" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
 position = Vector2(640, 164)
 
-[node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 2" groups=["bop"] instance=ExtResource("8_npxap")]
+[node name="Boyfriend2" parent="UI/Week Display/SubViewport/Week 2" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Spooky Kids" parent="UI/Week Display/SubViewport/Week 2" groups=["tween_bop"] instance=ExtResource("11_2m25c")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-192, 245)
-scale = Vector2(0.86, 0.86)
+position = Vector2(-192, 134)
+scale = Vector2(0.575, 0.575)
 
 [node name="Week 3" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -200,12 +203,13 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 3" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Pico" parent="UI/Week Display/SubViewport/Week 3" groups=["bop"] instance=ExtResource("12_14fgl")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-240, 240)
-scale = Vector2(-0.944, 0.944)
+position = Vector2(-192, 124)
+scale = Vector2(-0.7, 0.7)
 
 [node name="Week 4" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -213,12 +217,13 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 4" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Mommy Mearest" parent="UI/Week Display/SubViewport/Week 4" groups=["bop"] instance=ExtResource("13_ofi8l")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-250, 500)
-scale = Vector2(0.889, 0.889)
+position = Vector2(-192, 134)
+scale = Vector2(0.374, 0.374)
 
 [node name="Week 5" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -226,11 +231,13 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Character" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("17_dlfty")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-288, 436)
+position = Vector2(-192, 132)
+scale = Vector2(0.395, 0.395)
 
 [node name="Week 6" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -238,13 +245,13 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend Pixel" parent="UI/Week Display/SubViewport/Week 6" groups=["bop"] instance=ExtResource("14_6o7s3")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(270, 236)
-scale = Vector2(7, 7)
+position = Vector2(192, 124)
+scale = Vector2(5, 5)
 
 [node name="Senpai" parent="UI/Week Display/SubViewport/Week 6" groups=["tween_bop"] instance=ExtResource("15_tem1l")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-192, 500)
-scale = Vector2(6, 6)
+position = Vector2(-192, 132)
+scale = Vector2(2.535, 2.535)
 
 [node name="Week 7" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -252,13 +259,13 @@ position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 7" groups=["bop"] instance=ExtResource("8_npxap")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(292, 236)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Tankman" parent="UI/Week Display/SubViewport/Week 7" groups=["bop"] instance=ExtResource("16_k4au0")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-272, 320)
-rotation = 3.14159
-scale = Vector2(0.904, -0.904)
+position = Vector2(-192, 134)
+scale = Vector2(-0.525, 0.525)
 
 [node name="Weekend 1" type="Node2D" parent="UI/Week Display/SubViewport"]
 visible = false
@@ -266,13 +273,13 @@ position = Vector2(640, 164)
 
 [node name="Pico" parent="UI/Week Display/SubViewport/Weekend 1" groups=["bop"] instance=ExtResource("12_14fgl")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(235, 240)
-scale = Vector2(0.944, 0.944)
+position = Vector2(192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Darnell" parent="UI/Week Display/SubViewport/Weekend 1" groups=["tween_bop"] instance=ExtResource("17_wjhul")]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-230, 260)
-scale = Vector2(0.994, 0.994)
+position = Vector2(-192, 124)
+scale = Vector2(0.7, 0.7)
 
 [node name="Week Name" type="Label" parent="UI"]
 offset_left = 16.0

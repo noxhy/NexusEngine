@@ -207,6 +207,8 @@ func _draw_sprite(element: Element) -> void:
 							mat.set_shader_parameter("blur_y", filter.y)
 							mat.set_shader_parameter("num_pass", filter.quality)
 							# print("x: ", filter.x, " y: ", filter.y, " quality: ", filter.quality)
+			else:
+				RenderingServer.canvas_item_set_use_parent_material(item, true)
 			
 			if _color_transform != null:
 				
