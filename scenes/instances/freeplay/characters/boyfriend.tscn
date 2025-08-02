@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c1s7cbxg2o4m0"]
 
-[ext_resource type="Script" uid="uid://cblocwqwyjjjy" path="res://scenes/freeplay/freeplay_character.gd" id="1_uxy4b"]
+[ext_resource type="Script" uid="uid://cblocwqwyjjjy" path="res://scenes/freeplay/atlas_sprite.gd" id="1_uxy4b"]
 [ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="2_re7fs"]
 [ext_resource type="FontFile" uid="uid://c7hwqqieqbc47" path="res://assets/fonts/Results Background.ttf" id="3_dcg1w"]
 
@@ -21,7 +21,7 @@ font = ExtResource("3_dcg1w")
 font_size = 48
 outline_size = 4
 
-[node name="FreeplayCharacter" type="Node2D"]
+[node name="Boyfriend DJ" type="Node2D"]
 show_behind_parent = true
 script = ExtResource("1_uxy4b")
 animation_data = Dictionary[String, String]({
@@ -112,7 +112,7 @@ label_settings = SubResource("LabelSettings_jjooh")
 position = Vector2(448, -312)
 script = ExtResource("2_re7fs")
 atlas = "res://assets/sprites/menus/freeplay/characters/boyfriend"
-frame = 131
+frame = 418
 playing = true
 auto_start = true
 metadata/_custom_type_script = "uid://dxb0ojnhycqox"

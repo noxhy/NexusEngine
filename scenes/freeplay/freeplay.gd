@@ -14,7 +14,7 @@ var difficulty_songs: Dictionary
 var current_grade: int
 var current_highscore: int
 
-var dj: FreeplayCharacter
+var dj: AtlasSprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -77,6 +77,18 @@ func _process(_delta):
 			await get_tree().create_timer(1).timeout
 			
 			Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
+		
+		elif Input.is_action_just_pressed("character_select"):
+			
+			Transitions.transition("down")
+			can_click = false
+			dj.animation = "character_select"
+			
+			$"Audio/Menu Confirm".play()
+			
+			await get_tree().create_timer(1).timeout
+			
+			Global.change_scene_to("res://scenes/character_select/character_selection.tscn")
 
 
 # Updates visually what happens when a new index is set for a selection

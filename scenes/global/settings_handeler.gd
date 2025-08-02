@@ -56,6 +56,7 @@ var default_settings: Dictionary = {
 		
 		"ui_cancel": [KEY_ESCAPE],
 		"ui_accept": [KEY_ENTER, KEY_SPACE],
+		"character_select": [KEY_TAB],
 		
 		"ui_left": [KEY_LEFT],
 		"ui_down": [KEY_DOWN],
@@ -68,28 +69,28 @@ var default_settings: Dictionary = {
 
 func load_settings():
 	
-	if load( save_path ) == null or settings.version != 2:
+	if load(save_path) == null or settings.version != 2:
 		init_settings()
 	
-	settings = load( save_path )
+	settings = load(save_path)
 	
 	refresh_settings()
 	refresh_keybinds()
 	
-	print( save_path )
+	print(save_path)
 
 
 func save_settings():
 	
-	ResourceSaver.save( settings, save_path )
-	print( "Setting Saved" )
+	ResourceSaver.save(settings, save_path)
+	print("Setting Saved")
 
 
 func init_settings():
 	
 	settings = Settings.new()
-	ResourceSaver.save( settings, save_path )
-	print( "Setting Initialized" )
+	ResourceSaver.save(settings, save_path)
+	print("Setting Initialized")
 
 
 func refresh_settings():
@@ -99,32 +100,30 @@ func refresh_settings():
 		if !settings.settings.has(s):
 			
 			settings.settings[s] = default_settings.get(s)
-			print( "Set ", s, " to ", default_settings.get(s) )
+			print("Set ", s, " to ", default_settings.get(s))
+
+
+func get_setting(setting_name: String): return settings.settings.get(setting_name)
+func set_setting(setting_name: String, value: Variant): settings.settings[setting_name] = value
+
+func get_keybind(keybind_name: String): return settings.settings.keybinds.get(keybind_name)
+
+func set_keybind(keybind_name: String, keycode: int, index: int):
 	
-	print( "Setting Refreshed" )
-
-
-func get_setting( setting_name: String ): return settings.settings.get( setting_name )
-func set_setting( setting_name: String, value: Variant ): settings.settings[setting_name] = value
-
-func get_keybind( keybind_name: String ): return settings.settings.keybinds.get( keybind_name )
-
-func set_keybind( keybind_name: String, keycode: int, index: int ):
-	
-	var new_keycodes = settings.settings.keybinds.get( keybind_name )
+	var new_keycodes = settings.settings.keybinds.get(keybind_name)
 	new_keycodes[index] = keycode
 	
 	settings.settings.keybinds[keybind_name] = new_keycodes
 
 
-func get_keycode_string( keycodes: Array ):
+func get_keycode_string(keycodes: Array):
 	
 	var output: String = ""
 	
 	for i in keycodes:
 		
 		output += OS.get_keycode_string(i)
-		if i != keycodes[ keycodes.size() - 1 ]: output += ", "
+		if i != keycodes[keycodes.size() - 1]: output += ", "
 	
 	return output
 
@@ -133,12 +132,19 @@ func refresh_keybinds():
 	
 	for i in settings.settings.keybinds.keys():
 		
-		InputMap.action_erase_events( i )
+		InputMap.action_erase_events(i)
 		
-		for j in get_keybind( i ):
+		var binds = get_keybind(i)
+		
+		if binds == null:
+			binds = default_settings["keybinds"][i]
+			settings.settings.keybinds[i] = binds
+			print("Reset keybind: ", i)
+		
+		for j in binds:
 			
 			var new_key = InputEventKey.new()
 			new_key.keycode = j
-			InputMap.action_add_event( i, new_key )
+			InputMap.action_add_event(i, new_key)
 	
-	print( "Keybinds Refreshed" )
+	print("Keybinds Refreshed")

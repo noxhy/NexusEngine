@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://d03jjve4mhk7l"]
+
+[ext_resource type="Script" uid="uid://cblocwqwyjjjy" path="res://scenes/freeplay/atlas_sprite.gd" id="1_yvya1"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="2_paxb0"]
+
+[node name="Pico" type="Node2D"]
+script = ExtResource("1_yvya1")
+animation_data = Dictionary[String, String]({
+"cancel": "pico cs deselect",
+"confirm": "pico cs confirm",
+"idle": "pico cs idle",
+"in": "pico slide in",
+"out": "pico slide out",
+"unlock": "pico unlocked"
+})
+animation = "idle"
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(-264, -224)
+script = ExtResource("2_paxb0")
+atlas = "res://assets/sprites/menus/character_select/characters/pico/picoChill"
+symbol = "pico cs idle"
+loop_mode = "Play Once"
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+
+[connection signal="finished" from="AnimateSymbol" to="." method="_on_animated_sprite_2d_finished"]
+[connection signal="looped" from="AnimateSymbol" to="." method="_on_animated_sprite_2d_looped"]

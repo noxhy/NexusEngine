@@ -89,6 +89,16 @@ offset_bottom = -296.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
+[node name="RichTextLabel" type="RichTextLabel" parent="Above/ColorRect"]
+offset_left = 3.0
+offset_right = 1283.0
+offset_bottom = 57.0
+bbcode_enabled = true
+text = "[font_size=32][font=\"res://assets/fonts/Results Background.ttf\"][font bt=-16.0][pulse freq=0.8 color=#ffffff40 ease=-2.0]Press [TAB] to change characters[/pulse][/font]"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
 [node name="Difficulty Selector" parent="." instance=ExtResource("7_klryl")]
 follow_viewport_enabled = true
 
@@ -166,6 +176,7 @@ unique_name_in_owner = true
 z_index = -1
 position = Vector2(128, 0)
 texture = ExtResource("5_xlpwk")
+metadata/_edit_lock_ = true
 
 [node name="CardGlow" type="Sprite2D" parent="Background"]
 clip_children = 2

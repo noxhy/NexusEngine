@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cffkc1rbk4pcv"]
+[gd_scene load_steps=26 format=3 uid="uid://cffkc1rbk4pcv"]
 
 [ext_resource type="Script" uid="uid://brxadx3uf2n27" path="res://scenes/character_select/character_selection.gd" id="1_4oy2p"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="1_xnc8d"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cqrmxvh0sig2q" path="res://assets/sounds/character_select/CS_select.ogg" id="4_206il"]
 [ext_resource type="Texture2D" uid="uid://cheqv5tx4cvjp" path="res://assets/sprites/menus/character_select/placement.png" id="5_xehc6"]
 [ext_resource type="Texture2D" uid="uid://c8abolokulimn" path="res://assets/sprites/menus/character_select/charSelectBG.png" id="6_4tnne"]
+[ext_resource type="AudioStream" uid="uid://c4yg7qr8m3cud" path="res://assets/sounds/character_select/CS_locked.ogg" id="6_mgwtl"]
 [ext_resource type="Texture2D" uid="uid://co32pcaa122dd" path="res://assets/sprites/menus/character_select/curtains.png" id="8_umvhs"]
 [ext_resource type="Texture2D" uid="uid://c383kly37xe27" path="res://assets/sprites/menus/character_select/foregroundBlur.png" id="9_n7bm8"]
 [ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="9_nit2l"]
@@ -14,15 +15,60 @@
 [ext_resource type="Texture2D" uid="uid://bue740k5rsunv" path="res://assets/sprites/menus/character_select/charLight.png" id="10_1divh"]
 [ext_resource type="SpriteFrames" uid="uid://dexqtp6l3yipy" path="res://assets/sprites/menus/character_select/dipshit_blue.res" id="10_4oy2p"]
 [ext_resource type="SpriteFrames" uid="uid://bwlxrvv47wu6t" path="res://assets/sprites/menus/character_select/dipshit_blur.res" id="11_svyfo"]
+[ext_resource type="Texture2D" uid="uid://c2wobr2kiu2f6" path="res://assets/sprites/menus/character_select/charSelector.png" id="15_uas1p"]
+[ext_resource type="Shader" uid="uid://8da73ihtigpd" path="res://assets/shaders/pixelate.gdshader" id="16_1wyqx"]
+[ext_resource type="Texture2D" uid="uid://cpuxhdp8jn5wf" path="res://assets/sprites/menus/character_select/characters/boyfriend/boyfriendNametag.png" id="16_4n84g"]
+[ext_resource type="Texture2D" uid="uid://dfhgmtfjtqli5" path="res://assets/sprites/menus/character_select/characters/lockedNametag.png" id="17_1wyqx"]
+[ext_resource type="Texture2D" uid="uid://cx4xphj6wiep7" path="res://assets/sprites/menus/character_select/characters/pico/picoNametag.png" id="18_mgwtl"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uas1p"]
+blend_mode = 3
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_n7bm8"]
 blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_uas1p"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.303644)
+colors = PackedColorArray(0.323, 0.586, 0.98, 0.4, 0.33, 0.799, 1, 0.4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mgwtl"]
+shader = ExtResource("16_1wyqx")
+shader_parameter/amount = 0.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_su5uu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_4n84g")
+}],
+"loop": true,
+"name": &"boyfriend",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_1wyqx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_mgwtl")
+}],
+"loop": true,
+"name": &"pico",
+"speed": 5.0
+}]
 
 [node name="Character Selection" type="Node2D"]
 script = ExtResource("1_4oy2p")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(640, 360)
+position_smoothing_enabled = true
 position_smoothing_speed = 2.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
@@ -49,6 +95,14 @@ stream = ExtResource("3_4tnne")
 bus = &"SFX"
 
 [node name="Select" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_206il")
+bus = &"SFX"
+
+[node name="Locked" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("6_mgwtl")
+bus = &"SFX"
+
+[node name="Cancel" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_206il")
 bus = &"SFX"
 
@@ -81,7 +135,7 @@ z_index = -10
 position = Vector2(-704, -104)
 script = ExtResource("9_nit2l")
 atlas = "res://assets/sprites/menus/character_select/crowd"
-frame = 3
+frame = 10
 playing = true
 auto_start = true
 metadata/_custom_type_script = "uid://dxb0ojnhycqox"
@@ -94,7 +148,7 @@ scroll_scale = Vector2(0.5, 0.5)
 position = Vector2(-680, 80)
 script = ExtResource("9_nit2l")
 atlas = "res://assets/sprites/menus/character_select/charSelectStage"
-frame = 192
+frame = 325
 playing = true
 auto_start = true
 metadata/_custom_type_script = "uid://dxb0ojnhycqox"
@@ -102,6 +156,7 @@ metadata/_edit_lock_ = true
 
 [node name="ForegroundBlur" type="Sprite2D" parent="Background/Parallax2D4"]
 texture = ExtResource("9_n7bm8")
+metadata/_edit_lock_ = true
 
 [node name="Parallax2D2" type="Parallax2D" parent="Background"]
 z_index = 10
@@ -125,20 +180,17 @@ loop_mode = "Play Once"
 metadata/_custom_type_script = "uid://dxb0ojnhycqox"
 metadata/_edit_lock_ = true
 
-[node name="Characters" type="CanvasLayer" parent="."]
-layer = 0
-
-[node name="Lock Positions" type="Node" parent="Characters"]
-
-[node name="Parallax2D" type="Parallax2D" parent="Characters"]
+[node name="Characters" type="Parallax2D" parent="Background"]
+z_index = 11
 scroll_scale = Vector2(0.5, 0.5)
+scroll_offset = Vector2(-640, -360)
 
-[node name="CharLight" type="Sprite2D" parent="Characters/Parallax2D"]
+[node name="CharLight" type="Sprite2D" parent="Background/Characters"]
 position = Vector2(904, 392)
 texture = ExtResource("10_1divh")
 metadata/_edit_lock_ = true
 
-[node name="CharLight2" type="Sprite2D" parent="Characters/Parallax2D"]
+[node name="CharLight2" type="Sprite2D" parent="Background/Characters"]
 position = Vector2(328, 384)
 texture = ExtResource("10_1divh")
 metadata/_edit_lock_ = true
@@ -147,6 +199,56 @@ metadata/_edit_lock_ = true
 offset = Vector2(640, 720.2)
 transform = Transform2D(1, 0, 0, 1, 640, 720.2)
 follow_viewport_enabled = true
+
+[node name="Lock Positions" type="Node" parent="UI"]
+
+[node name="Lock 1" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+modulate = Color(0.174561, 0.586519, 0.859375, 1)
+position = Vector2(0, -416.2)
+
+[node name="Lock 2" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(-96, -416.2)
+
+[node name="Lock 3" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(96, -416.2)
+
+[node name="Lock 4" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(0, -503.2)
+
+[node name="Lock 5" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(-96, -503.2)
+
+[node name="Lock 6" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(96, -503.2)
+
+[node name="Lock 8" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(-96, -328.2)
+
+[node name="Lock 7" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(0, -329.2)
+
+[node name="Lock 9" type="Marker2D" parent="UI/Lock Positions"]
+unique_name_in_owner = true
+position = Vector2(96, -328.2)
+
+[node name="Bar" type="Node2D" parent="UI"]
+modulate = Color(1, 1, 1, 0.729412)
+z_index = -20
+material = SubResource("CanvasItemMaterial_uas1p")
+position = Vector2(-688, -664.2)
+script = ExtResource("9_nit2l")
+atlas = "res://assets/sprites/menus/character_select/barThing"
+frame = 3
+playing = true
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
 
 [node name="ChooseDipshit" type="Sprite2D" parent="UI"]
 z_index = -10
@@ -159,7 +261,7 @@ show_behind_parent = true
 sprite_frames = ExtResource("10_4oy2p")
 animation = &"CHOOSE horizontal offset instance 1"
 autoplay = "CHOOSE horizontal offset instance 1"
-frame_progress = 0.0282591
+frame_progress = 0.830372
 metadata/_edit_lock_ = true
 
 [node name="Blur" type="AnimatedSprite2D" parent="UI/ChooseDipshit"]
@@ -169,44 +271,32 @@ material = SubResource("CanvasItemMaterial_n7bm8")
 sprite_frames = ExtResource("11_svyfo")
 animation = &"CHOOSE vertical offset instance 1"
 autoplay = "CHOOSE vertical offset instance 1"
-frame_progress = 0.290398
+frame_progress = 0.0926016
 metadata/_edit_lock_ = true
 
-[node name="Lock 1" type="Marker2D" parent="UI"]
+[node name="Selector" type="Sprite2D" parent="UI"]
 unique_name_in_owner = true
-modulate = Color(0.174561, 0.586519, 0.859375, 1)
-position = Vector2(0, -416.2)
+self_modulate = Color(1, 0.964706, 0, 1)
+z_index = 20
+texture = ExtResource("15_uas1p")
 
-[node name="Lock 2" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(-96, -416.2)
+[node name="Under" type="CPUParticles2D" parent="UI/Selector"]
+show_behind_parent = true
+texture = ExtResource("15_uas1p")
+lifetime = 0.05
+randomness = 0.7
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_uas1p")
+metadata/_edit_lock_ = true
 
-[node name="Lock 3" type="Marker2D" parent="UI"]
+[node name="Character Name" type="AnimatedSprite2D" parent="UI"]
 unique_name_in_owner = true
-position = Vector2(96, -416.2)
-
-[node name="Lock 4" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(0, -503.2)
-
-[node name="Lock 5" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(-96, -503.2)
-
-[node name="Lock 6" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(96, -503.2)
-
-[node name="Lock 8" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(-96, -328.2)
-
-[node name="Lock 7" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(0, -329.2)
-
-[node name="Lock 9" type="Marker2D" parent="UI"]
-unique_name_in_owner = true
-position = Vector2(96, -328.2)
+z_index = 30
+material = SubResource("ShaderMaterial_mgwtl")
+position = Vector2(416, -616.2)
+sprite_frames = SubResource("SpriteFrames_su5uu")
 
 [connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
+[connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

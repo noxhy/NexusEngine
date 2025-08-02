@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dui2egg07r76u"]
+
+[ext_resource type="Script" uid="uid://cblocwqwyjjjy" path="res://scenes/freeplay/atlas_sprite.gd" id="1_ltjdy"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="2_swc8w"]
+
+[node name="Girlfriend" type="Node2D"]
+script = ExtResource("1_ltjdy")
+animation_data = Dictionary[String, String]({
+"cancel": "Partner GF deselect",
+"confirm": "Partner GF confirm",
+"idle": "Partner GF idle"
+})
+animation = "idle"
+metadata/_custom_type_script = "uid://cblocwqwyjjjy"
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(320, -224)
+script = ExtResource("2_swc8w")
+atlas = "res://assets/sprites/menus/character_select/characters/boyfriend/gfChill/"
+frame = 29
+symbol = "Partner GF idle"
+loop_mode = "Play Once"
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+
+[connection signal="finished" from="AnimateSymbol" to="." method="done"]
+[connection signal="looped" from="AnimateSymbol" to="." method="loop"]

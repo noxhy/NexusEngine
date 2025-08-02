@@ -8,16 +8,21 @@ extends Node2D
 			
 			1:
 				
-				$Lock.playing = true
+				$Lock.loop_frame = 8
+				$Lock.loop_end_frame = 19
+				$Lock.frame = $Lock.loop_frame
+				$Lock.visible = true
 				$Icon.visible = false
 			
 			2:
 				$Lock.visible = false
 				$Icon.visible = true
-				
 			
 			_:
 				
+				$Lock.loop_frame = 0
+				$Lock.loop_end_frame = 2
+				$Lock.frame = $Lock.loop_frame
 				$Lock.visible = true
 				$Icon.visible = false
 

@@ -7,7 +7,7 @@ signal new_beat(current_beat: int, measure_relative: int)
 signal new_step(current_step: int, measure_relative: int)
 
 ## The time where the conductor will [b]start[/b].
-@export_range(0, 1000, 1) var offset = 0
+@export_range(-1000, 1000, 1) var offset = 0
 ## Node Path to an [code]AudioStreamPlayer[/code] that the Conductor will conduct.
 @export_node_path("AudioStreamPlayer") var stream_player
 ## Beats per minute.

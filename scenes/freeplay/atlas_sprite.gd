@@ -1,4 +1,4 @@
-class_name FreeplayCharacter extends Node2D
+class_name AtlasSprite extends Node2D
 
 ## [code]start_frame[/code] - Starting frame
 ## [code]end_frame[/code] - Ending frame
@@ -21,3 +21,18 @@ class_name FreeplayCharacter extends Node2D
 			animated_symbol.symbol = animation_data.get(v, "")
 
 @onready var animated_symbol = $AnimateSymbol
+
+signal finished
+signal looped
+
+func play(id: String):
+	
+	animation = id
+	animated_symbol.playing = true
+	animated_symbol.frame = 0
+
+func done():
+	self.finished.emit()
+
+func loop():
+	self.looped.emit()

@@ -222,6 +222,11 @@ layout_mode = 2
 setting_name = "ui_cancel"
 display_name = "Cancel/Exit"
 
+[node name="Character Select" parent="Controls/ScrollContainer/VBoxContainer" instance=ExtResource("6_kbse5")]
+layout_mode = 2
+setting_name = "character_select"
+display_name = "Character Select"
+
 [node name="Left" parent="Controls/ScrollContainer/VBoxContainer" instance=ExtResource("6_kbse5")]
 layout_mode = 2
 setting_name = "ui_left"
