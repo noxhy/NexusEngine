@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="PlayableCharacter" load_steps=12 format=3 uid="uid://dxqhmrv2rrdkc"]
 
 [ext_resource type="Resource" uid="uid://b30g8jurwop0d" path="res://assets/albums/pico_songs.tres" id="1_hf6k2"]
-[ext_resource type="Texture2D" uid="uid://dkupmrky3qwx" path="res://assets/sprites/menus/freeplay/characters/boyfriend/freeplayBGweek1-bf.png" id="2_i3vd0"]
-[ext_resource type="PackedScene" uid="uid://c1s7cbxg2o4m0" path="res://scenes/instances/freeplay/characters/boyfriend.tscn" id="3_yoryh"]
-[ext_resource type="AudioStream" uid="uid://dp3j2qhpuv6xd" path="res://assets/songs/menu songs/results/boyfriend/resultsSHIT-intro.ogg" id="4_sdb3u"]
+[ext_resource type="Texture2D" uid="uid://cemqnoop727he" path="res://assets/sprites/menus/freeplay/characters/pico/freeplayBGweek1-pico.png" id="2_hf6k2"]
+[ext_resource type="PackedScene" uid="uid://bnx6yfjfa6wcj" path="res://scenes/instances/freeplay/characters/pico.tscn" id="3_hf6k2"]
+[ext_resource type="AudioStream" uid="uid://bb3dlwx5dct1e" path="res://assets/songs/menu songs/results/pico/loss-intro.ogg" id="4_hf6k2"]
 [ext_resource type="AudioStream" uid="uid://cfndri37mey1i" path="res://assets/songs/menu songs/results/boyfriend/resultsEXCELLENT-intro.ogg" id="5_p224q"]
 [ext_resource type="AudioStream" uid="uid://d2rjiccf1wlul" path="res://assets/songs/menu songs/pause menu/breakfast-pico.ogg" id="6_i3vd0"]
 [ext_resource type="AudioStream" uid="uid://c06o50jnsmcxy" path="res://assets/songs/menu songs/results/pico/resultsEXCELLENT-pico.ogg" id="7_yoryh"]
@@ -16,8 +16,8 @@
 script = ExtResource("11_r1hcg")
 album = ExtResource("1_hf6k2")
 pause_song = ExtResource("6_i3vd0")
-dj = ExtResource("3_yoryh")
-background = ExtResource("2_i3vd0")
+dj = ExtResource("3_hf6k2")
+background = ExtResource("2_hf6k2")
 result_songs = Dictionary[String, AudioStream]({
 "excellent": ExtResource("7_yoryh"),
 "gold": ExtResource("8_sdb3u"),
@@ -27,12 +27,12 @@ result_songs = Dictionary[String, AudioStream]({
 "perfect": ExtResource("8_sdb3u")
 })
 normal_intro = ExtResource("5_p224q")
-loss_intro = ExtResource("4_sdb3u")
+loss_intro = ExtResource("4_hf6k2")
 result_nodes = Dictionary[String, String]({
-"excellent": "res://scenes/instances/results/boyfriend/excellent.tscn",
-"gold": "res://scenes/instances/results/boyfriend/perfect.tscn",
-"good": "res://scenes/instances/results/boyfriend/good.tscn",
-"great": "res://scenes/instances/results/boyfriend/great.tscn",
-"loss": "res://scenes/instances/results/boyfriend/loss.tscn",
-"perfect": "res://scenes/instances/results/boyfriend/perfect.tscn"
+"excellent": "res://scenes/instances/results/pico/great.tscn",
+"gold": "res://scenes/instances/results/pico/perfect.tscn",
+"good": "res://scenes/instances/results/pico/good.tscn",
+"great": "res://scenes/instances/results/pico/great.tscn",
+"loss": "res://scenes/instances/results/pico/shit.tscn",
+"perfect": "res://scenes/instances/results/pico/perfect.tscn"
 })

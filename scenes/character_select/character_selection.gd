@@ -190,6 +190,8 @@ func select(pos: Vector2i = selected):
 			node.visible = true
 			node.add_to_group("current")
 	
+	get_tree().call_group("current", "play", "in")
+	
 	var tween = create_tween()
 	tween.set_parallel(true)
 	
@@ -223,8 +225,8 @@ func confirm(pos: Vector2i = selected):
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		tween.tween_property($Camera2D, "offset", $Camera2D.offset - Vector2(0, 150), 0.5).set_delay(0.5)
 		
+		get_tree().call_group("current", "play", "confirm")
 		Transitions.transition("down")
-		get_tree().call_group("current", "confirm")
 		
 		await get_tree().create_timer(1).timeout
 		

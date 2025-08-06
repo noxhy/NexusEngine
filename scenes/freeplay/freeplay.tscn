@@ -90,6 +90,7 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Above/ColorRect"]
+layout_mode = 0
 offset_left = 3.0
 offset_right = 1283.0
 offset_bottom = 57.0

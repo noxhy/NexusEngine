@@ -40,7 +40,6 @@ song_data = ExtResource("3_u002g")
 note_skin = ExtResource("4_gvt2o")
 ui_skin = ExtResource("5_0s4pd")
 combo_scale_multiplier = Vector2(0.65, 0.65)
-next_scene = "res://scenes/playstate/songs/thorns/thorns.tscn"
 
 [node name="Camera" parent="." instance=ExtResource("6_vhuvi")]
 position = Vector2(640, 432)

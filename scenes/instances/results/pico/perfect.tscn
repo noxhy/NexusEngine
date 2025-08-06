@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3d1p53teyugf"]
+
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="1_7x3nl"]
+
+[node name="Perfect" type="Node2D"]
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+position = Vector2(0, 40)
+script = ExtResource("1_7x3nl")
+atlas = "res://assets/sprites/menus/results/results-pico/resultsPERFECT"
+auto_start = true
+loop_frame = 88
+loop_end_frame = 399
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"

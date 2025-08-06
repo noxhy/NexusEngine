@@ -60,7 +60,7 @@ extends Node2D
 		"scene": "res://scenes/playstate/songs/senpai/senpai.tscn",
 		"week_name": "Hating Simulator Ft. Moawling",
 		"song_list": "Senpai\nRoses\nThorns",
-		"difficulties": ["nightmare"],
+		"difficulties": ["hard"],
 	},
 	"week7": {
 		"animation_name": "week7",
@@ -77,6 +77,7 @@ extends Node2D
 		"week_name": "Due Debts",
 		"song_list": "Darnell\nLit Up\n2Hot\nBlazin\'",
 		"difficulties": ["hard"],
+		"character": "pico",
 	},
 }
 
@@ -219,6 +220,7 @@ func select_option(i: int):
 		
 		Global.stop_song()
 		GameHandeler.current_week = options.get(options.keys()[i]).week_name
+		GameHandeler.current_character = options.get(options.keys()[i]).get("character", "boyfriend")
 		var scene = options.get(options.keys()[i]).scene
 		GameHandeler.play_mode = GameHandeler.PLAY_MODE.STORY_MODE
 		GameHandeler.freeplay = false

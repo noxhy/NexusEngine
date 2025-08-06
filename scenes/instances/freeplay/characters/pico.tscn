@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnx6yfjfa6wcj"]
+
+[ext_resource type="Script" uid="uid://cblocwqwyjjjy" path="res://scenes/freeplay/atlas_sprite.gd" id="1_0g3vl"]
+[ext_resource type="Texture2D" uid="uid://hixm41vvywvp" path="res://assets/sprites/menus/freeplay/characters/pico/middleLoop.png" id="2_0g3vl"]
+[ext_resource type="Texture2D" uid="uid://c3sgt5pj1cv85" path="res://assets/sprites/menus/freeplay/characters/pico/lowerLoop.png" id="2_h85ek"]
+[ext_resource type="Script" uid="uid://dxb0ojnhycqox" path="res://addons/gdanimate/animate_symbol.gd" id="3_f3030"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/menus/freeplay/characters/pico/topLoop.res" id="4_f3030"]
+
+[node name="Pico DJ" type="Node2D"]
+show_behind_parent = true
+script = ExtResource("1_0g3vl")
+animation_data = Dictionary[String, String]({
+"character_select": "Pico DJ to CS",
+"confirm": "Pico DJ confirm",
+"idle": "Pico DJ",
+"intro": "pico dj intro",
+"lose": "Pico DJ loss",
+"win": "pico cheer"
+})
+animation = "idle"
+metadata/_custom_type_script = "uid://cblocwqwyjjjy"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -544.0
+offset_top = -104.0
+offset_right = 544.0
+offset_bottom = 80.0
+color = Color(0.396, 0.702, 1, 0.8)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+offset_left = -544.0
+offset_top = -224.0
+offset_right = 544.0
+offset_bottom = -104.0
+color = Color(0.53, 0.64, 1, 0.8)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+offset_left = -544.0
+offset_top = -1016.0
+offset_right = 544.0
+offset_bottom = -224.0
+color = Color(0.418, 0.445, 0.95, 0.8)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+offset_left = -544.0
+offset_top = -1128.0
+offset_right = 544.0
+offset_bottom = -336.0
+color = Color(0.541, 0.569, 0.949, 0.8)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = -544.0
+offset_top = -1232.0
+offset_right = 544.0
+offset_bottom = -440.0
+color = Color(0.596, 0.635, 0.953, 0.8)
+metadata/_edit_lock_ = true
+
+[node name="Parallax2D2" type="Parallax2D" parent="."]
+repeat_size = Vector2(2048, 0)
+autoscroll = Vector2(-100, 0)
+repeat_times = 2
+metadata/_edit_lock_ = true
+
+[node name="lowerLoop" type="Sprite2D" parent="Parallax2D2"]
+position = Vector2(0, -8)
+texture = ExtResource("2_h85ek")
+
+[node name="Parallax2D3" type="Parallax2D" parent="."]
+scale = Vector2(-1, 1)
+repeat_size = Vector2(2048, 0)
+autoscroll = Vector2(135, 0)
+repeat_times = 2
+metadata/_edit_lock_ = true
+
+[node name="lowerLoop" type="Sprite2D" parent="Parallax2D3"]
+modulate = Color(1, 1, 1, 0.365)
+position = Vector2(16, -264)
+texture = ExtResource("2_h85ek")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(1525, 0)
+autoscroll = Vector2(200, 0)
+repeat_times = 2
+metadata/_edit_lock_ = true
+
+[node name="MiddleLoop" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(0, -264)
+texture = ExtResource("2_0g3vl")
+
+[node name="Parallax2D4" type="Parallax2D" parent="."]
+repeat_size = Vector2(2200, 0)
+autoscroll = Vector2(-250, 0)
+repeat_times = 2
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Parallax2D4"]
+position = Vector2(0, -472)
+sprite_frames = ExtResource("4_f3030")
+animation = &"base"
+
+[node name="AnimateSymbol" type="Node2D" parent="."]
+z_index = 1
+position = Vector2(448, -312)
+script = ExtResource("3_f3030")
+atlas = "res://assets/sprites/menus/freeplay/characters/pico"
+frame = 25
+playing = true
+auto_start = true
+metadata/_custom_type_script = "uid://dxb0ojnhycqox"
+metadata/_edit_lock_ = true
