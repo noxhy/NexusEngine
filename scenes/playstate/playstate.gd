@@ -91,7 +91,9 @@ var combo: int = 0
 var camera_bop_strength = Vector2(0.05, 0.05)
 var ui_bop_strength = Vector2(0.025, 0.025)
 
+var pause_preload: Variant
 var self_delta: float = 0.0
+var manual_pause: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -99,6 +101,7 @@ func _ready():
 	# This delay is so variables initialize
 	await host.ready
 	
+	pause_preload = load(pause_scene)
 	Global.song_scene = Global.new_scene
 	
 	chart = load(song_data.difficulties[GameHandeler.difficulty].chart)
@@ -176,16 +179,8 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("ui_cancel") or Input.is_action_just_pressed("ui_accept"):
 		
-		var pause_scene_instance = load(pause_scene).instantiate()
-		
-		pause_scene_instance.song_title = song_data.title
-		pause_scene_instance.credits = song_data.artist
-		if GameHandeler.freeplay: pause_scene_instance.deaths = GameHandeler.deaths
-		
-		else: pause_scene_instance.deaths = GameHandeler.week_deaths
-		
-		host.add_child(pause_scene_instance)
-		get_tree().paused = true
+		manual_pause = true
+		pause()
 	
 	elif Input.is_action_just_pressed("kill"): health = 0
 	
@@ -268,6 +263,21 @@ func _process(delta):
 					basic_event(time, event_name, event_parameters)
 					current_event += 1
 
+# Auto Pause
+func _notification(what: int) -> void:
+	
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		
+		if !get_tree().paused:
+			
+			manual_pause = false
+			pause()
+	
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		
+		if !manual_pause:
+			get_tree().paused = false
+
 
 #
 # Util
@@ -322,7 +332,6 @@ func play_song(time: float):
 	var events_list = chart.get_events_data()
 	current_event = bsearch_left_range(events_list, events_list.size(), time)
 
-
 # This if for actually playing the audio tracks, the reason this is a function is because
 # I also call it in the process function for when the song starts before 4 beats are possible.
 func play_audios(time: float):
@@ -336,8 +345,7 @@ func play_audios(time: float):
 	music_host.get_node("Instrumental").play(-chart.offset + song_start_offset)
 	song_started = true
 
-
-## Binary Search of notes and events, gives the index of the note nearest to the given time
+# Binary Search of notes and events, gives the index of the note nearest to the given time
 func bsearch_left_range(value_set: Array, length: int, left_range: float) -> int:
 	
 	if (length == 0): return -1
@@ -378,6 +386,23 @@ func get_rating(time: float) -> String:
 			break
 	
 	return rating
+
+
+func pause():
+	
+	if manual_pause:
+		
+		var pause_scene_instance = pause_preload.instantiate()
+		
+		pause_scene_instance.song_title = song_data.title
+		pause_scene_instance.credits = song_data.artist
+		if GameHandeler.freeplay: pause_scene_instance.deaths = GameHandeler.deaths
+		
+		else: pause_scene_instance.deaths = GameHandeler.week_deaths
+		
+		host.add_child(pause_scene_instance)
+	
+	get_tree().paused = true
 
 
 func score_note(hit_time: float):
