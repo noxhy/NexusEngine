@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmiw0sq3dx0ge"]
+
+[ext_resource type="Script" uid="uid://bgx1imb2x4q8y" path="res://scenes/instances/stage.gd" id="1_5fq04"]
+[ext_resource type="Texture2D" uid="uid://bkmkqx77pa4fg" path="res://assets/sprites/stages/battlfield/bg.png" id="2_xjsv1"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/stages/battlfield/sniper.res" id="3_ar6cq"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/stages/battlfield/guy.res" id="4_v424k"]
+[ext_resource type="Texture2D" uid="uid://k8skgtfffpuh" path="res://assets/sprites/stages/battlfield/bricksGround.png" id="5_md1te"]
+
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_5fq04")
+slow_boppers = Array[NodePath]([NodePath("CanvasLayer/Sniper"), NodePath("CanvasLayer/Guy")])
+metadata/_custom_type_script = "uid://bgx1imb2x4q8y"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -2
+follow_viewport_enabled = true
+
+[node name="Bg" type="Sprite2D" parent="CanvasLayer"]
+z_index = 10
+position = Vector2(-985, -805)
+texture = ExtResource("2_xjsv1")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Sniper" type="AnimatedSprite2D" parent="CanvasLayer"]
+z_index = 20
+position = Vector2(-127, 349)
+scale = Vector2(1.15, 1.15)
+sprite_frames = ExtResource("3_ar6cq")
+animation = &"Tankmanidlebaked instance 1"
+frame = 14
+frame_progress = 1.0
+metadata/_edit_lock_ = true
+
+[node name="Guy" type="AnimatedSprite2D" parent="CanvasLayer"]
+z_index = 20
+position = Vector2(1398, 407)
+scale = Vector2(1.15, 1.15)
+sprite_frames = ExtResource("4_v424k")
+animation = &"BLTank2 instance 1"
+metadata/_edit_lock_ = true
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 0
+follow_viewport_enabled = true
+
+[node name="BricksGround" type="Sprite2D" parent="CanvasLayer2"]
+z_index = 101
+position = Vector2(208, 568)
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("5_md1te")
+centered = false
+flip_h = true

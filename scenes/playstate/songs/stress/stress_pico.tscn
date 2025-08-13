@@ -1,18 +1,18 @@
-[gd_scene load_steps=21 format=3 uid="uid://c7jyvxqat3au2"]
+[gd_scene load_steps=22 format=3 uid="uid://c7jyvxqat3au2"]
 
-[ext_resource type="Script" uid="uid://dphgey4vagoa2" path="res://scenes/playstate/songs/darnell/darnell_bf.gd" id="1_ugmrh"]
+[ext_resource type="Script" uid="uid://dn5hbtar7fexj" path="res://scenes/playstate/songs/darnell/darnell.gd" id="1_th3hl"]
 [ext_resource type="PackedScene" uid="uid://l713j3okh2iq" path="res://scenes/playstate/playstate.tscn" id="2_hdeop"]
 [ext_resource type="Resource" uid="uid://savl80yglilh" path="res://assets/songs/playable songs/stress/Stress (Pico Mix).res" id="3_0hbr4"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_4bxi2"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_t15xn"]
 [ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_xwvyf"]
-[ext_resource type="PackedScene" uid="uid://q0a40tn5u1c8" path="res://scenes/instances/stages/4chan_philly/philly_foggy.tscn" id="7_ul0ec"]
+[ext_resource type="PackedScene" uid="uid://cmiw0sq3dx0ge" path="res://scenes/instances/stages/battlefield/stage.tscn" id="7_th3hl"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_m85lx"]
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_l37ub"]
 [ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="10_56sr7"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="11_s6vog"]
 [ext_resource type="PackedScene" uid="uid://bs78qo116i5i8" path="res://scenes/instances/characters/pico.tscn" id="12_5fyjp"]
-[ext_resource type="Shader" uid="uid://bgwusoh6kicj3" path="res://assets/shaders/adjust_hsv.gdshader" id="13_tcfll"]
+[ext_resource type="Shader" uid="uid://boq6lqipwmoli" path="res://assets/shaders/rimlight.gdshader" id="13_th3hl"]
 [ext_resource type="PackedScene" uid="uid://cvw5oumi78kvr" path="res://scenes/instances/characters/tankman.tscn" id="14_ctps2"]
 [ext_resource type="PackedScene" uid="uid://biw6xh624onjh" path="res://scenes/instances/characters/nene.tscn" id="15_th3hl"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="16_owg0q"]
@@ -26,21 +26,41 @@ stream_1/stream = ExtResource("9_l37ub")
 stream_2/stream = ExtResource("10_56sr7")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kuluq"]
-shader = ExtResource("13_tcfll")
-shader_parameter/hue = -5.0
-shader_parameter/saturation = -40.0
+shader = ExtResource("13_th3hl")
+shader_parameter/angle = 90.0
+shader_parameter/distance = 15.0
+shader_parameter/rimlight_color = Color(1, 1, 0.576471, 1)
+shader_parameter/threshold = 0.5
+shader_parameter/hue = -46.0
+shader_parameter/saturation = -38.0
 shader_parameter/contrast = -25.0
 shader_parameter/brightness = -20.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kw6yb"]
-shader = ExtResource("13_tcfll")
-shader_parameter/hue = -5.0
-shader_parameter/saturation = -40.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_th3hl"]
+shader = ExtResource("13_th3hl")
+shader_parameter/angle = 90.0
+shader_parameter/distance = 15.0
+shader_parameter/rimlight_color = Color(1, 1, 0.576471, 1)
+shader_parameter/threshold = 0.3
+shader_parameter/hue = -46.0
+shader_parameter/saturation = -38.0
+shader_parameter/contrast = -25.0
+shader_parameter/brightness = -20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0hbr4"]
+shader = ExtResource("13_th3hl")
+shader_parameter/angle = 90.0
+shader_parameter/distance = 10.0
+shader_parameter/rimlight_color = Color(1, 1, 0.576471, 1)
+shader_parameter/threshold = 0.15
+shader_parameter/hue = -46.0
+shader_parameter/saturation = -38.0
 shader_parameter/contrast = -25.0
 shader_parameter/brightness = -20.0
 
 [node name="Stress Pico" type="Node2D"]
-script = ExtResource("1_ugmrh")
+editor_description = "I know nene's speaker looks like shit I just didn't feel like porting the masks."
+script = ExtResource("1_th3hl")
 
 [node name="PlayState Host" parent="." node_paths=PackedStringArray("host", "ui", "camera", "conductor", "music_host", "rating_position", "combo_position") instance=ExtResource("2_hdeop")]
 process_mode = 1
@@ -54,15 +74,13 @@ combo_position = NodePath("../World/Combo Marker")
 song_data = ExtResource("3_0hbr4")
 note_skin = ExtResource("4_4bxi2")
 ui_skin = ExtResource("5_t15xn")
-combo_scale_multiplier = Vector2(1.2, 1.2)
 
 [node name="Camera" parent="." instance=ExtResource("6_xwvyf")]
 position = Vector2(640, 360)
-zoom = Vector2(0.85, 0.85)
 position_smoothing_speed = 3.0
-target_zoom = Vector2(0.85, 0.85)
+target_zoom = Vector2(0.9, 0.9)
 
-[node name="Stage" parent="." instance=ExtResource("7_ul0ec")]
+[node name="Stage" parent="." instance=ExtResource("7_th3hl")]
 unique_name_in_owner = true
 
 [node name="Music" type="Node" parent="."]
@@ -99,23 +117,23 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
 [node name="Position 1" type="Marker2D" parent="World"]
-position = Vector2(320, -40)
+position = Vector2(186.5, -5.5)
 gizmo_extents = 18.3
 
 [node name="Position 2" type="Marker2D" parent="World"]
-position = Vector2(0, -64)
+position = Vector2(-384, -24)
 gizmo_extents = 26.5
 
 [node name="Position 3" type="Marker2D" parent="World"]
-position = Vector2(192, -76)
+position = Vector2(-64, -152)
 gizmo_extents = 26.5
 
 [node name="Rating Marker" type="Marker2D" parent="World"]
-position = Vector2(384, -168)
+position = Vector2(70, -138)
 gizmo_extents = 30.0
 
 [node name="Combo Marker" type="Marker2D" parent="World"]
-position = Vector2(512, -120)
+position = Vector2(198, -90)
 gizmo_extents = 40.0
 
 [node name="Characters" type="CanvasLayer" parent="."]
@@ -127,13 +145,14 @@ follow_viewport_enabled = true
 [node name="Player" parent="Characters" instance=ExtResource("12_5fyjp")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_kuluq")
-position = Vector2(640, 288)
+position = Vector2(392, 266)
+scale = Vector2(0.9, 0.9)
 
 [node name="Enemy" parent="Characters" instance=ExtResource("14_ctps2")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_kw6yb")
-position = Vector2(-528, 240)
-scale = Vector2(-1, 1)
+material = SubResource("ShaderMaterial_th3hl")
+position = Vector2(-568, 264)
+scale = Vector2(-0.9, 0.9)
 animation_names = Dictionary[String, String]({
 "down": "Tankman DOWN note 1",
 "idle": "Tankman Idle Dance 1",
@@ -151,7 +170,9 @@ animation_names = Dictionary[String, String]({
 [node name="Metronome" parent="Characters" node_paths=PackedStringArray("music_host") instance=ExtResource("15_th3hl")]
 unique_name_in_owner = true
 z_index = -2
-position = Vector2(80, 180)
+material = SubResource("ShaderMaterial_0hbr4")
+position = Vector2(-88, 232)
+scale = Vector2(0.9, 0.9)
 music_host = NodePath("../../Music/Instrumental")
 slope = 0.3
 update_rate = 0.04

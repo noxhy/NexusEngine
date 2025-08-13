@@ -125,7 +125,8 @@ func _process(delta: float) -> void:
 							
 							if ((lane >= ChartHandeler.strum_data[strum]["strums"][0]) and (lane <= ChartHandeler.strum_data[strum]["strums"][1])):
 								
-								if (!ChartHandeler.strum_data[strum]["muted"]): %"Hit Sound".play()
+								if (!ChartHandeler.strum_data[strum]["muted"]):
+									%"Hit Sound".play()
 						
 						current_note += 1
 			
@@ -136,10 +137,8 @@ func _process(delta: float) -> void:
 				if track < vocal_tracks.size():
 					
 					if ChartHandeler.strum_data[strum]["muted"]:
-						
 						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], -80)
 					else:
-						
 						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], 0)
 			
 		else:
@@ -247,6 +246,7 @@ func _process(delta: float) -> void:
 									for j in selected_notes:
 										
 										chart.chart_data["notes"].remove_at(j - k)
+										print("j - k: ", j - k)
 										k += 1
 								
 								else:
@@ -362,14 +362,12 @@ func _process(delta: float) -> void:
 										var j: int = 0
 										for i in selected_notes:
 											
-											var note: Array = chart.get_notes_data()[i]
-											
-											var time: float = note[0]
-											var lane: int = note[1]
-											var length: float = note[2]
-											var note_type: int = note[3]
-											
 											var node = selected_note_nodes[j]
+											
+											var time: float = node.time
+											var lane: int = node.lane
+											var length: float = node.length
+											var note_type: int = node.note_type
 											
 											node.time += time_distance
 											node.lane += lane_distance
@@ -418,10 +416,13 @@ func _process(delta: float) -> void:
 			var L: int = bsearch_left_range(chart.get_notes_data(), chart.get_notes_data().size(), time_a)
 			var R: int = bsearch_right_range(chart.get_notes_data(), chart.get_notes_data().size(), time_b)
 			
-			if (L == R + 1): L -= 1
+			if (L == R + 1):
+				L -= 1
+			L = max(0, L)
 			selected_notes = range(L, R + 1)
 			selected_note_nodes = []
-			for i in selected_notes: selected_note_nodes.append(note_list[i])
+			for i in selected_notes:
+				selected_note_nodes.append(note_list[i])
 			
 			var j: int = 0
 			min_lane = ChartHandeler.strum_count
@@ -436,9 +437,10 @@ func _process(delta: float) -> void:
 					j += 1
 				else:
 					
-					if lane < min_lane: min_lane = lane
-					if lane > max_lane: max_lane = lane
+					min_lane = min(min_lane, lane)
+					max_lane = max(max_lane, lane)
 			
+			print("selected notes: ", selected_notes)
 			print("bounds set: ", min_lane, " - ", max_lane)
 			
 			if selected_notes.size() > 0:
@@ -469,9 +471,8 @@ func _process(delta: float) -> void:
 			moving_notes = false
 			%"Note Place".play()
 	
-	
-	if Input.is_action_just_released("control"): bounding_box = false
-	
+	if Input.is_action_just_released("control"):
+		bounding_box = false
 	
 	if Input.is_action_pressed("ui_text_delete"):
 		
@@ -721,7 +722,7 @@ func new_file(path: String, song: Song):
 
 ## Adds an instance of a note on the chart editor, placed boolean adds it to the chart data.
 ## Reset the select notes and note nodes list before calling moved
-func place_note(time: float, lane: int, length: float, type: int, placed: bool = false, moved: bool = false):
+func place_note(time: float, lane: int, length: float, type: int, placed: bool = false, moved: bool = false) -> int:
 	
 	var directions = ["left", "down", "up", "right"]
 	
@@ -746,6 +747,8 @@ func place_note(time: float, lane: int, length: float, type: int, placed: bool =
 	
 	note_instance.note_skin = NOTE_SKIN
 	
+	var output: int
+	
 	if placed: 
 		
 		var L: int = bsearch_left_range(chart.get_notes_data(), chart.get_notes_data().size(), time)
@@ -761,6 +764,8 @@ func place_note(time: float, lane: int, length: float, type: int, placed: bool =
 				selected_note_nodes = [note_instance]
 				min_lane = lane
 				max_lane = lane
+			
+			output = L
 		
 		else:
 			
@@ -770,11 +775,15 @@ func place_note(time: float, lane: int, length: float, type: int, placed: bool =
 			selected_note_nodes = [note_instance]
 			min_lane = lane
 			max_lane = lane
+			output = note_list.size()
 		
 	else:
+		
 		note_list.append(note_instance)
+		output = note_list.size()
 	
 	$"Notes Layer".add_child(note_instance)
+	return output
 
 
 func remove_note(lane: int, time: float):

@@ -441,10 +441,11 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 				var tween = create_tween()
 				tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 				var scroll_speed_scale: float = SettingsHandeler.get_setting("scroll_speed_scale")
-				tween.tween_method(strum.set_scroll_speed, strum.get_scroll_speed(lane), scroll_speed * scroll_speed_scale, tween_time * song_speed)
+				tween.tween_method(
+					strum.set_scroll_speed, strum.get_scroll_speed(lane), scroll_speed * scroll_speed_scale, tween_time * song_speed
+					)
 	
 	elif event_name == "camera_shake":
-		
 		camera.shake(int(event_parameters[0]), float(event_parameters[1]))
 	
 	emit_signal("new_event", time, event_name, event_parameters)
@@ -462,7 +463,7 @@ func song_finished():
 		match GameHandeler.play_mode:
 			
 			GameHandeler.PLAY_MODE.CHARTING:
-				Global.change_scene_to("res://scenes/playstate/chart_tester.gd")
+				Global.change_scene_to("res://scenes/chart editor/chart_editor.tscn")
 			_:
 				Global.change_scene_to("res://scenes/results/results.tscn")
 	else:

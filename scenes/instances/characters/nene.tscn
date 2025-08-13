@@ -125,6 +125,7 @@ offsets = Dictionary[String, Vector2]({
 })
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 position = Vector2(0, -311)
 sprite_frames = ExtResource("3_dojva")
 animation = &"Nene Abot Idle instance 1"
@@ -155,6 +156,7 @@ metadata/_edit_lock_ = true
 [node name="Visualizer Nodes" type="Node2D" parent="."]
 unique_name_in_owner = true
 z_index = -1
+use_parent_material = true
 position = Vector2(8, 3)
 metadata/_edit_lock_ = true
 

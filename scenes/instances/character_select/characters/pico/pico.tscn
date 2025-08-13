@@ -16,7 +16,7 @@ animation_data = Dictionary[String, String]({
 animation = "idle"
 
 [node name="AnimateSymbol" type="Node2D" parent="."]
-position = Vector2(-264, -224)
+position = Vector2(-96, -368)
 script = ExtResource("2_paxb0")
 atlas = "res://assets/sprites/menus/character_select/characters/pico/picoChill"
 symbol = "pico cs idle"

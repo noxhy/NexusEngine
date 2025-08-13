@@ -51,7 +51,14 @@ func _ready():
 	dj.animation = "intro"
 	
 	load_page()
-
+	
+	var keycode = SettingsHandeler.get_keybind("character_select")
+	
+	$Above/ColorRect/RichTextLabel.text = str(
+		"[font_size=32][font=\"res://assets/fonts/Results Background.ttf\"][font bt=-16.0][pulse freq=0.8 color=#ffffff40 ease=-2.0]",
+		"Press [", SettingsHandeler.get_keycode_string(keycode).to_upper(), "] to change character",
+		"[/pulse][/font]"
+	)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
