@@ -61,7 +61,8 @@ var default_settings: Dictionary = {
 		"ui_left": [KEY_LEFT],
 		"ui_down": [KEY_DOWN],
 		"ui_up": [KEY_UP],
-		"ui_right": [KEY_RIGHT]
+		"ui_right": [KEY_RIGHT],
+		"mute": [KEY_0]
 		
 	}
 	
@@ -130,6 +131,12 @@ func get_keycode_string(keycodes: Array):
 
 func refresh_keybinds():
 	
+	# Failsafe in case of adding a new keybind
+	for i in default_settings.keybinds.keys():
+		
+		if !settings.settings.keybinds.has(i):
+			settings.settings.keybinds[i] = default_settings["keybinds"][i]
+	
 	for i in settings.settings.keybinds.keys():
 		
 		InputMap.action_erase_events(i)
@@ -137,6 +144,7 @@ func refresh_keybinds():
 		var binds = get_keybind(i)
 		
 		if binds == null:
+			
 			binds = default_settings["keybinds"][i]
 			settings.settings.keybinds[i] = binds
 			print("Reset keybind: ", i)

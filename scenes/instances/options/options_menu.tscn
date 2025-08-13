@@ -263,6 +263,11 @@ layout_mode = 2
 setting_name = "ui_minus"
 display_name = "Decrease Volume"
 
+[node name="Mute" parent="Controls/ScrollContainer/VBoxContainer" instance=ExtResource("6_kbse5")]
+layout_mode = 2
+setting_name = "mute"
+display_name = "Mute"
+
 [node name="Miscellaneous" type="TabBar" parent="."]
 visible = false
 layout_mode = 2
