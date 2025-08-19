@@ -35,7 +35,7 @@ vec2 u = SCREEN_UV,
      v = SCREEN_UV * 0.1,
      n = noise(v*200.); // Displacement
 
-  fragColor = textureLod(iChannel0, u, 1.2);
+  //fragColor = textureLod(iChannel0, u, 2.5);
 
   // Loop through the different inverse sizes of drops
   for (float r = 4. ; r > frequency ; r--) {

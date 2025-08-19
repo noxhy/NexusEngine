@@ -28,8 +28,8 @@ func _process(delta):
 	# $Performance.text = "Accuracy: " + str( snappedf( accuracy * 100, 0.01 ) ) + "%"
 	# $Performance.text += " • " + "Rank: " + rank
 	
-	$Performance.text = "Score: " + Global.format_number(score)
-	$Performance.text += " • " + "Misses: " + str(misses)
+	$"Health Bar/Performance".text = "Score: " + Global.format_number(score)
+	$"Health Bar/Performance".text += " • " + "Misses: " + str(misses)
 	
 	
 	update_health_bar( lerp( $"Health Bar".value, target_health, 0.115 ) )
@@ -90,13 +90,12 @@ func downscroll_ui():
 	$"Player Strum".position.y *= -1
 	$"Enemy Strum".position.y *= -1
 	$"Health Bar".position.y *= -1
-	$Performance.position.y *= -1
 
 
 func streamer_ui():
 	
 	$"Health Bar".visible = false
-	$Performance.visible = false
+	$"Health Bar/Performance".visible = false
 
 
 func set_credits( song_name: String, artist_names: String ):
