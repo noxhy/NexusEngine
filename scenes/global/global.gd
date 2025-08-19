@@ -57,7 +57,7 @@ func _process(delta):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	
 	elif Input.is_action_just_pressed("ui_plus"):
-		
+		AudioServer.set_bus_mute(0, false)
 		var master_volume = SettingsHandeler.get_setting("master_volume")
 		SettingsHandeler.set_setting("master_volume", clamp(master_volume + 6, -60, 0))
 		SettingsHandeler.save_settings()
@@ -65,7 +65,7 @@ func _process(delta):
 		$"UI/Voume Node/Hide Timer".start(1.5)
 	
 	elif Input.is_action_just_pressed("ui_minus"):
-		
+		AudioServer.set_bus_mute(0, false)
 		var master_volume = SettingsHandeler.get_setting("master_volume")
 		SettingsHandeler.set_setting("master_volume", clamp(master_volume - 6, -60, 0))
 		SettingsHandeler.save_settings()
