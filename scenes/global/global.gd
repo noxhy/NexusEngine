@@ -78,7 +78,9 @@ func _process(delta):
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start(1)
 	
-	elif Input.is_action_just_pressed("reload"): get_tree().reload_current_scene()
+	elif Input.is_action_just_pressed("reload"): 
+		get_tree().reload_current_scene()
+		get_tree().paused = false
 	
 	AudioServer.set_bus_volume_db(0, SettingsHandeler.get_setting("master_volume"))
 	AudioServer.set_bus_volume_db(1, SettingsHandeler.get_setting("music_volume"))
