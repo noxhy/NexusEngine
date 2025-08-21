@@ -145,20 +145,38 @@ func float_to_time(time: float) -> String:
 	else:
 		return str(minutes) + ":" + str(int(seconds) % 60) + str(milliseconds).trim_prefix("0")
 
-func format_number(num: int) -> String:
+func format_number(num:float) -> String: 
 	
-	var output: String = str(num).trim_prefix("-").reverse()
-	var length: int = output.length()
+	var isNegative = num < 0.0
 	
-	var character: int = 0
-	for i in range(length):
+	num = absf(num)
+	
+	var string:String = ''
+	var comma:String = ''
+	var amount:float = floorf(num)
+	
+	while amount > 0:
+		if string.length() > 0 and comma.length() <= 0:
+			comma = ','
 		
-		if character % 3 == 0 and character != 0: output = output.insert(character, ",")
-		character += 1
+		var zeroes = ''
+		var helper = amount - floorf(amount / 1000) * 1000
+		amount = floorf(amount / 1000)
+		
+		if amount > 0:
+			if helper < 100:
+				zeroes += '0'
+			if helper < 10:
+				zeroes += '0'
+		string = zeroes + str(int(helper)) + comma + string
+
+	if string == '':
+		string = '0'
 	
-	output = output.reverse()
-	if num < 0: output = "-" + output
-	return output
+	if isNegative:
+		string = "-" + string
+		
+	return string
 
 
 # Visual Util

@@ -29,14 +29,14 @@ var lane: int = 0
 var on_screen = false
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready(): 
 	
 	$Note.sprite_frames = note_skin.notes_texture
 	$"Tail/Tail End".sprite_frames = note_skin.notes_texture
 	
-	if note_skin.animation_names != null:
+	if note_skin.animation_names != null: 
 		
-		if note_skin.animation_names.keys().size() > 0:
+		if note_skin.animation_names.keys().size() > 0: 
 			
 			$Note.animation_names = note_skin.animation_names
 			$"Tail/Tail End".animation_names = note_skin.animation_names
@@ -49,17 +49,17 @@ func _ready():
 	
 	$Note.offsets = note_skin.offsets
 	
-	if note_skin.pixel_texture:
+	if note_skin.pixel_texture: 
 		
 		$Note.texture_filter = TEXTURE_FILTER_NEAREST
 		$Tail.texture_filter = TEXTURE_FILTER_NEAREST
 		$"Tail/Tail End".texture_filter = TEXTURE_FILTER_NEAREST
 	
-	if !chart_note:
+	if !chart_note: 
 		
 		scale = Vector2(note_skin.notes_scale, note_skin.notes_scale)
 		$Tail.width = note_skin.sustain_width
-	else:
+	else: 
 		
 		# scale = grid_size / Vector2(note_skin.notes_scale, note_skin.notes_scale)
 		scale = Vector2(1, 1)
@@ -69,9 +69,9 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta): 
 	
-	if on_screen:
+	if on_screen: 
 		
 		var tail_animation = $"Tail/Tail End".animation
 		var texture = $"Tail/Tail End".sprite_frames.get_frame_texture( tail_animation, 0 )
@@ -84,15 +84,15 @@ func _process(delta):
 		line_length = abs(line_length)
 		if !chart_note: line_length /= note_skin.notes_scale
 		
-		if length != 0:
+		if length != 0: 
 			
 			$Tail.visible = true
 			
 			$"Tail/Tail End".offset.x = texture.get_width() * 0.5
-			if chart_note:
+			if chart_note: 
 				
 				line_length -= $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x
-				if line_length < $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x:
+				if line_length < $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x: 
 					line_length = $"Tail/Tail End".offset.x * $"Tail/Tail End".scale.x
 			$"Tail/Tail End".position.y = line_length
 			
@@ -102,26 +102,29 @@ func _process(delta):
 			
 			var end_direction: Vector2 = Vector2.DOWN
 			
-			if $Tail.points.size() > 1:
+			if $Tail.points.size() > 1: 
 				end_direction = $Tail.points[$Tail.points.size() - 1] - $Tail.points[$Tail.points.size() - 2]
 			
 			$"Tail/Tail End".position = $Tail.get_point_position($Tail.points.size() - 1)
 			$"Tail/Tail End".rotation = end_direction.angle()
 			
-			$VisibleOnScreenNotifier2D.rect.size = grid_size + Vector2( 0, line_length * 1.1 )
+			if scroll < 0:
+				$VisibleOnScreenNotifier2D.rect = Rect2(-10, -10, grid_size.x, grid_size.y + (line_length * 1.1 * scroll)).abs()
+			else:
+				$VisibleOnScreenNotifier2D.rect = Rect2(-10, -10, grid_size.x, grid_size.y + (line_length * 1.1 * scroll))
 		
-		else:
+		else: 
 			
 			$Tail.visible = false
 
 
-func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void: 
 	
 	on_screen = true
 	$Note.visible = on_screen
 	$Tail.visible = on_screen
 
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void: 
 	
 	on_screen = false
 	$Note.visible = on_screen
