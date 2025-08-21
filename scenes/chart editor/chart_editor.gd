@@ -65,11 +65,11 @@ func _ready() -> void:
 	Global.set_window_title("Chart Editor")
 	song_speed = 1.0
 	
-	if ChartHandeler.song != null:
+	if ChartManager.song != null:
 		
 		var old_song = null
-		var song = ChartHandeler.song
-		load_song(song, ChartHandeler.difficulty)
+		var song = ChartManager.song
+		load_song(song, ChartManager.difficulty)
 		var action: String = "Loaded Song"
 		undo_redo.create_action(action)
 		undo_redo.add_do_property(self, "song", song)
@@ -85,7 +85,7 @@ func _ready() -> void:
 	## Initializing Popup Signals
 	
 	%"File Button".get_popup().connect("id_pressed", self.file_button_item_pressed)
-	%"File Button".get_popup().set_item_checked(5, SettingsHandeler.get_setting("autosave"))
+	%"File Button".get_popup().set_item_checked(5, SettingsManager.get_setting("autosave"))
 	%"File Button".get_popup().set_hide_on_checkable_item_selection(false)
 	
 	%"Edit Button".get_popup().connect("id_pressed", self.edit_button_item_pressed)
@@ -121,22 +121,22 @@ func _process(delta: float) -> void:
 						var time: float = note[0]
 						var lane: float = note[1]
 						
-						for strum in ChartHandeler.strum_data:
+						for strum in ChartManager.strum_data:
 							
-							if ((lane >= ChartHandeler.strum_data[strum]["strums"][0]) and (lane <= ChartHandeler.strum_data[strum]["strums"][1])):
+							if ((lane >= ChartManager.strum_data[strum]["strums"][0]) and (lane <= ChartManager.strum_data[strum]["strums"][1])):
 								
-								if (!ChartHandeler.strum_data[strum]["muted"]):
+								if (!ChartManager.strum_data[strum]["muted"]):
 									%"Hit Sound".play()
 						
 						current_note += 1
 			
-			for strum in ChartHandeler.strum_data:
+			for strum in ChartManager.strum_data:
 				
-				var track = ChartHandeler.strum_data[strum]["track"]
+				var track = ChartManager.strum_data[strum]["track"]
 				
 				if track < vocal_tracks.size():
 					
-					if ChartHandeler.strum_data[strum]["muted"]:
+					if ChartManager.strum_data[strum]["muted"]:
 						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], -80)
 					else:
 						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], 0)
@@ -216,7 +216,7 @@ func _process(delta: float) -> void:
 					
 					if !Input.is_action_pressed("control"):
 						
-						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartHandeler.strum_count):
+						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
 							
 							var lane: int = snapped_position.x - 1
 							var time: float = grid_position_to_time(snapped_position, true)
@@ -299,7 +299,7 @@ func _process(delta: float) -> void:
 										selected_notes[j] = k - 1
 									j += 1
 								
-								if SettingsHandeler.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
+								if SettingsManager.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
 	
 	
 	if Input.is_action_pressed("mouse_left"):
@@ -316,7 +316,7 @@ func _process(delta: float) -> void:
 						if int(grid_position.x) == 0:
 							start_offset = grid_position_to_time(grid_position) - song_position
 						
-						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartHandeler.strum_count):
+						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
 							
 							if placing_note:
 								
@@ -339,10 +339,10 @@ func _process(delta: float) -> void:
 										if (note_list[i].length != distance): %"Note Stretch".play()
 										note_list[i].length = distance
 									
-									if SettingsHandeler.get_setting("autosave"): 
+									if SettingsManager.get_setting("autosave"): 
 										ResourceSaver.save(chart, chart.resource_path)
 						
-						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartHandeler.strum_count):
+						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
 							
 							if moving_notes:
 								
@@ -355,7 +355,7 @@ func _process(delta: float) -> void:
 								
 								var diff: int = max_lane - min_lane
 								
-								if ((min_lane + lane_distance) >= 0 and (max_lane + lane_distance) < ChartHandeler.strum_count):
+								if ((min_lane + lane_distance) >= 0 and (max_lane + lane_distance) < ChartManager.strum_count):
 									
 									if changed_length:
 										
@@ -374,7 +374,7 @@ func _process(delta: float) -> void:
 											node.position = Vector2(%Grid.get_real_position(Vector2(1.5 + node.lane, 0)).x, time_to_y_position(node.time) + %Grid.grid_size.y * %Grid.zoom.y / 2)
 											j += 1
 										
-										if SettingsHandeler.get_setting("autosave"): 
+										if SettingsManager.get_setting("autosave"): 
 											ResourceSaver.save(chart, chart.resource_path)
 										
 										start_time += time_distance
@@ -425,7 +425,7 @@ func _process(delta: float) -> void:
 				selected_note_nodes.append(note_list[i])
 			
 			var j: int = 0
-			min_lane = ChartHandeler.strum_count
+			min_lane = ChartManager.strum_count
 			max_lane = 0
 			for i in range(selected_notes.size()):
 				
@@ -476,8 +476,8 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("ui_text_delete"):
 		
-		GameHandeler.play_mode = GameHandeler.PLAY_MODE.CHARTING
-		GameHandeler.difficulty = current_difficulty
+		GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
+		GameManager.difficulty = current_difficulty
 		Global.change_scene_to("res://scenes/playstate/chart_tester.tscn")
 	
 	queue_redraw()
@@ -556,17 +556,17 @@ func _draw() -> void:
 		draw_rect(rect, divider_color)
 		
 		## Strum Markers
-		for strum_name in ChartHandeler.strum_data:
+		for strum_name in ChartManager.strum_data:
 			
-			var start_strum = ChartHandeler.strum_data[strum_name]["strums"][0]
-			var end_strum = ChartHandeler.strum_data[strum_name]["strums"][1]
+			var start_strum = ChartManager.strum_data[strum_name]["strums"][0]
+			var end_strum = ChartManager.strum_data[strum_name]["strums"][1]
 			
 			## Measure Divider
 			rect = Rect2(grid_offset + %Grid.get_real_position(Vector2(end_strum + 2, time_to_y.y)) - Vector2(1, 2), \
 			%Grid.get_real_position(Vector2(0, %Grid.rows * 2)) - %Grid.get_real_position(Vector2(0, 0)) + Vector2(2, 2))
 			draw_rect(rect, divider_color)
 			
-			if ChartHandeler.strum_data[strum_name]["muted"]:
+			if ChartManager.strum_data[strum_name]["muted"]:
 				
 				rect = Rect2(grid_offset + %Grid.get_real_position(Vector2(start_strum + 1, time_to_y.y)), \
 				%Grid.get_real_position(Vector2(end_strum - start_strum + 1, %Grid.rows * 2)) - %Grid.get_real_position(Vector2(0, 0)))
@@ -585,37 +585,37 @@ func _draw() -> void:
 
 func update_grid():
 	
-	%Grid.columns = 2 + ChartHandeler.strum_count
+	%Grid.columns = 2 + ChartManager.strum_count
 	%Grid.rows = current_steps_per_measure
 	%"Strum Labels".position = %Grid.get_real_position(Vector2(1, -1)) - Vector2(2, 296)
-	%"Strum Labels".custom_minimum_size.x = ChartHandeler.strum_count * %Grid.grid_size.x * %Grid.zoom.x + 4
+	%"Strum Labels".custom_minimum_size.x = ChartManager.strum_count * %Grid.grid_size.x * %Grid.zoom.x + 4
 	
 	for n in %"Strum Labels".get_children(): n.queue_free()
 	
 	for n in waveform_list: n.queue_free()
 	waveform_list = []
 	
-	for id in ChartHandeler.strum_data:
+	for id in ChartManager.strum_data:
 		
 		var strum_label_instance = STRUM_BUTTON_PRELOAD.instantiate()
 		
 		strum_label_instance.id = id
-		strum_label_instance.muted = ChartHandeler.strum_data[id]["muted"]
+		strum_label_instance.muted = ChartManager.strum_data[id]["muted"]
 		
 		%"Strum Labels".add_child(strum_label_instance)
-		strum_label_instance.custom_minimum_size.x = (ChartHandeler.strum_data[id]["strums"][1] + 1 - ChartHandeler.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
+		strum_label_instance.custom_minimum_size.x = (ChartManager.strum_data[id]["strums"][1] + 1 - ChartManager.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
 		strum_label_instance.size.y = 32
 		
-		if ChartHandeler.strum_data[id]["strums"][0] == 0: strum_label_instance.get_node("Move Lane Left").visible = false
-		if ChartHandeler.strum_data[id]["strums"][1] == ChartHandeler.strum_count - 1: strum_label_instance.get_node("Move Lane Right").visible = false
+		if ChartManager.strum_data[id]["strums"][0] == 0: strum_label_instance.get_node("Move Lane Left").visible = false
+		if ChartManager.strum_data[id]["strums"][1] == ChartManager.strum_count - 1: strum_label_instance.get_node("Move Lane Right").visible = false
 		
 		var waveform_instance = WAVEFORM_PRELOAD.instantiate()
 		
-		waveform_instance.position = %Grid.get_real_position(Vector2(ChartHandeler.strum_data[id]["strums"][1] + 2, 0))
-		waveform_instance.size.y = (ChartHandeler.strum_data[id]["strums"][1] + 1 - ChartHandeler.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
+		waveform_instance.position = %Grid.get_real_position(Vector2(ChartManager.strum_data[id]["strums"][1] + 2, 0))
+		waveform_instance.size.y = (ChartManager.strum_data[id]["strums"][1] + 1 - ChartManager.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
 		waveform_instance.rotation_degrees = 90
 		
-		var track: int = ChartHandeler.strum_data[id]["track"]
+		var track: int = ChartManager.strum_data[id]["track"]
 		if track < song_data.vocals.size():
 			
 			var stream = song_data.vocals[track]
@@ -642,22 +642,22 @@ func update_waveforms():
 	var i: int = 0
 	for n in waveform_list:
 		
-		var id: String = ChartHandeler.strum_data.keys()[i]
-		n.size.y = (ChartHandeler.strum_data[id]["strums"][1] + 1 - ChartHandeler.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
+		var id: String = ChartManager.strum_data.keys()[i]
+		n.size.y = (ChartManager.strum_data[id]["strums"][1] + 1 - ChartManager.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
 		n.size.x = time_to_y_position(song_data.instrumental.get_length()) - time_to_y_position(0.0)
 		i += 1
 
 
 func load_song(song: Song, difficulty: Variant = null):
 	
-	ChartHandeler.song = song
+	ChartManager.song = song
 	song_data = song
 	if difficulty == null: difficulty = song_data.difficulties.keys()[0]
 	current_difficulty = difficulty
 	var difficulty_data: Dictionary = song.difficulties.get(difficulty)
 	chart = load(difficulty_data.chart)
 	scene = song.scene if !difficulty_data.has("scene") else difficulty_data.scene
-	ChartHandeler.difficulty = difficulty
+	ChartManager.difficulty = difficulty
 	undo_redo.clear_history()
 	play_audios(0.0)
 	
@@ -987,22 +987,22 @@ func _on_play_button_toggled(toggled_on: bool) -> void:
 
 func move_bound_left(strum_id: String):
 	
-	ChartHandeler.strum_data[strum_id]["strums"][0] = clamp(ChartHandeler.strum_data[strum_id]["strums"][0] - 1, 0, ChartHandeler.strum_count - 1)
+	ChartManager.strum_data[strum_id]["strums"][0] = clamp(ChartManager.strum_data[strum_id]["strums"][0] - 1, 0, ChartManager.strum_count - 1)
 	
-	for id in ChartHandeler.strum_data:
-		if ChartHandeler.strum_data[id]["strums"][1] == ChartHandeler.strum_data[strum_id]["strums"][0]:
-			ChartHandeler.strum_data[id]["strums"][1] = clamp(ChartHandeler.strum_data[id]["strums"][1] - 1, 0, ChartHandeler.strum_count - 1)
+	for id in ChartManager.strum_data:
+		if ChartManager.strum_data[id]["strums"][1] == ChartManager.strum_data[strum_id]["strums"][0]:
+			ChartManager.strum_data[id]["strums"][1] = clamp(ChartManager.strum_data[id]["strums"][1] - 1, 0, ChartManager.strum_count - 1)
 	
 	update_grid()
 
 
 func move_bound_right(strum_id: String):
 	
-	ChartHandeler.strum_data[strum_id]["strums"][1] = clamp(ChartHandeler.strum_data[strum_id]["strums"][1] + 1, 0, ChartHandeler.strum_count - 1)
+	ChartManager.strum_data[strum_id]["strums"][1] = clamp(ChartManager.strum_data[strum_id]["strums"][1] + 1, 0, ChartManager.strum_count - 1)
 	
-	for id in ChartHandeler.strum_data:
-		if ChartHandeler.strum_data[id]["strums"][0] == ChartHandeler.strum_data[strum_id]["strums"][1]:
-			ChartHandeler.strum_data[id]["strums"][0] = clamp(ChartHandeler.strum_data[id]["strums"][0] + 1, 0, ChartHandeler.strum_count - 1)
+	for id in ChartManager.strum_data:
+		if ChartManager.strum_data[id]["strums"][0] == ChartManager.strum_data[strum_id]["strums"][1]:
+			ChartManager.strum_data[id]["strums"][0] = clamp(ChartManager.strum_data[id]["strums"][0] + 1, 0, ChartManager.strum_count - 1)
 	
 	update_grid()
 
@@ -1099,8 +1099,8 @@ func file_button_item_pressed(id):
 	# Autosave
 	elif id == 3:
 		
-		SettingsHandeler.set_setting("autosave", !SettingsHandeler.get_setting("autosave"))
-		%"File Button".get_popup().set_item_checked(5, SettingsHandeler.get_setting("autosave"))
+		SettingsManager.set_setting("autosave", !SettingsManager.get_setting("autosave"))
+		%"File Button".get_popup().set_item_checked(5, SettingsManager.get_setting("autosave"))
 		%"Note Place".play()
 	
 	# Exit
@@ -1136,7 +1136,7 @@ func undo():
 		
 		%Undo.play()
 		undo_redo.undo()
-		if SettingsHandeler.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
+		if SettingsManager.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
 	
 	%"Edit Button".get_popup().set_item_checked(0, !undo_redo.has_undo())
 
@@ -1146,7 +1146,7 @@ func redo():
 		
 		%Redo.play()
 		undo_redo.redo()
-		if SettingsHandeler.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
+		if SettingsManager.get_setting("autosave"): ResourceSaver.save(chart, chart.resource_path)
 	
 	%"Edit Button".get_popup().set_item_checked(1, !undo_redo.has_redo())
 

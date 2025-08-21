@@ -21,8 +21,8 @@ func _ready():
 	
 	difficulty = difficulties[0] 
 	$"Difficulty Selector".difficulties = difficulties
-	album = Preload.character_data[GameHandeler.current_character].album
-	var background: Texture2D = Preload.character_data[GameHandeler.current_character].background
+	album = Preload.character_data[GameManager.current_character].album
+	var background: Texture2D = Preload.character_data[GameManager.current_character].background
 	%Background.texture = background
 	%Background.scale.y = 720.0 / background.get_height()
 	%Background.scale.x = %Background.scale.y
@@ -39,7 +39,7 @@ func _ready():
 	
 	Global.set_window_title("Freeplay Menu")
 	
-	var dj_scene = Preload.character_data[GameHandeler.current_character].dj
+	var dj_scene = Preload.character_data[GameManager.current_character].dj
 	
 	dj = dj_scene.instantiate()
 	
@@ -52,11 +52,11 @@ func _ready():
 	
 	load_page()
 	
-	var keycode = SettingsHandeler.get_keybind("character_select")
+	var keycode = SettingsManager.get_keybind("character_select")
 	
 	$Above/ColorRect/RichTextLabel.text = str(
 		"[font_size=32][font=\"res://assets/fonts/Results Background.ttf\"][font bt=-16.0][pulse freq=0.8 color=#ffffff40 ease=-2.0]",
-		"Press [", SettingsHandeler.get_keycode_string(keycode).to_upper(), "] to change character",
+		"Press [", SettingsManager.get_keycode_string(keycode).to_upper(), "] to change character",
 		"[/pulse][/font]"
 	)
 
@@ -119,7 +119,7 @@ func load_page():
 		menu_option_instance.index = index
 		
 		$UI.add_child(menu_option_instance)
-		var rank = GameHandeler.get_rank(SaveHandeler.get_grade(song_file.title, difficulty))
+		var rank = GameManager.get_rank(SaveManager.get_grade(song_file.title, difficulty))
 		menu_option_instance.display_rank(rank)
 		menu_option_instance.add_to_group("instances")
 		index += 1
@@ -183,13 +183,13 @@ func update_selection(i: int):
 	if !song_file.locked: 
 		tween.tween_property($Audio/Music, "volume_db", 0.0, 1)
 	
-	var grade = SaveHandeler.get_grade(song_file.title, difficulty)
+	var grade = SaveManager.get_grade(song_file.title, difficulty)
 	if grade == -1: grade = 0
 	tween.tween_method(
 		self.update_grade, current_grade, grade * 100, 0.3
 		).set_trans(Tween.TRANS_QUART)
 	
-	var highscore = SaveHandeler.get_highscore(song_file.title, difficulty)
+	var highscore = SaveManager.get_highscore(song_file.title, difficulty)
 	highscore = max(0, highscore)
 	$"UI/Score Display".number = highscore
 
@@ -240,16 +240,16 @@ func play_song(song: Song, difficulty: String):
 	if song.difficulties[difficulty].has("scene"):
 		scene = song.difficulties[difficulty].scene
 	
-	GameHandeler.play_mode = GameHandeler.PLAY_MODE.FREEPLAY
-	GameHandeler.difficulty = difficulty
-	GameHandeler.freeplay = true
+	GameManager.play_mode = GameManager.PLAY_MODE.FREEPLAY
+	GameManager.difficulty = difficulty
+	GameManager.freeplay = true
 	Global.change_scene_to(scene)
 
 
 @warning_ignore("unused_parameter")
 func _on_conductor_new_beat(current_beat, measure_relative):
 	
-	if SettingsHandeler.get_setting("ui_bops"):
+	if SettingsManager.get_setting("ui_bops"):
 		Global.bop_tween($Camera2D, "zoom", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)
 
 

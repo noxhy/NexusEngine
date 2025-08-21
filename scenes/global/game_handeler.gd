@@ -70,7 +70,7 @@ func finished_song(score: int):
 		else: week_tallies[tally] = tallies[tally]
 	
 	get_rank()
-	if !SettingsHandeler.get_setting("botplay"):
+	if !SettingsManager.get_setting("botplay"):
 		
 		match play_mode:
 			
@@ -82,10 +82,10 @@ func finished_song(score: int):
 			
 			_:
 				
-				if GameHandeler.freeplay:
-					highscore = SaveHandeler.set_song_stats(current_song.title, difficulty, score, grade)
+				if GameManager.freeplay:
+					highscore = SaveManager.set_song_stats(current_song.title, difficulty, score, grade)
 				else:
-					highscore = SaveHandeler.set_week_stats(current_week, difficulty, score, grade)
+					highscore = SaveManager.set_week_stats(current_week, difficulty, score, grade)
 		
 	else:
 		highscore = false

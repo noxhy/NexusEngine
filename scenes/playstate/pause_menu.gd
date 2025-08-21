@@ -79,18 +79,18 @@ func _ready():
 	%"Other Info".text += "\n" + str(deaths) + " Blue Balls"
 	
 	var mode_display: String = ""
-	match GameHandeler.play_mode:
+	match GameManager.play_mode:
 		
-		GameHandeler.PLAY_MODE.STORY_MODE: mode_display = "Story Mode"
-		GameHandeler.PLAY_MODE.FREEPLAY: mode_display = "Freeplay"
-		GameHandeler.PLAY_MODE.PRACTICE: mode_display = "Practicing"
-		GameHandeler.PLAY_MODE.CHARTING: mode_display = "Charting"
+		GameManager.PLAY_MODE.STORY_MODE: mode_display = "Story Mode"
+		GameManager.PLAY_MODE.FREEPLAY: mode_display = "Freeplay"
+		GameManager.PLAY_MODE.PRACTICE: mode_display = "Practicing"
+		GameManager.PLAY_MODE.CHARTING: mode_display = "Charting"
 	
 	%"Other Info".text += "\n" + mode_display
 	
-	match GameHandeler.play_mode:
+	match GameManager.play_mode:
 		
-		GameHandeler.PLAY_MODE.CHARTING: render_options("charting")
+		GameManager.PLAY_MODE.CHARTING: render_options("charting")
 		_: render_options("default")
 	
 	update_selection(selected)
@@ -178,14 +178,14 @@ func select_option(i: int):
 	elif option == "exit":
 		
 		get_tree().paused = false
-		GameHandeler.reset_stats()
+		GameManager.reset_stats()
 		
-		if GameHandeler.freeplay: Global.change_scene_to("res://scenes/freeplay/freeplay.tscn")
+		if GameManager.freeplay: Global.change_scene_to("res://scenes/freeplay/freeplay.tscn")
 		else: Global.change_scene_to("res://scenes/story mode/story_mode.tscn")
 	
 	elif option == "chart_editor":
 		
 		get_tree().paused = false
-		GameHandeler.reset_stats()
+		GameManager.reset_stats()
 		
 		Global.change_scene_to("res://scenes/chart editor/chart_editor.tscn")

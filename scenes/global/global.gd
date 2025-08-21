@@ -19,7 +19,7 @@ var transitioning: bool = false
 
 
 func _ready():
-	SettingsHandeler.load_settings()
+	SettingsManager.load_settings()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -27,8 +27,8 @@ func _process(delta):
 	
 	# Peformance Test
 	
-	$"UI/Performance Label".visible = SettingsHandeler.get_setting("show_performance")
-	if SettingsHandeler.get_setting("show_performance"):
+	$"UI/Performance Label".visible = SettingsManager.get_setting("show_performance")
+	if SettingsManager.get_setting("show_performance"):
 		
 		$"UI/Performance Label".text = "FPS: " + str(Engine.get_frames_per_second())
 		$"UI/Performance Label".text += "\nDelta: " + str(snappedf(delta, 0.001))
@@ -58,17 +58,17 @@ func _process(delta):
 	
 	elif Input.is_action_just_pressed("ui_plus"):
 		AudioServer.set_bus_mute(0, false)
-		var master_volume = SettingsHandeler.get_setting("master_volume")
-		SettingsHandeler.set_setting("master_volume", clamp(master_volume + 6, -60, 0))
-		SettingsHandeler.save_settings()
+		var master_volume = SettingsManager.get_setting("master_volume")
+		SettingsManager.set_setting("master_volume", clamp(master_volume + 6, -60, 0))
+		SettingsManager.save_settings()
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start(1.5)
 	
 	elif Input.is_action_just_pressed("ui_minus"):
 		AudioServer.set_bus_mute(0, false)
-		var master_volume = SettingsHandeler.get_setting("master_volume")
-		SettingsHandeler.set_setting("master_volume", clamp(master_volume - 6, -60, 0))
-		SettingsHandeler.save_settings()
+		var master_volume = SettingsManager.get_setting("master_volume")
+		SettingsManager.set_setting("master_volume", clamp(master_volume - 6, -60, 0))
+		SettingsManager.save_settings()
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start(1.5)
 	
@@ -82,9 +82,9 @@ func _process(delta):
 		get_tree().reload_current_scene()
 		get_tree().paused = false
 	
-	AudioServer.set_bus_volume_db(0, SettingsHandeler.get_setting("master_volume"))
-	AudioServer.set_bus_volume_db(1, SettingsHandeler.get_setting("music_volume"))
-	AudioServer.set_bus_volume_db(2, SettingsHandeler.get_setting("sfx_volume"))
+	AudioServer.set_bus_volume_db(0, SettingsManager.get_setting("master_volume"))
+	AudioServer.set_bus_volume_db(1, SettingsManager.get_setting("music_volume"))
+	AudioServer.set_bus_volume_db(2, SettingsManager.get_setting("sfx_volume"))
 
 
 # Scene Changing
@@ -171,7 +171,7 @@ func show_volume():
 	tween.tween_property($"UI/Voume Node", "position", Vector2(0, -360), 0.5)
 	$"UI/Voume Node/Volume Sound".play()
 	
-	var master_volume = SettingsHandeler.get_setting("master_volume")
+	var master_volume = SettingsManager.get_setting("master_volume")
 	
 	if AudioServer.is_bus_mute(0):
 		$"UI/Voume Node/ColorRect/Label".text = "Muted"

@@ -118,7 +118,7 @@ func _ready():
 	update_week_selection(selected_week)
 
 
-# Input Handler
+# Input Manager
 func _input(event):
 	
 	if can_click:
@@ -174,7 +174,7 @@ func update_week_selection(i: int):
 	var difficulties = options.get(options.keys()[i]).difficulties
 	display_node.visible = true
 	Global.bop_tween(display_node, "scale", display_node.scale, display_node.scale * Vector2(1.05, 1.05), 0.2, Tween.TRANS_SINE)
-	GameHandeler.difficulty = difficulties[selected_difficulty]
+	GameManager.difficulty = difficulties[selected_difficulty]
 	
 	$"UI/Week UI/SubViewport/Song List Label".text = options.get(options.keys()[i]).song_list
 	$"UI/Week Name".text = options.get(options.keys()[i]).week_name
@@ -197,7 +197,7 @@ func update_difficulty_selection(i: int):
 	tween.tween_property(%"Difficulty Display", "scale", Vector2(1, 1), 0.2)
 	
 	var week_name = options.get(options.keys()[selected_week]).week_name
-	var _week_score = SaveHandeler.get_week_highscore(week_name, difficulties[i])
+	var _week_score = SaveManager.get_week_highscore(week_name, difficulties[i])
 	tween.tween_method(self.update_week_score, week_score, _week_score, 0.3).set_trans(Tween.TRANS_QUART)
 	
 	$"Audio/Menu Scroll".play()
@@ -219,11 +219,11 @@ func select_option(i: int):
 		await get_tree().create_timer(1).timeout
 		
 		Global.stop_song()
-		GameHandeler.current_week = options.get(options.keys()[i]).week_name
-		GameHandeler.current_character = options.get(options.keys()[i]).get("character", "boyfriend")
+		GameManager.current_week = options.get(options.keys()[i]).week_name
+		GameManager.current_character = options.get(options.keys()[i]).get("character", "boyfriend")
 		var scene = options.get(options.keys()[i]).scene
-		GameHandeler.play_mode = GameHandeler.PLAY_MODE.STORY_MODE
-		GameHandeler.freeplay = false
+		GameManager.play_mode = GameManager.PLAY_MODE.STORY_MODE
+		GameManager.freeplay = false
 		Global.change_scene_to(scene)
 
 
@@ -231,7 +231,7 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 	
 	if can_click:
 		
-		if SettingsHandeler.get_setting("ui_bops"):
+		if SettingsManager.get_setting("ui_bops"):
 			
 			Global.bop_tween($Camera2D, "zoom", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)
 		

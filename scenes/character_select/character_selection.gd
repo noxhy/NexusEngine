@@ -142,7 +142,7 @@ func load_locks():
 
 func _on_conductor_new_beat(current_beat: int, _measure_relative: int) -> void:
 	
-	if SettingsHandeler.get_setting("ui_bops"):
+	if SettingsManager.get_setting("ui_bops"):
 		Global.bop_tween($Camera2D, "zoom", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)
 	
 	$Background/Parallax2D3/Speakers.playing = true
@@ -214,7 +214,7 @@ func confirm(pos: Vector2i = selected):
 	if character != null:
 		
 		can_press = false
-		GameHandeler.current_character = character
+		GameManager.current_character = character
 		$Audio/Confirm.play()
 		
 		var tween = create_tween()

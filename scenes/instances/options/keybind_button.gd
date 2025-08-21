@@ -6,7 +6,7 @@ extends OptionNode
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	self.text = OS.get_keycode_string( SettingsHandeler.get_keybind( setting_name )[index] )
+	self.text = OS.get_keycode_string( SettingsManager.get_keybind( setting_name )[index] )
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,10 +21,10 @@ func _input(event):
 		if event is InputEventKey:
 			
 			checking = false
-			SettingsHandeler.set_keybind( setting_name, event.keycode, index )
-			SettingsHandeler.save_settings()
-			SettingsHandeler.load_settings()
-			self.text = OS.get_keycode_string( SettingsHandeler.get_keybind( setting_name )[index] )
+			SettingsManager.set_keybind( setting_name, event.keycode, index )
+			SettingsManager.save_settings()
+			SettingsManager.load_settings()
+			self.text = OS.get_keycode_string( SettingsManager.get_keybind( setting_name )[index] )
 			self.button_pressed = false
 
 

@@ -2,8 +2,8 @@ extends CanvasLayer
 
 @onready var strums = [ $"Player Strum", $"Enemy Strum" ]
 
-@onready var player_icon = $"Health Bar/Icon Handeler/Player"
-@onready var enemy_icon = $"Health Bar/Icon Handeler/Enemy"
+@onready var player_icon = $"Health Bar/Icon Manager/Player"
+@onready var enemy_icon = $"Health Bar/Icon Manager/Enemy"
 
 @export var target_scale = Vector2(1, 1)
 @export var lerp_weight = 0.1
@@ -66,7 +66,7 @@ func update_health_bar( health: float ):
 	var display_x = ( $"Health Bar".value / $"Health Bar".max_value ) * $"Health Bar".size.x
 	display_x = $"Health Bar".size.x - display_x
 	
-	$"Health Bar/Icon Handeler".position = Vector2( display_x, 10 )
+	$"Health Bar/Icon Manager".position = Vector2( display_x, 10 )
 	
 	var conditions = [
 		[ health >= 85, "winning", "losing" ],

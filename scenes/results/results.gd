@@ -11,36 +11,36 @@ var _grade: int = 0
 func _ready() -> void:
 	
 	Global.set_window_title("Results Screen")
-	# GameHandeler.reset_stats()
-	# GameHandeler.tallies.sick = randi() % 1500
-	# GameHandeler.tallies.good = randi() % 1500
-	# GameHandeler.tallies.bad = randi() % 750
-	# GameHandeler.tallies.shit = randi() % 200
-	# GameHandeler.tallies.total_notes = (
-	#	GameHandeler.tallies.sick + GameHandeler.tallies.good + GameHandeler.tallies.bad + GameHandeler.tallies.shit
+	# GameManager.reset_stats()
+	# GameManager.tallies.sick = randi() % 1500
+	# GameManager.tallies.good = randi() % 1500
+	# GameManager.tallies.bad = randi() % 750
+	# GameManager.tallies.shit = randi() % 200
+	# GameManager.tallies.total_notes = (
+	#	GameManager.tallies.sick + GameManager.tallies.good + GameManager.tallies.bad + GameManager.tallies.shit
 	#)
-	#GameHandeler.tallies.max_combo = randi() % GameHandeler.tallies.total_notes
-	#GameHandeler.week_score = GameHandeler.tallies.total_notes * 350
-	#if GameHandeler.tallies.total_notes != GameHandeler.tallies.max_combo:
-	#	GameHandeler.tallies.miss = randi() % (GameHandeler.tallies.total_notes - GameHandeler.tallies.max_combo)
-	#GameHandeler.highscore = true
-	#GameHandeler.character = preload("res://assets/characters/boyfriend.tres")
-	#GameHandeler.difficulty = "nightmare"
-	#GameHandeler.current_song = load("res://assets/songs/playable songs/cocoa/cocoa.tres")
+	#GameManager.tallies.max_combo = randi() % GameManager.tallies.total_notes
+	#GameManager.week_score = GameManager.tallies.total_notes * 350
+	#if GameManager.tallies.total_notes != GameManager.tallies.max_combo:
+	#	GameManager.tallies.miss = randi() % (GameManager.tallies.total_notes - GameManager.tallies.max_combo)
+	#GameManager.highscore = true
+	#GameManager.character = preload("res://assets/characters/boyfriend.tres")
+	#GameManager.difficulty = "nightmare"
+	#GameManager.current_song = load("res://assets/songs/playable songs/cocoa/cocoa.tres")
 	
-	rank = GameHandeler.get_rank()
+	rank = GameManager.get_rank()
 	if rank == "loss":
-		$Audio/Intro.stream = GameHandeler.character["loss_intro"]
+		$Audio/Intro.stream = GameManager.character["loss_intro"]
 	else:
-		$Audio/Intro.stream = GameHandeler.character["normal_intro"]
+		$Audio/Intro.stream = GameManager.character["normal_intro"]
 	$Audio/Intro.play()
 	
-	%Difficulty.play(GameHandeler.difficulty)
-	if GameHandeler.freeplay:
-		%"Song Name".text = str(GameHandeler.current_song.title, " by ", GameHandeler.current_song.artist)
+	%Difficulty.play(GameManager.difficulty)
+	if GameManager.freeplay:
+		%"Song Name".text = str(GameManager.current_song.title, " by ", GameManager.current_song.artist)
 	else:
-		%"Song Name".text = str(GameHandeler.current_week)
-	grade = min(int(GameHandeler.grade * 100), 100)
+		%"Song Name".text = str(GameManager.current_week)
+	grade = min(int(GameManager.grade * 100), 100)
 	%"Clear Percentage".text = str(grade, "%")
 	
 	$AnimationPlayer.play("intro")
@@ -57,7 +57,7 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_accept"):
 		
-		GameHandeler.reset_stats()
+		GameManager.reset_stats()
 		Transitions.transition("down")
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
@@ -65,8 +65,8 @@ func _process(delta: float) -> void:
 		
 		await get_tree().create_timer(1).timeout
 		
-		GameHandeler.reset_stats()
-		if GameHandeler.freeplay:
+		GameManager.reset_stats()
+		if GameManager.freeplay:
 			Global.change_scene_to("res://scenes/freeplay/freeplay.tscn")
 		else:
 			Global.change_scene_to("res://scenes/story mode/story_mode.tscn")
@@ -112,16 +112,16 @@ func tween_tally(node: NodePath, tally: String):
 	
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-	tween.tween_property(get_node(node), "number", GameHandeler.week_tallies[tally], 0.5)
+	tween.tween_property(get_node(node), "number", GameManager.week_tallies[tally], 0.5)
 
 
 func update_score():
-	%"Score Display".number = GameHandeler.week_score
+	%"Score Display".number = GameManager.week_score
 
 
 func highscore():
 	
-	if GameHandeler.highscore:
+	if GameManager.highscore:
 		
 		await %"Score Display".finished
 		%Highscore.visible = true
@@ -147,7 +147,7 @@ func clear_tally():
 	$AnimationPlayer.play()
 	scrolling_text = rank.to_upper()
 	
-	var scene = load(GameHandeler.character["result_nodes"][rank])
+	var scene = load(GameManager.character["result_nodes"][rank])
 	var instance = scene.instantiate()
 	
 	instance.position = Vector2(380, 360)
@@ -156,7 +156,7 @@ func clear_tally():
 	
 	await $Audio/Intro.finished
 	
-	$Audio/Music.stream = GameHandeler.character["result_songs"][rank]
+	$Audio/Music.stream = GameManager.character["result_songs"][rank]
 	$Audio/Music.play()
 
 

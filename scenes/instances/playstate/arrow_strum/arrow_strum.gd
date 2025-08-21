@@ -78,7 +78,7 @@ func _process(delta):
 				
 				if note == note_list[0]:
 					
-					if SettingsHandeler.get_setting("glow_notes"):
+					if SettingsManager.get_setting("glow_notes"):
 						
 						note.modulate = Color(1.5, 1.5, 1.5)
 		
@@ -109,12 +109,12 @@ func _process(delta):
 						
 						emit_signal("note_holding", note.time, self.get_name(), note.note_type)
 						
-						if !enemy_slot or SettingsHandeler.get_setting("enemy_strum_glow"):
+						if !enemy_slot or SettingsManager.get_setting("enemy_strum_glow"):
 							state = STATE.GLOW
 					
 					else:
 						
-						if !enemy_slot or SettingsHandeler.get_setting("enemy_strum_glow"):
+						if !enemy_slot or SettingsManager.get_setting("enemy_strum_glow"):
 							state = STATE.GLOW
 						
 						if can_splash:
@@ -176,11 +176,11 @@ func _process(delta):
 				
 				else:
 					
-					if !SettingsHandeler.get_setting("ghost_tapping"):
+					if !SettingsManager.get_setting("ghost_tapping"):
 						emit_signal("note_miss", 0, self.get_name(), 0, -1, 0)
 			else:
 				
-				if !SettingsHandeler.get_setting("ghost_tapping"):
+				if !SettingsManager.get_setting("ghost_tapping"):
 					emit_signal("note_miss", 0, self.get_name(), 0, -1, 0)
 	
 	elif Input.is_action_pressed(input):
@@ -344,7 +344,7 @@ func glow_strum():
 	
 	var note_scale = note_skin.notes_scale * 1.1
 	
-	if SettingsHandeler.get_setting("tween_strums"):
+	if SettingsManager.get_setting("tween_strums"):
 		
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -358,7 +358,7 @@ func press_strum():
 	
 	var note_scale = note_skin.notes_scale * 0.9
 	
-	if SettingsHandeler.get_setting("tween_strums"):
+	if SettingsManager.get_setting("tween_strums"):
 		
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -397,7 +397,7 @@ func create_splash(animation_name: String = strum_name + " splash"):
 	
 	if can_splash:
 		
-		if SettingsHandeler.get_setting("note_splashes"):
+		if SettingsManager.get_setting("note_splashes"):
 			
 			var splash_instance = splash_preload.instantiate()
 			

@@ -5,7 +5,7 @@ extends Node2D
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
-@onready var combo_numbers_handeler_node = preload( "res://scenes/instances/playstate/combo_numbers_handeler.tscn" )
+@onready var combo_numbers_Manager_node = preload( "res://scenes/instances/playstate/combo_numbers_Manager.tscn" )
 @onready var ui_skin: UISkin
 
 
@@ -15,8 +15,8 @@ func _ready():
 	$UI.set_player_color(Color.GREEN)
 	$UI.set_enemy_color(Color.RED)
 	
-	playstate_host.song_data = ChartHandeler.song
-	playstate_host.chart = load(playstate_host.song_data.difficulties[GameHandeler.difficulty].chart)
+	playstate_host.song_data = ChartManager.song
+	playstate_host.chart = load(playstate_host.song_data.difficulties[GameManager.difficulty].chart)
 	
 	%Background.modulate = Color(randf(), randf(), randf())
 
@@ -32,10 +32,10 @@ func _process(delta):
 	
 	$"UI/Chart Stats".text = "Song: " + str(playstate_host.song_data.title)
 	$"UI/Chart Stats".text += "\n" + "Artist: " + str(playstate_host.song_data.artist)
-	$"UI/Chart Stats".text += "\n" + "Difficulty: " + str(GameHandeler.difficulty)
+	$"UI/Chart Stats".text += "\n" + "Difficulty: " + str(GameManager.difficulty)
 	$"UI/Chart Stats".text += "\n" + "Tempo: " + str($Conductor.tempo)
 	$"UI/Chart Stats".text += "\n" + "Scroll Speed: " + str(playstate_host.ui.strums[0].get_node(playstate_host.ui.strums[0].strums[0]).scroll_speed)
-	$"UI/Chart Stats".text += "\n" + str(GameHandeler.tallies).replace("{", "").replace("}", "").replace(",", "\n")
+	$"UI/Chart Stats".text += "\n" + str(GameManager.tallies).replace("{", "").replace("}", "").replace(",", "\n")
 
 # Conductor Util
 
@@ -59,20 +59,20 @@ func _on_create_note(time, lane, note_length, note_type, tempo):
 	else: playstate_host.strums[0].create_note( time, lane % 4, note_length, note_type, tempo)
 
 
-func note_hit(time, lane, note_type, hit_time, strum_handeler):
+func note_hit(time, lane, note_type, hit_time, strum_Manager):
 	
-	playstate_host.note_hit( time, lane, note_type, hit_time, strum_handeler )
+	playstate_host.note_hit( time, lane, note_type, hit_time, strum_Manager )
 
 
-func note_holding(time, lane, note_type, strum_handeler):
+func note_holding(time, lane, note_type, strum_Manager):
 	
-	playstate_host.note_holding( time, lane, note_type, strum_handeler )
+	playstate_host.note_holding( time, lane, note_type, strum_Manager )
 
 
-func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
+func note_miss(time, lane, length, note_type, hit_time, strum_Manager):
 	
-	if !strum_handeler.enemy_slot: if note_type == -1: %"Anti-Spam Sound".play()
-	playstate_host.note_miss( time, lane, length, note_type, hit_time, strum_handeler )
+	if !strum_Manager.enemy_slot: if note_type == -1: %"Anti-Spam Sound".play()
+	playstate_host.note_miss( time, lane, length, note_type, hit_time, strum_Manager )
 
 
 func new_event(time, event_name, event_parameters):

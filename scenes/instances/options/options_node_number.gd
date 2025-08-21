@@ -13,7 +13,7 @@ func _ready():
 	$SpinBox.min_value = min
 	$SpinBox.max_value = max
 	$SpinBox.step = step
-	$SpinBox.value = SettingsHandeler.get_setting( setting_name ) / value_scale
+	$SpinBox.value = SettingsManager.get_setting( setting_name ) / value_scale
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,5 +29,5 @@ func _process(delta):
 func _on_spin_box_value_changed(value):
 	
 	if step == 1: value = int( value )
-	SettingsHandeler.set_setting( setting_name, value * value_scale )
-	SettingsHandeler.save_settings()
+	SettingsManager.set_setting( setting_name, value * value_scale )
+	SettingsManager.save_settings()

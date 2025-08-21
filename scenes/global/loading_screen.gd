@@ -9,8 +9,8 @@ var scene_load_status = 0
 func _ready():
 	
 	scene = Global.new_scene
-	SettingsHandeler.load_settings()
-	SaveHandeler.load_save()
+	SettingsManager.load_settings()
+	SaveManager.load_save()
 	ResourceLoader.load_threaded_request(scene)
 
 

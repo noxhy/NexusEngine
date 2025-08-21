@@ -14,7 +14,7 @@ signal combo_break()
 signal setup_finished()
 
 @onready var rating_node = preload("res://scenes/instances/playstate/rating.tscn")
-@onready var combo_numbers_handeler_node = preload("res://scenes/instances/playstate/combo_numbers_handeler.tscn")
+@onready var combo_numbers_Manager_node = preload("res://scenes/instances/playstate/combo_numbers_Manager.tscn")
 @onready var countdown_node = preload("res://scenes/playstate/countdown.tscn")
 
 @export_group("Nodes")
@@ -104,12 +104,12 @@ func _ready():
 	pause_preload = load(pause_scene)
 	Global.song_scene = Global.new_scene
 	
-	chart = load(song_data.difficulties[GameHandeler.difficulty].chart)
+	chart = load(song_data.difficulties[GameManager.difficulty].chart)
 	
 	music_host.get_node("Instrumental").stream = song_data.instrumental
 	music_host.get_node("Instrumental").connect("finished", song_finished)
 	
-	song_speed = SettingsHandeler.get_setting("song_speed")
+	song_speed = SettingsManager.get_setting("song_speed")
 	# This is to prevent null references
 	music_host.get_node("Vocals").play()
 	music_host.get_node("Instrumental").pitch_scale = song_speed
@@ -125,28 +125,28 @@ func _ready():
 	
 	strums = ui.strums
 	
-	if SettingsHandeler.get_setting("botplay"):
+	if SettingsManager.get_setting("botplay"):
 		
 		for strum in strums:
 			
 			strum.set_auto_play(true)
 			strum.set_press(false)
 	
-	if SettingsHandeler.get_setting("downscroll"): ui.downscroll_ui()
+	if SettingsManager.get_setting("downscroll"): ui.downscroll_ui()
 	# Streamer mode is supposed to be for when you're recording a video or streaming
 	# If you wanted a spook where the game says your user's name I recommend utilizing this
-	if SettingsHandeler.get_setting("streamer_mode"): ui.streamer_ui()
+	if SettingsManager.get_setting("streamer_mode"): ui.streamer_ui()
 	
 	for strum in ui.strums:
 		
-		strum.set_scroll_speed(chart.scroll_speed * SettingsHandeler.get_setting("scroll_speed_scale"))
+		strum.set_scroll_speed(chart.scroll_speed * SettingsManager.get_setting("scroll_speed_scale"))
 		strum.connect("note_hit", host.note_hit)
 		strum.connect("note_holding", host.note_holding)
 		strum.connect("note_miss", host.note_miss)
-		strum.set_offset(chart.offset + SettingsHandeler.get_setting("offset"))
+		strum.set_offset(chart.offset + SettingsManager.get_setting("offset"))
 		strum.set_skin(note_skin)
 		
-		if SettingsHandeler.get_setting("downscroll"): strum.set_scroll(-1)
+		if SettingsManager.get_setting("downscroll"): strum.set_scroll(-1)
 	
 	emit_signal("setup_finished")
 
@@ -161,7 +161,7 @@ func _process(delta):
 	
 	if health <= 0:
 		
-		GameHandeler.deaths += 1
+		GameManager.deaths += 1
 		death_stats.camera_zoom = camera.zoom
 		Global.song_scene = get_tree().current_scene.scene_file_path
 		Global.death_stats = death_stats
@@ -186,8 +186,8 @@ func _process(delta):
 	
 	elif Input.is_action_just_pressed("chart_editor"):
 		
-		ChartHandeler.song = song_data
-		ChartHandeler.difficulty = GameHandeler.difficulty
+		ChartManager.song = song_data
+		ChartManager.difficulty = GameManager.difficulty
 		Global.change_scene_to("res://scenes/chart editor/chart_editor.tscn")
 	
 	if !song_started:
@@ -304,10 +304,10 @@ func get_tempo_at(time: float) -> float:
 
 func play_song(time: float):
 	
-	GameHandeler.started_song(song_data)
+	GameManager.started_song(song_data)
 	conductor.tempo = get_tempo_at(-chart.offset + time)
 	conductor.seconds_per_beat = 60.0 / conductor.tempo
-	conductor.offset = chart.offset + SettingsHandeler.get_setting("offset")
+	conductor.offset = chart.offset + SettingsManager.get_setting("offset")
 	var seconds_per_beat = (60.0 / conductor.tempo)
 	
 	song_started = false
@@ -396,9 +396,9 @@ func pause():
 		
 		pause_scene_instance.song_title = song_data.title
 		pause_scene_instance.credits = song_data.artist
-		if GameHandeler.freeplay: pause_scene_instance.deaths = GameHandeler.deaths
+		if GameManager.freeplay: pause_scene_instance.deaths = GameManager.deaths
 		
-		else: pause_scene_instance.deaths = GameHandeler.week_deaths
+		else: pause_scene_instance.deaths = GameManager.week_deaths
 		
 		host.add_child(pause_scene_instance)
 	
@@ -465,7 +465,7 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 				
 				var tween = create_tween()
 				tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-				var scroll_speed_scale: float = SettingsHandeler.get_setting("scroll_speed_scale")
+				var scroll_speed_scale: float = SettingsManager.get_setting("scroll_speed_scale")
 				tween.tween_method(
 					strum.set_scroll_speed, strum.get_scroll_speed(lane), scroll_speed * scroll_speed_scale, tween_time * song_speed
 					)
@@ -478,16 +478,16 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 
 func song_finished():
 	
-	GameHandeler.finished_song(score)
+	GameManager.finished_song(score)
 	Transitions.transition("down")
 	
 	await get_tree().create_timer(1).timeout
 	
-	if GameHandeler.freeplay:
+	if GameManager.freeplay:
 		
-		match GameHandeler.play_mode:
+		match GameManager.play_mode:
 			
-			GameHandeler.PLAY_MODE.CHARTING:
+			GameManager.PLAY_MODE.CHARTING:
 				Global.change_scene_to("res://scenes/chart editor/chart_editor.tscn")
 			_:
 				Global.change_scene_to("res://scenes/results/results.tscn")
@@ -505,37 +505,37 @@ func new_step(current_step, measure_relative):
 	if current_step % bop_rate == 0:
 		
 		camera.zoom += camera_bop_strength
-		if SettingsHandeler.get_setting("ui_bops"): ui.scale += ui_bop_strength
+		if SettingsManager.get_setting("ui_bops"): ui.scale += ui_bop_strength
 
 # Strum Util
 
-func note_hit(time, lane, note_type, hit_time, strum_handeler):
+func note_hit(time, lane, note_type, hit_time, strum_Manager):
 	
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	if vocal_tracks.size() > strum_handeler.id: playback.set_stream_volume(vocal_tracks[strum_handeler.id], 0.0)
+	if vocal_tracks.size() > strum_Manager.id: playback.set_stream_volume(vocal_tracks[strum_Manager.id], 0.0)
 	
-	if !strum_handeler.enemy_slot:
+	if !strum_Manager.enemy_slot:
 		
-		if SettingsHandeler.get_setting("hit_sounds"): music_host.get_node("Hit Sound").play()
+		if SettingsManager.get_setting("hit_sounds"): music_host.get_node("Hit Sound").play()
 		
 		var rating = get_rating(abs(hit_time))
-		var strum_node = strum_handeler.get_strum(lane)
+		var strum_node = strum_Manager.get_strum(lane)
 		
-		GameHandeler.tallies[rating] += 1
-		GameHandeler.tallies["total_notes"] += 1
+		GameManager.tallies[rating] += 1
+		GameManager.tallies["total_notes"] += 1
 		score_note(hit_time)
 		
 		if rating == "epic":
 			
 			health += 2
 			timings_sum += 1
-			strum_handeler.create_splash(lane, strum_node.strum_name + " splash")
+			strum_Manager.create_splash(lane, strum_node.strum_name + " splash")
 		
 		elif rating == "sick":
 			
 			health += 1
 			timings_sum += 0.9825
-			strum_handeler.create_splash(lane, strum_node.strum_name + " splash")
+			strum_Manager.create_splash(lane, strum_node.strum_name + " splash")
 		
 		elif rating == "good":
 			timings_sum += 0.65
@@ -546,7 +546,7 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 			timings_sum += 0.25
 			combo = -1
 			
-			note_miss(time, lane, 0, -1, hit_time, strum_handeler)
+			note_miss(time, lane, 0, -1, hit_time, strum_Manager)
 			emit_signal("combo_break")
 		
 		elif rating == "shit":
@@ -555,19 +555,19 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 			timings_sum += -1
 			combo = -1
 			
-			note_miss(time, lane, 0, -1, hit_time, strum_handeler)
+			note_miss(time, lane, 0, -1, hit_time, strum_Manager)
 			emit_signal("combo_break")
 		
 		else:
 			
-			note_miss(time, lane, 0, note_type, hit_time, strum_handeler)
+			note_miss(time, lane, 0, note_type, hit_time, strum_Manager)
 		
 		entries += 1
 		combo += 1
-		if combo > GameHandeler.tallies["max_combo"]: GameHandeler.tallies["max_combo"] = combo
+		if combo > GameManager.tallies["max_combo"]: GameManager.tallies["max_combo"] = combo
 		
 		accuracy = (timings_sum / entries)
-		if (GameHandeler.tallies.epic + GameHandeler.tallies.sick) == GameHandeler.tallies.total_notes:
+		if (GameManager.tallies.epic + GameManager.tallies.sick) == GameManager.tallies.total_notes:
 			rating = "fc_" + rating
 		
 		show_combo(rating, combo)
@@ -575,12 +575,12 @@ func note_hit(time, lane, note_type, hit_time, strum_handeler):
 		update_ui_stats()
 
 
-func note_holding(time, lane, note_type, strum_handeler):
+func note_holding(time, lane, note_type, strum_Manager):
 	
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	if vocal_tracks.size() > strum_handeler.id: playback.set_stream_volume(vocal_tracks[strum_handeler.id], 0.0)
+	if vocal_tracks.size() > strum_Manager.id: playback.set_stream_volume(vocal_tracks[strum_Manager.id], 0.0)
 	
-	if !strum_handeler.enemy_slot:
+	if !strum_Manager.enemy_slot:
 		
 		health += self_delta * 5
 		score += round(self_delta * (MAX_SCORE / 4.0))
@@ -593,12 +593,12 @@ func note_holding(time, lane, note_type, strum_handeler):
 		update_ui_stats()
 
 
-func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
+func note_miss(time, lane, length, note_type, hit_time, strum_Manager):
 	
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	if vocal_tracks.size() > strum_handeler.id: playback.set_stream_volume(vocal_tracks[strum_handeler.id], -80.0)
+	if vocal_tracks.size() > strum_Manager.id: playback.set_stream_volume(vocal_tracks[strum_Manager.id], -80.0)
 	
-	if !strum_handeler.enemy_slot:
+	if !strum_Manager.enemy_slot:
 		
 		if note_type == -1:
 			
@@ -613,8 +613,8 @@ func note_miss(time, lane, length, note_type, hit_time, strum_handeler):
 			combo = 0
 			misses += 1
 			 
-			GameHandeler.tallies["miss"] = misses
-			GameHandeler.tallies["total_notes"] += 1
+			GameManager.tallies["miss"] = misses
+			GameManager.tallies["total_notes"] += 1
 			entries += 1 + length
 			accuracy = (timings_sum / entries)
 			
@@ -629,7 +629,7 @@ func update_ui_stats():
 	ui.misses = misses
 	ui.target_health = health
 	ui.score = score
-	ui.rank = GameHandeler.get_rank()
+	ui.rank = GameManager.get_rank()
 
 
 # Visual Util
@@ -642,26 +642,26 @@ func show_combo(rating: String, combo: int):
 	rating_instance.ui_skin = ui_skin
 	rating_instance.rating = rating
 	
-	var combo_numbers_handeler_instance = combo_numbers_handeler_node.instantiate()
+	var combo_numbers_Manager_instance = combo_numbers_Manager_node.instantiate()
 	
-	combo_numbers_handeler_instance.ui_skin = ui_skin
-	combo_numbers_handeler_instance.combo = combo
-	if misses == 0: combo_numbers_handeler_instance.fc = true
+	combo_numbers_Manager_instance.ui_skin = ui_skin
+	combo_numbers_Manager_instance.combo = combo
+	if misses == 0: combo_numbers_Manager_instance.fc = true
 	
 	
-	if SettingsHandeler.get_setting("combo_ui"):
+	if SettingsManager.get_setting("combo_ui"):
 		
 		rating_instance.position = Vector2(-32, 88)
-		combo_numbers_handeler_instance.position = Vector2(96, 152)
+		combo_numbers_Manager_instance.position = Vector2(96, 152)
 		
 		ui.add_child(rating_instance)
-		ui.add_child(combo_numbers_handeler_instance)
+		ui.add_child(combo_numbers_Manager_instance)
 	else:
 		
 		rating_instance.position = rating_position.global_position + ui.offset
-		combo_numbers_handeler_instance.position = combo_position.global_position + ui.offset
+		combo_numbers_Manager_instance.position = combo_position.global_position + ui.offset
 		rating_instance.scale *= combo_scale_multiplier
-		combo_numbers_handeler_instance.scale *= combo_scale_multiplier
+		combo_numbers_Manager_instance.scale *= combo_scale_multiplier
 		
 		self.add_child(rating_instance)
-		self.add_child(combo_numbers_handeler_instance)
+		self.add_child(combo_numbers_Manager_instance)

@@ -7,7 +7,7 @@ func _ready():
 	
 	var object_amount: int = 0
 	
-	for i in SettingsHandeler.get_keybind(setting_name):
+	for i in SettingsManager.get_keybind(setting_name):
 		
 		var keybind_button_instance = keybind_button_node.instantiate()
 		

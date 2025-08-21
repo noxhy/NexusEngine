@@ -8,4 +8,4 @@ func _on_button_pressed():
 
 
 func _on_clear_save_pressed() -> void:
-	SaveHandeler.init()
+	SaveManager.init()

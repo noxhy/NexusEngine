@@ -19,10 +19,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	$"UI/Offset Label".text = "Offset: " + str( SettingsHandeler.get_setting("offset") * 1000 ) + " ms"
+	$"UI/Offset Label".text = "Offset: " + str( SettingsManager.get_setting("offset") * 1000 ) + " ms"
 	
-	var keycode = SettingsHandeler.get_keybind( "ui_accept" )
-	$UI/Instructions.text = "Press " + SettingsHandeler.get_keycode_string( keycode ) + " to calibrate your offset"
+	var keycode = SettingsManager.get_keybind( "ui_accept" )
+	$UI/Instructions.text = "Press " + SettingsManager.get_keycode_string( keycode ) + " to calibrate your offset"
 	$UI/Instructions.text += "\n(This may not be entirely accurate)"
 	
 	queue_redraw()
@@ -36,7 +36,7 @@ func _draw():
 	var top: int = rect_base_position.y - (rect_size / 2)
 	var bottom: int = rect_base_position.y + (rect_size / 2)
 	
-	var offset_position = SettingsHandeler.get_setting("offset") / $Conductor.seconds_per_beat
+	var offset_position = SettingsManager.get_setting("offset") / $Conductor.seconds_per_beat
 	
 	var rect: Rect2 = Rect2( Vector2( rect_base_position.x - (max_length / 2), top ), Vector2( max_length, rect_size ) )
 	draw_rect( rect, Color(0, 0, 0, 0.2549019753933), true )
@@ -54,7 +54,7 @@ func _draw():
 		draw_rect( rect, Color.SLATE_GRAY, true )
 
 
-# Input Handler
+# Input Manager
 func _input(event):
 	
 	if event.is_action_pressed("ui_cancel"):
@@ -81,8 +81,8 @@ func _input(event):
 			
 			var sum = 0.0
 			for i in previous_offsets: sum += i
-			SettingsHandeler.set_setting( "offset", snapped( sum / previous_offsets.size(), 0.001 ) )
-			SettingsHandeler.save_settings()
+			SettingsManager.set_setting( "offset", snapped( sum / previous_offsets.size(), 0.001 ) )
+			SettingsManager.save_settings()
 
 
 
@@ -94,6 +94,6 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 	timing = (current_beat + 1) * $Conductor.seconds_per_beat
 	timing -= AudioServer.get_time_since_last_mix() + AudioServer.get_output_latency()
 	
-	if SettingsHandeler.get_setting("ui_bops"):
+	if SettingsManager.get_setting("ui_bops"):
 		
 		Global.bop_tween( $Camera2D, "zoom", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )

@@ -13,7 +13,7 @@ func _ready():
 	$HSlider.min_value = min
 	$HSlider.max_value = max
 	$HSlider.step = step
-	$HSlider.value = SettingsHandeler.get_setting( setting_name ) / value_scale
+	$HSlider.value = SettingsManager.get_setting( setting_name ) / value_scale
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,5 +26,5 @@ func _process(delta):
 func _on_h_slider_value_changed(value):
 	
 	if step == 1: value = int( value )
-	SettingsHandeler.set_setting( setting_name, value * value_scale )
-	SettingsHandeler.save_settings()
+	SettingsManager.set_setting( setting_name, value * value_scale )
+	SettingsManager.save_settings()

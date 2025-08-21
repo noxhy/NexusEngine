@@ -1,11 +1,11 @@
-@icon( "res://assets/sprites/nodes/strum handeler.png" )
+@icon( "res://assets/sprites/nodes/strum Manager.png" )
 
 extends Node2D
 
-signal created_note( time: float, lane: int, length: float, note_type: int, handeler: Node2D )
-signal note_hit( time: float, lane: int, note_type: int, hit_time: float, handeler: Node2D )
-signal note_holding( time: float, lane: int, note_type: int, handeler: Node2D )
-signal note_miss( time: float, lane: int, length: float, note_type: int, hit_time: float, handeler: Node2D )
+signal created_note( time: float, lane: int, length: float, note_type: int, Manager: Node2D )
+signal note_hit( time: float, lane: int, note_type: int, hit_time: float, Manager: Node2D )
+signal note_holding( time: float, lane: int, note_type: int, Manager: Node2D )
+signal note_miss( time: float, lane: int, length: float, note_type: int, hit_time: float, Manager: Node2D )
 
 @export var strum_count = 4
 @export var note_skin = NoteSkin.new()

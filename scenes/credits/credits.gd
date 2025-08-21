@@ -97,7 +97,7 @@ func _process(delta):
 	pass
 
 
-# Input Handler
+# Input Manager
 func _input(event):
 	
 	if can_click:
@@ -171,7 +171,7 @@ func select_option(i: int):
 
 func _on_conductor_new_beat(current_beat, measure_relative):
 	
-	if SettingsHandeler.get_setting("ui_bops"):
+	if SettingsManager.get_setting("ui_bops"):
 		
 		Global.bop_tween( $Camera2D, "zoom", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )
 		Global.bop_tween( $Background/Background, "scale", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )

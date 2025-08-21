@@ -26,8 +26,8 @@ func _ready():
 		Global.play_song( $Music/Music.stream.resource_path )
 		$Music/Music.play()
 	
-	var keycode = SettingsHandeler.get_keybind( "ui_accept" )
-	$"UI/Play Label".text = "Press " + SettingsHandeler.get_keycode_string( keycode ) + " to Play"
+	var keycode = SettingsManager.get_keybind( "ui_accept" )
+	$"UI/Play Label".text = "Press " + SettingsManager.get_keycode_string( keycode ) + " to Play"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
