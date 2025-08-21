@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://savl80yglilh" path="res://assets/songs/playable songs/stress/Stress (Pico Mix).res" id="3_0hbr4"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_4bxi2"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_t15xn"]
-[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_xwvyf"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/playstate_camera.tscn" id="6_xwvyf"]
 [ext_resource type="PackedScene" uid="uid://cmiw0sq3dx0ge" path="res://scenes/instances/stages/battlefield/stage.tscn" id="7_th3hl"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_m85lx"]
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_l37ub"]

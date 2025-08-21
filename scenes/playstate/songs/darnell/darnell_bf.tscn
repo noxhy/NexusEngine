@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://di088ppmiqtut" path="res://assets/songs/playable songs/darnell/darnell_bf.tres" id="3_ox0nb"]
 [ext_resource type="Resource" uid="uid://cj2hoqrld81vv" path="res://assets/sprites/playstate/default/default_note_skin.tres" id="4_p6l71"]
 [ext_resource type="Resource" uid="uid://cykk1h52kdqv2" path="res://assets/sprites/playstate/default/default_ui_skin.tres" id="5_gelov"]
-[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_gaavs"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/playstate_camera.tscn" id="6_gaavs"]
 [ext_resource type="PackedScene" uid="uid://q0a40tn5u1c8" path="res://scenes/instances/stages/4chan_philly/philly_foggy.tscn" id="7_jmd2r"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_0887o"]
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="9_l3w6d"]

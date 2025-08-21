@@ -1,4 +1,4 @@
-@icon("res://assets/sprites/nodes/play_state.png")
+@icon("res://assets/sprites/nodes/playstate.png")
 extends Node
 class_name PlayState
 
@@ -582,11 +582,11 @@ func note_holding(time, lane, note_type, strum_manager):
 	
 	if !strum_manager.enemy_slot:
 		
-		health += self_delta * 5
-		score += round(self_delta * (MAX_SCORE / 4.0))
+		health += abs(time) * 4
+		score += int(abs(time) * 1000)
 		
-		timings_sum += self_delta
-		entries += self_delta
+		timings_sum += time
+		entries += time
 		
 		accuracy = (timings_sum / entries)
 		

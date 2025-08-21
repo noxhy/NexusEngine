@@ -97,6 +97,7 @@ func _process(delta):
 						
 						$"Hold Cover".play_animation("cover " + strum_name)
 						note.position.y = 0
+						var temp = note.length
 						note.length = ((note.time - offset) + (note.start_length * note.seconds_per_beat)) - song_position
 						note.length /= note.seconds_per_beat
 						
@@ -107,7 +108,7 @@ func _process(delta):
 						
 						note.get_node("Note").visible = false
 						
-						emit_signal("note_holding", note.time, self.get_name(), note.note_type)
+						emit_signal("note_holding", temp - note.length, self.get_name(), note.note_type)
 						
 						if !enemy_slot or SettingsManager.get_setting("enemy_strum_glow"):
 							state = STATE.GLOW
@@ -203,11 +204,12 @@ func _process(delta):
 							state = STATE.GLOW
 							
 							note.position.y = 0
+							var temp = note.length
 							note.length = ((note.time - offset) + (note.start_length * note.seconds_per_beat)) - song_position
 							note.length /= note.seconds_per_beat
 							note.get_node("Note").visible = false
 							
-							emit_signal("note_holding", note.time, self.get_name(), note.note_type)
+							emit_signal("note_holding", temp - note.length, self.get_name(), note.note_type)
 							
 							if !pressing:
 								
@@ -219,7 +221,7 @@ func _process(delta):
 							if note.length <= 0:
 								
 								pressing = false
-								emit_signal("note_holding", note.time, self.get_name(), note.note_type)
+								emit_signal("note_holding", temp - note.length, self.get_name(), note.note_type)
 								
 								if can_splash:
 									$"Hold Cover".play_animation("cover " + strum_name + " end")

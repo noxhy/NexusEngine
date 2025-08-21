@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://6unqym76jb8m" path="res://assets/songs/playable songs/senpai/senpai_erect.tres" id="3_fu2ob"]
 [ext_resource type="Resource" uid="uid://dmw77m5oxkyig" path="res://assets/sprites/playstate/pixel/pixel_note_skin.tres" id="4_gvt2o"]
 [ext_resource type="Resource" uid="uid://dsqgb7q6eq1mf" path="res://assets/sprites/playstate/pixel/pixel_ui_skin.tres" id="5_0s4pd"]
-[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="6_vhuvi"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/playstate_camera.tscn" id="6_vhuvi"]
 [ext_resource type="PackedScene" uid="uid://cd3leoxyqnk4m" path="res://scenes/instances/stages/weeb_school/weeb_school.tscn" id="7_mjcyn"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="8_0rus8"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="8_vuprd"]

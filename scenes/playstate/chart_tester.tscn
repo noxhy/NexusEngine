@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://bvphmxy3ecutv" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_srd2m"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="3_pxsf5"]
 [ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://assets/sprites/playstate/developer/developer_note_skin.tres" id="4_laa4w"]
-[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/play_state_camera.tscn" id="4_y3wph"]
+[ext_resource type="PackedScene" uid="uid://s0oblvodh51d" path="res://scenes/instances/playstate/playstate_camera.tscn" id="4_y3wph"]
 [ext_resource type="PackedScene" uid="uid://cigsmwajnw2jq" path="res://scenes/instances/playstate/ui.tscn" id="5_g7go4"]
 [ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="5_xum45"]
 [ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="6_66rma"]

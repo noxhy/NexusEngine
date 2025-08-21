@@ -35,7 +35,6 @@ func _process(delta):
 func set_skin(new_skin: NoteSkin):
 	
 	for i in strums:
-		
 		get_node(i).set_skin(new_skin)
 
 
