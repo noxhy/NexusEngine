@@ -116,7 +116,5 @@ offset_bottom = 152.0
 label_settings = SubResource("LabelSettings_xphcd")
 autowrap_mode = 3
 
-[connection signal="create_note" from="PlayState Host" to="." method="_on_create_note"]
-[connection signal="new_event" from="PlayState Host" to="." method="new_event"]
 [connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]
 [connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]

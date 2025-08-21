@@ -1,0 +1,18 @@
+[remap]
+
+importer="com.what-is-a-git.godot-sparrow-importer"
+type="SpriteFrames"
+uid="uid://bwff0fe1ncc03"
+path="res://.godot/imported/bfPixel.xml-89d39751187313e5f76b90ae4078e79b.res"
+
+[deps]
+
+source_file="res://assets/sprites/characters/boyfriend pixel/bfPixel.xml"
+dest_files=["res://.godot/imported/bfPixel.xml-89d39751187313e5f76b90ae4078e79b.res"]
+
+[params]
+
+use_offsets=true
+animation_framerate=24
+animations_looped=false
+store_external_spriteframes=false

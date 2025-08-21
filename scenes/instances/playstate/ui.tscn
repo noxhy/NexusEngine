@@ -217,11 +217,11 @@ texture_progress = ExtResource("5_2fmdm")
 tint_under = Color(0.168627, 0.121569, 0.2, 1)
 tint_progress = Color(0.168627, 0.121569, 0.2, 1)
 
-[node name="Icon Handeler" type="Node2D" parent="Health Bar"]
+[node name="Icon Manager" type="Node2D" parent="Health Bar"]
 position = Vector2(300, 10)
 metadata/_edit_lock_ = true
 
-[node name="Player" type="AnimatedSprite2D" parent="Health Bar/Icon Handeler"]
+[node name="Player" type="AnimatedSprite2D" parent="Health Bar/Icon Manager"]
 position = Vector2(-8, -75)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_3m780")
@@ -229,7 +229,7 @@ offset = Vector2(75, 75)
 flip_h = true
 metadata/_edit_lock_ = true
 
-[node name="Enemy" type="AnimatedSprite2D" parent="Health Bar/Icon Handeler"]
+[node name="Enemy" type="AnimatedSprite2D" parent="Health Bar/Icon Manager"]
 position = Vector2(8, -75)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_utqgv")

@@ -1,0 +1,18 @@
+[remap]
+
+importer="com.what-is-a-git.godot-sparrow-importer"
+type="SpriteFrames"
+uid="uid://cjmpfd4djdds5"
+path="res://.godot/imported/gfDanceTitle.xml-9635690129321f325067187045e08db8.res"
+
+[deps]
+
+source_file="res://assets/sprites/characters/girlfriend title/gfDanceTitle.xml"
+dest_files=["res://.godot/imported/gfDanceTitle.xml-9635690129321f325067187045e08db8.res"]
+
+[params]
+
+use_offsets=true
+animation_framerate=24
+animations_looped=false
+store_external_spriteframes=false

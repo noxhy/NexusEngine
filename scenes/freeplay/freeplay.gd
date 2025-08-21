@@ -258,6 +258,7 @@ func _on_difficulty_selector_selected_difficulty(difficulty: String) -> void:
 	
 	self.difficulty = difficulty
 	load_page()
+	await Engine.get_main_loop().process_frame
 	update_selection(Global.freeplay_song_option)
 	$"Audio/Menu Scroll".play()
 

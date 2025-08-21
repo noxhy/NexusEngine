@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvreww5500i5g"]
 
-[ext_resource type="Script" uid="uid://cx1htpn1vv8cj" path="res://scenes/instances/playstate/combo_numbers_handeler.gd" id="1_1qshc"]
+[ext_resource type="Script" uid="uid://cx1htpn1vv8cj" path="res://scenes/instances/playstate/combo_numbers_manager'.gd" id="1_1qshc"]
 [ext_resource type="Resource" uid="uid://bvphmxy3ecutv" path="res://assets/sprites/playstate/developer/developer_ui_skin.tres" id="2_6o34s"]
 
 [node name="Combo Numbers Handeler" type="Node2D"]

@@ -5,7 +5,7 @@ extends Node2D
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
-@onready var combo_numbers_Manager_node = preload( "res://scenes/instances/playstate/combo_numbers_Manager.tscn" )
+@onready var combo_numbers_manager_node = preload( "res://scenes/instances/playstate/combo_numbers_manager.tscn" )
 @onready var ui_skin: UISkin
 
 # Called when the node enters the scene tree for the first time.
@@ -66,42 +66,42 @@ func _on_create_note( time, lane, note_length, note_type, tempo ):
 		playstate_host.strums[0].create_note( time, lane % 4, note_length, note_type, tempo )
 
 
-func note_hit( time, lane, note_type, hit_time, strum_Manager ):
+func note_hit( time, lane, note_type, hit_time, strumhandler ):
 	
 	var animations = ["left", "down", "up", "right"]
 	
-	if !strum_Manager.enemy_slot:
+	if !strumhandler.enemy_slot:
 		characters[0].play_animation( animations[ lane ] )
 	else:
 		characters[1].play_animation( animations[ lane ] )
 	
-	playstate_host.note_hit( time, lane, note_type, hit_time, strum_Manager )
+	playstate_host.note_hit( time, lane, note_type, hit_time, strumhandler )
 
 
-func note_holding( time, lane, note_type, strum_Manager ):
+func note_holding( time, lane, note_type, strumhandler ):
 	
 	var animations = ["left", "down", "up", "right"]
 	
-	if !strum_Manager.enemy_slot:
+	if !strumhandler.enemy_slot:
 		characters[0].play_animation( animations[ lane ] )
 	else:
 		characters[1].play_animation( animations[ lane ] )
 	
-	playstate_host.note_holding( time, lane, note_type, strum_Manager )
+	playstate_host.note_holding( time, lane, note_type, strumhandler )
 
 
-func note_miss( time, lane, length, note_type, hit_time, strum_Manager ):
+func note_miss( time, lane, length, note_type, hit_time, strumhandler ):
 	
 	var animations = ["left", "down", "up", "right"]
 	
-	if !strum_Manager.enemy_slot:
+	if !strumhandler.enemy_slot:
 		
 		if note_type == -1: %"Anti-Spam Sound".play()
 		characters[0].play_animation( "miss_" + animations[ lane ] )
 	else:
 		characters[1].play_animation( "miss_" + animations[ lane ] )
 	
-	playstate_host.note_miss( time, lane, length, note_type, hit_time, strum_Manager )
+	playstate_host.note_miss( time, lane, length, note_type, hit_time, strumhandler )
 
 
 func _on_new_event( time, event_name, event_parameters ):

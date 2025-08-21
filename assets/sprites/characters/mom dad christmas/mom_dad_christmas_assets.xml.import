@@ -1,0 +1,18 @@
+[remap]
+
+importer="com.what-is-a-git.godot-sparrow-importer"
+type="SpriteFrames"
+uid="uid://d0ruvbha5o04x"
+path="res://.godot/imported/mom_dad_christmas_assets.xml-37e30d20c2324cca3126450f1c8f115e.res"
+
+[deps]
+
+source_file="res://assets/sprites/characters/mom dad christmas/mom_dad_christmas_assets.xml"
+dest_files=["res://.godot/imported/mom_dad_christmas_assets.xml-37e30d20c2324cca3126450f1c8f115e.res"]
+
+[params]
+
+use_offsets=true
+animation_framerate=24
+animations_looped=false
+store_external_spriteframes=false

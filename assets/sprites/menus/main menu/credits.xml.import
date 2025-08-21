@@ -1,0 +1,18 @@
+[remap]
+
+importer="com.what-is-a-git.godot-sparrow-importer"
+type="SpriteFrames"
+uid="uid://duetwnh3odwqb"
+path="res://.godot/imported/credits.xml-a7b636f68802582a824025dfdfeb6599.res"
+
+[deps]
+
+source_file="res://assets/sprites/menus/main menu/credits.xml"
+dest_files=["res://.godot/imported/credits.xml-a7b636f68802582a824025dfdfeb6599.res"]
+
+[params]
+
+use_offsets=true
+animation_framerate=24
+animations_looped=false
+store_external_spriteframes=false

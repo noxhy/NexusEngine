@@ -14,7 +14,7 @@ signal combo_break()
 signal setup_finished()
 
 @onready var rating_node = preload("res://scenes/instances/playstate/rating.tscn")
-@onready var combo_numbers_Manager_node = preload("res://scenes/instances/playstate/combo_numbers_Manager.tscn")
+@onready var combo_numbershandler_node = preload("res://scenes/instances/playstate/combo_numbers_manager.tscn")
 @onready var countdown_node = preload("res://scenes/playstate/countdown.tscn")
 
 @export_group("Nodes")
@@ -509,17 +509,17 @@ func new_step(current_step, measure_relative):
 
 # Strum Util
 
-func note_hit(time, lane, note_type, hit_time, strum_Manager):
+func note_hit(time, lane, note_type, hit_time, strum_manager):
 	
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	if vocal_tracks.size() > strum_Manager.id: playback.set_stream_volume(vocal_tracks[strum_Manager.id], 0.0)
+	if vocal_tracks.size() > strum_manager.id: playback.set_stream_volume(vocal_tracks[strum_manager.id], 0.0)
 	
-	if !strum_Manager.enemy_slot:
+	if !strum_manager.enemy_slot:
 		
 		if SettingsManager.get_setting("hit_sounds"): music_host.get_node("Hit Sound").play()
 		
 		var rating = get_rating(abs(hit_time))
-		var strum_node = strum_Manager.get_strum(lane)
+		var strum_node = strum_manager.get_strumline(lane)
 		
 		GameManager.tallies[rating] += 1
 		GameManager.tallies["total_notes"] += 1
@@ -529,13 +529,13 @@ func note_hit(time, lane, note_type, hit_time, strum_Manager):
 			
 			health += 2
 			timings_sum += 1
-			strum_Manager.create_splash(lane, strum_node.strum_name + " splash")
+			strum_manager.create_splash(lane, strum_node.strum_name + " splash")
 		
 		elif rating == "sick":
 			
 			health += 1
 			timings_sum += 0.9825
-			strum_Manager.create_splash(lane, strum_node.strum_name + " splash")
+			strum_manager.create_splash(lane, strum_node.strum_name + " splash")
 		
 		elif rating == "good":
 			timings_sum += 0.65
@@ -546,7 +546,7 @@ func note_hit(time, lane, note_type, hit_time, strum_Manager):
 			timings_sum += 0.25
 			combo = -1
 			
-			note_miss(time, lane, 0, -1, hit_time, strum_Manager)
+			note_miss(time, lane, 0, -1, hit_time, strum_manager)
 			emit_signal("combo_break")
 		
 		elif rating == "shit":
@@ -555,12 +555,12 @@ func note_hit(time, lane, note_type, hit_time, strum_Manager):
 			timings_sum += -1
 			combo = -1
 			
-			note_miss(time, lane, 0, -1, hit_time, strum_Manager)
+			note_miss(time, lane, 0, -1, hit_time, strum_manager)
 			emit_signal("combo_break")
 		
 		else:
 			
-			note_miss(time, lane, 0, note_type, hit_time, strum_Manager)
+			note_miss(time, lane, 0, note_type, hit_time, strum_manager)
 		
 		entries += 1
 		combo += 1
@@ -575,12 +575,12 @@ func note_hit(time, lane, note_type, hit_time, strum_Manager):
 		update_ui_stats()
 
 
-func note_holding(time, lane, note_type, strum_Manager):
+func note_holding(time, lane, note_type, strum_manager):
 	
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	if vocal_tracks.size() > strum_Manager.id: playback.set_stream_volume(vocal_tracks[strum_Manager.id], 0.0)
+	if vocal_tracks.size() > strum_manager.id: playback.set_stream_volume(vocal_tracks[strum_manager.id], 0.0)
 	
-	if !strum_Manager.enemy_slot:
+	if !strum_manager.enemy_slot:
 		
 		health += self_delta * 5
 		score += round(self_delta * (MAX_SCORE / 4.0))
@@ -593,12 +593,12 @@ func note_holding(time, lane, note_type, strum_Manager):
 		update_ui_stats()
 
 
-func note_miss(time, lane, length, note_type, hit_time, strum_Manager):
+func note_miss(time, lane, length, note_type, hit_time, strum_manager):
 	
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	if vocal_tracks.size() > strum_Manager.id: playback.set_stream_volume(vocal_tracks[strum_Manager.id], -80.0)
+	if vocal_tracks.size() > strum_manager.id: playback.set_stream_volume(vocal_tracks[strum_manager.id], -80.0)
 	
-	if !strum_Manager.enemy_slot:
+	if !strum_manager.enemy_slot:
 		
 		if note_type == -1:
 			
@@ -642,26 +642,26 @@ func show_combo(rating: String, combo: int):
 	rating_instance.ui_skin = ui_skin
 	rating_instance.rating = rating
 	
-	var combo_numbers_Manager_instance = combo_numbers_Manager_node.instantiate()
+	var combo_numbershandler_instance = combo_numbershandler_node.instantiate()
 	
-	combo_numbers_Manager_instance.ui_skin = ui_skin
-	combo_numbers_Manager_instance.combo = combo
-	if misses == 0: combo_numbers_Manager_instance.fc = true
+	combo_numbershandler_instance.ui_skin = ui_skin
+	combo_numbershandler_instance.combo = combo
+	if misses == 0: combo_numbershandler_instance.fc = true
 	
 	
 	if SettingsManager.get_setting("combo_ui"):
 		
 		rating_instance.position = Vector2(-32, 88)
-		combo_numbers_Manager_instance.position = Vector2(96, 152)
+		combo_numbershandler_instance.position = Vector2(96, 152)
 		
 		ui.add_child(rating_instance)
-		ui.add_child(combo_numbers_Manager_instance)
+		ui.add_child(combo_numbershandler_instance)
 	else:
 		
 		rating_instance.position = rating_position.global_position + ui.offset
-		combo_numbers_Manager_instance.position = combo_position.global_position + ui.offset
+		combo_numbershandler_instance.position = combo_position.global_position + ui.offset
 		rating_instance.scale *= combo_scale_multiplier
-		combo_numbers_Manager_instance.scale *= combo_scale_multiplier
+		combo_numbershandler_instance.scale *= combo_scale_multiplier
 		
 		self.add_child(rating_instance)
-		self.add_child(combo_numbers_Manager_instance)
+		self.add_child(combo_numbershandler_instance)

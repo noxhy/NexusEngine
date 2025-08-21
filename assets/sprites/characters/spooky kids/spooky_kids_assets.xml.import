@@ -1,0 +1,18 @@
+[remap]
+
+importer="com.what-is-a-git.godot-sparrow-importer"
+type="SpriteFrames"
+uid="uid://7iat6i0d0hsd"
+path="res://.godot/imported/spooky_kids_assets.xml-bfb04b05904820ab7ec3a6bdd74811f3.res"
+
+[deps]
+
+source_file="res://assets/sprites/characters/spooky kids/spooky_kids_assets.xml"
+dest_files=["res://.godot/imported/spooky_kids_assets.xml-bfb04b05904820ab7ec3a6bdd74811f3.res"]
+
+[params]
+
+use_offsets=true
+animation_framerate=24
+animations_looped=false
+store_external_spriteframes=false

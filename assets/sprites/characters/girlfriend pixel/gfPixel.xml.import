@@ -1,0 +1,18 @@
+[remap]
+
+importer="com.what-is-a-git.godot-sparrow-importer"
+type="SpriteFrames"
+uid="uid://bwf5628mbtxor"
+path="res://.godot/imported/gfPixel.xml-1139c7fc374af3819c4d51fe53b61f49.res"
+
+[deps]
+
+source_file="res://assets/sprites/characters/girlfriend pixel/gfPixel.xml"
+dest_files=["res://.godot/imported/gfPixel.xml-1139c7fc374af3819c4d51fe53b61f49.res"]
+
+[params]
+
+use_offsets=true
+animation_framerate=24
+animations_looped=false
+store_external_spriteframes=false

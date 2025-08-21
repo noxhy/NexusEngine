@@ -5,7 +5,7 @@ extends Node2D
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
-@onready var combo_numbers_Manager_node = preload( "res://scenes/instances/playstate/combo_numbers_Manager.tscn" )
+@onready var combo_numbershandler_node = preload( "res://scenes/instances/playstate/combo_numbers_manager.tscn" )
 @onready var ui_skin: UISkin
 
 
@@ -59,20 +59,20 @@ func _on_create_note(time, lane, note_length, note_type, tempo):
 	else: playstate_host.strums[0].create_note( time, lane % 4, note_length, note_type, tempo)
 
 
-func note_hit(time, lane, note_type, hit_time, strum_Manager):
+func note_hit(time, lane, note_type, hit_time, strumhandler):
 	
-	playstate_host.note_hit( time, lane, note_type, hit_time, strum_Manager )
+	playstate_host.note_hit( time, lane, note_type, hit_time, strumhandler )
 
 
-func note_holding(time, lane, note_type, strum_Manager):
+func note_holding(time, lane, note_type, strumhandler):
 	
-	playstate_host.note_holding( time, lane, note_type, strum_Manager )
+	playstate_host.note_holding( time, lane, note_type, strumhandler )
 
 
-func note_miss(time, lane, length, note_type, hit_time, strum_Manager):
+func note_miss(time, lane, length, note_type, hit_time, strumhandler):
 	
-	if !strum_Manager.enemy_slot: if note_type == -1: %"Anti-Spam Sound".play()
-	playstate_host.note_miss( time, lane, length, note_type, hit_time, strum_Manager )
+	if !strumhandler.enemy_slot: if note_type == -1: %"Anti-Spam Sound".play()
+	playstate_host.note_miss( time, lane, length, note_type, hit_time, strumhandler )
 
 
 func new_event(time, event_name, event_parameters):
