@@ -30,8 +30,8 @@ func _process(delta):
 		
 		var memory = snapped(Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1024.0 / 1024.0, 0.01)
 		var performance_string: String = "FPS: " + str(Engine.get_frames_per_second())
-		performance_string += " • Delta: " + str(snappedf(delta, 0.001))
-		performance_string += " • MEM: " + str(memory) + " MB"
+		performance_string += "\nMEM: " + str(memory) + " MB"
+		performance_string += "\nDelta: " + str(snappedf(delta, 0.001))
 		
 		$"UI/Performance Label".text = performance_string
 	

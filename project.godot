@@ -24,6 +24,7 @@ GameManager="*res://scenes/global/game_manager.gd"
 SaveManager="*res://scenes/global/save_manager.gd"
 ChartManager="*res://scenes/global/chart_manager.gd"
 Preload="*res://preload.gd"
+SoundManager="*res://scenes/global/sound_manager.tscn"
 
 [display]
 

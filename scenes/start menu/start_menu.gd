@@ -16,11 +16,11 @@ var flashing_colors = PackedColorArray([
 func _ready():
 	
 	$AnimationPlayer.play("start")
-	Global.set_window_title( "Start Screen" )
+	Global.set_window_title("Start Screen")
 	
 	if Global.song_playing():
 		
-		$Music/Music.play( Global.get_song_position() )
+		$Music/Music.play(Global.get_song_position())
 	else:
 		
 		Global.play_song( $Music/Music.stream.resource_path )
