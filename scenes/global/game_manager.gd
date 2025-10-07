@@ -1,12 +1,16 @@
 extends Node
 
+const SICK_RATING_WINDOW = 0.045
+const GOOD_RATING_WINDOW = 0.09
+const BAD_RATING_WINDOW = 0.135
+const SHIT_RATING_WINDOW = 0.16
+
 # Constants are read only even if I set a new variable to the constant
 # so it's just a regular variable with constant notations
 # future note: ok so this apparently just also gets set whenever
 # other things do so idk
 @onready var DEFAULT_TALLIES: Dictionary = {
 	
-	"epic": 0,
 	"sick": 0,
 	"good": 0,
 	"bad": 0,
@@ -45,6 +49,9 @@ var highscore: bool = false
 
 var accuracy: float = 0.0
 var deaths: int = 0
+var song_position: float
+var seconds_per_beat: float
+var offset: float
 
 func _ready() -> void:
 	reset_stats()

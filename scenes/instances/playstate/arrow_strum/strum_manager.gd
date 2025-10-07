@@ -41,46 +41,15 @@ func set_skin(new_skin: NoteSkin):
 # PlayState Util
 
 
-func set_tempo(new_tempo: float):
-	
-	for i in strums:
-		
-		get_node(i).tempo = new_tempo
-		get_node(i).seconds_per_beat = 60.0 / new_tempo
-
-
-func set_song_position(song_position: float):
-	
-	for i in strums:
-		
-		get_node(i).song_position = song_position
-
-
-func set_song_speed(new_song_speed: float):
-	
-	for i in strums:
-		
-		get_node(i).song_speed = new_song_speed
-
-
-func set_offset(new_offset: float):
-	
-	for i in strums:
-		
-		get_node(i).offset = new_offset
-
-
 func set_scroll_speed(new_scroll_speed: float):
 	
 	for i in strums:
-		
 		get_node(i).scroll_speed = new_scroll_speed
 
 
 func set_scroll(new_scroll: float):
 	
 	for i in strums:
-		
 		get_node(i).scroll = new_scroll
 
 
@@ -89,7 +58,6 @@ func set_press(toggle: bool):
 	can_press = toggle
 	
 	for i in strums:
-		
 		get_node(i).can_press = can_press
 
 
@@ -98,7 +66,6 @@ func set_auto_play(toggle: bool):
 	auto_play = toggle
 	
 	for i in strums:
-		
 		get_node(i).auto_play = auto_play
 
 
@@ -107,7 +74,6 @@ func set_can_splash(toggle: bool):
 	can_splash = toggle
 	
 	for i in strums:
-		
 		get_node(i).can_splash = can_splash
 
 
@@ -116,14 +82,12 @@ func set_enemy_slot(toggle: bool):
 	enemy_slot = toggle
 	
 	for i in strums:
-		
 		get_node(i).enemy_slot = enemy_slot
 
 
 func set_ignored_note_types(note_types: Array):
 	
 	for i in strums:
-		
 		get_node(i).ignored_note_types = note_types
 
 

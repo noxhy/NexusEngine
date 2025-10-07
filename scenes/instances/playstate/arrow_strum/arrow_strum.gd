@@ -3,8 +3,6 @@
 extends Node2D
 class_name ArrowStrum
 
-const PIXELS_PER_SECOND = 450
-
 @onready var note_preload = preload("res://scenes/instances/playstate/note/note.tscn")
 @onready var splash_preload = preload("res://scenes/instances/playstate/note/note_splash.tscn")
 
@@ -35,16 +33,12 @@ var note_types = [""]
 
 var scroll_speed = 1.0
 var scroll = 1.0
-var song_position = 0.0
 var song_speed = 1.0
 var offset = 0.0
 var note_list = []
 var pressing = false
 var previous_note = null
 var state = 0
-
-var tempo = 60.0
-var seconds_per_beat = 60.0 / tempo
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -56,21 +50,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	seconds_per_beat = 60.0 / tempo
-	
 	## Note movement
 	for note in note_list:
 		
-		var time_difference = (note.time - offset) - song_position - delta
 		
-		note.scroll_speed = scroll_speed
-		note.scroll = scroll
-		note.position.y = (PIXELS_PER_SECOND * time_difference * scroll_speed * scroll)
-		
-		var grid_scaler = PIXELS_PER_SECOND * seconds_per_beat
-		note.grid_size = Vector2(grid_scaler, grid_scaler)
-		
-		if time_difference < 0.198:
+		if note.time_difference < GameManager.SHIT_RATING_WINDOW:
 			
 			note.can_press = true
 			
@@ -84,7 +68,7 @@ func _process(delta):
 		
 		if auto_play:
 			
-			if time_difference <= 0:
+			if note.time_difference <= 0:
 				
 				if !ignored_note_types.has(note.note_type):
 					
@@ -98,8 +82,8 @@ func _process(delta):
 						$"Hold Cover".play_animation("cover " + strum_name)
 						note.position.y = 0
 						var temp = note.length
-						note.length = ((note.time - offset) + (note.start_length * note.seconds_per_beat)) - song_position
-						note.length /= note.seconds_per_beat
+						note.length = ((note.time - offset) + (note.start_length * GameManager.seconds_per_beat)) - GameManager.song_position
+						note.length /= GameManager.seconds_per_beat
 						
 						if note.get_node("Note").visible:
 							
@@ -129,12 +113,12 @@ func _process(delta):
 					
 					continue
 		
-		if (time_difference + (note.start_length * note.seconds_per_beat - offset - delta)) <= -0.198:
+		if (note.time_difference + (note.start_length * GameManager.seconds_per_beat - offset)) <= -GameManager.SHIT_RATING_WINDOW:
 				
 				note_list.erase(note)
 				note.queue_free()
 				
-				emit_signal("note_miss", note.time - time_difference, self.get_name(), note.length, note.note_type, time_difference + (note.length * note.seconds_per_beat))
+				emit_signal("note_miss", note.time - note.time_difference, self.get_name(), note.length, note.note_type, note.time_difference)
 	
 	
 	# Inputs
@@ -158,15 +142,13 @@ func _process(delta):
 						note.queue_free()
 						pressing = false
 						
-						var time_difference = (note.time - offset) - (song_position) - delta
-						emit_signal("note_hit", note.time, self.get_name(), note.note_type, time_difference + (note.length * note.seconds_per_beat))
+						emit_signal("note_hit", note.time, self.get_name(), note.note_type, note.time_difference)
 					
 					else:
 						
 						$"Hold Cover".play_animation("cover " + strum_name)
 						
-						var time_difference = (note.time - offset) - (song_position) - delta
-						emit_signal("note_hit", note.time, self.get_name(), note.note_type, time_difference)
+						emit_signal("note_hit", note.time, self.get_name(), note.note_type, note.time_difference)
 						
 						if !pressing:
 							
@@ -205,8 +187,8 @@ func _process(delta):
 							
 							note.position.y = 0
 							var temp = note.length
-							note.length = ((note.time - offset) + (note.start_length * note.seconds_per_beat)) - song_position
-							note.length /= note.seconds_per_beat
+							note.length = ((note.time - offset) + (note.start_length * GameManager.seconds_per_beat)) - GameManager.song_position
+							note.length /= GameManager.seconds_per_beat
 							note.get_node("Note").visible = false
 							
 							emit_signal("note_holding", temp - note.length, self.get_name(), note.note_type)
@@ -254,7 +236,7 @@ func _process(delta):
 						
 						if note.length > 0:
 							
-							note.time = song_position
+							note.time = GameManager.song_position
 							note.start_length = note.length
 	
 	match state:
@@ -307,20 +289,15 @@ func set_note_types(types: Array): note_types = types
 
 func create_note(time: float, length: float, note_type: int, tempo: float):
 	
-	self.tempo = tempo
-	
 	var note_instance = note_preload.instantiate()
-	
-	note_instance.tempo = tempo
-	note_instance.seconds_per_beat = 60.0 / tempo
 	
 	note_instance.time = time
 	note_instance.length = length
 	note_instance.start_length = length
 	note_instance.note_type = note_type
-	note_instance.grid_size = Vector2(1000 * seconds_per_beat, 1000 * seconds_per_beat)
-	var scaler = seconds_per_beat * scroll_speed
+	var scaler = GameManager.seconds_per_beat * scroll_speed
 	note_instance.position.y = 1000 * scaler * 4
+	note_instance.scroll_speed = scroll_speed
 	note_instance.scroll = scroll
 	
 	note_instance.direction = strum_name

@@ -47,6 +47,7 @@ stream_player = NodePath("../Audio/Music")
 stream = ExtResource("2_w52tp")
 volume_db = -80.0
 bus = &"Music"
+parameters/looping = true
 
 [node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("3_f88my")

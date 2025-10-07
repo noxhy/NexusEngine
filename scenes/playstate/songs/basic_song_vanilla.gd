@@ -1,11 +1,11 @@
 extends Node2D
 
-@onready var characters = [ %Player, %Enemy, %Metronome ]
-@onready var camera_positions = [ $"World/Position 1", $"World/Position 2", $"World/Position 3" ]
+@onready var characters = [%Player, %Enemy, %Metronome]
+@onready var camera_positions = [$"World/Position 1", $"World/Position 2", $"World/Position 3"]
 @onready var playstate_host = $"PlayState Host"
 
 @onready var rating_node = preload( "res://scenes/instances/playstate/rating.tscn" )
-@onready var combo_numbershandler_node = preload( "res://scenes/instances/playstate/combo_numbershandler.tscn" )
+@onready var combo_numbers_node = preload( "res://scenes/instances/playstate/combo_numbers_manager.tscn" )
 @onready var ui_skin: UISkin
 
 # Called when the node enters the scene tree for the first time.
@@ -24,7 +24,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
 	%Stage.tempo = playstate_host.conductor.tempo
 
 

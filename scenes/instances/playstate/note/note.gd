@@ -4,6 +4,7 @@ extends Node2D
 class_name Note
 
 const font = preload("res://assets/fonts/Bold Normal Text.ttf")
+const PIXELS_PER_SECOND = 450
 
 @export_range(0, 16, 0.1) var length = 0.0
 @export_range(0, 16, 0.1) var start_length = 0.0
@@ -16,15 +17,15 @@ const font = preload("res://assets/fonts/Bold Normal Text.ttf")
 @export_range(0.1, 5, 0.1) var scroll_speed = 1.0
 @export var grid_size = Vector2(128, 128)
 
-var tempo = 60.0
-var seconds_per_beat = 0.0
-var scroll = 1.0
-var can_press = false
+var scroll: float = 1.0
+var can_press: bool = false
+var pressed: bool = false
 var last_length: float = 0.0
 
-var direction = "left"
-var animation = "left"
+var direction: String = "left"
+var animation: String = "left"
 var lane: int = 0
+var time_difference: float = INF
 
 var on_screen = false
 
@@ -69,14 +70,14 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta): 
+func _process(delta):
+	
+	time_difference = (time - GameManager.offset) - GameManager.song_position
 	
 	if on_screen: 
 		
 		var tail_animation = $"Tail/Tail End".animation
-		var texture = $"Tail/Tail End".sprite_frames.get_frame_texture( tail_animation, 0 )
-		
-		seconds_per_beat = 60.0 / tempo
+		var texture = $"Tail/Tail End".sprite_frames.get_frame_texture(tail_animation, 0)
 		
 		var line_length = length
 		line_length *= scroll_speed
@@ -84,7 +85,7 @@ func _process(delta):
 		line_length = abs(line_length)
 		if !chart_note: line_length /= note_skin.notes_scale
 		
-		if length != 0: 
+		if length > 0:
 			
 			$Tail.visible = true
 			
@@ -117,6 +118,13 @@ func _process(delta):
 			
 			$Tail.visible = false
 
+
+func update_y():
+	
+	position.y = (PIXELS_PER_SECOND * time_difference * scroll_speed * scroll)
+	
+	var grid_scaler = PIXELS_PER_SECOND * GameManager.seconds_per_beat
+	grid_size = Vector2(grid_scaler, grid_scaler)
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void: 
 	

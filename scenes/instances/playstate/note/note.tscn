@@ -11,7 +11,7 @@ font_size = 64
 outline_size = 32
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Note" type="Node2D"]
+[node name="Note" type="Node2D" groups=["note"]]
 use_parent_material = true
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_7ee17")

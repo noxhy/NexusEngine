@@ -67,7 +67,8 @@ func _on_window_about_to_popup() -> void:
 	
 	$Button.text = id
 	%"Vocal Track".min_value = 0
-	%"Vocal Track".max_value = ChartManager.song.vocals.size() - 1
+	if ChartManager.song != null:
+		%"Vocal Track".max_value = ChartManager.song.vocals.size() - 1
 	%"Vocal Track".value = ChartManager.strum_data[id]["track"]
 	%"Strum ID".text = id
 	$"Window/VBoxContainer/HBoxContainer4/Check Box".button_pressed = muted

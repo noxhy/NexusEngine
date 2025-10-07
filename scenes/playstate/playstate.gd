@@ -143,7 +143,6 @@ func _ready():
 		strum.connect("note_hit", host.note_hit)
 		strum.connect("note_holding", host.note_holding)
 		strum.connect("note_miss", host.note_miss)
-		strum.set_offset(chart.offset + SettingsManager.get_setting("offset"))
 		strum.set_skin(note_skin)
 		
 		if SettingsManager.get_setting("downscroll"): strum.set_scroll(-1)
@@ -170,7 +169,10 @@ func _process(delta):
 	var window_title = song_data.title
 	
 	var song_position = int(music_host.get_node("Instrumental").get_playback_position())
+	GameManager.seconds_per_beat = conductor.seconds_per_beat
 	var song_end_position = int(music_host.get_node("Instrumental").stream.get_length())
+	
+	get_tree().call_group("note", "update_y")
 	
 	window_title += " - " + Global.float_to_time(song_position)
 	window_title += " / " + Global.float_to_time(song_end_position)
@@ -209,6 +211,7 @@ func _process(delta):
 	
 	position_delta = abs(position_lerp - song_position)
 	position_lerp += delta * music_host.get_node("Instrumental").pitch_scale
+	GameManager.song_position = position_lerp
 	
 	if delta > COMPENSATION or sync_timer <= 0.0 or position_delta >= 0.01 * music_host.get_node("Instrumental").pitch_scale:
 		
@@ -236,12 +239,6 @@ func _process(delta):
 			
 			emit_signal("create_note", time, lane, length, type, get_tempo_at(time))
 			current_note += 1
-	
-	for strum in strums:
-		
-		strum.set_tempo(conductor.tempo)
-		strum.set_song_position(position_lerp)
-		strum.set_song_speed(music_host.get_node("Instrumental").pitch_scale)
 	
 	if music_host.get_node("Instrumental").playing:
 		
@@ -310,9 +307,13 @@ func play_song(time: float):
 	conductor.offset = chart.offset + SettingsManager.get_setting("offset")
 	var seconds_per_beat = (60.0 / conductor.tempo)
 	
+	GameManager.seconds_per_beat = seconds_per_beat
+	GameManager.offset = conductor.offset
+	
 	song_started = false
 	song_start_time = time - chart.offset
 	song_start_offset = song_start_time - (seconds_per_beat * 4)
+	GameManager.song_position = song_start_offset
 	
 	if time >= seconds_per_beat * 4: play_audios(time)
 	
@@ -340,9 +341,9 @@ func play_audios(time: float):
 	var playback = music_host.get_node("Vocals").get_stream_playback()
 	for stream in song_data.vocals:
 		
-		vocal_tracks.append(playback.play_stream(stream, -chart.offset + song_start_offset, \
+		vocal_tracks.append(playback.play_stream(stream, -chart.offset + song_start_offset + time, \
 		0.0, song_speed))
-	music_host.get_node("Instrumental").play(-chart.offset + song_start_offset)
+	music_host.get_node("Instrumental").play(-chart.offset + song_start_offset + time)
 	song_started = true
 
 # Binary Search of notes and events, gives the index of the note nearest to the given time
@@ -356,6 +357,7 @@ func bsearch_left_range(value_set: Array, length: int, left_range: float) -> int
 	
 	while (low <= high):
 		
+		@warning_ignore("integer_division")
 		var mid: int = low + int((high - low) / 2)
 		
 		if (value_set[mid][0] >= left_range): high = mid - 1
@@ -364,17 +366,17 @@ func bsearch_left_range(value_set: Array, length: int, left_range: float) -> int
 	return high + 1
 
 
-func get_rating(time: float) -> String:
+static func get_rating(time: float) -> String:
 	
 	var rating: String
 	
 	var ratings = [
 		# [time <= 0.0125, "epic"], This is useless now because of how gold perfect works
 		# im keeping it tho just in case people want it
-		[time <= 0.045, "sick"],
-		[time <= 0.090, "good"],
-		[time <= 0.135, "bad"],
-		[time <= 0.160, "shit"],
+		[time <= GameManager.SICK_RATING_WINDOW, "sick"],
+		[time <= GameManager.GOOD_RATING_WINDOW, "good"],
+		[time <= GameManager.BAD_RATING_WINDOW, "bad"],
+		[time <= GameManager.SHIT_RATING_WINDOW, "shit"],
 		[true, "miss"],
 	]
 	
@@ -567,7 +569,7 @@ func note_hit(time, lane, note_type, hit_time, strum_manager):
 		if combo > GameManager.tallies["max_combo"]: GameManager.tallies["max_combo"] = combo
 		
 		accuracy = (timings_sum / entries)
-		if (GameManager.tallies.epic + GameManager.tallies.sick) == GameManager.tallies.total_notes:
+		if GameManager.tallies.sick == GameManager.tallies.total_notes:
 			rating = "fc_" + rating
 		
 		show_combo(rating, combo)
