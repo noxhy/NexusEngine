@@ -37,6 +37,14 @@ window/vsync/vsync_mode=0
 
 enabled=PackedStringArray("res://addons/gdanimate/plugin.cfg", "res://addons/godot_sparrow/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "orange",
+"res://resources/": "green",
+"res://scenes/": "blue"
+}
+
 [input]
 
 ui_left={
