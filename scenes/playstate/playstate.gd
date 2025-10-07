@@ -42,7 +42,7 @@ signal setup_finished()
 
 @export_group("Scenes")
 
-@export var death_scene = "res://scenes/playstate/death_screen.tscn"
+
 var death_stats = {
 	
 	"death_screen" = death_scene,
@@ -52,8 +52,10 @@ var death_stats = {
 	
 }
 
-@export var pause_scene = "res://scenes/playstate/pause_menu.tscn"
-@export var next_scene = "res://scenes/results/results.tscn"
+@export_file('*.tscn') var death_scene = "res://scenes/playstate/death_screen.tscn"
+
+@export_file('*.tscn') var pause_scene = "res://scenes/playstate/pause_menu.tscn"
+@export_file('*.tscn') var next_scene = "res://scenes/results/results.tscn"
 
 var strums: Array = []
 var characters: Array = []
