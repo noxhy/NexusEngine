@@ -18,16 +18,16 @@ func _ready():
 	$AnimationPlayer.play("start")
 	Global.set_window_title("Start Screen")
 	
-	if Global.song_playing():
-		
-		$Music/Music.play(Global.get_song_position())
-	else:
-		
-		Global.play_song( $Music/Music.stream.resource_path )
-		$Music/Music.play()
+	var keycode = SettingsManager.get_keybind("ui_accept")
+	$"UI/Play Label".text = "Press " + SettingsManager.get_keycode_string(keycode) + " to Play"
 	
-	var keycode = SettingsManager.get_keybind( "ui_accept" )
-	$"UI/Play Label".text = "Press " + SettingsManager.get_keycode_string( keycode ) + " to Play"
+	if not SoundManager.music.playing:
+		SoundManager.music.play()
+	
+	await $Conductor.ready
+	
+	$Conductor.tempo = SoundManager.music.stream._get_bpm()
+	$Conductor.stream_player = SoundManager.music
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -62,6 +62,7 @@ song_data = ExtResource("3_8k6f7")
 note_skin = ExtResource("4_aqdoj")
 ui_skin = ExtResource("5_f88c2")
 combo_scale_multiplier = Vector2(0.8, 0.8)
+death_scene = "uid://bd083xcqslcsd"
 
 [node name="Stage" parent="." instance=ExtResource("6_8k6f7")]
 unique_name_in_owner = true

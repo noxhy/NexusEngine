@@ -24,7 +24,6 @@ func _ready():
 func _process(delta):
 	
 	# Peformance Test
-	
 	$"UI/Performance Label".visible = SettingsManager.get_setting("show_performance")
 	if SettingsManager.get_setting("show_performance"):
 		
@@ -48,7 +47,7 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_plus"):
 		AudioServer.set_bus_mute(0, false)
 		var master_volume = SettingsManager.get_setting("master_volume")
-		SettingsManager.set_setting("master_volume", clamp(master_volume + 6, -60, 0))
+		SettingsManager.set_setting("master_volume", clamp(master_volume + 0.1, 0, 1))
 		SettingsManager.save_settings()
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start(1.5)
@@ -56,7 +55,7 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_minus"):
 		AudioServer.set_bus_mute(0, false)
 		var master_volume = SettingsManager.get_setting("master_volume")
-		SettingsManager.set_setting("master_volume", clamp(master_volume - 6, -60, 0))
+		SettingsManager.set_setting("master_volume", clamp(master_volume - 0.1, 0, 1))
 		SettingsManager.save_settings()
 		show_volume()
 		$"UI/Voume Node/Hide Timer".start(1.5)
@@ -80,19 +79,6 @@ func change_scene_to(path: String):
 	transitioning = true
 	get_tree().change_scene_to_packed(loading_screen)
 	new_scene = path
-
-
-# Global Song
-
-
-func play_song(path: String, song_position: float = 0.0):
-	
-	$Music/Music.stream = load(path)
-	$Music/Music.play(song_position)
-
-func stop_song():
-	
-	$Music/Music.stop()
 
 func set_song_volume(volume: float = 0.0):
 	

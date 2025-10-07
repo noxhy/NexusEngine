@@ -5,8 +5,8 @@ class_name Character
 
 @export_group("Animation Offset")
 @export var idle_animation = "idle"
-@export var animation_names: Dictionary[String, String] = {"default": "default"}
-@export var offsets: Dictionary[String, Vector2] = {"default": Vector2(0, 0)}
+@export var animation_names: Dictionary[String, String] = {}
+@export var offsets: Dictionary[String, Vector2] = {}
 
 @export_group("Playstate")
 @export var icons: SpriteFrames = preload("res://assets/sprites/playstate/icons/face.tres")
@@ -16,7 +16,6 @@ var current_animation: String = idle_animation
 var can_idle: bool = true
 
 func _ready():
-	
 	$AnimatedSprite2D.play()
 
 func play_animation(animation_name: String = "", time: float = -1.0):
@@ -28,7 +27,6 @@ func play_animation(animation_name: String = "", time: float = -1.0):
 		if animation_name == idle_animation:
 			
 			if !can_idle:
-				
 				return
 		
 		var real_animation_name: String = animation_names.get(animation_name)

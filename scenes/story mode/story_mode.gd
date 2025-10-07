@@ -91,14 +91,6 @@ func _ready():
 	
 	Global.set_window_title("Story Mode Menu")
 	
-	if Global.song_playing():
-		
-		$Audio/Music.play(Global.get_song_position())
-	else:
-		
-		Global.play_song($Audio/Music.stream.resource_path)
-		$Audio/Music.play()
-	
 	# Initalization
 	
 	var object_amount: int = 0
@@ -107,6 +99,7 @@ func _ready():
 		
 		var week_icon_instance = week_icon_node.instantiate()
 		
+		@warning_ignore("integer_division")
 		week_icon_instance.position = Vector2(1280 / 2, 1000)
 		
 		$"UI/Week UI/SubViewport".add_child(week_icon_instance)
@@ -116,6 +109,14 @@ func _ready():
 		option_nodes.append(week_icon_instance)
 	
 	update_week_selection(selected_week)
+	
+	if not SoundManager.music.playing:
+		SoundManager.music.play()
+	
+	await $Conductor.ready
+	
+	$Conductor.tempo = SoundManager.music.stream._get_bpm()
+	$Conductor.stream_player = SoundManager.music
 
 
 # Input Manager
@@ -162,6 +163,7 @@ func update_week_selection(i: int):
 		
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		@warning_ignore("integer_division")
 		var node_position = Vector2(1280 / 2, index * 135 + 64)
 		tween.tween_property(j, "position", node_position, 0.5)
 		
@@ -227,6 +229,7 @@ func select_option(i: int):
 		Global.change_scene_to(scene)
 
 
+@warning_ignore("unused_parameter")
 func _on_conductor_new_beat(current_beat, measure_relative):
 	
 	if can_click:

@@ -34,14 +34,6 @@ func _ready():
 	Global.set_window_title( "Main Menu" )
 	Global.song_scene = null
 	
-	if Global.song_playing():
-		
-		$Audio/Music.play( Global.get_song_position() )
-	else:
-		
-		Global.play_song($Audio/Music.stream.resource_path)
-		$Audio/Music.play()
-	
 	# Button Positions
 	
 	var i = 0
@@ -56,6 +48,14 @@ func _ready():
 	# Initalization
 	
 	update_selection( selected )
+	
+	if not SoundManager.music.playing:
+		SoundManager.music.play()
+	
+	await $Conductor.ready
+	
+	$Conductor.tempo = SoundManager.music.stream._get_bpm()
+	$Conductor.stream_player = SoundManager.music
 
 
 # Input Manager

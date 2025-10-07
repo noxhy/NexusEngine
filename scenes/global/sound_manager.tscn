@@ -1,6 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://7m2w6liutbug"]
+[gd_scene load_steps=11 format=3 uid="uid://7m2w6liutbug"]
 
 [ext_resource type="Script" uid="uid://dssf2pfv2ma71" path="res://scenes/global/sound_manager.gd" id="1_ce5g3"]
+[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_a6h0a"]
+[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_ou38h"]
+[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="4_ovpel"]
+[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_1r6w4"]
+[ext_resource type="AudioStream" uid="uid://dcshy6cfnwrkl" path="res://assets/sounds/menu sounds/hitsound.wav" id="6_kii8k"]
+[ext_resource type="AudioStream" uid="uid://bmggbtser1g3u" path="res://assets/sounds/game sounds/miss sounds/miss 1.ogg" id="7_2my8r"]
+[ext_resource type="AudioStream" uid="uid://cfnrxgladhi2w" path="res://assets/sounds/game sounds/miss sounds/miss 2.ogg" id="8_gghjs"]
+[ext_resource type="AudioStream" uid="uid://cqne25yeqb7op" path="res://assets/sounds/game sounds/miss sounds/miss 3.ogg" id="9_q5fm7"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_51vn2"]
+streams_count = 3
+stream_0/stream = ExtResource("7_2my8r")
+stream_1/stream = ExtResource("8_gghjs")
+stream_2/stream = ExtResource("9_q5fm7")
 
 [node name="SoundManager" type="Node"]
 script = ExtResource("1_ce5g3")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_a6h0a")
+bus = &"Music"
+
+[node name="UI" type="Node" parent="."]
+
+[node name="ScrollPlayer" type="AudioStreamPlayer" parent="UI"]
+stream = ExtResource("3_ou38h")
+bus = &"SFX"
+
+[node name="CancelPlayer" type="AudioStreamPlayer" parent="UI"]
+stream = ExtResource("4_ovpel")
+bus = &"SFX"
+
+[node name="AcceptPlayer" type="AudioStreamPlayer" parent="UI"]
+stream = ExtResource("5_1r6w4")
+bus = &"SFX"
+
+[node name="Game" type="Node" parent="."]
+
+[node name="HitPlayer" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource("6_kii8k")
+bus = &"SFX"
+
+[node name="MissPlayer" type="AudioStreamPlayer" parent="Game"]
+stream = SubResource("AudioStreamRandomizer_51vn2")
+bus = &"SFX"
+
+[node name="AntiSpamPlayer" type="AudioStreamPlayer" parent="Game"]
+stream = SubResource("AudioStreamRandomizer_51vn2")
+volume_db = -8.0
+bus = &"SFX"

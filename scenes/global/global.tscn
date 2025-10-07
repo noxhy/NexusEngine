@@ -20,11 +20,6 @@ process_mode = 3
 script = ExtResource("1_swfdr")
 metadata/_edit_horizontal_guides_ = [-296.0]
 
-[node name="Music" type="Node" parent="."]
-
-[node name="Music" type="AudioStreamPlayer" parent="Music"]
-bus = &"Music"
-
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 128
 offset = Vector2(640, 360)

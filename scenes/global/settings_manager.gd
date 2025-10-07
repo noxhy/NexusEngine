@@ -21,9 +21,9 @@ var default_settings: Dictionary = {
 	"note_splashes": true,
 	"ui_bops": true, # The UI w"ill bop when called, this affetcs the main menus too
 	"hit_sounds": false,
-	"master_volume": 0,
-	"music_volume": 0,
-	"sfx_volume": 0,
+	"master_volume": 1,
+	"music_volume": 1,
+	"sfx_volume": 1,
 	"tween_strums": true,
 	
 	# Misc
@@ -124,7 +124,7 @@ func get_keycode_string(keycodes: Array):
 	for i in keycodes:
 		
 		output += OS.get_keycode_string(i)
-		if i != keycodes[keycodes.size() - 1]: output += ", "
+		if i != keycodes[keycodes.size() - 1]: output += "/"
 	
 	return output
 

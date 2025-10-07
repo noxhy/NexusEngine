@@ -102,25 +102,25 @@ layout_mode = 2
 
 [node name="Master Volume" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
-min = -60.0
-max = 0.0
-value_name = "db"
+max = 1.0
+step = 0.1
+value_name = "x"
 setting_name = "master_volume"
 display_name = "Master Volume"
 
 [node name="Music Volume2" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
-min = -60.0
-max = 0.0
-value_name = "db"
+max = 1.0
+step = 0.1
+value_name = "x"
 setting_name = "music_volume"
 display_name = "Music Volume"
 
 [node name="SFX Volume3" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
-min = -60.0
-max = 0.0
-value_name = "db"
+max = 1.0
+step = 0.1
+value_name = "x"
 setting_name = "sfx_volume"
 display_name = "SFX Volume"
 
