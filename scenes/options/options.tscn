@@ -1,13 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://stil5xd6xto6"]
+[gd_scene load_steps=7 format=3 uid="uid://stil5xd6xto6"]
 
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="1_eqg0q"]
 [ext_resource type="Script" uid="uid://bfi44vdv3xve1" path="res://scenes/options/options.gd" id="1_kjctr"]
 [ext_resource type="Texture2D" uid="uid://boepmdvh5sknc" path="res://assets/sprites/menus/background/main menu/menuBGBlue.png" id="2_i3c72"]
-[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="3_qxiyh"]
-[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="4_mgigs"]
-[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="5_bonxa"]
 [ext_resource type="SpriteFrames" uid="uid://dgb77avcfsrwk" path="res://assets/sprites/menus/main menu/menu_options.res" id="6_vpqee"]
-[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="6_wodys"]
 [ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://scenes/instances/offset_sprite.gd" id="7_4x7vq"]
 [ext_resource type="PackedScene" uid="uid://bp581x6mu5f1w" path="res://scenes/instances/options/options_menu.tscn" id="8_5fqhg"]
 
@@ -19,27 +15,8 @@ position = Vector2(640, 360)
 
 [node name="Conductor" type="Node" parent="."]
 script = ExtResource("1_eqg0q")
-stream_player = NodePath("../Audio/Music")
+stream_player = NodePath("")
 tempo = 102.0
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="Music" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("3_qxiyh")
-volume_db = -80.0
-bus = &"Music"
-
-[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("4_mgigs")
-bus = &"SFX"
-
-[node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("5_bonxa")
-bus = &"SFX"
-
-[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("6_wodys")
-bus = &"SFX"
 
 [node name="Foreground" type="CanvasLayer" parent="."]
 layer = 2

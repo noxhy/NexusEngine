@@ -31,6 +31,7 @@ color = Color(0.890196, 0.533333, 0.294118, 1)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = -1
 texture_filter = 1
+use_parent_material = true
 position = Vector2(0, -64)
 sprite_frames = ExtResource("3_neexf")
 animation = &"Senpai Idle instance 1"

@@ -71,14 +71,26 @@ func _process(delta):
 		get_tree().paused = false
 
 
-# Scene Changing
+## Scene Changing
 
-
-func change_scene_to(path: String):
+func change_scene_to(path: String, transition: Variant = "down", screen: bool = true): 
 	
 	transitioning = true
-	get_tree().change_scene_to_packed(loading_screen)
-	new_scene = path
+	
+	if transition != null: 
+		
+		Transitions.transition(transition)
+		await Transitions.waiting
+	
+	get_tree().paused = false
+	LoadingScreen.scene = path
+	
+	if screen: 
+		get_tree().change_scene_to_packed(loading_screen)
+	else: 
+		get_tree().change_scene_to_file(path)
+		if transition != null: 
+			Transitions.resume()
 
 func set_song_volume(volume: float = 0.0):
 	

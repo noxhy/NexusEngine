@@ -1,5 +1,7 @@
 extends Node2D
 
+signal waiting
+
 func _ready():
 	
 	$AnimationPlayer.play("RESET")
@@ -7,6 +9,7 @@ func _ready():
 func transition(transition_name: String):
 	
 	$AnimationPlayer.play(transition_name)
+	$AnimationPlayer.seek(0)
 	print("starting transition: ", $AnimationPlayer.assigned_animation)
 
 func pause():
@@ -15,6 +18,7 @@ func pause():
 		
 		$AnimationPlayer.pause()
 		print("holding transition: ", $AnimationPlayer.assigned_animation)
+		self.waiting.emit()
 
 func resume():
 	

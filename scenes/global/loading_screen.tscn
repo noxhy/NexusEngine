@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cbjq3veqm6jql" path="res://scenes/global/loading_screen.gd" id="1_ojpmn"]
 
 [node name="Loading Screen" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_ojpmn")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -15,12 +16,11 @@ offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 
 [node name="ColorRect" type="ColorRect" parent="Background"]
-offset_left = -736.0
-offset_top = -432.0
-offset_right = 720.0
-offset_bottom = 432.0
-color = Color(0.819608, 1, 0.317647, 1)
-metadata/_edit_lock_ = true
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.7921569, 1, 0.3019608, 1)
 
 [node name="LoadingScreen" type="Sprite2D" parent="Background"]
 texture = ExtResource("1_2a8i5")

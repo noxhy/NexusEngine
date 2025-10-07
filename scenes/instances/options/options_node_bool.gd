@@ -3,7 +3,6 @@ extends OptionNode
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
 	$CheckButton.button_pressed = SettingsManager.get_setting( setting_name )
 
 

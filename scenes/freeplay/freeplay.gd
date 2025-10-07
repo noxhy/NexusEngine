@@ -76,25 +76,16 @@ func _process(_delta):
 		
 		elif Input.is_action_just_pressed("ui_cancel"):
 			
-			Transitions.transition("down")
 			can_click = false
-			
-			$"Audio/Menu Cancel".play()
-			
-			await get_tree().create_timer(1).timeout
-			
+			SoundManager.cancel.play()
 			Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
 		
 		elif Input.is_action_just_pressed("character_select"):
 			
-			Transitions.transition("down")
 			can_click = false
 			dj.animation = "character_select"
 			
-			$"Audio/Menu Confirm".play()
-			
-			await get_tree().create_timer(1).timeout
-			
+			SoundManager.accept.play()
 			Global.change_scene_to("res://scenes/character_select/character_selection.tscn")
 
 
@@ -146,7 +137,7 @@ func update_selection(i: int):
 		return
 	
 	var song_file = options[instances[i].index]
-	$"Audio/Menu Scroll".play()
+	SoundManager.scroll.play()
 	$Audio/Music.stream = song_file.instrumental
 	$Audio/Music.volume_db = -60
 	$Audio/Music.play()
@@ -206,7 +197,7 @@ func select_option(i: int):
 		
 		can_click = false
 		$"Difficulty Selector".set_process(false)
-		$"Audio/Menu Confirm".play()
+		SoundManager.accept.play()
 		
 		var tween = create_tween()
 		tween.set_parallel()
@@ -224,11 +215,6 @@ func select_option(i: int):
 		dj.animation = "confirm"
 		Global.freeplay_song_option = i
 		Transitions.transition("down")
-		
-		await get_tree().create_timer(1).timeout
-		
-		Global.stop_song()
-		
 		play_song(song_file, difficulty)
 
 
@@ -260,7 +246,7 @@ func _on_difficulty_selector_selected_difficulty(difficulty: String) -> void:
 	load_page()
 	await Engine.get_main_loop().process_frame
 	update_selection(Global.freeplay_song_option)
-	$"Audio/Menu Scroll".play()
+	SoundManager.scroll.play()
 
 
 func update_grade(grade: int):

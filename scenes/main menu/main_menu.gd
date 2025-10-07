@@ -31,7 +31,7 @@ var selected: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	Global.set_window_title( "Main Menu" )
+	Global.set_window_title("Main Menu")
 	Global.song_scene = null
 	
 	# Button Positions
@@ -41,21 +41,22 @@ func _ready():
 	
 	for button in $"UI/Button Manager".get_children():
 		
-		button.position.y = ( 720.0 / ( button_count ) ) * ( i - ( button_count / 2.0 ) + 0.5 )
-		button.play( button.animation )
+		button.position.y = (720.0 / (button_count)) * (i - (button_count / 2.0) + 0.5)
+		button.play(button.animation)
 		i += 1
 	
 	# Initalization
 	
-	update_selection( selected )
+	update_selection(selected)
 	
 	if not SoundManager.music.playing:
 		SoundManager.music.play()
 	
+	$Conductor.stream_player = SoundManager.music.get_path()
+	
 	await $Conductor.ready
 	
 	$Conductor.tempo = SoundManager.music.stream._get_bpm()
-	$Conductor.stream_player = SoundManager.music
 
 
 # Input Manager
@@ -65,79 +66,69 @@ func _input(event):
 		
 		if event.is_action_pressed("ui_up"):
 			
-			update_selection( selected - 1 )
+			update_selection(selected - 1)
 		elif event.is_action_pressed("ui_down"):
 			
-			update_selection( selected + 1 )
+			update_selection(selected + 1)
 		elif event.is_action_pressed("ui_accept"):
-			
 			select_option(selected)
 		elif event.is_action_pressed("ui_cancel"):
 			
 			can_press = false
-			$"Audio/Menu Cancel".play()
-			Transitions.transition("down")
-			
-			await get_tree().create_timer(1).timeout
-			
+			SoundManager.cancel.play()
 			Global.change_scene_to("res://scenes/start menu/start_menu.tscn")
 
 
 # Updates visually what happens when a new index is set for a selection
 func update_selection(i: int):
 	
-	var old_node = ( options.get( options.keys()[selected] ) ).node
+	var old_node = (options.get(options.keys()[selected])).node
 	old_node.play_animation("idle")
 	
 	var old_node_tween = create_tween()
-	old_node_tween.tween_property( old_node, "scale", old_node.scale - Vector2(0.05, 0.05), 0.2 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	old_node_tween.tween_property(old_node, "scale", old_node.scale - Vector2(0.05, 0.05), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
-	selected = wrapi( i, 0, options.keys().size())
-	$"Audio/Menu Scroll".play()
+	selected = wrapi(i, 0, options.keys().size())
+	SoundManager.scroll.play()
 	
-	var new_node = ( options.get( options.keys()[selected] ) ).node
+	var new_node = (options.get(options.keys()[selected])).node
 	new_node.play_animation("selected")
 	
 	var camera_tween = create_tween()
-	camera_tween.tween_property( $Camera2D, "position", new_node.position, 0.25 ).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	camera_tween.tween_property($Camera2D, "position", new_node.position, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	var new_node_tween = create_tween()
-	new_node_tween.tween_property( new_node, "scale", new_node.scale + Vector2(0.05, 0.05), 0.2 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	new_node_tween.tween_property(new_node, "scale", new_node.scale + Vector2(0.05, 0.05), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 # Called when an option was selected
 func select_option(i: int):
 	
-	var node = ( options.get( options.keys()[i] ) ).node
-	$"Audio/Menu Confirm".play()
+	var node = (options.get(options.keys()[i])).node
+	SoundManager.accept.play()
 	$Background/Background.play("selected")
 	
 	can_press = false
 	
 	var camera_tween = create_tween()
-	camera_tween.tween_property( $Camera2D, "zoom", Vector2(1.1, 1.1), 0.5 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	camera_tween.tween_property($Camera2D, "zoom", Vector2(1.1, 1.1), 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 	for n in options.keys():
 		
-		var temp_node = options.get( n ).node
+		var temp_node = options.get(n).node
 		
 		if n != options.keys()[i]:
 			
 			var node_tween = create_tween()
-			node_tween.tween_property( temp_node, "scale", Vector2(0, 0), 0.2 ).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+			node_tween.tween_property(temp_node, "scale", Vector2(0, 0), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	
-	var stop_music = ( options.get( options.keys()[i] ) ).stop_music
+	var stop_music = (options.get(options.keys()[i])).stop_music
 	
 	if stop_music:
-		
-		Global.stop_song()
+		SoundManager.music.stop()
 	
-	Transitions.transition("fade")
-	
-	await get_tree().create_timer(0.5).timeout
-	
-	var scene = ( options.get( options.keys()[i] ) ).scene
-	Global.change_scene_to(scene)
+	var scene = (options.get(options.keys()[i])).scene
+	Global.change_scene_to(scene, "fade")
 
 
 func _on_conductor_new_beat(current_beat, measure_relative):
@@ -146,5 +137,5 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 		
 		if SettingsManager.get_setting("ui_bops"):
 			
-			Global.bop_tween( $Camera2D, "zoom", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )
-			Global.bop_tween( $Background/Background, "scale", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )
+			Global.bop_tween($Camera2D, "zoom", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)
+			Global.bop_tween($Background/Background, "scale", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)

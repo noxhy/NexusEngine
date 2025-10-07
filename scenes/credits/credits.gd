@@ -28,7 +28,7 @@ extends Node2D
 # link - Parameters: String = <link>
 @onready var option_stats: Dictionary = {
 	
-	"Noah": ["Made the damn engine.", "link", "https://www.youtube.com/channel/UCH5BbTqMfiO-Cxhtx3drsqA"],
+	"Noah": ["Made the engine.", "link", "https://www.youtube.com/channel/UCH5BbTqMfiO-Cxhtx3drsqA"],
 	"Koi": ["Miss sprite", "link", "https://twitter.com/toasted_milk_"],
 	"The Funkin Crew\'": ["Friday Night Funkin\' Game", "link", "https://www.newgrounds.com/portal/view/770371"],
 	"PieDaDude": ["Lock Sprite", "link", "https://www.youtube.com/channel/UCrMygwD7qdqK-BCyDPenTaQ" ],
@@ -46,14 +46,6 @@ var selected: int = 0
 func _ready():
 	
 	Global.set_window_title("Credits Menu")
-	
-	if Global.song_playing():
-		
-		$Audio/Music.play(Global.get_song_position())
-	else:
-		
-		Global.play_song($Audio/Music.stream.resource_path)
-		$Audio/Music.play()
 	
 	var object_amount: int = 0
 	
@@ -90,7 +82,15 @@ func _ready():
 			object_amount += 1
 	
 	update_selection(0)
-
+	
+	if not SoundManager.music.playing:
+		SoundManager.music.play()
+	
+	$Conductor.stream_player = SoundManager.music.get_path()
+	
+	await $Conductor.ready
+	
+	$Conductor.tempo = SoundManager.music.stream._get_bpm()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -115,11 +115,7 @@ func _input(event):
 			
 			can_click = false
 			
-			$"Audio/Menu Cancel".play()
-			Transitions.transition("down")
-			
-			await get_tree().create_timer(1).timeout
-			
+			SoundManager.cancel.play()
 			Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
 
 
@@ -129,7 +125,7 @@ func update_selection(i: int):
 	selected = wrapi( i, 0, option_nodes.size() )
 	i = selected
 	var index = -selected
-	$"Audio/Menu Scroll".play()
+	SoundManager.scroll.play()
 	
 	for j in option_nodes:
 		

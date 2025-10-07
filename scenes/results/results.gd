@@ -58,12 +58,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		
 		GameManager.reset_stats()
-		Transitions.transition("down")
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 		tween.tween_property($Audio/Music, "pitch_scale", 0.0, 0.5)
-		
-		await get_tree().create_timer(1).timeout
 		
 		GameManager.reset_stats()
 		if GameManager.freeplay:

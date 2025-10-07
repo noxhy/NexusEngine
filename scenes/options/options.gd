@@ -12,13 +12,14 @@ func _ready():
 	
 	$Foreground/Options.play("options white")
 	
-	if Global.song_playing():
-		
-		$Audio/Music.play( Global.get_song_position() )
-	else:
-		
-		Global.play_song($Audio/Music.stream.resource_path)
-		$Audio/Music.play()
+	if not SoundManager.music.playing:
+		SoundManager.music.play()
+	
+	$Conductor.stream_player = SoundManager.music.get_path()
+	
+	await $Conductor.ready
+	
+	$Conductor.tempo = SoundManager.music.stream._get_bpm()
 
 
 # Input Manager
@@ -26,20 +27,14 @@ func _input(event):
 	
 	if event.is_action_pressed("ui_cancel"):
 		
-		
 		can_click = false
 		
-		$"Audio/Menu Cancel".play()
-		Transitions.transition("down")
-		
-		await get_tree().create_timer(1).timeout
+		SoundManager.cancel.play()
 		
 		if Global.song_scene != null:
-			
-			Global.stop_song()
+			SoundManager.music.stop()
 			Global.change_scene_to(Global.song_scene)
 		else:
-			
 			Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
 
 
@@ -51,5 +46,4 @@ func _process(delta):
 func _on_conductor_new_beat(current_beat, measure_relative):
 	
 	if SettingsManager.get_setting("ui_bops"):
-		
 		Global.bop_tween( $Background/Background, "scale", Vector2( 1, 1 ), Vector2( 1.005, 1.005 ), 0.2, Tween.TRANS_CUBIC )

@@ -483,9 +483,6 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 func song_finished():
 	
 	GameManager.finished_song(score)
-	Transitions.transition("down")
-	
-	await get_tree().create_timer(1).timeout
 	
 	if GameManager.freeplay:
 		

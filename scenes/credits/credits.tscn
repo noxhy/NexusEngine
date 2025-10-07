@@ -1,11 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://clbeef0fp6xbw"]
+[gd_scene load_steps=6 format=3 uid="uid://clbeef0fp6xbw"]
 
 [ext_resource type="Script" uid="uid://c1c4ybha61mn4" path="res://scenes/credits/credits.gd" id="1_twwf5"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="2_7ianm"]
-[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="3_n3mut"]
-[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="4_gjjob"]
 [ext_resource type="Texture2D" uid="uid://djuslh4ulkynw" path="res://assets/sprites/menus/background/main menu/menuBGMagenta.png" id="5_7foaj"]
-[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="5_48gac"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="6_3ucr5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5ywea"]
@@ -22,23 +19,8 @@ position = Vector2(640, 360)
 
 [node name="Conductor" type="Node" parent="."]
 script = ExtResource("2_7ianm")
-stream_player = NodePath("../Audio/Music")
+stream_player = NodePath("")
 tempo = 102.0
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="Music" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("3_n3mut")
-volume_db = -80.0
-bus = &"Music"
-
-[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("4_gjjob")
-bus = &"SFX"
-
-[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("5_48gac")
-bus = &"SFX"
 
 [node name="UI" type="CanvasLayer" parent="."]
 offset = Vector2(640, 360)

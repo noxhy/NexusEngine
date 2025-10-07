@@ -168,7 +168,7 @@ func select_option(i: int):
 	elif option == "options":
 		
 		get_tree().paused = false
-		Global.change_scene_to("res://scenes/options/options.tscn")
+		Global.change_scene_to("res://scenes/options/options.tscn", null)
 	
 	elif option == "restart":
 		
@@ -180,12 +180,11 @@ func select_option(i: int):
 		get_tree().paused = false
 		GameManager.reset_stats()
 		
-		if GameManager.freeplay: Global.change_scene_to("res://scenes/freeplay/freeplay.tscn")
-		else: Global.change_scene_to("res://scenes/story mode/story_mode.tscn")
+		if GameManager.freeplay: Global.change_scene_to("res://scenes/freeplay/freeplay.tscn", null)
+		else: Global.change_scene_to("res://scenes/story mode/story_mode.tscn", null)
 	
 	elif option == "chart_editor":
 		
 		get_tree().paused = false
 		GameManager.reset_stats()
-		
-		Global.change_scene_to("res://scenes/chart editor/chart_editor.tscn")
+		Global.change_scene_to("res://scenes/chart editor/chart_editor.tscn", null)

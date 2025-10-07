@@ -22,6 +22,7 @@ color = Color(0.501961, 0.729412, 0.811765, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+use_parent_material = true
 position = Vector2(0, -28)
 sprite_frames = ExtResource("2_rn51i")
 animation = &"BF IDLE instance 1"

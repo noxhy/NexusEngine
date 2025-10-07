@@ -113,10 +113,11 @@ func _ready():
 	if not SoundManager.music.playing:
 		SoundManager.music.play()
 	
+	$Conductor.stream_player = SoundManager.music.get_path()
+	
 	await $Conductor.ready
 	
 	$Conductor.tempo = SoundManager.music.stream._get_bpm()
-	$Conductor.stream_player = SoundManager.music
 
 
 # Input Manager
@@ -142,12 +143,7 @@ func _input(event):
 		elif event.is_action_pressed("ui_cancel"):
 			
 			can_click = false
-			
-			$"Audio/Menu Cancel".play()
-			Transitions.transition("down")
-			
-			await get_tree().create_timer(1).timeout
-			
+			SoundManager.cancel.play()
 			Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
 
 
@@ -157,7 +153,7 @@ func update_week_selection(i: int):
 	selected_week = wrapi(i, 0, option_nodes.size())
 	i = selected_week
 	var index = -selected_week
-	$"Audio/Menu Scroll".play()
+	SoundManager.scroll.play()
 	
 	for j in option_nodes:
 		
@@ -202,7 +198,7 @@ func update_difficulty_selection(i: int):
 	var _week_score = SaveManager.get_week_highscore(week_name, difficulties[i])
 	tween.tween_method(self.update_week_score, week_score, _week_score, 0.3).set_trans(Tween.TRANS_QUART)
 	
-	$"Audio/Menu Scroll".play()
+	SoundManager.scroll.play()
 
 
 # Called when an option was selected_week
@@ -211,16 +207,8 @@ func select_option(i: int):
 	if can_click:
 		
 		can_click = false
-		$"Audio/Menu Confirm".play()
+		SoundManager.accept.play()
 		
-		$"Screen Flash".visible = true
-		var tween = create_tween()
-		tween.tween_property($"Screen Flash/ColorRect", "color", Color(1, 1, 1, 0), 0.2)
-		Transitions.transition("down")
-		
-		await get_tree().create_timer(1).timeout
-		
-		Global.stop_song()
 		GameManager.current_week = options.get(options.keys()[i]).week_name
 		GameManager.current_character = options.get(options.keys()[i]).get("character", "boyfriend")
 		var scene = options.get(options.keys()[i]).scene
@@ -235,7 +223,6 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 	if can_click:
 		
 		if SettingsManager.get_setting("ui_bops"):
-			
 			Global.bop_tween($Camera2D, "zoom", Vector2(1, 1), Vector2(1.005, 1.005), 0.2, Tween.TRANS_CUBIC)
 		
 		var display_node = options.get(options.keys()[selected_week]).display_node

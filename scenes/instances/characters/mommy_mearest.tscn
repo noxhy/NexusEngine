@@ -33,25 +33,26 @@ animations = [{
 
 [node name="Mommy Mearest" type="Node2D"]
 script = ExtResource("1_yjg8a")
-animation_names = {
+animation_names = Dictionary[String, String]({
 "down": "MOM DOWN POSE",
 "idle": "Mom Idle",
 "left": "Mom Left Pose",
 "right": "Mom Pose Left",
 "up": "Mom Up Pose"
-}
-offsets = {
+})
+offsets = Dictionary[String, Vector2]({
 "MOM DOWN POSE": Vector2(30, -287),
 "Mom Idle": Vector2(24, -352),
 "Mom Left Pose": Vector2(-148, -330),
 "Mom Pose Left": Vector2(70, -318),
 "Mom Up Pose": Vector2(-24, -373)
-}
+})
 icons = SubResource("SpriteFrames_m5pti")
 color = Color(0.788235, 0.337255, 0.576471, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = -1
+use_parent_material = true
 position = Vector2(24, -352)
 sprite_frames = ExtResource("2_40xde")
 animation = &"Mom Idle"

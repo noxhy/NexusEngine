@@ -324,7 +324,6 @@ script = ExtResource("1_b8t6h")
 intro_done = false
 
 [node name="Conductor" parent="." instance=ExtResource("2_n68yt")]
-stream_player = NodePath("")
 tempo = 102.0
 
 [node name="SFX" type="Node" parent="."]

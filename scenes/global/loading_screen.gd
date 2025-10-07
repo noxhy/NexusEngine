@@ -1,6 +1,7 @@
 extends Node2D
+class_name LoadingScreen
 
-@export var scene = "res://test/test_scene.tscn"
+static var scene = "res://test/test_scene.tscn"
 
 var progress = []
 var scene_load_status = 0
@@ -8,7 +9,6 @@ var scene_load_status = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	scene = Global.new_scene
 	SettingsManager.load_settings()
 	SaveManager.load_save()
 	ResourceLoader.load_threaded_request(scene)
@@ -20,7 +20,7 @@ func _process(_delta):
 	scene_load_status = ResourceLoader.load_threaded_get_status(scene, progress)
 	
 	var progress_bar = $Background/ProgressBar
-	progress_bar.value = progress[0] * 100
+	progress_bar.value = progress[0] * 100.0
 	
 	if scene_load_status == ResourceLoader.THREAD_LOAD_LOADED:
 		

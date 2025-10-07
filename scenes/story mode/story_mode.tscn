@@ -1,14 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://lh8hi5dk1sja"]
+[gd_scene load_steps=27 format=3 uid="uid://lh8hi5dk1sja"]
 
 [ext_resource type="Script" uid="uid://xeoejs8fvqem" path="res://scenes/story mode/story_mode.gd" id="1_obutf"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="2_4mkcq"]
-[ext_resource type="AudioStream" uid="uid://du4qr2rxqjkw" path="res://assets/songs/menu songs/gettin' freaky.ogg" id="2_j5vpc"]
-[ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_483rj"]
-[ext_resource type="AudioStream" uid="uid://guk2nlj2xwt7" path="res://assets/sounds/menu sounds/menu confirm.ogg" id="4_rnfy7"]
-[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://assets/sounds/menu sounds/menu cancel.ogg" id="6_1kd8w"]
 [ext_resource type="FontFile" uid="uid://coivso5sghc2p" path="res://assets/fonts/fnf font.ttf" id="6_arlsh"]
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://assets/fonts/Normal Text.ttf" id="7_5xrda"]
 [ext_resource type="PackedScene" uid="uid://dg6rnkjn5f5gm" path="res://scenes/instances/characters/boyfriend.tscn" id="8_npxap"]
+[ext_resource type="Shader" uid="uid://biwtmuarqekfa" path="res://scenes/story mode/replace_colour.gdshader" id="9_20mkd"]
 [ext_resource type="PackedScene" uid="uid://jjd6x75uoj1x" path="res://scenes/instances/freeplay/freeplay_arrow.tscn" id="9_gdyqo"]
 [ext_resource type="PackedScene" uid="uid://bpv5demojrg67" path="res://scenes/instances/characters/girlfriend.tscn" id="9_qcirc"]
 [ext_resource type="PackedScene" uid="uid://ce4fecrbyxrux" path="res://scenes/instances/difficulty_display.tscn" id="10_fvhjj"]
@@ -34,6 +31,18 @@ font = ExtResource("7_5xrda")
 font_size = 24
 font_color = Color(0.764706, 0.309804, 0.380392, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ub4sb"]
+shader = ExtResource("9_20mkd")
+shader_parameter/u_replace = Color(0.9764706, 0.8117647, 0.31764707, 1)
+shader_parameter/u_tolerance_min = 0.0
+shader_parameter/u_tolerance_max = 0.2999999932944
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_20mkd"]
+shader = ExtResource("9_20mkd")
+shader_parameter/u_replace = Color(0.9764706, 0.8117647, 0.31764707, 1)
+shader_parameter/u_tolerance_min = 0.62999998591824
+shader_parameter/u_tolerance_max = 0.999999977648
+
 [sub_resource type="LabelSettings" id="LabelSettings_bh7wr"]
 font = ExtResource("21_xb8ni")
 font_size = 32
@@ -57,38 +66,8 @@ position = Vector2(640, 360)
 
 [node name="Conductor" type="Node" parent="."]
 script = ExtResource("2_4mkcq")
-stream_player = NodePath("../Audio/Music")
+stream_player = NodePath("")
 tempo = 102.0
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="Music" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("2_j5vpc")
-volume_db = -80.0
-bus = &"Music"
-
-[node name="Menu Scroll" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("3_483rj")
-bus = &"SFX"
-
-[node name="Menu Confirm" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("4_rnfy7")
-bus = &"SFX"
-
-[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("6_1kd8w")
-bus = &"SFX"
-
-[node name="Screen Flash" type="CanvasLayer" parent="."]
-visible = false
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
-
-[node name="ColorRect" type="ColorRect" parent="Screen Flash"]
-offset_left = -640.0
-offset_top = -361.0
-offset_right = 640.0
-offset_bottom = 360.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 0
@@ -160,12 +139,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Tutorial" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Girlfriend" parent="UI/Week Display/SubViewport/Tutorial" groups=["tween_bop"] instance=ExtResource("9_qcirc")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 132)
 scale = Vector2(0.425, 0.425)
 
@@ -174,12 +153,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 1" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Daddy Dearest" parent="UI/Week Display/SubViewport/Week 1" groups=["bop"] instance=ExtResource("10_p6gkq")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 134)
 scale = Vector2(0.4, 0.4)
 
@@ -188,12 +167,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend2" parent="UI/Week Display/SubViewport/Week 2" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Spooky Kids" parent="UI/Week Display/SubViewport/Week 2" groups=["tween_bop"] instance=ExtResource("11_2m25c")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 134)
 scale = Vector2(0.575, 0.575)
 
@@ -202,12 +181,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 3" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Pico" parent="UI/Week Display/SubViewport/Week 3" groups=["bop"] instance=ExtResource("12_14fgl")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 124)
 scale = Vector2(-0.7, 0.7)
 
@@ -216,12 +195,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 4" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Mommy Mearest" parent="UI/Week Display/SubViewport/Week 4" groups=["bop"] instance=ExtResource("13_ofi8l")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 134)
 scale = Vector2(0.374, 0.374)
 
@@ -230,12 +209,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Character" parent="UI/Week Display/SubViewport/Week 5" groups=["bop"] instance=ExtResource("17_dlfty")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 132)
 scale = Vector2(0.395, 0.395)
 
@@ -244,12 +223,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend Pixel" parent="UI/Week Display/SubViewport/Week 6" groups=["bop"] instance=ExtResource("14_6o7s3")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_20mkd")
 position = Vector2(192, 124)
 scale = Vector2(5, 5)
 
 [node name="Senpai" parent="UI/Week Display/SubViewport/Week 6" groups=["tween_bop"] instance=ExtResource("15_tem1l")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_20mkd")
 position = Vector2(-192, 132)
 scale = Vector2(2.535, 2.535)
 
@@ -258,12 +237,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Boyfriend" parent="UI/Week Display/SubViewport/Week 7" groups=["bop"] instance=ExtResource("8_npxap")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Tankman" parent="UI/Week Display/SubViewport/Week 7" groups=["bop"] instance=ExtResource("16_k4au0")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 134)
 scale = Vector2(-0.525, 0.525)
 
@@ -272,12 +251,12 @@ visible = false
 position = Vector2(640, 164)
 
 [node name="Pico" parent="UI/Week Display/SubViewport/Weekend 1" groups=["bop"] instance=ExtResource("12_14fgl")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(192, 124)
 scale = Vector2(0.7, 0.7)
 
 [node name="Darnell" parent="UI/Week Display/SubViewport/Weekend 1" groups=["tween_bop"] instance=ExtResource("17_wjhul")]
-modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_ub4sb")
 position = Vector2(-192, 124)
 scale = Vector2(0.7, 0.7)
 

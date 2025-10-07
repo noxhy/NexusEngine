@@ -21,13 +21,14 @@ func _ready():
 	var keycode = SettingsManager.get_keybind("ui_accept")
 	$"UI/Play Label".text = "Press " + SettingsManager.get_keycode_string(keycode) + " to Play"
 	
+	$Conductor.stream_player = SoundManager.music.get_path()
+	
 	if not SoundManager.music.playing:
 		SoundManager.music.play()
 	
 	await $Conductor.ready
 	
 	$Conductor.tempo = SoundManager.music.stream._get_bpm()
-	$Conductor.stream_player = SoundManager.music
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,12 +39,9 @@ func _process(_delta):
 		
 		if intro_done:
 			
-			Transitions.transition("down")
 			$AnimationPlayer.play("press_enter")
 			can_click = false
-			
 		else:
-			
 			$AnimationPlayer.play("intro_finish")
 
 
@@ -89,5 +87,4 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 func _on_animation_player_animation_finished(anim_name):
 	
 	if anim_name == "press_enter":
-		
 		Global.change_scene_to( "res://scenes/main menu/main_menu.tscn" )
