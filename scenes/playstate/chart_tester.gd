@@ -24,12 +24,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	for strum in playstate_host.strums:
-		
-		strum.set_tempo( $Conductor.tempo )
-		strum.set_song_position( playstate_host.song_position )
-		strum.set_song_speed( $Music/Instrumental.pitch_scale )
-	
 	$"UI/Chart Stats".text = "Song: " + str(playstate_host.song_data.title)
 	$"UI/Chart Stats".text += "\n" + "Artist: " + str(playstate_host.song_data.artist)
 	$"UI/Chart Stats".text += "\n" + "Difficulty: " + str(GameManager.difficulty)
@@ -41,12 +35,10 @@ func _process(delta):
 
 
 func _on_conductor_new_beat(current_beat, measure_relative):
-	
 	playstate_host.new_beat( current_beat, measure_relative )
 
 
 func _on_conductor_new_step(current_step, measure_relative):
-	
 	playstate_host.new_step( current_step, measure_relative )
 
 
@@ -60,12 +52,10 @@ func _on_create_note(time, lane, note_length, note_type, tempo):
 
 
 func note_hit(time, lane, note_type, hit_time, strumhandler):
-	
 	playstate_host.note_hit( time, lane, note_type, hit_time, strumhandler )
 
 
 func note_holding(time, lane, note_type, strumhandler):
-	
 	playstate_host.note_holding( time, lane, note_type, strumhandler )
 
 

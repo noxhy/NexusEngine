@@ -1,8 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1xj54jogmqul"]
+[gd_scene load_steps=6 format=3 uid="uid://c1xj54jogmqul"]
 
 [ext_resource type="Script" uid="uid://cjdqxjkevt2iw" path="res://scenes/global/global.gd" id="1_swfdr"]
 [ext_resource type="FontFile" uid="uid://c1yqml3y7c8j2" path="res://assets/fonts/Bold Italitc Normal Text.ttf" id="2_77tff"]
 [ext_resource type="AudioStream" uid="uid://svn606p6k0w0" path="res://assets/sounds/menu sounds/menu scroll.ogg" id="3_q1yt6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm3mx"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_harfc"]
 font = ExtResource("2_77tff")
@@ -24,22 +31,22 @@ offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 
 [node name="Performance Label" type="Label" parent="UI"]
-offset_left = -632.0
-offset_top = -352.0
-offset_right = -504.0
-offset_bottom = -288.0
+custom_minimum_size = Vector2(1, 1)
+anchors_preset = -1
+anchor_left = -0.49400002
+anchor_top = -0.48900002
+anchor_right = -0.42400002
+anchor_bottom = -0.46500003
+offset_left = 0.32000732
+offset_top = 0.08001709
+offset_right = -0.27996826
+offset_bottom = -0.19998169
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_bm3mx")
 text = "PERFORMANCE"
-metadata/_edit_use_anchors_ = true
-
-[node name="Debug Label" type="Label" parent="UI"]
-offset_left = 504.0
-offset_top = -352.0
-offset_right = 632.0
-offset_bottom = -288.0
-theme_override_font_sizes/font_size = 12
-text = "DEBUG"
-horizontal_alignment = 2
 
 [node name="Voume Node" type="Node2D" parent="UI"]
 position = Vector2(0, -392)

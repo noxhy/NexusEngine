@@ -4,9 +4,10 @@
 
 [node name="Open File Popup" type="FileDialog"]
 msaa_2d = 1
+oversampling_override = 1.0
 title = "Open a File"
 initial_position = 1
-size = Vector2i(480, 480)
+size = Vector2i(640, 480)
 visible = true
 unresizable = true
 always_on_top = true

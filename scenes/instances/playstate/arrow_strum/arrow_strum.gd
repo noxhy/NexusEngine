@@ -53,7 +53,6 @@ func _process(delta):
 	## Note movement
 	for note in note_list:
 		
-		
 		if note.time_difference < GameManager.SHIT_RATING_WINDOW:
 			
 			note.can_press = true

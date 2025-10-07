@@ -4,7 +4,6 @@ extends Node2D
 
 var loading_screen = preload("res://scenes/global/loading_screen.tscn")
 var new_scene: String = "res://test/test_scene.tscn"
-var debug_info: String = ""
 var fullscreen = false
 
 var freeplay_difficulty: int = 0
@@ -14,7 +13,6 @@ var death_stats: Dictionary = {}
 
 var song_scene = "res://test/test_scene.tscn"
 
-var max_memory: float = 0.0
 var transitioning: bool = false
 
 
@@ -30,21 +28,12 @@ func _process(delta):
 	$"UI/Performance Label".visible = SettingsManager.get_setting("show_performance")
 	if SettingsManager.get_setting("show_performance"):
 		
-		$"UI/Performance Label".text = "FPS: " + str(Engine.get_frames_per_second())
-		$"UI/Performance Label".text += "\nDelta: " + str(snappedf(delta, 0.001))
-		var memory = snapped(OS.get_static_memory_usage() / 1024.0 / 1024.0, 0.01)
-		max_memory = max(max_memory, memory)
-		$"UI/Performance Label".text += "\nMEM: " + str(memory) + " MB"
-		$"UI/Performance Label".text += " / " + str(max_memory) + " MB"
-	
-	
-	# Debug Messages
-	
-	
-	$"UI/Debug Label".visible = debug_visible
-	if debug_visible:
+		var memory = snapped(Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1024.0 / 1024.0, 0.01)
+		var performance_string: String = "FPS: " + str(Engine.get_frames_per_second())
+		performance_string += " • Delta: " + str(snappedf(delta, 0.001))
+		performance_string += " • MEM: " + str(memory) + " MB"
 		
-		$"UI/Debug Label".text = debug_info
+		$"UI/Performance Label".text = performance_string
 	
 	
 	if Input.is_action_just_pressed("fullscreen"):

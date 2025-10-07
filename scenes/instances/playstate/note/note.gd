@@ -19,7 +19,6 @@ const PIXELS_PER_SECOND = 450
 
 var scroll: float = 1.0
 var can_press: bool = false
-var pressed: bool = false
 var last_length: float = 0.0
 
 var direction: String = "left"
@@ -121,10 +120,9 @@ func _process(delta):
 
 func update_y():
 	
-	position.y = (PIXELS_PER_SECOND * time_difference * scroll_speed * scroll)
-	
+	position.y = PIXELS_PER_SECOND * time_difference * scroll_speed * scroll
 	var grid_scaler = PIXELS_PER_SECOND * GameManager.seconds_per_beat
-	grid_size = Vector2(grid_scaler, grid_scaler)
+	grid_size.y = grid_scaler
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void: 
 	

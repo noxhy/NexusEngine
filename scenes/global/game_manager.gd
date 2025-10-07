@@ -118,10 +118,10 @@ func get_rank(_grade: Variant = null) -> String:
 		
 		if _tallies.total_notes > 0:
 			
-			if (_tallies.epic + _tallies.sick) == _tallies.total_notes:
+			if (_tallies.sick) == _tallies.total_notes:
 				_grade = 2
 			else:
-				_grade = float(_tallies.epic + _tallies.sick + _tallies.good - _tallies.miss) / _tallies.total_notes
+				_grade = float(_tallies.sick + _tallies.good - _tallies.miss) / _tallies.total_notes
 		else:
 			_grade = 0
 		

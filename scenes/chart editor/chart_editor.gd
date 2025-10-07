@@ -61,7 +61,7 @@ var max_lane: int = 0
 func _ready() -> void:
 	
 	Global.set_window_title("Chart Editor")
-	song_speed = 1.0
+	song_speed = SettingsManager.get_setting("song_speed")
 	
 	if ChartManager.song != null:
 		
@@ -105,6 +105,8 @@ func _process(delta: float) -> void:
 			
 			song_position = %Instrumental.get_playback_position() - start_offset
 			%"Song Slider".value = song_position
+			
+			GameManager.seconds_per_beat = $Conductor.seconds_per_beat
 			
 			var notes_list = chart.get_notes_data()
 			
@@ -706,7 +708,8 @@ func load_chart(file: Chart, ghost: bool = false):
 	
 	if !ghost:
 		
-		for n in note_list: n.queue_free()
+		for n in note_list:
+			n.queue_free()
 		note_list = []
 	
 	for note in file.get_notes_data():
@@ -734,9 +737,7 @@ func place_note(time: float, lane: int, length: float, type: int, placed: bool =
 	var note_instance = NOTE_PRELOAD.instantiate()
 	
 	note_instance.chart_note = true
-	note_instance.tempo = chart.get_tempo_at(time)
 	var meter = chart.get_meter_at(time)
-	note_instance.seconds_per_beat = 60.0 / note_instance.tempo
 	
 	note_instance.time = time
 	note_instance.length = length

@@ -304,7 +304,7 @@ vertical_alignment = 1
 
 [node name="Upper UI" type="MenuBar" parent="UI"]
 clip_children = 1
-offset_left = -576.0
+offset_left = -384.0
 offset_top = -360.0
 offset_right = 640.0
 offset_bottom = -328.0
