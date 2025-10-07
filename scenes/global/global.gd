@@ -70,10 +70,6 @@ func _process(delta):
 	elif Input.is_action_just_pressed("reload"): 
 		get_tree().reload_current_scene()
 		get_tree().paused = false
-	
-	AudioServer.set_bus_volume_db(0, SettingsManager.get_setting("master_volume"))
-	AudioServer.set_bus_volume_db(1, SettingsManager.get_setting("music_volume"))
-	AudioServer.set_bus_volume_db(2, SettingsManager.get_setting("sfx_volume"))
 
 
 # Scene Changing
