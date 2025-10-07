@@ -687,7 +687,7 @@ func load_song(song: Song, difficulty: Variant = null):
 
 func load_song_path(path: String, difficulty: Variant = null):
 	
-	var old_song = self.ChartManager.song
+	var old_song = ChartManager.song
 	var song = load(path)
 	load_song(song, difficulty)
 	var action: String = "Loaded Song"
