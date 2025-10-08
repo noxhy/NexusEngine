@@ -14,10 +14,9 @@ tempo = 125.0
 scene = "res://scenes/playstate/songs/fresh/fresh.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "nightmare": {
-"chart": "res://assets/charts/Fresh Erect - nightmare.tres"
+"chart": "res://assets/songs/playable songs/fresh/Fresh Erect - nightmare.tres"
 }
 })
 title = "Fresh Erect"
 artist = "Kohta Takahashi (feat. Saruky)"
 icons = ExtResource("1_uxubk")
-locked = false

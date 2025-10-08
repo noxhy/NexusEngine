@@ -13,10 +13,8 @@ tempo = 114.0
 scene = "res://scenes/playstate/songs/cycles/cycles.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "hard": {
-"chart": "res://assets/charts/Cycles D-Side - hard.tres"
+"chart": "res://assets/songs/playable songs/cycles/Cycles D-Side - hard.tres"
 }
 })
 title = "Cycles"
 artist = "idk"
-icons = ExtResource("1_3voy8")
-locked = false

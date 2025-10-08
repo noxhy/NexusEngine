@@ -14,10 +14,9 @@ tempo = 190.0
 scene = "res://scenes/playstate/songs/thorns/thorns.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "nightmare": {
-"chart": "res://assets/charts/Thorns Erect - nightmare.tres"
+"chart": "res://assets/songs/playable songs/thorns/Thorns Erect - nightmare.tres"
 }
 })
 title = "Thorns Erect"
 artist = "kawai sprite (feat. Saster)"
 icons = ExtResource("1_r3sq6")
-locked = false

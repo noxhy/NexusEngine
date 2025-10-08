@@ -14,10 +14,9 @@ tempo = 155.0
 scene = "res://scenes/playstate/songs/darnell/darnell.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "hard": {
-"chart": "res://assets/charts/Darnell - hard.tres"
+"chart": "res://assets/songs/playable songs/darnell/Darnell - hard.tres"
 }
 })
 title = "Darnell"
 artist = "kawai sprite"
 icons = ExtResource("1_aowy4")
-locked = false

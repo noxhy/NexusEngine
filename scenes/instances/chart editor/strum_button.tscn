@@ -35,6 +35,7 @@ size_flags_stretch_ratio = 0.5
 text = ">"
 
 [node name="Window" type="Window" parent="."]
+oversampling_override = 1.0
 title = "Edit Strum Settings"
 initial_position = 4
 size = Vector2i(300, 180)

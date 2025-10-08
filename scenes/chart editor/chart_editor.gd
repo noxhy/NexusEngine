@@ -691,6 +691,9 @@ func load_song_path(path: String, difficulty: Variant = null):
 	
 	var old_song = ChartManager.song
 	var song = load(path)
+	if song is not Song:
+		printerr("File: ", path, " is not a song file.")
+		return
 	load_song(song, difficulty)
 	var action: String = "Loaded Song"
 	undo_redo.create_action(action)

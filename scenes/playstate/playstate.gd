@@ -104,7 +104,7 @@ func _ready():
 	await host.ready
 	
 	pause_preload = load(pause_scene)
-	Global.song_scene = Global.new_scene
+	Global.song_scene = LoadingScreen.scene
 	
 	chart = load(song_data.difficulties[GameManager.difficulty].chart)
 	

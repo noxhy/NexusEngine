@@ -14,10 +14,9 @@ tempo = 158.0
 scene = "res://scenes/playstate/songs/senpai/senpai_erect.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "nightmare": {
-"chart": "res://assets/charts/Senpai Erect - nightmare.tres"
+"chart": "res://assets/songs/playable songs/senpai/Senpai Erect - nightmare.tres"
 }
 })
 title = "Senpai Erect"
 artist = "kawai sprite"
 icons = ExtResource("2_ka8cm")
-locked = false

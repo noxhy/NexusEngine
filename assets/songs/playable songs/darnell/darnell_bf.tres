@@ -14,10 +14,9 @@ tempo = 155.0
 scene = "res://scenes/playstate/songs/darnell/darnell_bf.tscn"
 difficulties = Dictionary[String, Dictionary]({
 "hard": {
-"chart": "res://assets/charts/Darnell (Bf Mix) - hard.tres"
+"chart": "res://assets/songs/playable songs/darnell/Darnell (Bf Mix) - hard.tres"
 }
 })
 title = "Darnell (Bf Mix)"
 artist = "Saruky"
 icons = ExtResource("1_rjq1m")
-locked = false
