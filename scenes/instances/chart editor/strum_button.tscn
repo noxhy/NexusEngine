@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ddohksqocyhnx"]
 
-[ext_resource type="Theme" uid="uid://bebg8dyoq0am0" path="res://assets/themes/chart_editor.tres" id="1_3tx0p"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/chart_editor.res" id="1_4c1on"]
 [ext_resource type="Script" uid="uid://ydtsb8wn2g1u" path="res://scenes/instances/chart editor/strum_button.gd" id="2_yyjwr"]
 
 [node name="Strum Button" type="HFlowContainer"]
@@ -9,11 +9,11 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -360.0
 offset_right = 144.0
-offset_bottom = -314.0
+offset_bottom = -304.0
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme = ExtResource("1_3tx0p")
+theme = ExtResource("1_4c1on")
 script = ExtResource("2_yyjwr")
 
 [node name="Move Lane Left" type="Button" parent="."]

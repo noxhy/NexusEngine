@@ -194,17 +194,19 @@ func _process(delta: float) -> void:
 	
 	%"Current Time Label".text = float_to_time(song_position + start_offset)
 	if ChartManager.song != null:
-		%"Time Left Label".text = "-" + float_to_time(int(%Instrumental.stream.get_length() - song_position) * 1.0)
+		%"Time Left Label".text = "-" + float_to_time(snapped(%Instrumental.stream.get_length() - song_position, 0.1))
 	else:
 		%"Time Left Label".text = "- ??:??"
 	
 	if Input.is_action_just_pressed("ui_accept"): _on_play_button_toggled(!%Instrumental.stream_paused)
 	
-	var measure_height = %Grid/TextureRect.size.y * %Grid/TextureRect.scale.y
+	var measure_height = %Grid.get_size().y
 	var grid_offset: Vector2 = %Grid.position + $"Grid Layer".offset
 	var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 	var grid_position: Vector2 = %Grid.get_grid_position(mouse_position)
 	var snapped_position: Vector2i = Vector2i(%Grid.get_grid_position(mouse_position, %Grid.grid_size * Vector2(1, current_steps_per_measure / chart_snap)))
+	
+	$"Grid Layer/Parallax2D".repeat_size.y = %Grid.get_size().y
 	
 	var screen_mouse_position = get_global_mouse_position() - Vector2(0, $Camera2D.position.y - 360)
 	
@@ -504,7 +506,7 @@ func _draw() -> void:
 		var grid_position: Vector2i = Vector2i(%Grid.get_grid_position(mouse_position))
 		var snapped_position: Vector2i = Vector2i(%Grid.get_grid_position(mouse_position, %Grid.grid_size * Vector2(1, current_steps_per_measure / chart_snap)))
 		
-		var measure_height = %Grid/TextureRect.size.y * %Grid/TextureRect.scale.y
+		var measure_height = %Grid.get_size().y
 		
 		## Song Start Offset Marker
 		var time_to_y: Vector2
@@ -517,7 +519,7 @@ func _draw() -> void:
 		draw_rect(rect, current_time_color)
 		
 		## Hover Box
-		if (grid_position.x >= 0 and grid_position.x < %Grid.columns):
+		if (grid_position.x >= 0 and grid_position.x < %Grid.columns and (get_viewport().gui_get_hovered_control() == %Grid.get_node("TextureRect"))):
 			
 			rect = Rect2(%Grid.get_real_position(snapped_position, %Grid.grid_size * Vector2(1, current_steps_per_measure / chart_snap)) + grid_offset, \
 			%Grid.grid_size * %Grid.zoom * Vector2(1, current_steps_per_measure / chart_snap))
@@ -652,7 +654,7 @@ func update_waveforms():
 		
 		var id: String = ChartManager.strum_data.keys()[i]
 		n.size.y = (ChartManager.strum_data[id]["strums"][1] + 1 - ChartManager.strum_data[id]["strums"][0]) * %Grid.grid_size.x * %Grid.zoom.x
-		n.size.x = time_to_y_position(ChartManager.song.instrumental.get_length()) - time_to_y_position(0.0)
+		n.size.x = time_to_y_position(%Instrumental.stream.get_length()) - time_to_y_position(0.0)
 		i += 1
 
 
@@ -825,7 +827,7 @@ func find_note(lane: int, time: float) -> int:
 
 func play_audios(time: float):
 	
-	%Instrumental.stream = ChartManager.song.instrumental
+	%Instrumental.stream = load(ChartManager.song.instrumental)
 	%Vocals.stream = AudioStreamPolyphonic.new()
 	# This is to prevent null references
 	%Vocals.play()
@@ -834,7 +836,7 @@ func play_audios(time: float):
 	var playback = %Vocals.get_stream_playback()
 	vocal_tracks = []
 	for stream in ChartManager.song.vocals: vocal_tracks.append(\
-	playback.play_stream(stream, time - chart.offset + start_offset, 0.0, song_speed))
+	playback.play_stream(load(stream), time - chart.offset + start_offset, 0.0, song_speed))
 	
 	time = clamp(time, 0, %Instrumental.stream.get_length() - 0.1)
 	%Instrumental.play(time - chart.offset + start_offset)
@@ -1115,6 +1117,7 @@ func file_button_item_pressed(id):
 	# Exit
 	elif id == 6:
 		Global.change_scene_to("res://scenes/main menu/main_menu.tscn")
+		can_chart = false
 
 ## Edit button item pressed
 func edit_button_item_pressed(id):

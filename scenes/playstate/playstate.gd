@@ -108,7 +108,7 @@ func _ready():
 	
 	chart = load(song_data.difficulties[GameManager.difficulty].chart)
 	
-	music_host.get_node("Instrumental").stream = song_data.instrumental
+	music_host.get_node("Instrumental").stream = load(song_data.instrumental)
 	music_host.get_node("Instrumental").connect("finished", song_finished)
 	
 	song_speed = SettingsManager.get_setting("song_speed")
@@ -341,8 +341,9 @@ func play_audios(time: float):
 	
 	music_host.get_node("Vocals").stream.polyphony = song_data.vocals.size()
 	var playback = music_host.get_node("Vocals").get_stream_playback()
-	for stream in song_data.vocals:
+	for v in song_data.vocals:
 		
+		var stream: AudioStream = load(v)
 		vocal_tracks.append(playback.play_stream(stream, -chart.offset + song_start_offset + time, \
 		0.0, song_speed))
 	music_host.get_node("Instrumental").play(-chart.offset + song_start_offset + time)

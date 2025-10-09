@@ -1,19 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6cl2ayvb4ms3"]
+[gd_scene load_steps=3 format=3 uid="uid://c6cl2ayvb4ms3"]
 
 [ext_resource type="Script" uid="uid://drlrm6yoeyvls" path="res://scenes/instances/chart editor/convert_chart_popup.gd" id="1_byst7"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/chart_editor.res" id="1_p6cg2"]
 
 [node name="Convert File Popup" type="Window"]
+transparent_bg = true
 msaa_2d = 1
+oversampling_override = 1.0
 title = "Convert Chart File"
 initial_position = 1
 size = Vector2i(480, 520)
 exclusive = true
 unresizable = true
 min_size = Vector2i(480, 0)
+theme = ExtResource("1_p6cg2")
 script = ExtResource("1_byst7")
 
 [node name="SaveFolderDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
+oversampling_override = 1.0
 title = "Open a Directory"
 initial_position = 1
 size = Vector2i(540, 400)
@@ -25,11 +30,13 @@ dialog_hide_on_ok = true
 file_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -238.0
+offset_right = 238.0
+offset_bottom = 538.0
 grow_horizontal = 2
-grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Song Metadata Label" type="Label" parent="VBoxContainer"]

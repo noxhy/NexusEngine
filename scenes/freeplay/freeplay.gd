@@ -138,7 +138,7 @@ func update_selection(i: int):
 	
 	var song_file = options[instances[i].index]
 	SoundManager.scroll.play()
-	$Audio/Music.stream = song_file.instrumental
+	$Audio/Music.stream = load(song_file.instrumental)
 	$Audio/Music.volume_db = -60
 	$Audio/Music.play()
 	%"Highscore Text".play("highscore small instance 1")

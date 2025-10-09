@@ -1,12 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://d20lksrt6bgar"]
+[gd_scene load_steps=3 format=3 uid="uid://d20lksrt6bgar"]
 
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/chart_editor.res" id="1_af6hw"]
 [ext_resource type="Script" uid="uid://cxhrkbo2mxgoe" path="res://scenes/instances/chart editor/history_window.gd" id="1_egflg"]
 
 [node name="History Window" type="Window"]
+transparent_bg = true
+oversampling_override = 1.0
 title = "History"
 position = Vector2i(520, 200)
 size = Vector2i(240, 320)
+transparent = true
 popup_window = true
+theme = ExtResource("1_af6hw")
 script = ExtResource("1_egflg")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]

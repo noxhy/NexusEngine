@@ -1,23 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://d05iuopxfqlhj"]
+[gd_scene load_steps=3 format=3 uid="uid://d05iuopxfqlhj"]
 
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/chart_editor.res" id="1_pptwc"]
 [ext_resource type="Script" uid="uid://dsec7v7be3ekg" path="res://scenes/instances/chart editor/new_file_popup.gd" id="1_qca52"]
 
 [node name="New File Popup" type="Window"]
+transparent_bg = true
 msaa_2d = 1
+oversampling_override = 1.0
 title = "Create New Song"
 initial_position = 1
-size = Vector2i(480, 480)
+size = Vector2i(640, 480)
 exclusive = true
 unresizable = true
 always_on_top = true
+transparent = true
 min_size = Vector2i(480, 0)
+theme = ExtResource("1_pptwc")
 script = ExtResource("1_qca52")
 
 [node name="SaveFolderDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
+oversampling_override = 1.0
 title = "Open a Directory"
 initial_position = 1
-size = Vector2i(540, 400)
+size = Vector2i(640, 480)
 unresizable = true
 always_on_top = true
 min_size = Vector2i(320, 320)
@@ -26,155 +32,57 @@ dialog_hide_on_ok = true
 file_mode = 2
 root_subfolder = "res://assets/songs/playable songs/"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="FlowContainer" type="FlowContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Song Metadata Label" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-text = "Song Metadata"
-vertical_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Song Title" type="LineEdit" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Title"
-
-[node name="Song Credits" type="LineEdit" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Credits"
-
-[node name="Starting Difficulty" type="LineEdit" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-text = "hard"
-placeholder_text = "Starting Difficulty"
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Starting Tempo:"
-
-[node name="Starting Tempo" type="SpinBox" parent="VBoxContainer/HBoxContainer4"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-min_value = 1.0
-max_value = 1000.0
-step = 0.001
-value = 60.0
-
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Audio Files Label" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Audio Files"
-
-[node name="HSeparator4" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="Vocals File Location" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(312, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Vocals File(s) Location(s)"
-editable = false
-
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Select File Location"
-
-[node name="Vocals File Dialog" type="FileDialog" parent="VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-title = "Open File(s)"
-initial_position = 1
-size = Vector2i(640, 400)
-unresizable = true
-always_on_top = true
-min_size = Vector2i(320, 320)
-ok_button_text = "Open"
-dialog_hide_on_ok = true
-file_mode = 1
-root_subfolder = "res://assets/songs/playable songs/"
-filters = PackedStringArray("*.mp3", "*.ogg")
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="Inst File Location" type="LineEdit" parent="VBoxContainer/HBoxContainer3"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(312, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Instrumental File Location"
-editable = false
-
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Select File Location"
-
-[node name="Inst File Dialog" type="FileDialog" parent="VBoxContainer/HBoxContainer3"]
-unique_name_in_owner = true
-title = "Open a File"
-initial_position = 1
-size = Vector2i(640, 400)
-unresizable = true
-always_on_top = true
-min_size = Vector2i(320, 320)
-ok_button_text = "Open"
-dialog_hide_on_ok = true
-file_mode = 0
-root_subfolder = "res://assets/songs/playable songs/"
-filters = PackedStringArray("*.mp3", "*.ogg")
-
-[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 6
-alignment = 1
+size_flags_vertical = 0
+metadata/_edit_lock_ = true
 
-[node name="Save Button" type="Button" parent="VBoxContainer/HBoxContainer2"]
-unique_name_in_owner = true
+[node name="Creation Presets" type="VBoxContainer" parent="FlowContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-text = "Create New Song"
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="FlowContainer/Creation Presets"]
+layout_mode = 2
+text = "Create New"
+
+[node name="HSeparator" type="HSeparator" parent="FlowContainer/Creation Presets"]
+layout_mode = 2
+
+[node name="Difficulty Options" type="ItemList" parent="FlowContainer/Creation Presets"]
+layout_mode = 2
+size_flags_vertical = 3
+auto_height = true
+item_count = 3
+item_0/text = "Easy/Normal/Hard Only"
+item_1/text = "Erect/Nightmare Only"
+item_2/text = "Easy/Normal/Hard/Erect/Nightmare"
+
+[node name="Convert Chart" type="VBoxContainer" parent="FlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="FlowContainer/Convert Chart"]
+layout_mode = 2
+text = "Import Chart"
+
+[node name="HSeparator" type="HSeparator" parent="FlowContainer/Convert Chart"]
+layout_mode = 2
+
+[node name="Format Options" type="ItemList" parent="FlowContainer/Convert Chart"]
+layout_mode = 2
+size_flags_vertical = 3
+auto_height = true
+item_count = 5
+item_0/text = "V-Slice"
+item_1/text = "Psych v1"
+item_2/text = "Pysch v0.7"
+item_3/text = "Andromeda Engine"
+item_4/text = "Forever Engine"
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="dir_selected" from="SaveFolderDialog" to="." method="_on_save_folder_dialog_dir_selected"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button" to="." method="_on_vocals_button_pressed"]
-[connection signal="files_selected" from="VBoxContainer/HBoxContainer/Vocals File Dialog" to="." method="_on_vocals_file_dialog_files_selected"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer3/Button" to="." method="_on_inst_button_pressed"]
-[connection signal="file_selected" from="VBoxContainer/HBoxContainer3/Inst File Dialog" to="." method="_on_inst_file_dialog_file_selected"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer2/Save Button" to="." method="_on_save_button_pressed"]

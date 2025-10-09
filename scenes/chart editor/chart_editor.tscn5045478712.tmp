@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://scenes/instances/conductor.gd" id="2_dontb"]
 [ext_resource type="PackedScene" uid="uid://dmjgk2qf3nl2i" path="res://scenes/instances/chart editor/grid.tscn" id="2_i6pv1"]
 [ext_resource type="AudioStream" uid="uid://bhbl74dwlqyhk" path="res://assets/sounds/conductor/conductor sfx.mp3" id="3_myxvx"]
+[ext_resource type="Theme" uid="uid://bebg8dyoq0am0" path="res://assets/themes/chart_editor.tres" id="3_noq2o"]
 [ext_resource type="AudioStream" uid="uid://bodc4sfit172e" path="res://assets/sounds/chart editor/sound-hit.wav" id="4_1k01c"]
 [ext_resource type="Texture2D" uid="uid://byl3boevtc02p" path="res://assets/sprites/menus/chart editor/play_button.png" id="4_f11ek"]
 [ext_resource type="Texture2D" uid="uid://crpue80aij4bq" path="res://assets/sprites/menus/chart editor/menuDesat.png" id="4_g6hlb"]
@@ -21,7 +22,6 @@
 [ext_resource type="AudioStream" uid="uid://bdbqayhnogbk5" path="res://assets/sounds/chart editor/exitWindow.ogg" id="12_qymoy"]
 [ext_resource type="AudioStream" uid="uid://bmj7ckgd3tlt1" path="res://assets/sounds/chart editor/undo.ogg" id="13_am3li"]
 [ext_resource type="AudioStream" uid="uid://rka5qxbj0svd" path="res://assets/sounds/chart editor/noteLay.ogg" id="14_am3li"]
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/chart_editor.res" id="17_75w6f"]
 [ext_resource type="PackedScene" uid="uid://d20lksrt6bgar" path="res://scenes/instances/chart editor/history_window.tscn" id="19_ufjr2"]
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_50rmr"]
@@ -123,29 +123,21 @@ unique_name_in_owner = true
 stream = ExtResource("14_am3li")
 bus = &"SFX"
 
-[node name="Grid Layer" type="CanvasLayer" parent="."]
+[node name="Grid Layer" type="ParallaxBackground" parent="."]
 layer = -2
 offset = Vector2(640, 64)
 transform = Transform2D(1, 0, 0, 1, 640, 64)
 
-[node name="Parallax2D" type="Parallax2D" parent="Grid Layer"]
-follow_viewport = false
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Grid Layer"]
+motion_mirroring = Vector2(0, 576)
 
-[node name="Grid" parent="Grid Layer/Parallax2D" instance=ExtResource("2_i6pv1")]
+[node name="Grid" parent="Grid Layer/ParallaxLayer" instance=ExtResource("2_i6pv1")]
 unique_name_in_owner = true
 grid_size = Vector2(36, 36)
 columns = 10
-grid_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
-event_column_color = Color(0.2071459, 0.23626423, 0.2815594, 0.26666668)
-position_column_color = Color(0.20784314, 0.23529412, 0.28235295, 0.26666668)
-
-[node name="Grid2" parent="Grid Layer/Parallax2D" instance=ExtResource("2_i6pv1")]
-unique_name_in_owner = true
-grid_size = Vector2(36, 36)
-columns = 10
-grid_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
-event_column_color = Color(0.2071459, 0.23626423, 0.2815594, 0.26666668)
-position_column_color = Color(0.20784314, 0.23529412, 0.28235295, 0.26666668)
+grid_color = Color(0.329412, 0.329412, 0.329412, 1)
+event_column_color = Color(0.152941, 0.152941, 0.152941, 0.47451)
+position_column_color = Color(0.152941, 0.152941, 0.152941, 0.47451)
 
 [node name="Waveform Layer" type="CanvasLayer" parent="."]
 layer = 2
@@ -169,7 +161,7 @@ offset_left = -640.0
 offset_top = -360.0
 offset_right = 640.0
 offset_bottom = -328.0
-color = Color(0.14509805, 0.16862746, 0.20392157, 1)
+color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="Lower Border" type="ColorRect" parent="UI Borders"]
@@ -177,7 +169,7 @@ offset_left = -640.0
 offset_top = 312.0
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.14509805, 0.16862746, 0.20392157, 1)
+color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -192,7 +184,7 @@ offset_top = 296.0
 offset_right = 640.0
 offset_bottom = 312.0
 focus_mode = 1
-theme = ExtResource("17_75w6f")
+theme = ExtResource("3_noq2o")
 step = 0.001
 ticks_on_borders = true
 metadata/_edit_lock_ = true
@@ -210,13 +202,13 @@ offset_bottom = -360.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 1
-theme = ExtResource("17_75w6f")
+theme = ExtResource("3_noq2o")
 alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="Current Time Label" type="Label" parent="UI/Lower UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(385, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "CURRENT TIME"
@@ -310,19 +302,23 @@ text = "TIME LEFT"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Upper UI" type="HBoxContainer" parent="UI"]
+[node name="Upper UI" type="MenuBar" parent="UI"]
 clip_children = 1
 offset_left = -576.0
 offset_top = -360.0
 offset_right = 640.0
-offset_bottom = -327.0
-theme = ExtResource("17_75w6f")
+offset_bottom = -328.0
+theme = ExtResource("3_noq2o")
 
 [node name="File Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00657895
+anchor_right = 0.0180921
+anchor_bottom = 0.375
+offset_right = 34.0
+offset_bottom = 20.0
 text = "File"
 item_count = 8
 popup/item_0/text = "Create New Song"
@@ -347,9 +343,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Edit Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0592105
+anchor_right = 0.0690789
+anchor_bottom = 0.375
+offset_right = 36.0
+offset_bottom = 20.0
 text = "Edit"
 item_count = 2
 popup/item_0/text = "Undo | Ctrl + Z"
@@ -360,9 +360,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="View Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.111842
+anchor_right = 0.121711
+anchor_bottom = 0.375
+offset_right = 36.0
+offset_bottom = 20.0
 text = "View"
 item_count = 1
 popup/item_0/id = 0
@@ -370,9 +374,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Audio Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.164474
+anchor_right = 0.174342
+anchor_bottom = 0.375
+offset_right = 36.0
+offset_bottom = 20.0
 text = "Audio"
 item_count = 1
 popup/item_0/id = 0
@@ -380,9 +388,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Test Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.217105
+anchor_right = 0.226974
+anchor_bottom = 0.375
+offset_right = 36.0
+offset_bottom = 20.0
 text = "Test"
 item_count = 1
 popup/item_0/id = 0
@@ -390,9 +402,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Window Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.263158
+anchor_right = 0.286184
+anchor_bottom = 0.375
+offset_right = 36.0
+offset_bottom = 20.0
 text = "Window"
 item_count = 1
 popup/item_0/text = "History"
@@ -406,9 +422,13 @@ visible = false
 
 [node name="Help Button" type="MenuButton" parent="UI/Upper UI"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.315789
+anchor_right = 0.338815
+anchor_bottom = 0.375
+offset_right = 36.0
+offset_bottom = 20.0
 text = "Help"
 item_count = 1
 popup/item_0/id = 0
@@ -428,7 +448,7 @@ offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 
 [node name="MenuDesat" type="Sprite2D" parent="Background"]
-modulate = Color(0.11372549, 0.13333334, 0.16078432, 1)
+modulate = Color(0.152344, 0.152344, 0.152344, 1)
 texture = ExtResource("4_g6hlb")
 metadata/_edit_lock_ = true
 

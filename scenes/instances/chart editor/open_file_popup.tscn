@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://388mdmn1mwun"]
+[gd_scene load_steps=3 format=3 uid="uid://388mdmn1mwun"]
 
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://assets/themes/chart_editor.res" id="1_gikln"]
 [ext_resource type="Script" uid="uid://b6mqxjs7xwqjh" path="res://scenes/instances/chart editor/open_file_popup.gd" id="1_umk2k"]
 
 [node name="Open File Popup" type="FileDialog"]
@@ -12,6 +13,7 @@ visible = true
 unresizable = true
 always_on_top = true
 min_size = Vector2i(480, 0)
+theme = ExtResource("1_gikln")
 ok_button_text = "Open"
 file_mode = 0
 root_subfolder = "res://assets/songs/playable songs/"

@@ -58,17 +58,10 @@ func _draw():
 func _input(event):
 	
 	if event.is_action_pressed("ui_cancel"):
-		
-		
 		$"Audio/Menu Cancel".play()
-		Transitions.transition("down")
-		
-		await get_tree().create_timer(1).timeout
-		
 		Global.change_scene_to("res://scenes/options/options.tscn")
 	
 	elif event.is_action_pressed("ui_accept"):
-		
 		$"Audio/Hit Sound".play()
 		var song_position = snapped( $Audio/Music.get_playback_position(), 0.001 )
 		timing = snapped( timing, 0.001 )
@@ -78,7 +71,6 @@ func _input(event):
 		index += 1
 		
 		if index >= entries_required:
-			
 			var sum = 0.0
 			for i in previous_offsets: sum += i
 			SettingsManager.set_setting( "offset", snapped( sum / previous_offsets.size(), 0.001 ) )

@@ -7,13 +7,13 @@ class_name Song
 @export_subgroup("Song Data")
 
 ## Strong the vocal tracks on a filepath makes use less memory to load in runtime
-@export var vocals: Array[AudioStream] = []
+@export_file("*.ogg", "*.mp3", "*.wav") var vocals: Array[String] = []
 ## File path to the instrumental of the song
-@export var instrumental: AudioStream
+@export_file("*.ogg", "*.mp3", "*.wav") var instrumental: String
 ## Initial tempo of the song
 @export var tempo: float = 60.0
 ## The name that displays on the freeplay and pause menu
-@export var scene: String
+@export_file("*.tscn") var scene: String
 ## Each difficulty should have a filepath to a chart
 ## Set in each difficult a file path for the "chart" key.
 ## If you want to override the scene for a diffculty, add a key "scene" with a filepath to said scene.
