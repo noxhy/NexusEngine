@@ -6,14 +6,16 @@ extends OptionNode
 @export var value_name: String = ""
 @export var value_scale = 1.0 # Multiplies this value (Used for shit like milliseconds)
 
+@onready var slider = $HSlider
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var savedValue = clampf(SettingsManager.get_setting(setting_name) / value_scale, min, max);
 	
-	$HSlider.min_value = min
-	$HSlider.max_value = max
-	$HSlider.step = step
-	$HSlider.value = SettingsManager.get_setting( setting_name ) / value_scale
+	slider.min_value = min
+	slider.max_value = max
+	slider.step = step
+	slider.value = savedValue
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

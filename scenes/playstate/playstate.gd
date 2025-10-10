@@ -228,19 +228,18 @@ func _process(delta):
 	# would just be to iterate through as the song is playing, making it faster
 	var notes_list = chart.get_notes_data()
 	
-	if current_note < notes_list.size():
-		
-		var note = notes_list[current_note]
-		
-		if note[0] <= (song_position + conductor.seconds_per_beat * 4):
+	if notes_list.size() > 0:
+		if current_note < notes_list.size():
+			var note = notes_list[current_note]
 			
-			var time: float = note[0]
-			var lane: int = note[1]
-			var length: float = note[2]
-			var type: int = note[3]
-			
-			emit_signal("create_note", time, lane, length, type, get_tempo_at(time))
-			current_note += 1
+			if note[0] <= (song_position + conductor.seconds_per_beat * 4):
+				var time: float = note[0]
+				var lane: int = note[1]
+				var length: float = note[2]
+				var type: int = note[3]
+				
+				emit_signal("create_note", time, lane, length, type, get_tempo_at(time))
+				current_note += 1
 	
 	if music_host.get_node("Instrumental").playing:
 		

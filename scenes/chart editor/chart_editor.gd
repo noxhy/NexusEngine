@@ -264,8 +264,10 @@ func _process(delta: float) -> void:
 		
 		else:
 			
-			bounding_box = true
-			start_box = get_global_mouse_position()
+			if can_chart:
+				
+				bounding_box = true
+				start_box = get_global_mouse_position()
 	
 	if Input.is_action_pressed("mouse_right"):
 		
@@ -723,7 +725,7 @@ func load_chart(file: Chart, ghost: bool = false):
 
 func new_file(path: String, song: Song):
 	
-	var old_song = self.ChartManager.song
+	var old_song = ChartManager.song
 	load_song(song)
 	var action: String = "Created New Song"
 	undo_redo.create_action(action)

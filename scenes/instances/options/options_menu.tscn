@@ -103,7 +103,7 @@ layout_mode = 2
 [node name="Master Volume" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
 max = 1.0
-step = 0.1
+step = 0.05
 value_name = "x"
 setting_name = "master_volume"
 display_name = "Master Volume"
@@ -111,7 +111,7 @@ display_name = "Master Volume"
 [node name="Music Volume2" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
 max = 1.0
-step = 0.1
+step = 0.05
 value_name = "x"
 setting_name = "music_volume"
 display_name = "Music Volume"
@@ -119,7 +119,7 @@ display_name = "Music Volume"
 [node name="SFX Volume3" parent="Preferences/ScrollContainer/VBoxContainer" instance=ExtResource("4_733y8")]
 layout_mode = 2
 max = 1.0
-step = 0.1
+step = 0.05
 value_name = "x"
 setting_name = "sfx_volume"
 display_name = "SFX Volume"
@@ -285,14 +285,16 @@ layout_mode = 2
 
 [node name="Song Speed" parent="Miscellaneous/ScrollContainer/VBoxContainer" instance=ExtResource("3_ae3rr")]
 layout_mode = 2
-max = 10.0
-step = 0.1
+min = 0.1
+max = 2.0
+step = 0.05
 value_name = "x"
 setting_name = "song_speed"
 display_name = "Song Speed"
 
 [node name="Scroll Speed Scale" parent="Miscellaneous/ScrollContainer/VBoxContainer" instance=ExtResource("3_ae3rr")]
 layout_mode = 2
+min = 0.1
 max = 2.0
 step = 0.1
 value_name = "x"
