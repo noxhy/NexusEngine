@@ -79,10 +79,8 @@ func _on_inst_file_dialog_file_selected(path):
 
 # When the directory of the folder the chart will save in is selected
 func _on_save_folder_dialog_dir_selected(dir):
-	
 	save_dir = dir
 	%"Export File Location".text = dir
-	return
 
 func _on_close_requested(): self.queue_free()
 

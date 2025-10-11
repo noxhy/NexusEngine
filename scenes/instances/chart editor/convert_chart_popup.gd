@@ -17,14 +17,22 @@ const EVENT_NAMES = {
 	
 }
 
-signal file_created(path: String, chart: Chart)
+enum ChartFormats {
+	VSLICE,
+	PSYCH_ONE,
+	PSYCH_OLD,
+	ANDROMEDA,
+	FOREVER
+}
+
+signal file_created(path: String, song: Song)
 
 var selected_vocals: PackedStringArray
 var selected_instrumental: String
+var save_dir: String
 
 func _ready():
-	_on_chart_type_button_item_selected(%"Chart Type Button".selected)
-
+	pass
 
 # Creates a new file that will send out a signal to the chart editor
 func new_file(dir: String):
@@ -34,20 +42,38 @@ func new_file(dir: String):
 	song_file.artist = %"Song Credits".text
 	song_file.title = %"Song Title".text
 	
-	song_file.instrumental = load(selected_instrumental)
-	var streams: Array[AudioStream] = []
-	for stream in selected_vocals: streams.append(load(stream))
+	song_file.instrumental = selected_instrumental
+	var streams: Array[String] = []
+	for stream in selected_vocals:
+		streams.append(stream)
 	song_file.vocals = streams
 	
-	var difficulty: String = %Difficulty.text
-	var chart: Chart = Chart.new()
+	var chart_file: String
+	var chart_type = %"Format Options".get_selected_items()[0]
+	var difficulties: Array = []
+	var difficulty_dict: Dictionary[String, Dictionary] = {}
 	
-	chart.chart_data = convert_chart(%"Chart File Location".text, %"Chart Type Button".selected)
-	song_file.tempo = chart.get_tempos_data().get(chart.get_tempos_data().keys()[0])
+	var files: Array = Array(DirAccess.get_files_at(str(dir, "/"))).filter(
+		func(element): return (element.ends_with(".json"))
+		)
 	
-	var chart_path: String = dir + "/" + song_file.title + "-" + difficulty + ".res"
-	ResourceSaver.save(chart, chart_path)
-	var difficulty_dict: Dictionary[String, Dictionary] = {difficulty: {"chart": chart_path}}
+	print(files)
+	
+	match chart_type:
+		ChartFormats.VSLICE:
+			chart_file = dir + "/" + files.filter(func(element): return element.contains("metadata"))[0]
+			var file = FileAccess.open(chart_file, FileAccess.READ)
+			var metadata = JSON.parse_string(file.get_as_text())
+			difficulties = metadata["playData"]["difficulties"]
+	
+	for difficulty in difficulties:
+		var chart: Chart = convert_chart(chart_file, chart_type, difficulty)
+		song_file.tempo = chart.get_tempos_data().get(chart.get_tempos_data().keys()[0])
+		
+		var chart_path: String = dir + "/" + song_file.title + "-" + difficulty + ".res"
+		ResourceSaver.save(chart, chart_path)
+		difficulty_dict[difficulty] = {"chart": chart_path}
+	
 	song_file.difficulties = difficulty_dict
 	var song_path: String = dir + "/" + song_file.title + ".res"
 	ResourceSaver.save(song_file, song_path)
@@ -57,7 +83,9 @@ func new_file(dir: String):
 
 
 # Converts a chart at the given path
-func convert_chart(path: String, chart_type: int) -> Dictionary:
+func convert_chart(path: String, chart_type: int, difficulty: String = "") -> Chart:
+	
+	var chart = Chart.new()
 	
 	# Metadata chart data
 	var json_file = FileAccess.open(path, FileAccess.READ)
@@ -83,12 +111,13 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 		var chart_json_data = chart_json_file.get_as_text()
 		var chart_json = JSON.parse_string(chart_json_data)
 		
+		chart.scroll_speed = chart_json.scrollSpeed[difficulty]
+		
 		# Adding tempo data
 		for i in json.timeChanges: tempo_data.merge({i.t: i.bpm}, true)
 		
 		# Adding Note Data
 		var note_types = []
-		var difficulty = %Difficulty.text
 		
 		for i in chart_json.notes.get(difficulty):
 			
@@ -101,6 +130,7 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 			var length = 0
 			if i.has("l"): length = i.l / 1000.0 / seconds_per_beat
 			
+			# Enumerating note types
 			var note_type = 0
 			if i.has("k"):
 				
@@ -123,19 +153,22 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 			var parameters = []
 			
 			var event_name = event
-			if EVENT_NAMES.has(event): event_name = EVENT_NAMES.get(event)
+			if EVENT_NAMES.has(event):
+				event_name = EVENT_NAMES.get(event)
 			
 			if i.v is Dictionary:
-				
 				for j in i.v: parameters.append(str(i.v.get(j)))
+			else:
+				parameters.append(str(i.v))
 			
-			else: parameters.append(str(i.v))
+			if event == "FocusCamera":
+				parameters = [str(i.v.char)]
+			elif event == "ZoomCamera":
+				parameters = [str(i.v.zoom), str(i.v.duration * (seconds_per_beat / 16.0))]
+			elif event == "SetCameraBop":
+				parameters = [str(i.v.rate * 4)]
 			
-			if event == "FocusCamera": parameters = [str(i.v.char)]
-			elif event == "ZoomCamera": parameters = [str(i.v.zoom), str(i.v.duration * (seconds_per_beat / 16.0))]
-			elif event == "SetCameraBop": parameters = [str(i.v.rate * 4)]
-			
-			event_data.append([ time, event_name, parameters ])
+			event_data.append([time, event_name, parameters])
 	
 	
 	#
@@ -459,7 +492,7 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 			index += 1
 			section_time += seconds_per_measure
 	
-	return {
+	chart.chart_data = {
 		
 		"notes": note_data,
 		"events": event_data,
@@ -467,6 +500,8 @@ func convert_chart(path: String, chart_type: int) -> Dictionary:
 		"meters": {0.0: [4, 16]},
 		
 	}
+	
+	return chart
 
 
 # Get tempo at certain time
@@ -487,24 +522,22 @@ func _on_inst_button_pressed(): %"Inst File Dialog".popup()
 
 # When the vocals file is selected 
 func _on_vocals_file_dialog_files_selected(paths: PackedStringArray) -> void:
-	
 	selected_vocals = paths
 	%"Vocals File Location".text = str(paths)
 
 # When the Inst file is selected
 func _on_inst_file_dialog_file_selected(path):
-	
 	selected_instrumental = path
 	%"Inst File Location".text = path
 
 # "Create New File" button pressed
-func _on_save_button_pressed(): %SaveFolderDialog.popup()
+func _on_export_file_button_pressed():
+	%SaveFolderDialog.popup()
 
 # When the directory of the folder the chart will save in is selected
 func _on_save_folder_dialog_dir_selected(dir):
-	
-	new_file(dir)
-	self.queue_free()
+	%"Export File Location".text = dir
+	save_dir = dir
 
 # "Select File Location" button pressed
 func _on_chart_button_pressed(): %"Chart File Dialog".popup()
@@ -512,9 +545,19 @@ func _on_chart_button_pressed(): %"Chart File Dialog".popup()
 # When the chart file is selected
 func _on_chart_file_dialog_file_selected(path): %"Chart File Location".text = path
 
-func _on_chart_type_button_item_selected(index):
-	
-	$"VBoxContainer/HBoxContainer5/Chart Type Label".text = " Chart Type: " + %"Chart Type Button".get_item_text(index)
-	if index == 0: $"VBoxContainer/HBoxContainer5/Chart Type Label".text += " (Pick metadata file)"
-
 func _on_close_requested(): self.queue_free()
+
+func _on_create_button_pressed() -> void:
+	if %"Format Options".get_selected_items().size() == 0:
+		printerr("No chart format selected")
+		return
+	
+	if !FileAccess.file_exists(selected_instrumental):
+		printerr("No instrumental file found")
+	
+	if !DirAccess.dir_exists_absolute(save_dir):
+		printerr("Save Directory does not exist")
+		return
+	
+	new_file(save_dir)
+	self.queue_free()

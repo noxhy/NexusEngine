@@ -35,6 +35,7 @@ size_flags_stretch_ratio = 0.5
 text = ">"
 
 [node name="Window" type="Window" parent="."]
+transparent_bg = true
 oversampling_override = 1.0
 title = "Edit Strum Settings"
 initial_position = 4
@@ -53,33 +54,24 @@ custom_minimum_size = Vector2(300, 16)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Window/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-text = "Label Name:"
-
 [node name="Strum ID" type="LineEdit" parent="Window/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-placeholder_text = "Strum ID"
+placeholder_text = "Strum Label"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Window/VBoxContainer"]
 custom_minimum_size = Vector2(300, 16)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Window/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 2
-text = "Vocal Track:"
-
 [node name="Vocal Track" type="SpinBox" parent="Window/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+prefix = "Vocal Track:"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="Window/VBoxContainer"]
 custom_minimum_size = Vector2(300, 16)
@@ -88,7 +80,7 @@ size_flags_vertical = 3
 
 [node name="Check Box" type="CheckButton" parent="Window/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
 size_flags_vertical = 4
 text = "Muted:"
 
@@ -99,7 +91,7 @@ size_flags_vertical = 3
 [node name="HBoxContainer3" type="HBoxContainer" parent="Window/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-size_flags_vertical = 6
+size_flags_vertical = 2
 alignment = 1
 
 [node name="Button" type="Button" parent="Window/VBoxContainer/HBoxContainer3"]

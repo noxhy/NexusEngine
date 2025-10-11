@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cjnnmlxm76510"
+path="res://.godot/imported/Voices-bf-erect.ogg-1f6b9d4f3f9b4c6cdd55a75c7673ccc2.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/cocoa/Voices-bf-erect.ogg"
+dest_files=["res://.godot/imported/Voices-bf-erect.ogg-1f6b9d4f3f9b4c6cdd55a75c7673ccc2.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

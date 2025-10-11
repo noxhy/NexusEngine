@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://jhguvnd6p1wl"
+path="res://.godot/imported/Voices-parents-christmas-erect.ogg-0b6e1df9b74b1415b24e000d2639e953.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/songs/playable songs/cocoa/Voices-parents-christmas-erect.ogg"
+dest_files=["res://.godot/imported/Voices-parents-christmas-erect.ogg-0b6e1df9b74b1415b24e000d2639e953.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
