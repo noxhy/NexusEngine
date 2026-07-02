@@ -48,9 +48,9 @@ func _ready() -> void:
 	audio_button.get_popup().set_item_checked(
 		audio_button.get_popup().get_item_index(9), ChartEditor.mute_instrumental)
 	
-	audio_button.get_popup().set_item_checked(
-		audio_button.get_popup().get_item_index(10),
-		SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
+	#audio_button.get_popup().set_item_checked(
+		#audio_button.get_popup().get_item_index(10),
+		#SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
 	
 	#view button
 	view_button.get_popup().connect(&"id_pressed", chart_editor.view_button_item_pressed)

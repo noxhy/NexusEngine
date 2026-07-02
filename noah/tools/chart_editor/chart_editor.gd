@@ -139,8 +139,7 @@ func _process(delta: float) -> void:
 					var lane: float = note[1]
 					for id in ChartManager.strum_data.size():
 						if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
-							if (!ChartManager.strum_data[id]["muted"] and
-							SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds")):
+							if (!ChartManager.strum_data[id].get('hit_sounds', true)):
 								%"Hit Sound".play()
 					
 					current_note += 1
@@ -493,7 +492,8 @@ func update_grid():
 		var strum_label_instance = STRUM_BUTTON_PRELOAD.instantiate()
 		
 		strum_label_instance.id = id
-		strum_label_instance.muted = ChartManager.strum_data[id]["muted"]
+		strum_label_instance.muted = ChartManager.strum_data[id].get("muted", false)
+		strum_label_instance.hit_sounds = ChartManager.strum_data[id].get("hit_sounds", true)
 		
 		%"Strum Labels".add_child(strum_label_instance)
 		strum_label_instance.custom_minimum_size.x = (
