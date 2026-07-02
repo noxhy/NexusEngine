@@ -464,12 +464,6 @@ func _draw() -> void:
 				Vector2(%Grid.grid_size.x * %Grid.zoom.x, length))
 				draw_rect(rect, selected_color)
 
-func draw_string_at_position(pos: Vector2, text: String) -> void:
-	draw_string_outline(DEFAULT_FONT, pos, text,
-	HORIZONTAL_ALIGNMENT_LEFT, -1, DEFAULT_FONT_SIZE, DEFAULT_FONT_SIZE / 2, Color.BLACK)
-	draw_string(DEFAULT_FONT, pos, text,
-	HORIZONTAL_ALIGNMENT_LEFT, -1, DEFAULT_FONT_SIZE)
-
 func on_files_dropped(files: PackedStringArray):
 	var file: String = files[0]
 	var local_file: String = ProjectSettings.localize_path(file)

@@ -101,89 +101,81 @@ func _process(delta: float) -> void:
 				bounding_box = true
 				start_box = get_global_mouse_position()
 	
-	if Input.is_action_just_pressed(&"mouse_middle"):
-		if is_mouse_over_grid():
-			if can_chart:
-				if (((snapped_position.y - 1) >= 0 and (snapped_position.y - 1) < %Grid.rows)):
-						if hovered_event != -1:
-							var event: String = ChartManager.chart.chart_data["events"][hovered_event][1]
-							var time: float = ChartManager.chart.chart_data["events"][hovered_event][0]
-							
-							if (Constants.EVENT_DATA.has(event)
-							and Constants.EVENT_DATA.get(event).has("parameters")):
-									current_event = event
-									current_event_time = time
-									editing = hovered_event
-									%"Event Creator".popup()
+	if Input.is_action_just_pressed(&"mouse_middle") and is_mouse_over_grid() and can_chart:
+		if (((snapped_position.y - 1) >= 0 and (snapped_position.y - 1) < %Grid.rows)):
+				if hovered_event != -1:
+					var event: String = ChartManager.chart.chart_data["events"][hovered_event][1]
+					var time: float = ChartManager.chart.chart_data["events"][hovered_event][0]
+					
+					if (Constants.EVENT_DATA.has(event)
+					and Constants.EVENT_DATA.get(event).has("parameters")):
+							current_event = event
+							current_event_time = time
+							editing = hovered_event
+							%"Event Creator".popup()
 	
-	if Input.is_action_pressed(&"mouse_right"):
-		if !Input.is_action_pressed(&"control"):
-				if is_mouse_over_grid():
-					if can_chart:
-						if !Input.is_action_pressed(&"control"):
-							if hovered_event != -1:
-								var i: int = hovered_event
-								var event = ChartManager.chart.chart_data.events[i]
-								var event_name: String = event[1]
-								var parameters = event[2]
-								
-								add_action("Removed Event", self.remove_note.bind(i),
-								self.place_event.bind(event[0], event_name, parameters, true))
-								%"Note Remove".play()
-								
-								if selected_notes.has(i):
-									var j: int = selected_notes.find(i)
+	if Input.is_action_pressed(&"mouse_right") and not Input.is_action_pressed(&"control") and is_mouse_over_grid():
+		if can_chart and hovered_event != -1:
+			var i: int = hovered_event
+			var event = ChartManager.chart.chart_data.events[i]
+			var event_name: String = event[1]
+			var parameters = event[2]
+			
+			add_action("Removed Event", self.remove_note.bind(i),
+			self.place_event.bind(event[0], event_name, parameters, true))
+			%"Note Remove".play()
+			
+			if selected_notes.has(i):
+				var j: int = selected_notes.find(i)
+				
+				selected_notes.remove_at(j)
+				selected_note_nodes.remove_at(j)
+				
+				if selected_notes.size() > 1:
+					var k: int = 0
+					for _i in range(selected_notes.size()):
+						if k >= j:
+							selected_notes[k] -= 1
+						k += 1
+			
+			hovered_event = -1
+			
+			if SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"):
+				save()
+	
+	if Input.is_action_pressed(&"mouse_left") and !Input.is_action_pressed(&"control") and is_mouse_over_grid():
+		if !%Instrumental.playing:
+			if can_chart:
+				## Song Position Slider
+				if grid_position.y < 1 and grid_position.y >= 0:
+					if Input.is_action_pressed(&"shift"):
+						start_offset = grid_position_to_time(snapped_position, true) + conductor.offset - song_position
+					else:
+						start_offset = grid_position_to_time(grid_position) + conductor.offset - song_position
+				
+				if ((grid_position.y - 1) > 0 and (grid_position.y - 1) < %Grid.rows):
+					if moving_notes:
+						var cursor_time = grid_position_to_time(snapped_position, true)
+						cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+						
+						var time_distance = cursor_time - start_time
+						changed_length = true
+						
+						if true:
+							if changed_length:
+								var j: int = 0
+								for i in selected_notes:
+									var node = selected_note_nodes[j]
+									var time: float = node.time
 									
-									selected_notes.remove_at(j)
-									selected_note_nodes.remove_at(j)
-									
-									if selected_notes.size() > 1:
-										var k: int = 0
-										for _i in range(selected_notes.size()):
-											if k >= j:
-												selected_notes[k] -= 1
-											k += 1
-								
-								hovered_event = -1
+									node.position.x = time_to_y_position((node.time + time_distance)
+									) + $"Grid Layer".offset.x + (%Grid.grid_size.x * %Grid.zoom.x / 2)
+									j += 1
 								
 								if SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"):
 									save()
-	
-	if Input.is_action_pressed(&"mouse_left"):
-		if !Input.is_action_pressed(&"control"):
-			if is_mouse_over_grid():
-				if !%Instrumental.playing:
-					if can_chart:
-						## Song Position Slider
-						if grid_position.y < 1 and grid_position.y >= 0:
-							if Input.is_action_pressed(&"shift"):
-								start_offset = grid_position_to_time(snapped_position, true) + conductor.offset - song_position
-							else:
-								start_offset = grid_position_to_time(grid_position) + conductor.offset - song_position
-						
-						if ((grid_position.y - 1) > 0 and (grid_position.y - 1) < %Grid.rows):
-							if moving_notes:
-								var cursor_time = grid_position_to_time(snapped_position, true)
-								cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
 								
-								var time_distance = cursor_time - start_time
-								changed_length = true
-								
-								if true:
-									if changed_length:
-										var j: int = 0
-										for i in selected_notes:
-											var node = selected_note_nodes[j]
-											var time: float = node.time
-											
-											node.position.x = time_to_y_position((node.time + time_distance)
-											) + $"Grid Layer".offset.x + (%Grid.grid_size.x * %Grid.zoom.x / 2)
-											j += 1
-										
-										if SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"):
-											save()
-										
-										moved_time_distance = time_distance
+								moved_time_distance = time_distance
 	
 	if Input.is_action_just_released(&"mouse_left"):
 		if bounding_box:
@@ -228,13 +220,9 @@ func update_camera_song_position(instant: bool = false):
 	else:
 		camera_2d.position.x = Global.frame_independent_lerp(
 			camera_2d.position.x, 640 + time_to_y_position(song_position), 20, get_process_delta_time())
-			
-
-func get_corrected_mouse_position() -> Vector2:
-	return get_global_mouse_position() - Vector2(camera_2d.position.x, 0)
 
 func is_mouse_over_grid() -> bool:
-	var screen_mouse_pos = get_corrected_mouse_position()
+	var screen_mouse_pos = get_global_mouse_position() - Vector2(camera_2d.position.x, 0)
 	return screen_mouse_pos.x > -512 and screen_mouse_pos.x < 640
 
 func _draw() -> void:
@@ -282,26 +270,6 @@ func _draw() -> void:
 				rect = Rect2(note.global_position - (%Grid.grid_size / 2 * %Grid.zoom),
 				Vector2(%Grid.grid_size.x * %Grid.zoom.x, length))
 				draw_rect(rect, selected_color)
-	
-	if hovered_event != -1 and ChartManager.chart:
-		var event: String = ChartManager.chart.get_events_data()[hovered_event][1]
-		var parameters = ChartManager.chart.get_events_data()[hovered_event][2]
-		var text: String =  ""
-		if Constants.EVENT_DATA.has(event):
-			var i: int = 0
-			for parameter in parameters:
-				text = str(Constants.EVENT_DATA[event]["parameters"][i], ": ", parameter)
-				draw_string_outline(DEFAULT_FONT, get_global_mouse_position() + Vector2(0, DEFAULT_FONT_SIZE * i), text,
-				HORIZONTAL_ALIGNMENT_LEFT, -1, DEFAULT_FONT_SIZE, DEFAULT_FONT_SIZE / 2, Color.BLACK)
-				draw_string(DEFAULT_FONT, get_global_mouse_position() + Vector2(0, DEFAULT_FONT_SIZE * i), text,
-				HORIZONTAL_ALIGNMENT_LEFT, -1, DEFAULT_FONT_SIZE)
-				i += 1
-		else:
-			text = str(parameters)
-			draw_string_outline(DEFAULT_FONT, get_global_mouse_position(), text,
-			HORIZONTAL_ALIGNMENT_LEFT, -1, DEFAULT_FONT_SIZE, DEFAULT_FONT_SIZE / 2, Color.BLACK)
-			draw_string(DEFAULT_FONT, get_global_mouse_position(), text,
-			HORIZONTAL_ALIGNMENT_LEFT, -1, DEFAULT_FONT_SIZE)
 
 ## View button item pressed
 func view_button_item_pressed(id):
