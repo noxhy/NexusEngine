@@ -139,7 +139,7 @@ func _process(delta: float) -> void:
 					var lane: float = note[1]
 					for id in ChartManager.strum_data.size():
 						if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
-							if (!ChartManager.strum_data[id].get('hit_sounds', true)):
+							if ChartManager.strum_data[id].get('hit_sounds', true):
 								%"Hit Sound".play()
 					
 					current_note += 1

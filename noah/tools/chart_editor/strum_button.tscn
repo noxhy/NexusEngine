@@ -40,7 +40,6 @@ oversampling_override = 1.0
 title = "Edit Strum Settings"
 initial_position = 4
 size = Vector2i(300, 256)
-visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=1716652347]
 anchors_preset = 15
@@ -111,12 +110,10 @@ text = "Hit Sounds:"
 
 [node name="HSeparator" type="HSeparator" parent="Window/MarginContainer/VBoxContainer" unique_id=12133084]
 layout_mode = 2
-size_flags_vertical = 3
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=2142744680]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-size_flags_vertical = 2
 alignment = 1
 
 [node name="Button" type="Button" parent="Window/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1689414730]
