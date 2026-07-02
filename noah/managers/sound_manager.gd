@@ -64,8 +64,7 @@ func _updated_volume():
 
 ## plays the global audio track from stream or path
 func play_music(stream: Variant, start_time: float = 0) -> void:
-	
-	stream = _get_stream(stream)
+	stream = get_stream(stream)
 	music.stream = stream
 	
 	music.play(start_time)
@@ -74,7 +73,7 @@ func play_music(stream: Variant, start_time: float = 0) -> void:
 func play_sound_once(stream: Variant, volume_linear: float = 1) -> void:
 	var player = AudioStreamPlayer.new()
 	add_child(player)
-	player.stream = _get_stream(stream)
+	player.stream = get_stream(stream)
 	player.volume_linear = volume_linear
 	player.play()
 	player.bus = &'SFX'
@@ -86,7 +85,7 @@ func play_sound_once(stream: Variant, volume_linear: float = 1) -> void:
 
 ## attempts to retrieve a stream more thoroughly and asserts when failure.
 ## [br][br]If the given file is a [code]String[/code], the func will attempt to load it (supports absolute paths)
-func _get_stream(stream: Variant) -> AudioStream:
+func get_stream(stream: Variant) -> AudioStream:
 	if stream is AudioStream or stream is AudioStreamOggVorbis:
 		return stream
 	elif stream is String:

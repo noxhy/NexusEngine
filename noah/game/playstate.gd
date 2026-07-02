@@ -77,10 +77,10 @@ func _ready() -> void:
 	vocals.stream.polyphony = song_data.vocals.size()
 	vocals.set_bus(&"Music")
 	for v in song_data.vocals:
-		vocal_streams.append(SoundManager._get_stream(v))
+		vocal_streams.append(SoundManager.get_stream(v))
 	
 	instrumental = AudioStreamPlayer.new()
-	instrumental.stream = SoundManager._get_stream(song_data.instrumental)
+	instrumental.stream = SoundManager.get_stream(song_data.instrumental)
 	instrumental.connect("finished", song_finished)
 	instrumental.pitch_scale = song_speed
 	instrumental.set_bus(&"Music")

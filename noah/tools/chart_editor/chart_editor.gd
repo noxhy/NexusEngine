@@ -529,7 +529,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	ChartManager.difficulty = difficulty
 	undo_redo.clear_history()
 	get_tree().call_group(&"history", &"queue_free")
-	instrumental.stream = SoundManager._get_stream(ChartManager.song.instrumental)
+	instrumental.stream = SoundManager.get_stream(ChartManager.song.instrumental)
 	play_audios(song_position)
 	
 	vocals.stream_paused = true
@@ -987,7 +987,7 @@ func play_audios(time: float):
 	var playback = vocals.get_stream_playback()
 	vocal_tracks = []
 	for stream in ChartManager.song.vocals:
-		vocal_tracks.append(playback.play_stream(SoundManager._get_stream(stream),
+		vocal_tracks.append(playback.play_stream(SoundManager.get_stream(stream),
 		time + start_offset, 0.0, song_speed))
 	
 	time = clamp(time, 0, instrumental.stream.get_length() - 0.1)
@@ -1497,12 +1497,16 @@ func update_waveforms(time: float = 0):
 	for id in waveform_nodes:
 		var waveform = waveform_nodes.get(id)
 		
+		if not waveform:
+			return
+		
+		
 		if id == -1:
 			waveform.visible = instrumental_waveforms
 		else:
 			waveform.visible = vocal_waveforms
 		
-		if not waveform or not waveform.visible:
+		if not waveform.visible:
 			continue
 		
 		var L: float = max(time, 0)
@@ -1822,5 +1826,5 @@ func _on_audios_window_about_to_popup() -> void:
 	%"Open Window".play()
 
 func _on_audios_window_updated() -> void:
-	instrumental.stream = SoundManager._get_stream(ChartManager.song.instrumental)
+	instrumental.stream = SoundManager.get_stream(ChartManager.song.instrumental)
 	auto_save()
