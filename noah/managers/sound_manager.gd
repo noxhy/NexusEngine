@@ -1,5 +1,7 @@
 extends Node
 
+var players: Dictionary[StringName, AudioStreamPlayer] = {}
+
 @onready var music: AudioStreamPlayer = $MusicPlayer ## global music player
 @onready var scroll: AudioStreamPlayer = $UI/ScrollPlayer ## global menu scroll sfx
 @onready var cancel: AudioStreamPlayer = $UI/CancelPlayer ## global menu cancel sfx
@@ -89,7 +91,6 @@ func get_stream(stream: Variant) -> AudioStream:
 	if stream is AudioStream or stream is AudioStreamOggVorbis:
 		return stream
 	elif stream is String:
-		
 		if not stream.begins_with('res://'):
 			var file: FileAccess = FileAccess.open(stream, FileAccess.READ)
 			if file:
@@ -122,4 +123,16 @@ func get_stream_from_buffer(buffer: PackedByteArray, ext: String) -> AudioStream
 			'mp3':
 				return AudioStreamMP3.load_from_buffer(buffer)
 		return null
-	
+
+## Creates a new [AudioStreamPlayer] that will always exist in memory.
+func create_player(id: StringName, sound: Variant) -> AudioStreamPlayer:
+	var player: AudioStreamPlayer = AudioStreamPlayer.new()
+	player.bus = &'SFX'
+	player.stream = get_stream(sound)
+	add_child(player)
+	players[id] = player
+	return player
+
+## Returns an [AudioStreamPlayer] from the user-generated players dictionary.
+func get_player(id: StringName) -> AudioStreamPlayer:
+	return players.get(id, null)
