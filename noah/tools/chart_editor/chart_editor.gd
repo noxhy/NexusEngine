@@ -1202,9 +1202,6 @@ func _on_conductor_new_tempo(_tempo: float) -> void:
 	update_grid()
 	load_dividers()
 
-## File button item pressed
-
-
 ## Edit button item pressed
 func edit_button_item_pressed(id):
 	match id:
@@ -1667,6 +1664,7 @@ func paste() -> void:
 	selected_note_nodes = []
 	for i in selected_notes:
 		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+	
 	%"Note Place".play()
 
 
