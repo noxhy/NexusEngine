@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://bc4d7j7ifsf86"]
+
+[ext_resource type="Script" uid="uid://cjnphso8gmi5n" path="res://noah/tools/chart_editor/audio_panel.gd" id="1_io1j1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndjvb"]
+content_margin_left = 6.0
+content_margin_top = 5.0
+content_margin_right = 6.0
+content_margin_bottom = 5.0
+bg_color = Color(0.16907462, 0.19528934, 0.23461106, 1)
+border_color = Color(0.115499996, 0.132, 0.15949999, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+anti_aliasing = false
+
+[node name="Panel" type="PanelContainer" unique_id=952900637]
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_ndjvb")
+script = ExtResource("1_io1j1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1441601867]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ID Label" type="LineEdit" parent="HBoxContainer" unique_id=1140171530]
+layout_mode = 2
+focus_mode = 0
+text = "Voicals"
+alignment = 1
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_show_on_focus = false
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer" unique_id=483188858]
+layout_mode = 2
+
+[node name="song path" type="TextEdit" parent="HBoxContainer" unique_id=521342585]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+focus_mode = 0
+text = "helooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+empty_selection_clipboard_enabled = false
+virtual_keyboard_enabled = false
+scroll_smooth = true
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1181005151]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="hit sound box" type="CheckBox" parent="HBoxContainer/HBoxContainer" unique_id=1949573655]
+layout_mode = 2
+text = "Hit sounds"
+
+[node name="vol Slider" type="HSlider" parent="HBoxContainer/HBoxContainer" unique_id=516888951]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="VSeparator3" type="VSeparator" parent="HBoxContainer" unique_id=1173016481]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1688039983]
+layout_mode = 2
+
+[node name="Change Track" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1773522669]
+layout_mode = 2
+text = "Change Track"
+
+[node name="Delete Track" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1923903596]
+layout_mode = 2
+text = "🗑
+"
+
+[connection signal="toggled" from="HBoxContainer/HBoxContainer/hit sound box" to="." method="_on_hit_sound_box_toggled"]
+[connection signal="drag_ended" from="HBoxContainer/HBoxContainer/vol Slider" to="." method="_on_vol_slider_drag_ended"]
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/vol Slider" to="." method="_on_vol_slider_value_changed"]

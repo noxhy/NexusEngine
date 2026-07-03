@@ -14,7 +14,7 @@ var chart_editor: ChartEditor
 
 @onready var export_external_popup: FileDialog = %"Export External Popup"
 @onready var note_skin_window: FileDialog = %"Note Skin Window"
-@onready var audios_window: Window = %"Audios Window"
+@onready var audios_window: Window = %"AudioWindow"
 @onready var metadata_window: Window = %"Metadata Window"
 @onready var note_type_window: Window = %"Note Type Window"
 @onready var history_window: Window = %"History Window"

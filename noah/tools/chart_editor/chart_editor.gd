@@ -6,6 +6,7 @@ static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN) :
 		if note_skin == null:
 			note_skin = load(Constants.DEFAULT_NOTE_SKIN)
 		return note_skin
+		
 
 static var song_position: float = 0.0
 static var start_offset: float = 0.0
@@ -144,13 +145,7 @@ func _process(delta: float) -> void:
 					
 					current_note += 1
 		
-		for strum in ChartManager.strum_data.size():
-			var track = ChartManager.strum_data[strum]["track"]
-			if track < vocal_tracks.size():
-				if ChartManager.strum_data[strum]["muted"]:
-					vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(0))
-				else:
-					vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
+		refresh_audios()
 	
 	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_down")) - int(Input.is_action_just_pressed("mouse_scroll_up"))
 	if axis:
@@ -161,7 +156,7 @@ func _process(delta: float) -> void:
 			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
 			song_slider.value = song_position
-		else: #snap scrubbing
+		elif not is_point_in_any_window(get_corrected_mouse_position()): #snap scrubbing
 			current_snap += axis
 			chart_snap = SNAPS[current_snap % SNAPS.size()]
 			lower_ui.chart_snap.value = chart_snap
@@ -375,6 +370,17 @@ func _process(delta: float) -> void:
 	
 	queue_redraw()
 
+func refresh_audios():
+	
+	
+	for strum in ChartManager.strum_data.size():
+		var track = ChartManager.strum_data[strum]["track"]
+		if track < vocal_tracks.size():
+			if ChartManager.strum_data[strum]["muted"]:
+				vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(0))
+			else:
+				vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(ChartManager.strum_data[track]['volume']))
+	
 func is_mouse_over_any_ui() -> bool:
 	var mouse = get_corrected_mouse_position()
 	
@@ -1223,7 +1229,7 @@ func audio_button_item_pressed(id):
 	match id:
 		0: toggle_audios(instrumental.playing)
 		2:
-			%"Upper UI".get_node("%Audios Window").popup()
+			%"Upper UI".get_node("%AudioWindow").popup()
 		
 		4:
 			SettingsManager.set_value(SettingsManager.SEC_GAMEPLAY, "song_speed",

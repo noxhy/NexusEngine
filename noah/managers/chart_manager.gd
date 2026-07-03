@@ -15,12 +15,14 @@ var strum_data: Array = [
 		"strums": [0, 3],
 		"muted": false,
 		"track": 0,
+		"volume": 1
 	},
 	{
 		"name": "Enemy",
 		"strums": [4, 7],
 		"muted": false,
 		"track": 1,
+		"volume": 1
 		
 	},
 	#{

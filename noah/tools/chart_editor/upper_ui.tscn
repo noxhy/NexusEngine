@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://ci5vocm58ajmg" path="res://noah/tools/chart_editor/upper_ui.gd" id="2_pkb6e"]
 [ext_resource type="PackedScene" uid="uid://d20lksrt6bgar" path="res://noah/tools/chart_editor/history_window.tscn" id="3_xi38a"]
 [ext_resource type="PackedScene" uid="uid://bflvolhan5xvh" path="res://noah/tools/chart_editor/metadata_window.tscn" id="4_ax5pr"]
+[ext_resource type="PackedScene" uid="uid://cnl3v75g6wec6" path="res://noah/tools/chart_editor/new_audio_window.tscn" id="4_pmg4i"]
 [ext_resource type="PackedScene" uid="uid://b1ei656025t8s" path="res://noah/tools/chart_editor/note_type_window.tscn" id="5_c03gx"]
 
 [node name="Upper UI" type="HBoxContainer" unique_id=415464568]
@@ -172,6 +173,10 @@ popup/item_9/id = 8
 metadata/_edit_use_anchors_ = true
 
 [node name="Audios Window" parent="Audio Button" unique_id=740299600 groups=["windows"] instance=ExtResource("2_esjoi")]
+unique_name_in_owner = true
+visible = false
+
+[node name="AudioWindow" parent="Audio Button" unique_id=838383365 instance=ExtResource("4_pmg4i")]
 unique_name_in_owner = true
 visible = false
 
