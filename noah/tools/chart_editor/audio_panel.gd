@@ -3,9 +3,9 @@ extends PanelContainer
 #gibz
 @onready var id_label: LineEdit = $"HBoxContainer/ID Label"
 @onready var hit_sound_box: CheckBox = $"HBoxContainer/HBoxContainer/hit sound box"
-@onready var vol_slider: HSlider = $"HBoxContainer/HBoxContainer/vol Slider"
 @onready var delete_track: Button = $"HBoxContainer/VBoxContainer/Delete Track"
 @onready var song_path: TextEdit = $"HBoxContainer/song path"
+@onready var vol_slider: HSlider = $"HBoxContainer/HBoxContainer/VBoxContainer/vol Slider"
 
 @export var strum_id: int = -1
 

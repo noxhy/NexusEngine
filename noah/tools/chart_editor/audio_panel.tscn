@@ -68,7 +68,15 @@ size_flags_vertical = 4
 layout_mode = 2
 text = "Hit sounds"
 
-[node name="vol Slider" type="HSlider" parent="HBoxContainer/HBoxContainer" unique_id=516888951]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer" unique_id=1523006321]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer" unique_id=1230405915]
+layout_mode = 2
+text = "Volume:"
+horizontal_alignment = 1
+
+[node name="vol Slider" type="HSlider" parent="HBoxContainer/HBoxContainer/VBoxContainer" unique_id=516888951]
 layout_mode = 2
 max_value = 1.0
 step = 0.05
@@ -90,5 +98,5 @@ text = "🗑
 "
 
 [connection signal="toggled" from="HBoxContainer/HBoxContainer/hit sound box" to="." method="_on_hit_sound_box_toggled"]
-[connection signal="drag_ended" from="HBoxContainer/HBoxContainer/vol Slider" to="." method="_on_vol_slider_drag_ended"]
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/vol Slider" to="." method="_on_vol_slider_value_changed"]
+[connection signal="drag_ended" from="HBoxContainer/HBoxContainer/VBoxContainer/vol Slider" to="." method="_on_vol_slider_drag_ended"]
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/vol Slider" to="." method="_on_vol_slider_value_changed"]
