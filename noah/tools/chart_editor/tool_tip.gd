@@ -16,6 +16,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
+	
 	visible = ChartManager.chart and chart_editor and chart_editor.is_mouse_over_grid() and (chart_editor.hovered_event != -1 or chart_editor.hovered_note != -1)
 	if not visible:
 		return
@@ -26,11 +27,26 @@ func _process(delta: float) -> void:
 		var text_str: String = str('Type: ', note_type if not note_type.is_empty() else '?') 
 		text = text_str
 	elif chart_editor.hovered_event != -1:
-		var event = ChartManager.chart.get_events_data()[chart_editor.hovered_event][1]
-		var parameters = ChartManager.chart.get_events_data()[chart_editor.hovered_event][2]
-		var text_str: String = event + ': [%s]' % ", ".join(PackedStringArray(parameters))
-		text = text_str
+		text = get_event_str()
 	
 	if last_text != text:
 		size = get_minimum_size()
+	
 	position = get_global_mouse_position() + mouse_offset
+
+func get_event_str() -> String:
+	
+	if chart_editor.name != 'Chart Editor':
+		var event = ChartManager.chart.get_events_data()[chart_editor.hovered_event]
+		var parameters = ChartManager.chart.get_events_data()[chart_editor.hovered_event][2]
+		return event[1] + ': [%s]' % ", ".join(PackedStringArray(parameters))
+	
+	var found_events = chart_editor.find_events_at(ChartManager.chart.get_events_data()[chart_editor.hovered_event][0])
+	
+	var ret: String = ''
+	
+	for ev_idx in found_events:
+		var ev = ChartManager.chart.get_events_data()[ev_idx]
+		var ev_params = ev[2]
+		ret += ev[1] + ': [%s]' % ", ".join(PackedStringArray(ev_params)) + '\n'
+	return ret.strip_edges()

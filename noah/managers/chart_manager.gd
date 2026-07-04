@@ -16,7 +16,8 @@ var strum_data: Array = [
 		"muted": false,
 		"track": 0,
 		"volume": 1,
-		"hit_sounds": true
+		"hit_sounds": true,
+		"waveform": true
 	},
 	{
 		"name": "Enemy",
@@ -24,7 +25,8 @@ var strum_data: Array = [
 		"muted": false,
 		"track": 1,
 		"volume": 1,
-		"hit_sounds": true
+		"hit_sounds": true,
+		"waveform": true
 		
 	},
 	#{

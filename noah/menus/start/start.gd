@@ -30,6 +30,7 @@ func _ready() -> void:
 	display_mods()
 	
 	if mod_data.size() == 1 and get_tree().get_nodes_in_group(&"mods")[0].errors.is_empty():
+		
 		selected = 0
 		_on_run_mod_pressed()
 		return
@@ -164,6 +165,7 @@ func mod_input(event: InputEvent, node: Variant):
 
 
 func _on_run_mod_pressed() -> void:
+	await get_tree().process_frame
 	var mod_dir: String = mods[selected]
 	
 	var init_path: String = mod_dir

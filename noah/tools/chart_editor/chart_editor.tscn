@@ -39,6 +39,10 @@ stream_1/stream = ExtResource("9_v13a8")
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_8qav3"]
+font_size = 18
+font_color = Color(1, 0, 0, 1)
+
 [node name="Chart Editor" type="Node2D" unique_id=373963802]
 script = ExtResource("1_ugmsy")
 divider_color = Color(0.71484375, 0.71484375, 0.71484375, 1)
@@ -208,6 +212,7 @@ offset_right = 144.0
 offset_bottom = -296.0
 
 [node name="Tool Tip" type="Label" parent="UI" unique_id=538315361]
+visible = false
 z_index = 100
 offset_left = -144.0
 offset_top = -328.0
@@ -216,6 +221,15 @@ offset_bottom = -305.0
 text = "hello"
 label_settings = SubResource("LabelSettings_ym35o")
 script = ExtResource("19_ym35o")
+
+[node name="LoadedSong error" type="Label" parent="UI" unique_id=1634400954]
+offset_left = -640.0
+offset_top = 266.223
+offset_right = 640.0
+offset_bottom = 292.22308
+text = "Error: There is no loaded Song"
+label_settings = SubResource("LabelSettings_8qav3")
+horizontal_alignment = 1
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128

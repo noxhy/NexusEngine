@@ -46,7 +46,10 @@ func _on_hit_sound_box_toggled(toggled_on: bool) -> void:
 
 func _on_delete_track_pressed() -> void:
 	remove_requested.emit()
-	
+
+func _on_waveform_toggled(toggled_on: bool) -> void:
+	ChartManager.strum_data[strum_id]['waveform'] = toggled_on
+
 func is_valid_id():
 	return strum_id == -1 or ChartManager.strum_data.size() > strum_id
 
@@ -55,10 +58,22 @@ func load_current_song():
 		return
 	
 	delete_track.visible = strum_id != -1
-	hit_sound_box.visible = strum_id != -1
+	hit_sound_box.disabled = strum_id == -1
+	
+	var volume: float = ChartEditor.instrumental_volume
+	var waveform_enabled: bool = ChartEditor.instrumental_waveforms
+	
 	
 	if strum_id == -1:
 		set_path(ChartManager.song.instrumental)
-	else:
-		set_path(ChartManager.song.vocals[strum_id])
-		
+	elif is_valid_id():
+		if ChartManager.song.vocals.size() > strum_id:
+			set_path(ChartManager.song.vocals[strum_id])
+		volume = ChartManager.strum_data[strum_id]['volume']
+		waveform_enabled = ChartManager.strum_data[strum_id]['waveform']
+	
+	vol_slider.set_value_no_signal(volume)
+	waveform.set_pressed_no_signal(waveform_enabled)
+	
+	
+	

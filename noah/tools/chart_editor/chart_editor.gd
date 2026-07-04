@@ -102,9 +102,9 @@ func _ready() -> void:
 	Global.set_window_title("Chart Editor")
 	song_speed = SettingsManager.get_value("gameplay", "song_speed")
 	
-	if not ChartManager.song:
-		upper_ui.open_open_file_window()
-	else:
+	$"UI/LoadedSong error".visible = not ChartManager.song
+	
+	if ChartManager.song:
 		var song = ChartManager.song
 		load_song(song, ChartManager.difficulty)
 		var action: String = "Loaded Song"
@@ -531,6 +531,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	if ChartManager.song != song:
 		song_position = 0.0
 	
+	$"UI/LoadedSong error".visible = false
 	ChartManager.song = song
 	if difficulty == null:
 		difficulty = ChartManager.song.difficulties.keys()[0]
@@ -968,9 +969,27 @@ func find_note(lane: int, time: float) -> int:
 	
 	return -1
 
+func find_events_at(time: float) -> Array[int]:
+	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.00001)
+	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.00001)
+	if L == -1 or R == -1:
+		return []
+	if L == (R + 1):
+		L -= 1
+	
+	var ret: Array[int] = []
+	
+	for i in range(L, R + 1):
+		var _event: Array = ChartManager.chart.get_events_data()[i]
+		if is_equal_approx(_event[0], time):
+			ret.append(i)
+	return ret
+
 func find_event(event: String, time: float) -> int:
 	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.00001)
 	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.00001)
+	
+	#print(find_events_at(time))
 	
 	if (L == -1 or R == -1):
 		return -1

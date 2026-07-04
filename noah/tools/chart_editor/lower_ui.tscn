@@ -156,6 +156,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 tooltip_text = "Select the difficulty being charted"
+mouse_default_cursor_shape = 2
 selected = 0
 allow_reselect = true
 item_count = 1
