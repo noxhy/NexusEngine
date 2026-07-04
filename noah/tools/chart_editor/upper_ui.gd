@@ -46,7 +46,11 @@ func _ready() -> void:
 	audio_button.get_popup().set_hide_on_checkable_item_selection(false)
 	
 	audio_button.get_popup().set_item_checked(
-		audio_button.get_popup().get_item_index(9), ChartEditor.mute_instrumental)
+		audio_button.get_popup().get_item_index(7), ChartEditor.vocal_waveforms)
+		
+	audio_button.get_popup().set_item_checked(
+		audio_button.get_popup().get_item_index(8), ChartEditor.instrumental_waveforms)
+	
 	
 	#audio_button.get_popup().set_item_checked(
 		#audio_button.get_popup().get_item_index(10),
@@ -54,14 +58,7 @@ func _ready() -> void:
 	
 	#view button
 	view_button.get_popup().connect(&"id_pressed", chart_editor.view_button_item_pressed)
-	
-	view_button.get_popup().set_item_checked(
-		view_button.get_popup().get_item_index(5), ChartEditor.vocal_waveforms)
-		
-	view_button.get_popup().set_item_checked(
-		view_button.get_popup().get_item_index(6), ChartEditor.instrumental_waveforms)
 	view_button.get_popup().set_hide_on_checkable_item_selection(false)
-	
 	
 	
 	test_button.get_popup().connect(&"id_pressed", chart_editor.test_button_item_pressed)
@@ -73,9 +70,22 @@ func _ready() -> void:
 	
 	window_button.get_popup().connect(&"id_pressed", chart_editor.window_button_item_pressed)
 	window_button.get_popup().set_hide_on_checkable_item_selection(false)
+
 	
 	
 	#setup windows
+	
+	audios_window.close_requested.connect(func():
+		window_button.get_popup().set_item_checked(3, false)
+		%"Close Window".play()
+		)
+	audios_window.updated_current_song.connect(func():
+		if not chart_editor.instrumental.stream_paused:
+			chart_editor.toggle_audios()
+		chart_editor.instrumental.stream = SoundManager.get_stream(ChartManager.song.instrumental)
+		chart_editor.auto_save()
+		)
+	
 	export_external_popup.connect(&"file_selected", chart_editor._on_export_external_popup_file_selected)
 	
 	note_skin_window.connect(&"file_selected", chart_editor._on_note_skin_window_file_selected)
@@ -105,8 +115,7 @@ func _ready() -> void:
 	for child in get_children():
 		if child is MenuButton:
 			child.get_popup().add_to_group(&"windows")
-
-
+	
 func setup_shortcuts():
 	var shortcut:Shortcut
 	

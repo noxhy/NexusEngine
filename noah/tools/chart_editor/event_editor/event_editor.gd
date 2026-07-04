@@ -25,10 +25,7 @@ func _process(delta: float) -> void:
 			for strum in ChartManager.strum_data.size():
 				var track = ChartManager.strum_data[strum]["track"]
 				if track < vocal_tracks.size():
-					if ChartManager.strum_data[strum]["muted"]:
-						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(0))
-					else:
-						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
+					%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
 	
 	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_down")) - int(Input.is_action_just_pressed("mouse_scroll_up"))
 	if axis:

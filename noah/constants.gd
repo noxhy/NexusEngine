@@ -6,6 +6,7 @@ var EVENT_EDITOR_SCENE: String = "uid://cq6xqods6w7lw"
 var RESULTS_MENU_SCENE: String = ""
 
 #region Event Data
+
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
 		"parameters": ["Position Index"],

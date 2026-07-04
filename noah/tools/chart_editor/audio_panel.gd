@@ -2,16 +2,14 @@ extends PanelContainer
 
 #gibz
 @onready var id_label: LineEdit = $"HBoxContainer/ID Label"
-@onready var hit_sound_box: CheckBox = $"HBoxContainer/HBoxContainer/hit sound box"
 @onready var delete_track: Button = $"HBoxContainer/VBoxContainer/Delete Track"
 @onready var song_path: TextEdit = $"HBoxContainer/VBoxContainer2/song path"
 @onready var vol_slider: HSlider = $"HBoxContainer/VBoxContainer2/VBoxContainer/vol Slider"
-@onready var waveform: CheckBox = $HBoxContainer/HBoxContainer/waveform
+@onready var hit_sound_box: CheckBox = $"HBoxContainer/hit sound box"
 
 @export var strum_id: int = -1
 
 signal remove_requested
-
 
 func set_id(id: int):
 	if id == -1:
@@ -60,8 +58,6 @@ func load_current_song():
 	hit_sound_box.disabled = strum_id == -1
 	
 	var volume: float = ChartEditor.instrumental_volume
-	var waveform_enabled: bool = ChartEditor.instrumental_waveforms
-	
 	
 	if strum_id == -1:
 		set_path(ChartManager.song.instrumental)
@@ -69,12 +65,11 @@ func load_current_song():
 		if ChartManager.song.vocals.size() > strum_id:
 			set_path(ChartManager.song.vocals[strum_id])
 		volume = ChartManager.strum_data[strum_id]['volume']
-		waveform_enabled = ChartManager.strum_data[strum_id]['waveform']
+		hit_sound_box.set_pressed_no_signal(ChartManager.strum_data[strum_id]['hit_sounds'])
 	else:
 		volume = 0
 	
 	vol_slider.set_value_no_signal(volume)
-	waveform.set_pressed_no_signal(waveform_enabled)
 
 
 func _on_change_track_pressed() -> void:

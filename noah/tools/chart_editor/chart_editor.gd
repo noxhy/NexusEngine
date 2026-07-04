@@ -10,7 +10,6 @@ static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN) :
 
 static var song_position: float = 0.0
 static var start_offset: float = 0.0
-static var mute_instrumental: bool = false
 static var vocal_waveforms: bool = false
 static var instrumental_waveforms: bool = false
 
@@ -372,15 +371,12 @@ func _process(delta: float) -> void:
 
 func refresh_audios():
 	
-	instrumental.volume_linear = 0.0 if mute_instrumental else instrumental_volume
+	instrumental.volume_linear = instrumental_volume
 	
 	for strum in ChartManager.strum_data.size():
 		var track = ChartManager.strum_data[strum]["track"]
 		if track < vocal_tracks.size():
-			if ChartManager.strum_data[strum]["muted"]:
-				vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(0))
-			else:
-				vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(ChartManager.strum_data[track]['volume']))
+			vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(ChartManager.strum_data[track]['volume']))
 	
 func is_mouse_over_any_ui() -> bool:
 	var mouse = get_corrected_mouse_position()
@@ -499,8 +495,6 @@ func update_grid():
 		var strum_label_instance = STRUM_BUTTON_PRELOAD.instantiate()
 		
 		strum_label_instance.id = id
-		strum_label_instance.muted = ChartManager.strum_data[id].get("muted", false)
-		strum_label_instance.hit_sounds = ChartManager.strum_data[id].get("hit_sounds", true)
 		
 		%"Strum Labels".add_child(strum_label_instance)
 		strum_label_instance.custom_minimum_size.x = (
@@ -540,8 +534,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	instrumental.stream = SoundManager.get_stream(ChartManager.song.instrumental)
 	play_audios(song_position)
 	
-	vocals.stream_paused = true
-	instrumental.stream_paused = true
+	toggle_audios()
 	
 	song_slider.max_value = instrumental.stream.get_length()
 	song_slider.value = 0.0
@@ -1244,9 +1237,6 @@ func edit_button_item_pressed(id):
 func audio_button_item_pressed(id):
 	match id:
 		0: toggle_audios(instrumental.playing)
-		2:
-			%"Upper UI".get_node("%AudioWindow").popup()
-		
 		4:
 			SettingsManager.set_value(SettingsManager.SEC_GAMEPLAY, "song_speed",
 			min(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed") + 0.05, 2))
@@ -1276,14 +1266,20 @@ func audio_button_item_pressed(id):
 			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
 				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
-		
-		9: #Mute Instrumental
-			var new = !mute_instrumental
-			mute_instrumental = new
+		11: #Toggle Vocal Waveforms
+			vocal_waveforms = !vocal_waveforms
 			%"Mouse Click".play()
-			upper_ui.audio_button.get_popup().set_item_checked(
-				upper_ui.audio_button.get_popup().get_item_index(id), new)
+			upper_ui.view_button.get_popup().set_item_checked(
+				upper_ui.view_button.get_popup().get_item_index(id), vocal_waveforms)
+			update_waveforms(song_position)
 		
+		12: #Toggle Inst Waveforms
+			instrumental_waveforms = !instrumental_waveforms
+			%"Mouse Click".play()
+			upper_ui.view_button.get_popup().set_item_checked(
+				upper_ui.view_button.get_popup().get_item_index(id), instrumental_waveforms)
+			update_waveforms(song_position)
+			
 		10: #Toggle Hit Sound
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "hit_sounds",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
@@ -1320,20 +1316,6 @@ func view_button_item_pressed(id):
 			load_dividers()
 			load_section(song_position)
 		
-		5: #Toggle Vocal Waveforms
-			vocal_waveforms = !vocal_waveforms
-			%"Mouse Click".play()
-			upper_ui.view_button.get_popup().set_item_checked(
-				upper_ui.view_button.get_popup().get_item_index(id), vocal_waveforms)
-			update_waveforms(song_position)
-		
-		6: #Toggle Inst Waveforms
-			instrumental_waveforms = !instrumental_waveforms
-			%"Mouse Click".play()
-			upper_ui.view_button.get_popup().set_item_checked(
-				upper_ui.view_button.get_popup().get_item_index(id), instrumental_waveforms)
-			update_waveforms(song_position)
-		
 		_:
 			print("id: ", id)
 
@@ -1343,6 +1325,7 @@ func window_button_item_pressed(id):
 		0: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.history_window))
 		1: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.metadata_window))
 		2: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.note_type_window))
+		3: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.audios_window))
 
 func toggle_window_visibility(window: Window) -> bool:
 	var ret = not window.visible
@@ -1836,15 +1819,3 @@ func set_note_type(note_type):
 func _on_note_type_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(2, false)
 	%"Close Window".play()
-
-func _on_audios_window_close_requested() -> void:
-	enable_can_chart_on_next_frame()
-	%"Close Window".play()
-
-func _on_audios_window_about_to_popup() -> void:
-	can_chart = false
-	%"Open Window".play()
-
-func _on_audios_window_updated() -> void:
-	instrumental.stream = SoundManager.get_stream(ChartManager.song.instrumental)
-	auto_save()

@@ -1,5 +1,7 @@
 extends Window
 
+signal updated_current_song
+
 @onready var inst_panel: PanelContainer = $"VBoxContainer/inst panel"
 @onready var vbox: VBoxContainer = $VBoxContainer/ScrollContainer/vbox
 
@@ -56,13 +58,14 @@ func remove_track(id: int):
 func hide_popup():
 	hide()
 
-
 func _on_add_track_pressed() -> void:
 	add_track(vbox.get_child_count())
 
 func _on_save_button_pressed() -> void:
-	ChartManager.song.instrumental = inst_panel.song_path.text
+	ChartManager.song.instrumental = ResourceUID.path_to_uid(inst_panel.song_path.text)
 	ChartManager.song.vocals.clear()
 	for node in vbox.get_children():
-		ChartManager.song.vocals.append(node.song_path.text)
-	
+		ChartManager.song.vocals.append(ResourceUID.path_to_uid(node.song_path.text))
+		
+	updated_current_song.emit()
+	close_requested.emit()

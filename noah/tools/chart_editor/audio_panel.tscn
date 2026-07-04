@@ -70,24 +70,15 @@ layout_mode = 2
 [node name="vol Slider" type="HSlider" parent="HBoxContainer/VBoxContainer2/VBoxContainer" unique_id=516888951]
 layout_mode = 2
 tooltip_text = "Volume"
+mouse_default_cursor_shape = 2
 max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1181005151]
-custom_minimum_size = Vector2(111, 0)
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="hit sound box" type="CheckBox" parent="HBoxContainer/HBoxContainer" unique_id=1949573655]
+[node name="hit sound box" type="CheckBox" parent="HBoxContainer" unique_id=1949573655]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Hit sounds"
-
-[node name="waveform" type="CheckBox" parent="HBoxContainer/HBoxContainer" unique_id=228237209]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Waveform"
 
 [node name="VSeparator3" type="VSeparator" parent="HBoxContainer" unique_id=1173016481]
 layout_mode = 2
@@ -123,8 +114,7 @@ filters = PackedStringArray("*.mp3", "*.ogg", "*.wav")
 
 [connection signal="drag_ended" from="HBoxContainer/VBoxContainer2/VBoxContainer/vol Slider" to="." method="_on_vol_slider_drag_ended"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer2/VBoxContainer/vol Slider" to="." method="_on_vol_slider_value_changed"]
-[connection signal="toggled" from="HBoxContainer/HBoxContainer/hit sound box" to="." method="_on_hit_sound_box_toggled"]
-[connection signal="toggled" from="HBoxContainer/HBoxContainer/waveform" to="." method="_on_waveform_toggled"]
+[connection signal="toggled" from="HBoxContainer/hit sound box" to="." method="_on_hit_sound_box_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Change Track" to="." method="_on_change_track_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Delete Track" to="." method="_on_delete_track_pressed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

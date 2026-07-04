@@ -109,7 +109,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "View"
-item_count = 7
+item_count = 5
 popup/item_0/text = "Switch Editors"
 popup/item_0/id = 0
 popup/item_1/text = "Change Note Skin"
@@ -120,14 +120,6 @@ popup/item_3/text = "Zoom In"
 popup/item_3/id = 3
 popup/item_4/text = "Zoom Out"
 popup/item_4/id = 4
-popup/item_5/text = "Vocal Waveforms"
-popup/item_5/checkable = 1
-popup/item_5/checked = true
-popup/item_5/id = 5
-popup/item_6/text = "Instrumental Waveforms"
-popup/item_6/checkable = 1
-popup/item_6/checked = true
-popup/item_6/id = 6
 metadata/_edit_use_anchors_ = true
 
 [node name="Note Skin Window" type="FileDialog" parent="View Button" unique_id=833636911 groups=["windows"]]
@@ -146,37 +138,32 @@ layout_mode = 2
 size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "Audio"
-item_count = 10
+item_count = 9
 popup/item_0/text = "Play/Pause"
 popup/item_0/id = 0
-popup/item_1/text = "Mute Instrumental"
-popup/item_1/checkable = 1
-popup/item_1/id = 9
-popup/item_2/id = 1
-popup/item_2/separator = true
-popup/item_3/text = "Edit Audios"
-popup/item_3/id = 2
-popup/item_4/id = 3
-popup/item_4/separator = true
-popup/item_5/text = "Speed Audio Up"
-popup/item_5/id = 4
-popup/item_6/text = "Slow Audio Down"
-popup/item_6/id = 5
-popup/item_7/id = 6
-popup/item_7/separator = true
-popup/item_8/text = "Conductor Beat"
+popup/item_1/text = "Speed Audio Up"
+popup/item_1/id = 4
+popup/item_2/text = "Slow Audio Down"
+popup/item_2/id = 5
+popup/item_3/id = 6
+popup/item_3/separator = true
+popup/item_4/text = "Conductor Beat"
+popup/item_4/checkable = 1
+popup/item_4/id = 7
+popup/item_5/text = "Conductor Step"
+popup/item_5/checkable = 1
+popup/item_5/id = 8
+popup/item_6/id = 6
+popup/item_6/separator = true
+popup/item_7/text = "Vocal Waveforms"
+popup/item_7/checkable = 1
+popup/item_7/id = 11
+popup/item_8/text = "Instrumental Waveforms"
 popup/item_8/checkable = 1
-popup/item_8/id = 7
-popup/item_9/text = "Conductor Step"
-popup/item_9/checkable = 1
-popup/item_9/id = 8
+popup/item_8/id = 12
 metadata/_edit_use_anchors_ = true
 
 [node name="Audios Window" parent="Audio Button" unique_id=740299600 groups=["windows"] instance=ExtResource("2_esjoi")]
-unique_name_in_owner = true
-visible = false
-
-[node name="AudioWindow" parent="Audio Button" unique_id=838383365 instance=ExtResource("4_pmg4i")]
 unique_name_in_owner = true
 visible = false
 
@@ -204,7 +191,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "Window"
-item_count = 3
+item_count = 4
 popup/item_0/text = "History"
 popup/item_0/checkable = 1
 popup/item_0/id = 0
@@ -214,6 +201,9 @@ popup/item_1/id = 1
 popup/item_2/text = "Notes"
 popup/item_2/checkable = 1
 popup/item_2/id = 2
+popup/item_3/text = "Audio"
+popup/item_3/checkable = 1
+popup/item_3/id = 3
 metadata/_edit_use_anchors_ = true
 
 [node name="History Window" parent="Window Button" unique_id=1289274319 groups=["windows"] instance=ExtResource("3_xi38a")]
@@ -227,6 +217,11 @@ initial_position = 4
 visible = false
 
 [node name="Note Type Window" parent="Window Button" unique_id=1644438816 groups=["windows"] instance=ExtResource("5_c03gx")]
+unique_name_in_owner = true
+initial_position = 4
+visible = false
+
+[node name="AudioWindow" parent="Window Button" unique_id=838383365 instance=ExtResource("4_pmg4i")]
 unique_name_in_owner = true
 initial_position = 4
 visible = false
