@@ -48,6 +48,10 @@ var backup_chart: Chart = null
 # So it turns out that the track ID's are not sequential and can be whatever number they want, I did this so it'd be easier
 var vocal_tracks: Array = []
 
+#some settings
+static var instrumental_volume: float = 1
+
+
 ## Editor Variables
 var undo_redo: UndoRedo = UndoRedo.new()
 const SNAPS = [4.0, 8.0, 12.0, 16.0, 20.0, 24.0, 32.0, 48.0, 64.0, 96.0, 192.0]
@@ -125,7 +129,7 @@ func _process(delta: float) -> void:
 	
 	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
 	
-	instrumental.volume_linear = 1 if !mute_instrumental else 0
+	#instrumental.volume_linear = 1 if !mute_instrumental else 0
 	
 	if ChartManager.song and instrumental.playing:
 		song_position = instrumental.get_playback_position() - start_offset
@@ -372,6 +376,7 @@ func _process(delta: float) -> void:
 
 func refresh_audios():
 	
+	instrumental.volume_linear = 0.0 if mute_instrumental else instrumental_volume
 	
 	for strum in ChartManager.strum_data.size():
 		var track = ChartManager.strum_data[strum]["track"]

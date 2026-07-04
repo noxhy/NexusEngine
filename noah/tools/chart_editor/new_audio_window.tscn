@@ -48,7 +48,7 @@ text = "Vocal Settings"
 label_settings = SubResource("LabelSettings_io1j1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1155183781]
-custom_minimum_size = Vector2(0, 175.42)
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
@@ -70,4 +70,4 @@ text = "Add Track"
 
 [node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1945608291]
 layout_mode = 2
-text = "Save Changes"
+text = "Save Changes to Chart"

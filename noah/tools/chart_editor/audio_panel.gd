@@ -4,12 +4,14 @@ extends PanelContainer
 @onready var id_label: LineEdit = $"HBoxContainer/ID Label"
 @onready var hit_sound_box: CheckBox = $"HBoxContainer/HBoxContainer/hit sound box"
 @onready var delete_track: Button = $"HBoxContainer/VBoxContainer/Delete Track"
-@onready var song_path: TextEdit = $"HBoxContainer/song path"
-@onready var vol_slider: HSlider = $"HBoxContainer/HBoxContainer/VBoxContainer/vol Slider"
+@onready var song_path: TextEdit = $"HBoxContainer/VBoxContainer2/song path"
+@onready var vol_slider: HSlider = $"HBoxContainer/VBoxContainer2/VBoxContainer/vol Slider"
+@onready var waveform: CheckBox = $HBoxContainer/HBoxContainer/waveform
 
 @export var strum_id: int = -1
 
-#func _ready():
+signal remove_requested
+
 
 func set_id(id: int):
 	if id == -1:
@@ -31,25 +33,32 @@ func _on_vol_slider_value_changed(value: float) -> void:
 	
 	
 	if strum_id == -1:
-		pass
-	else:
+		ChartEditor.instrumental_volume = value
+	elif is_valid_id():
 		ChartManager.strum_data[strum_id]['volume'] = value
-		print('id: ',strum_id, ' vol ', ChartManager.strum_data[strum_id]['volume'])
 
 func _on_hit_sound_box_toggled(toggled_on: bool) -> void:
-	pass # Replace with function body.
+	
+	if strum_id == -1:
+		pass
+	elif is_valid_id():
+		ChartManager.strum_data[strum_id]['hit_sounds'] = toggled_on
 
-
+func _on_delete_track_pressed() -> void:
+	remove_requested.emit()
+	
+func is_valid_id():
+	return strum_id == -1 or ChartManager.strum_data.size() > strum_id
 
 func load_current_song():
 	if not ChartManager.song:
 		return
+	
+	delete_track.visible = strum_id != -1
+	hit_sound_box.visible = strum_id != -1
 	
 	if strum_id == -1:
 		set_path(ChartManager.song.instrumental)
 	else:
 		set_path(ChartManager.song.vocals[strum_id])
 		
-	
-	
-	
