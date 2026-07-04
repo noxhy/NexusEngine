@@ -3,8 +3,10 @@
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_ndjvb"]
 [ext_resource type="PackedScene" uid="uid://bc4d7j7ifsf86" path="res://noah/tools/chart_editor/audio_panel.tscn" id="2_7t3tj"]
 [ext_resource type="Script" uid="uid://dw1amqwmw7xjr" path="res://noah/tools/chart_editor/new_audio_window.gd" id="2_pb1mr"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://noah/assets/fonts/primary_font.ttf" id="3_jm5px"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_io1j1"]
+font = ExtResource("3_jm5px")
 outline_size = 1
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_jm5px"]
@@ -64,10 +66,13 @@ theme_override_styles/separator = SubResource("StyleBoxLine_jm5px")
 layout_mode = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1051985501]
+[node name="Add Track" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1051985501]
 layout_mode = 2
 text = "Add Track"
 
-[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1945608291]
+[node name="Save Button" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1945608291]
 layout_mode = 2
 text = "Save Changes to Chart"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Add Track" to="." method="_on_add_track_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Save Button" to="." method="_on_save_button_pressed"]

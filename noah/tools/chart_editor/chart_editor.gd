@@ -15,8 +15,6 @@ static var vocal_waveforms: bool = false
 static var instrumental_waveforms: bool = false
 
 var TOOL_THEME = load("uid://b1gv0wfdmojbx")
-var DEFAULT_FONT: Font = ThemeDB.fallback_font
-var DEFAULT_FONT_SIZE: int = ThemeDB.fallback_font_size
 
 var NOTE_PRELOAD = load("uid://yyfqg2jvwcmt")
 var EVENT_PRELOAD = load("uid://n6k15grja0uh")
@@ -128,8 +126,6 @@ func _process(delta: float) -> void:
 	start_offset = clampf(start_offset, 0, start_offset)
 	
 	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
-	
-	#instrumental.volume_linear = 1 if !mute_instrumental else 0
 	
 	if ChartManager.song and instrumental.playing:
 		song_position = instrumental.get_playback_position() - start_offset
@@ -565,16 +561,12 @@ func load_song(song: Song, difficulty: Variant = null):
 	load_chart(ChartManager.chart)
 	chart_snap = pow(conductor.numerator, 2)
 	current_snap = SNAPS.bsearch(pow(conductor.numerator, 2))
-	waveform_data.clear()
 	
 	var i: int = 0
 	for track in vocal_tracks:
-		var data: WaveformData = WaveformDataParser.interpretSound(song.vocals[i])
-		waveform_data[track] = data
+		waveform_data[track] = WaveformDataParser.interpretSound(song.vocals[i])
 		i += 1
-	
-	var data: WaveformData = WaveformDataParser.interpretSound(song.instrumental)
-	waveform_data[-1] = data
+	waveform_data[-1] = WaveformDataParser.interpretSound(song.instrumental)
 	
 	load_waveforms()
 	update_waveforms(song_position)

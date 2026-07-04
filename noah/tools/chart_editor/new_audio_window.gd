@@ -3,6 +3,9 @@ extends Window
 @onready var inst_panel: PanelContainer = $"VBoxContainer/inst panel"
 @onready var vbox: VBoxContainer = $VBoxContainer/ScrollContainer/vbox
 
+@onready var save_button: Button = $"VBoxContainer/HBoxContainer/Save Button"
+@onready var add_track_button: Button = $"VBoxContainer/HBoxContainer/Add Track"
+
 var PANEL_PRELOAD = load("uid://bc4d7j7ifsf86")
 
 # Called when the node enters the scene tree for the first time.
@@ -27,12 +30,15 @@ func prepare_tracks():
 	var idx: int = 0
 	
 	for vocals in ChartManager.song.vocals:
-		var instance: Control = PANEL_PRELOAD.instantiate()
-		vbox.add_child(instance)
-		instance.set_id(idx)
-		instance.load_current_song()
-		instance.remove_requested.connect(remove_track.bind(idx))
+		add_track(idx)
 		idx += 1
+
+func add_track(idx:int):
+	var instance: Control = PANEL_PRELOAD.instantiate()
+	vbox.add_child(instance)
+	instance.set_id(idx)
+	instance.load_current_song()
+	instance.remove_requested.connect(remove_track.bind(idx))
 
 func remove_track(id: int):
 	var track = vbox.get_child(id)
@@ -46,5 +52,17 @@ func remove_track(id: int):
 		node.set_id(idx)
 		node.load_current_song()
 		idx += 1
+
 func hide_popup():
 	hide()
+
+
+func _on_add_track_pressed() -> void:
+	add_track(vbox.get_child_count())
+
+func _on_save_button_pressed() -> void:
+	ChartManager.song.instrumental = inst_panel.song_path.text
+	ChartManager.song.vocals.clear()
+	for node in vbox.get_children():
+		ChartManager.song.vocals.append(node.song_path.text)
+	

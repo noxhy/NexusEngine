@@ -31,7 +31,6 @@ func _on_vol_slider_value_changed(value: float) -> void:
 		vol_slider.set_value_no_signal(0)
 		return
 	
-	
 	if strum_id == -1:
 		ChartEditor.instrumental_volume = value
 	elif is_valid_id():
@@ -71,9 +70,15 @@ func load_current_song():
 			set_path(ChartManager.song.vocals[strum_id])
 		volume = ChartManager.strum_data[strum_id]['volume']
 		waveform_enabled = ChartManager.strum_data[strum_id]['waveform']
+	else:
+		volume = 0
 	
 	vol_slider.set_value_no_signal(volume)
 	waveform.set_pressed_no_signal(waveform_enabled)
-	
-	
-	
+
+
+func _on_change_track_pressed() -> void:
+	%FileDialog.popup()
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	set_path(path)

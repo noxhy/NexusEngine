@@ -10,7 +10,7 @@ static func interpretSound(soundPath:String) -> WaveformData:
 		push_error("sound path %s doesnt exist!" % soundPath)
 		return null
 	
-	var sound:AudioStream = load(soundPath)
+	var sound:AudioStream = SoundManager.get_stream(soundPath)
 	if sound is AudioStreamOggVorbis:
 		var soundBuffer = AudioStreamEXT.DecodeOggMem(soundPath)
 		
