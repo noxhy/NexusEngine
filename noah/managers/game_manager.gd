@@ -16,7 +16,7 @@ var conductor:Conductor
 # so it's just a regular variable with constant notations
 # future note: ok so this apparently just also gets set whenever
 # other things do so idk
-@onready var DEFAULT_TALLIES: Dictionary = {
+var DEFAULT_TALLIES: Dictionary = {
 	"sick": 0,
 	"good": 0,
 	"bad": 0,
