@@ -112,6 +112,8 @@ func _ready() -> void:
 		undo_redo.commit_action()
 		enable_can_chart_on_next_frame()
 	
+	update_ui_usable_state()
+	
 	update_grid()
 	
 	## Initializing Popup Signals
@@ -564,6 +566,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	load_waveforms()
 	update_waveforms(song_position)
 	enable_can_chart_on_next_frame()
+	update_ui_usable_state()
 
 
 func load_song_path(path: String, difficulty: Variant = null):
@@ -1269,15 +1272,15 @@ func audio_button_item_pressed(id):
 		11: #Toggle Vocal Waveforms
 			vocal_waveforms = !vocal_waveforms
 			%"Mouse Click".play()
-			upper_ui.view_button.get_popup().set_item_checked(
-				upper_ui.view_button.get_popup().get_item_index(id), vocal_waveforms)
+			upper_ui.audio_button.get_popup().set_item_checked(
+				upper_ui.audio_button.get_popup().get_item_index(id), vocal_waveforms)
 			update_waveforms(song_position)
 		
 		12: #Toggle Inst Waveforms
 			instrumental_waveforms = !instrumental_waveforms
 			%"Mouse Click".play()
-			upper_ui.view_button.get_popup().set_item_checked(
-				upper_ui.view_button.get_popup().get_item_index(id), instrumental_waveforms)
+			upper_ui.audio_button.get_popup().set_item_checked(
+				upper_ui.audio_button.get_popup().get_item_index(id), instrumental_waveforms)
 			update_waveforms(song_position)
 			
 		10: #Toggle Hit Sound
@@ -1292,6 +1295,21 @@ func audio_button_item_pressed(id):
 		_:
 			print("id: ", id)
 
+
+func update_ui_usable_state():
+	var cant_use: bool = not ChartManager.song
+	
+	lower_ui.play_button.disabled = cant_use
+	lower_ui.difficulty_button.disabled = cant_use
+	lower_ui.skip_backward.disabled = cant_use
+	lower_ui.skip_forward.disabled = cant_use
+	lower_ui.skip_to_beginning.disabled = cant_use
+	lower_ui.skip_to_end.disabled = cant_use
+	
+	upper_ui.edit_button.disabled = cant_use
+	upper_ui.test_button.disabled = cant_use
+	song_slider.editable = not cant_use
+	
 ## View button item pressed
 func view_button_item_pressed(id):
 	match id:

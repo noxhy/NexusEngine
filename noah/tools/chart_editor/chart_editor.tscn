@@ -21,6 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="19_2ab3f"]
 [ext_resource type="Material" uid="uid://b87ibevalpejo" path="res://noah/shaders/generic_big_mat.tres" id="19_almg3"]
 [ext_resource type="Script" uid="uid://mrj70uiannhy" path="res://noah/tools/chart_editor/tool_tip.gd" id="19_ym35o"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://noah/assets/fonts/primary_font.ttf" id="20_4y0c1"]
+[ext_resource type="Script" uid="uid://dn04gjsh1koqp" path="res://noah/tools/chart_editor/loaded_song_error.gd" id="21_et4bh"]
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_50rmr"]
 
@@ -40,8 +42,11 @@ outline_size = 4
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_8qav3"]
-font_size = 18
-font_color = Color(1, 0, 0, 1)
+font = ExtResource("20_4y0c1")
+font_size = 24
+font_color = Color(0.7806942, 4.548356e-06, 4.813075e-07, 1)
+outline_size = 2
+outline_color = Color(0.22450125, 1.8349849e-07, 8.4228816e-08, 1)
 
 [node name="Chart Editor" type="Node2D" unique_id=373963802]
 script = ExtResource("1_ugmsy")
@@ -225,13 +230,15 @@ script = ExtResource("19_ym35o")
 
 [node name="LoadedSong error" type="Label" parent="UI" unique_id=1634400954]
 offset_left = -640.0
-offset_top = 266.223
+offset_top = -360.0
 offset_right = 640.0
-offset_bottom = 292.22308
+offset_bottom = 360.0
 theme = ExtResource("17_75w6f")
 text = "Error: There is no loaded Song"
 label_settings = SubResource("LabelSettings_8qav3")
 horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("21_et4bh")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128

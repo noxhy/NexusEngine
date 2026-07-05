@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://b6b2d2kloq60j"]
 
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_y1a63"]
-[ext_resource type="PackedScene" uid="uid://cdxtqaewsuba3" path="res://noah/tools/chart_editor/audios_window.tscn" id="2_esjoi"]
 [ext_resource type="Script" uid="uid://ci5vocm58ajmg" path="res://noah/tools/chart_editor/upper_ui.gd" id="2_pkb6e"]
 [ext_resource type="PackedScene" uid="uid://d20lksrt6bgar" path="res://noah/tools/chart_editor/history_window.tscn" id="3_xi38a"]
 [ext_resource type="PackedScene" uid="uid://bflvolhan5xvh" path="res://noah/tools/chart_editor/metadata_window.tscn" id="4_ax5pr"]
@@ -162,10 +161,6 @@ popup/item_8/text = "Instrumental Waveforms"
 popup/item_8/checkable = 1
 popup/item_8/id = 12
 metadata/_edit_use_anchors_ = true
-
-[node name="Audios Window" parent="Audio Button" unique_id=740299600 groups=["windows"] instance=ExtResource("2_esjoi")]
-unique_name_in_owner = true
-visible = false
 
 [node name="Test Button" type="MenuButton" parent="." unique_id=64458848]
 unique_name_in_owner = true
