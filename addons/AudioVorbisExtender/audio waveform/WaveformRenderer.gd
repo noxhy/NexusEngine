@@ -95,9 +95,8 @@ func _draw():
 
 func _exit_tree():
 	if data == null: return
-	data.clear_data() ; data = null
-
-
+	data.clear_data()
+	data = null
 
 class WaveFormMesh:
 	extends Node2D

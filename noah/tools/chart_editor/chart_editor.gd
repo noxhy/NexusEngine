@@ -81,8 +81,8 @@ var current_visible_notes_L: int = -1
 var current_visible_notes_R: int = -1
 var current_note_type: String = ""
 
-var waveform_data: Dictionary = {}
 var waveform_nodes: Dictionary = {}
+var waveform_dirty: bool = false
 
 var event_nodes: Array = []
 var current_visible_events_L: int = -1
@@ -557,16 +557,12 @@ func load_song(song: Song, difficulty: Variant = null):
 	chart_snap = pow(conductor.numerator, 2)
 	current_snap = SNAPS.bsearch(pow(conductor.numerator, 2))
 	
-	var i: int = 0
-	for track in vocal_tracks:
-		waveform_data[track] = WaveformDataParser.interpretSound(song.vocals[i])
-		i += 1
-	waveform_data[-1] = WaveformDataParser.interpretSound(song.instrumental)
-	
-	load_waveforms()
+	waveform_dirty = true
 	update_waveforms(song_position)
+	
 	enable_can_chart_on_next_frame()
 	update_ui_usable_state()
+	
 
 
 func load_song_path(path: String, difficulty: Variant = null):
@@ -1472,30 +1468,30 @@ func updated_strums():
 	enable_can_chart_on_next_frame()
 	update_grid()
 
-
 func load_waveforms():
 	get_tree().call_group(&"waveforms", &"queue_free")
 	waveform_nodes.clear()
 	
-	if ChartManager.song:
-		for id in ChartManager.strum_data.size():
-			var track: int = ChartManager.strum_data[id]["track"]
-			if track < ChartManager.song.vocals.size() and vocal_tracks.get(track):
-				var data: WaveformData = waveform_data.get(vocal_tracks.get(track), null)
-				if data:
-					var waveform: WaveformRenderer = WaveformRenderer.new(data, 0, Color.MEDIUM_PURPLE, Color.TRANSPARENT)
-					
-					waveform.visible = false
-					$"Waveform Layer".add_child(waveform)
-					waveform.current_orientation = WaveformRenderer.orientation.VERTICAL
-					waveform.add_to_group(&"waveforms")
-					
-					waveform_nodes[track] = waveform
-			else:
-				printerr("(load_waveforms) Track ", track, " does not exist.")
-	
-	var data: WaveformData = waveform_data.get(-1, null)
-	var waveform: WaveformRenderer = WaveformRenderer.new(data, 0, Color.LIME, Color.TRANSPARENT)
+	if not ChartManager.song:
+		return
+	for id in ChartManager.strum_data.size():
+		var track: int = ChartManager.strum_data[id]["track"]
+		if track < ChartManager.song.vocals.size() and vocal_tracks.get(track):
+			var waveform_data = WaveformDataParser.interpretSound(ChartManager.song.vocals[id])
+			if waveform_data:
+				var waveform: WaveformRenderer = WaveformRenderer.new(waveform_data, 0, Color.MEDIUM_PURPLE, Color.TRANSPARENT)
+				
+				waveform.visible = false
+				$"Waveform Layer".add_child(waveform)
+				waveform.current_orientation = WaveformRenderer.orientation.VERTICAL
+				waveform.add_to_group(&"waveforms")
+				
+				waveform_nodes[track] = waveform
+		else:
+			printerr("(load_waveforms) Track ", track, " does not exist.")
+
+
+	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.LIME, Color.TRANSPARENT)
 	
 	waveform.visible = false
 	$"Waveform Layer".add_child(waveform)
@@ -1512,8 +1508,13 @@ func update_camera_song_position(instant: bool = false):
 			camera_2d.position.y, 360 + time_to_y_position(song_position), 20, get_process_delta_time())
 
 func update_waveforms(time: float = 0):
+	
 	var time_range: float = conductor.numerator * conductor.get_seconds_per_beat() * 2
 	
+	if (waveform_nodes.is_empty() or waveform_dirty) and (instrumental_waveforms or vocal_waveforms):
+		load_waveforms()
+		waveform_dirty = false
+		
 	for id in waveform_nodes:
 		var waveform = waveform_nodes.get(id)
 		

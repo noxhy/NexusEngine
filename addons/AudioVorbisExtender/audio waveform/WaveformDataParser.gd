@@ -15,10 +15,11 @@ static func interpretSound(soundPath:String) -> WaveformData:
 		var soundBuffer = AudioStreamEXT.DecodeOggMem(soundPath)
 		
 		if not soundBuffer.is_empty():
-			return interpretPackets(soundBuffer)
+			var new_data: WaveformData = interpretPackets(soundBuffer)
+			soundBuffer.clear()
+			return new_data
 			
 		soundBuffer.clear()
-		soundBuffer = null
 		sound.free()
 		push_error("critical error occured opening ogg :/ %s " % soundPath)
 		return null
