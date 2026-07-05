@@ -17,9 +17,13 @@ static func interpretSound(soundPath:String) -> WaveformData:
 		if not soundBuffer.is_empty():
 			return interpretPackets(soundBuffer)
 			
-		
+		soundBuffer.clear()
+		soundBuffer = null
+		sound.free()
 		push_error("critical error occured opening ogg :/ %s " % soundPath)
 		return null
+	
+	sound.free()
 	push_error("Stream unsupported, try using ogg if you arent!! %s " % soundPath)
 	return null
 

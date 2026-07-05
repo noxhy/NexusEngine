@@ -229,6 +229,7 @@ label_settings = SubResource("LabelSettings_ym35o")
 script = ExtResource("19_ym35o")
 
 [node name="LoadedSong error" type="Label" parent="UI" unique_id=1634400954]
+visible = false
 offset_left = -640.0
 offset_top = -360.0
 offset_right = 640.0
