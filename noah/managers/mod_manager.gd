@@ -12,12 +12,16 @@ var mod_data: Dictionary = {}
 var debug_mode: bool = false
 
 func _ready() -> void:
-	find_mods()
-	if OS.is_debug_build() and ModManager.mod_data.size() == 1:
-		run_mod(mods[0], true)
+	if OS.is_debug_build():
+		debug_mode = true
+	find_mods(debug_mode)
+	
+	if ModManager.mods.size() == 1:
+		debug_mode = true
+		run_mod(mods[0], debug_mode)
 
 ## Locates the folders with a .zip and metadata.json and adds them to the cached mods list.
-func find_mods() -> void:
+func find_mods(debug: bool = false) -> void:
 	var mods_dir: String
 	
 	if OS.is_debug_build():
@@ -34,17 +38,26 @@ func find_mods() -> void:
 	print("(ModManager) Opening mods folder at: ", mods_dir)
 	for mod_dir_name in DirAccess.get_directories_at(mods_dir):
 		var mod_dir: String = mods_dir.path_join(mod_dir_name)
-		
 		for file in DirAccess.get_files_at(mod_dir):
-			if ["zip", "pck"].has(file.get_extension()):
-				var meta_path: String = mod_dir.path_join("meta.json")
+			var meta_path: String = mod_dir.path_join("meta.json")
+			var add_mod: Callable = func() -> bool:
 				print("(ModManager) Looking for meta at %s" % meta_path)
 				if FileAccess.file_exists(meta_path):
 					var data = JSON.parse_string(FileAccess.open(meta_path, FileAccess.READ).get_as_text())
 					mod_data[mod_dir] = data
 					mods.append(mod_dir)
 					print("(ModManager) Found metadata for: ", data.get("name"))
-				break
+					return true
+				
+				return false
+			
+			if !debug:
+				if ["zip", "pck"].has(file.get_extension()):
+					if add_mod.call():
+						break
+			else:
+				if add_mod.call():
+					break
 
 ## Reads a mod directly from the mod cache and runs the init script.
 func run_mod(mod_dir: String, debug: bool = false):
