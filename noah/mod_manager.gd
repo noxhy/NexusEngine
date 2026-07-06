@@ -14,7 +14,7 @@ var debug_mode: bool = false
 func _ready() -> void:
 	find_mods()
 	if OS.is_debug_build() and ModManager.mod_data.size() == 1:
-		run_mod(mods[0])
+		run_mod(mods[0], true)
 
 ## Locates the folders with a .zip and metadata.json and adds them to the cached mods list.
 func find_mods() -> void:
