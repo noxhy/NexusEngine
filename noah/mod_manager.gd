@@ -9,6 +9,7 @@ enum ModError {
 
 var mods: PackedStringArray
 var mod_data: Dictionary = {}
+var debug_mode: bool = false
 
 func _ready() -> void:
 	find_mods()
@@ -47,6 +48,7 @@ func find_mods() -> void:
 
 ## Reads a mod directly from the mod cache and runs the init script.
 func run_mod(mod_dir: String, debug: bool = false):
+	debug_mode = debug
 	var init_path: String = mod_dir
 	
 	if OS.is_debug_build():
