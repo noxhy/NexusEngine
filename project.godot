@@ -24,7 +24,7 @@ buses/default_bus_layout="uid://wp1fb3lbqup6"
 
 ModManager="*uid://xhbi3kfk6n15"
 Global="*res://noah/global.tscn"
-TransitionManager="*res://noah/transition_manager.tscn"
+TransitionManager="*res://noah/managers/transition_manager.tscn"
 GameManager="*res://noah/managers/game_manager.gd"
 Preload="*uid://cnqn5donqdijf"
 SettingsManager="*res://noah/managers/settings_manager.gd"

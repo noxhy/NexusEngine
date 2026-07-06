@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ilhf3k3in4ph"]
 
-[ext_resource type="Script" uid="uid://imjuinehs3it" path="res://noah/transition_manager.gd" id="1_i0gk1"]
+[ext_resource type="Script" uid="uid://imjuinehs3it" path="res://noah/managers/transition_manager.gd" id="1_i0gk1"]
 
 [node name="TransitionManager" type="Node2D" unique_id=2038254812]
 process_mode = 3
