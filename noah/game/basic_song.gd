@@ -40,6 +40,9 @@ func _ready() -> void:
 	Signals.play_combo_break.connect(_on_combo_break)
 	Signals.play_create_note.connect(_on_create_note)
 	Signals.play_new_event.connect(_on_new_event)
+	Signals.play_note_hit.connect(self.note_hit)
+	Signals.play_note_holding.connect(self.note_holding)
+	Signals.play_note_miss.connect(self.note_miss)
 	
 	Signals.play_song_ready_to_start.emit()
 	Signals.play_died.connect(self.died)
@@ -72,7 +75,6 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 	var group: StringName = get_group_from_manager(strum_manager)
 	var anim_to_play: String = note.anim_prefix +  get_direction(lane % 4)
 	
-	
 	if not note.no_animation:
 		get_tree().call_group(group, &"play_animation", anim_to_play,
 			Character.AnimContext.SING, true)
@@ -89,16 +91,13 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer_200")
 			elif (playstate_host.combo % 50 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer")
-	
-	Signals.play_note_hit.emit(note, lane, strum_manager)
+
 
 func note_holding(note: Note, lane: int, hold_difference: float, strum_manager: StrumManager):
 	var group: StringName = get_group_from_manager(strum_manager)
 	get_tree().call_group(group, &"set_sing_timer")
 	
 	playstate_host.note_holding(note, lane, hold_difference, strum_manager)
-	
-	Signals.play_note_holding.emit(note, lane, hold_difference, strum_manager)
 
 
 func note_miss(note: Note, lane: int, strum_manager: StrumManager):
@@ -106,18 +105,14 @@ func note_miss(note: Note, lane: int, strum_manager: StrumManager):
 		if not note:
 			SoundManager.anti_spam.play()
 		else:
-			SoundManager.miss.play()
 			get_tree().call_group(&"metronome", &"play_animation", &"cry",
 			Character.AnimContext.SPECIAL, true)
-			show_combo("miss", 0)
 	
 	get_tree().call_group(
 		&"enemy" if strum_manager.enemy_slot else &"player", &"play_animation",
 		&"miss_" + get_direction(lane % 4), Character.AnimContext.SING, true)
 	
 	playstate_host.note_miss(note, lane, strum_manager)
-	
-	Signals.play_note_miss.emit(note, lane, strum_manager)
 
 
 func get_group_from_manager(strum_manager: StrumManager) -> StringName:
@@ -142,7 +137,9 @@ func _on_new_event(time: float, event_name: String, event_parameters: Array):
 
 
 func _on_combo_break():
-	pass
+	SoundManager.miss.play()
+	show_combo("miss", 0)
+
 
 func show_combo(rating: String, _combo: int):
 	if rating != "miss":

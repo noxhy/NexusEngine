@@ -62,12 +62,12 @@ var pause_preload: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
 	song_data = GameManager.get_current_song()
 	
 	assert(host, 'A Host was not assigned.')
 	assert(ui, 'A UI was not assigned.')
 	assert(camera, 'A Camera Controller was not assigned.')
+	
 	# This delay is so variables initialize
 	await host.ready
 	

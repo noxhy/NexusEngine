@@ -220,8 +220,11 @@ func update_shake(delta: float) -> void:
 
 
 func shake(amount: int, time: float) -> void:
+	noise.seed = randi()
+	noise.frequency = 2
+	
 	shake_time = time
-	shake_decay_rate = time
+	shake_decay_rate = 1 / amount
 	shake_strength = amount
 	shaking = true
 
@@ -235,21 +238,20 @@ func end_shake() -> void:
 	tween.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_IN_OUT)
 	
 	if parent_2d:
-		tween.tween_property(self, "offset", default_offset, 0.1)
+		tween.tween_property(parent_2d, "offset", default_offset, 0.1)
 	elif parent_3d:
 		tween.set_parallel()
-		tween.tween_property(self, "h_offset", default_offset.x, 0.1)
-		tween.tween_property(self, "v_offset", default_offset.y, 0.1)
-		
+		tween.tween_property(parent_3d, "h_offset", default_offset.x, 0.1)
+		tween.tween_property(parent_3d, "v_offset", default_offset.y, 0.1)
 
 func get_noise_offset(delta: float, speed: float, strength: float) -> Vector2:
 	noise_i += delta * speed
 	# Set the x values of each call to 'get_noise_2d' to a different value
 	# so that our x and y vectors will be reading from unrelated areas of noise
 	return Vector2(
-		noise.get_noise_2d(1, noise_i) * strength,
-		noise.get_noise_2d(100, noise_i) * strength
-	)
+		noise.get_noise_2d(1, noise_i),
+		noise.get_noise_2d(100, noise_i)
+	) * strength
 
 func bump(strength: Variant) -> void:
 	if parent_3d:

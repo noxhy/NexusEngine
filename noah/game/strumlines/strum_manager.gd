@@ -2,9 +2,6 @@
 extends Node2D
 class_name StrumManager
 
-signal note_hit(note: Note, lane: int, hit_time_difference: float, manager: StrumManager)
-signal note_holding(note: Note, lane: int, hold_difference: float, manager: StrumManager)
-signal note_miss(note: Note, lane: int, manager: StrumManager)
 
 @export var note_skin: NoteSkin = NoteSkin.new()
 ## List of Nodes of the strumlines.
@@ -32,10 +29,10 @@ func _ready() -> void:
 	set_can_splash(can_splash)
 	set_enemy_slot(enemy_slot)
 	
+	var i: int = 0
 	for strum in strums:
-		strum.connect(&"note_hit", self._on_note_hit)
-		strum.connect(&"note_holding", self._on_note_holding)
-		strum.connect(&"note_miss", self._on_note_miss)
+		strum.lane = i
+		i += 1
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -115,15 +112,3 @@ func glow_strum(lane: int):
 
 func press_strum(lane: int):
 	strums[lane].press_strum()
-
-
-func _on_note_hit(note: Note, hit_time: float, strum: Strum):
-	emit_signal(&"note_hit", note, strums.find(strum), hit_time, self)
-
-
-func _on_note_holding(note: Note, hold_difference: float, strum: Strum):
-	emit_signal(&"note_holding", note, strums.find(strum), hold_difference, self)
-
-
-func _on_note_miss(note:Note, strum: Strum):
-	emit_signal(&"note_miss", note, strums.find(strum), self)
