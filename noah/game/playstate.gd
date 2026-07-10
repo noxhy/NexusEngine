@@ -447,7 +447,7 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 			SoundManager.hit.play()
 		
 		if note.mine:
-			host.note_miss(note, lane, strum_manager)
+			Signals.play_note_miss.emit(note, lane, strum_manager)
 			return
 		
 		var rating: String = get_rating(abs(hit_time))
