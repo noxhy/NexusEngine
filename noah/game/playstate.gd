@@ -141,6 +141,10 @@ func _ready() -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "downscroll"):
 		get_tree().call_group(&"strums", "set_scroll", -1)
 	
+	Signals.play_note_hit.connect(self.note_hit)
+	Signals.play_note_holding.connect(self.note_holding)
+	Signals.play_note_miss.connect(self.note_miss)
+	
 	Signals.play_setup_finished.emit()
 
 

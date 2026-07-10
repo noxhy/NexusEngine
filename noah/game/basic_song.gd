@@ -81,8 +81,6 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 		
 		get_tree().call_group(group, &"set_sing_timer")
 	
-	playstate_host.note_hit(note, lane, hit_time, strum_manager)
-	
 	if group == &"player":
 		show_combo(PlayState.get_rating(hit_time), playstate_host.combo)
 		
@@ -96,8 +94,6 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 func note_holding(note: Note, lane: int, hold_difference: float, strum_manager: StrumManager):
 	var group: StringName = get_group_from_manager(strum_manager)
 	get_tree().call_group(group, &"set_sing_timer")
-	
-	playstate_host.note_holding(note, lane, hold_difference, strum_manager)
 
 
 func note_miss(note: Note, lane: int, strum_manager: StrumManager):
@@ -111,8 +107,6 @@ func note_miss(note: Note, lane: int, strum_manager: StrumManager):
 	get_tree().call_group(
 		&"enemy" if strum_manager.enemy_slot else &"player", &"play_animation",
 		&"miss_" + get_direction(lane % 4), Character.AnimContext.SING, true)
-	
-	playstate_host.note_miss(note, lane, strum_manager)
 
 
 func get_group_from_manager(strum_manager: StrumManager) -> StringName:
