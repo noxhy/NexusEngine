@@ -23,8 +23,6 @@ const COMPENSATION: float = 1.0 / 30.0
 @export var ui_skin: UISkin
 
 @export_group("Scenes")
-## What scene the player will be sent to upon death.
-var pause_scene: String
 ## The scene that will be switched to when the song ends.
 @export_file('*.tscn') var next_scene: String = Constants.RESULTS_MENU_SCENE
 
@@ -58,8 +56,6 @@ var died: bool = false
 var camera_bop_strength: Vector2 = Vector2(0.05, 0.05)
 var ui_bop_strength: Vector2 = Vector2(0.025, 0.025)
 
-var pause_preload: PackedScene
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	song_data = GameManager.get_current_song()
@@ -91,9 +87,7 @@ func _ready() -> void:
 	GameManager.reset_conductor()
 	
 	strums = ui.strums
-	pause_scene = ui_skin.pause_scene
 	
-	pause_preload = load(pause_scene)
 	GameManager.song_scene = LoadingScreen.scene
 	
 	chart = Chart.load(song_data.difficulties[GameManager.difficulty].chart)
@@ -162,19 +156,6 @@ func _process(delta) -> void:
 	# Why is this a thing I have to do
 	if get_tree():
 		get_tree().call_group(&"note", &"update")
-	
-	if Input.is_action_just_pressed(&"pause"):
-		Global.manual_pause = true
-		pause()
-	
-	if Input.is_action_just_pressed(&"kill"):
-		health = 0
-	
-	if Input.is_action_just_pressed(&"chart_editor") and OS.is_debug_build():
-		ChartManager.event_editor = false
-		ChartManager.song = song_data
-		ChartManager.difficulty = GameManager.difficulty
-		Global.change_scene_to(Constants.CHART_EDITOR_SCENE)
 	
 	if !song_started and song_starting:
 		song_start_offset += delta
@@ -313,6 +294,7 @@ func bsearch_left_range(value_set: Array, left_range: float) -> int:
 	
 	return high + 1
 
+
 static func get_rating(time: float) -> String:
 	var ratings = [
 		[time <= GameManager.SICK_RATING_WINDOW, "sick"],
@@ -327,14 +309,6 @@ static func get_rating(time: float) -> String:
 			return condition[1]
 	
 	return "miss"
-
-func pause():
-	var pause_scene_instance = pause_preload.instantiate()
-	
-	Signals.emit_signal(&"play_paused")
-	host.add_child(pause_scene_instance)
-	
-	get_tree().paused = true
 
 
 func score_note(hit_time: float):
