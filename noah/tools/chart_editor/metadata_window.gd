@@ -54,7 +54,9 @@ func _on_icon_file_dailog_file_selected(path: String) -> void:
 		printerr("Icon file is not a SpriteFrames")
 		return
 	
-	assert(sprite_frames.has_animation("default"), "Animation \"default\" doesn't exist")
+	if not sprite_frames.has_animation('default'):
+		printerr("Icon file is missing a default animation")
+		return
 	var texture: Texture = sprite_frames.get_frame_texture("default", 0)
 	%Icon.texture = texture
 	$HBoxContainer/VBoxContainer/Icons/LineEdit.text = path
