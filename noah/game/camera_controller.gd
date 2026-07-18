@@ -209,10 +209,10 @@ func update_shake(delta: float) -> void:
 	
 	var shake_offset: Vector2 = get_noise_offset(delta, shake_speed, shake_strength)
 	if parent_2d:
-		parent_2d.offset = shake_offset
+		parent_2d.offset = shake_offset + default_offset
 	elif parent_3d:
-		parent_3d.h_offset = shake_offset.x
-		parent_3d.v_offset = shake_offset.y
+		parent_3d.h_offset = shake_offset.x + default_offset.x
+		parent_3d.v_offset = shake_offset.y + default_offset.y
 	
 	shake_time -= delta
 	if shake_time <= 0:
