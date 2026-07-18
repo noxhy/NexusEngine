@@ -13,6 +13,7 @@ signal play_conductor_step_hit(step: int, measure: int)
 signal play_conductor_beat_hit(step: int, measure: int)
 
 signal play_song_start()
+signal play_song_finished()
 signal play_note_hit(note: Note, lane: int, hit_time_difference: float, strum_manager: StrumManager)
 signal play_note_miss(note: Note, lane: int, strum_manager: StrumManager)
 signal play_note_holding(note: Note, lane: int, hold_difference: float, strum_manager: StrumManager)

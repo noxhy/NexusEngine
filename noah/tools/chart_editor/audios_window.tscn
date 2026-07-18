@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdxtqaewsuba3"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_73vcf"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_73vcf"]
 [ext_resource type="Script" uid="uid://cs4644jv1f2he" path="res://noah/tools/chart_editor/audios_window.gd" id="2_73vcf"]
 [ext_resource type="PackedScene" uid="uid://ngxlibrfoqjc" path="res://noah/tools/chart_editor/audio_track.tscn" id="3_uinwu"]
 
@@ -19,6 +19,7 @@ script = ExtResource("2_73vcf")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -39,6 +40,9 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Instrumental Track" parent="VBoxContainer/Audios" unique_id=1866271925 instance=ExtResource("3_uinwu")]
+layout_mode = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=1193854422]
 layout_mode = 2
@@ -62,7 +66,6 @@ size_flags_horizontal = 3
 [node name="Instrumental Track" parent="VBoxContainer" unique_id=403282943 instance=ExtResource("3_uinwu")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 1
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=604441368]
 layout_mode = 2

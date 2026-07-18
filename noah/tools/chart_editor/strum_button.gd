@@ -7,12 +7,12 @@ signal opened
 signal closed
 
 @export var id: int
-@export var muted: bool
 @export var track: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_on_window_about_to_popup()
+	$Window.add_to_group(&"windows")
 
 
 func _on_button_pressed() -> void:
@@ -21,8 +21,6 @@ func _on_button_pressed() -> void:
 
 func _on_save_button_pressed() -> void:
 	ChartManager.strum_data[id]["name"] = %"Strum ID".text
-	muted = $"Window/VBoxContainer/HBoxContainer4/Check Box".button_pressed
-	ChartManager.strum_data[id]["muted"] = muted
 	track = %"Vocal Track".value
 	ChartManager.strum_data[id]["track"] = track
 	
@@ -48,7 +46,6 @@ func _on_window_about_to_popup() -> void:
 		%"Vocal Track".max_value = ChartManager.song.vocals.size() - 1
 	%"Vocal Track".value = ChartManager.strum_data[id]["track"]
 	%"Strum ID".text = ChartManager.strum_data[id].get("name", "")
-	$"Window/VBoxContainer/HBoxContainer4/Check Box".button_pressed = muted
 	emit_signal("opened")
 
 func file_dailog_gui_focus_changed(node: Control) -> void:

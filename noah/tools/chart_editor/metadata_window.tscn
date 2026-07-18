@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bflvolhan5xvh"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_n6ac0"]
-[ext_resource type="Script" uid="uid://jbhtf0t57xw3" path="res://noah/tools/chart_editor/metadata_window.gd" id="2_bkkpl"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_n6ac0"]
+[ext_resource type="Script" uid="uid://bdhtm4727pnvv" path="res://noah/tools/chart_editor/metadata_window.gd" id="2_bkkpl"]
 
-[node name="Metadata Window" type="Window" unique_id=1340846673]
+[node name="Metadata Window" type="Window" unique_id=1340846673 groups=["windows"]]
 transparent_bg = true
 oversampling_override = 1.0
 title = "Song Metadata"
@@ -90,7 +90,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Select File"
 
-[node name="Icon FileDailog" type="FileDialog" parent="HBoxContainer/VBoxContainer/Icons/Icon Button" unique_id=1902699967]
+[node name="Icon FileDailog" type="FileDialog" parent="HBoxContainer/VBoxContainer/Icons/Icon Button" unique_id=1902699967 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"
@@ -122,7 +122,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Select Scene"
 
-[node name="Scene FileDailog" type="FileDialog" parent="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button" unique_id=308569808]
+[node name="Scene FileDailog" type="FileDialog" parent="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button" unique_id=308569808 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"

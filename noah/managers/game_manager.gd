@@ -16,7 +16,7 @@ var conductor:Conductor
 # so it's just a regular variable with constant notations
 # future note: ok so this apparently just also gets set whenever
 # other things do so idk
-@onready var DEFAULT_TALLIES: Dictionary = {
+var DEFAULT_TALLIES: Dictionary = {
 	"sick": 0,
 	"good": 0,
 	"bad": 0,
@@ -35,13 +35,13 @@ enum PLAY_MODE {
 
 var freeplay: bool = true
 var difficulty: String
-var play_mode = PLAY_MODE.FREEPLAY
+var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
 var current_song: Song
 var current_week: Week
-var week_songs: Array
+var week_songs: Array[Song]
 var current_week_song: int = 0
 var character: PlayableCharacter
-var current_character: String = "boyfriend"
+var current_character: String = ""
 
 var week_score: int = 0
 var week_deaths: int = 0
@@ -76,6 +76,13 @@ func reset_conductor():
 	add_child(conductor)
 	conductor.new_beat.connect(_beat_change)
 	conductor.new_step.connect(_step_change)
+
+## Helper function to get the current song. Automatically checks for story mode
+func get_current_song() -> Song:
+	if freeplay:
+		return current_song
+		
+	return week_songs[current_week_song]
 
 func _step_change(step: int, measure: int):
 	Signals.play_conductor_step_hit.emit(step, measure)

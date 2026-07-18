@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bx3kdd0dt1kkw"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_ylsds"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_ylsds"]
+[ext_resource type="Script" uid="uid://ckp4s4km6xmb7" path="res://noah/tools/chart_editor/lower_ui.gd" id="2_1ni40"]
 [ext_resource type="Texture2D" uid="uid://dpb5afc48uqvb" path="res://noah/assets/images/menus/chart_editor/restart_button.png" id="2_yqqn8"]
 [ext_resource type="Texture2D" uid="uid://c7ka0o15iv6a3" path="res://noah/assets/images/menus/chart_editor/rewind_button.png" id="3_mcg17"]
 [ext_resource type="Texture2D" uid="uid://byl3boevtc02p" path="res://noah/assets/images/menus/chart_editor/play_button.png" id="4_i5g03"]
@@ -21,6 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 1
 theme = ExtResource("1_ylsds")
+script = ExtResource("2_1ni40")
 metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=531319254]
@@ -31,6 +33,8 @@ size_flags_horizontal = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Current position of the song"
+mouse_filter = 0
 text = "CURRENT TIME"
 vertical_alignment = 1
 
@@ -41,6 +45,8 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
+tooltip_text = "Current beat (Relative to previous tempo/meter change)"
+mouse_filter = 0
 text = "BEAT"
 vertical_alignment = 1
 
@@ -48,6 +54,8 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
+tooltip_text = "Current step (Relative to previous tempo/meter change)"
+mouse_filter = 0
 text = "STEP"
 vertical_alignment = 1
 
@@ -71,7 +79,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
+tooltip_text = "Skip to the beginning of the song"
 focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/icon_normal_color = Color(0.84705883, 0.84705883, 0.84705883, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
 icon = ExtResource("2_yqqn8")
 flat = true
 
@@ -80,7 +92,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
+tooltip_text = "Skip 10 seconds backwards"
 focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/icon_normal_color = Color(0.84705883, 0.84705883, 0.84705883, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
 icon = ExtResource("3_mcg17")
 flat = true
 
@@ -89,7 +105,13 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+tooltip_text = "Play/Pause the song"
 focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/icon_normal_color = Color(0.84705883, 0.84705883, 0.84705883, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.84705883, 0.84705883, 0.84705883, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
 toggle_mode = true
 icon = ExtResource("4_i5g03")
 flat = true
@@ -99,7 +121,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
+tooltip_text = "Skip 10 seconds forwards"
 focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/icon_normal_color = Color(0.84705883, 0.84705883, 0.84705883, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
 icon = ExtResource("5_8je4r")
 flat = true
 
@@ -108,7 +134,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
+tooltip_text = "Skip to the end of the song"
 focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/icon_normal_color = Color(0.84705883, 0.84705883, 0.84705883, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
 icon = ExtResource("6_hdy24")
 flat = true
 
@@ -125,6 +155,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+tooltip_text = "Select the difficulty being charted"
+mouse_default_cursor_shape = 2
 selected = 0
 allow_reselect = true
 item_count = 1
@@ -139,7 +171,9 @@ size_flags_horizontal = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
-text = "TEMPO"
+tooltip_text = "Current tempo/BPM"
+mouse_filter = 0
+text = "tempo: ??"
 vertical_alignment = 1
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer3" unique_id=431522723]
@@ -151,6 +185,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+tooltip_text = "Chart snapping"
 min_value = 1.0
 max_value = 192.0
 value = 16.0
@@ -166,6 +201,8 @@ size_flags_horizontal = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
+tooltip_text = "Time remaining"
+mouse_filter = 0
 text = "TIME LEFT"
 horizontal_alignment = 2
 vertical_alignment = 1

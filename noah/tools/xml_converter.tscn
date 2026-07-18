@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://lyuw3kua1kwc"]
 
 [ext_resource type="Script" uid="uid://cdjdqjrjntu1f" path="res://noah/tools/xml_converter.gd" id="1_ieiou"]
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="3_dn752"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="3_dn752"]
 [ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="4_xqh0d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yre5q"]

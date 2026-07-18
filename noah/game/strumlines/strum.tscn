@@ -4,7 +4,6 @@
 [ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://noah/assets/game/developer/developer_note_skin.tres" id="2_aqqtq"]
 [ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://noah/assets/game/developer/arrow/strums.tres" id="3_cik2r"]
 [ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="4_kjy2w"]
-[ext_resource type="SpriteFrames" uid="uid://bw8j67b3ju40g" path="res://funkin/assets/game/default/arrow/covers.res" id="5_f2el6"]
 
 [node name="Arrow Strum" type="Node2D" unique_id=1054225201]
 script = ExtResource("1_ixlu2")
@@ -37,8 +36,7 @@ visible = false
 z_index = 10
 position = Vector2(12, 21)
 scale = Vector2(1.4, 1.4)
-sprite_frames = ExtResource("5_f2el6")
-animation = &"cover left"
+animation = &""
 script = ExtResource("4_kjy2w")
 animation_names = Dictionary[StringName, StringName]({
 &"cover down": &"cover down",

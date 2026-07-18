@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c6cl2ayvb4ms3"]
 
 [ext_resource type="Script" uid="uid://drlrm6yoeyvls" path="res://noah/tools/chart_editor/convert_chart_popup.gd" id="1_byst7"]
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_p6cg2"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_p6cg2"]
 
-[node name="Convert File Popup" type="Window" unique_id=787528886]
+[node name="Convert File Popup" type="Window" unique_id=787528886 groups=["windows"]]
 transparent_bg = true
 msaa_2d = 1
 oversampling_override = 1.0
@@ -16,7 +16,7 @@ min_size = Vector2i(480, 0)
 theme = ExtResource("1_p6cg2")
 script = ExtResource("1_byst7")
 
-[node name="SaveFolderDialog" type="FileDialog" parent="." unique_id=987853376]
+[node name="SaveFolderDialog" type="FileDialog" parent="." unique_id=987853376 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open File(s)"
@@ -28,7 +28,6 @@ min_size = Vector2i(320, 320)
 ok_button_text = "Select Given Files"
 dialog_hide_on_ok = true
 file_mode = 1
-root_subfolder = "res://playable_songs/"
 filters = PackedStringArray("*.json")
 
 [node name="FlowContainer" type="FlowContainer" parent="." unique_id=190444970]
@@ -115,7 +114,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Select File"
 
-[node name="Vocals File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer" unique_id=250682584]
+[node name="Vocals File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer" unique_id=250682584 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open File(s)"
@@ -146,7 +145,7 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Select File"
 
-[node name="Inst File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer3" unique_id=34144751]
+[node name="Inst File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer3" unique_id=34144751 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"

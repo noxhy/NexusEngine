@@ -2,7 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://b7h7qi3th3rb8" path="res://noah/assets/game/developer/rating/combo_numbers.tres" id="1_7iqu2"]
 [ext_resource type="SpriteFrames" uid="uid://c802qdqdog3ia" path="res://noah/assets/game/developer/rating/ratings.tres" id="2_dwf1c"]
-[ext_resource type="Script" uid="uid://bhm743f04ojig" path="res://resources/ui_skin.gd" id="3_towy1"]
+[ext_resource type="Script" uid="uid://bhm743f04ojig" path="res://noah/resources/ui_skin.gd" id="3_towy1"]
 
 [resource]
 script = ExtResource("3_towy1")

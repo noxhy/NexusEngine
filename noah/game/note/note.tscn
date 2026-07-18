@@ -32,7 +32,6 @@ animation_names = Dictionary[StringName, StringName]({
 })
 
 [node name="Tail" type="TextureRect" parent="." unique_id=1151387659]
-modulate = Color(1, 1, 1, 0.588)
 rotation = 1.5707964
 stretch_mode = 1
 

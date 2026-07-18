@@ -128,8 +128,11 @@ func load_category(category: String, options: Array):
 				instance.value_scale = data.get("scale", 1)
 			elif (option is bool):
 				instance = BOOL_PRELOAD.instantiate()
-			elif (category == "keybinds"):
+			elif (category == SettingsManager.SEC_KEY_BINDS):
 				instance = KEYBIND_PRELOAD.instantiate()
+			elif (category == SettingsManager.SEC_CONTROLLER_BINDS):
+				instance = KEYBIND_PRELOAD.instantiate()
+				instance.type = 1
 			else:
 				printerr("Not a valid option type: ", option.get_class())
 			

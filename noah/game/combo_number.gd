@@ -8,7 +8,7 @@ var gravity = 0.0
 var fc = false
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	
 	$OffsetSprite.sprite_frames = ui_skin.numbers_texture
 	

@@ -4,8 +4,7 @@
 
 [node name="Audio Track" type="PanelContainer" unique_id=1866271925 groups=["audio_tracks"]]
 offset_right = 640.0
-offset_bottom = 128.0
-size_flags_vertical = 3
+offset_bottom = 66.0
 script = ExtResource("1_40s60")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=856170954]
@@ -49,7 +48,7 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "🗑"
 
-[node name="FileDialog" type="FileDialog" parent="." unique_id=525688696]
+[node name="FileDialog" type="FileDialog" parent="." unique_id=525688696 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"

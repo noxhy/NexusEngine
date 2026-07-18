@@ -14,6 +14,7 @@ var pages: Dictionary = {
 			[&"option", {"id": "note_down"}],
 			[&"option", {"id": "note_up"}],
 			[&"option", {"id": "note_right"}],
+			[&"option", {"id": "pause"}],
 			[&"option", {"id": "kill"}],
 			[&"label", "Volume"],
 			[&"option", {"id": "volume_up"}],
@@ -28,6 +29,25 @@ var pages: Dictionary = {
 			[&"option", {"id": "menu_cancel"}],
 			[&"label", "Miscellaneous"],
 			[&"option", {"id": "character_select"}]
+		]
+	},
+	SettingsManager.SEC_CONTROLLER_BINDS: {
+		"name": "Controller Binds",
+		"options": [
+			[&"label", "Gameplay"],
+			[&"option", {"id": "note_left"}],
+			[&"option", {"id": "note_down"}],
+			[&"option", {"id": "note_up"}],
+			[&"option", {"id": "note_right"}],
+			[&"option", {"id": "pause"}],
+			[&"option", {"id": "kill"}],
+			[&"label", "UI"],
+			[&"option", {"id": "menu_left"}],
+			[&"option", {"id": "menu_down"}],
+			[&"option", {"id": "menu_up"}],
+			[&"option", {"id": "menu_right"}],
+			[&"option", {"id": "menu_accept"}],
+			[&"option", {"id": "menu_cancel"}]
 		]
 	},
 	SettingsManager.SEC_GAMEPLAY: {
@@ -119,14 +139,14 @@ var pages: Dictionary = {
 var selected: int = 0
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	Global.set_window_title("Options Menu")
 	
 	for i in pages.size():
 		var page = pages.keys()[i]
 		var menu_option_instance = MENU_OPTION_PRELOAD.instantiate()
 		
-		menu_option_instance.text = page.capitalize()
+		menu_option_instance.text = pages[page].get("name", page.capitalize())
 		menu_option_instance.icon = null
 		
 		$UI.add_child(menu_option_instance)
@@ -193,6 +213,7 @@ func select(i: int):
 	add_child(option_menu_instance)
 	Global.manual_pause = true
 	get_tree().paused = true
+	print("loading: ", page)
 	option_menu_instance.load_category(page, pages.get(page).get("options", [[&"label", "This page is empty."]]))
 
 

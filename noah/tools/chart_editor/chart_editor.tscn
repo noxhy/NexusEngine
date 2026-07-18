@@ -15,10 +15,14 @@
 [ext_resource type="AudioStream" uid="uid://bdbqayhnogbk5" path="res://noah/assets/sounds/chart_editor/exitWindow.ogg" id="12_qymoy"]
 [ext_resource type="AudioStream" uid="uid://bmj7ckgd3tlt1" path="res://noah/assets/sounds/chart_editor/undo.ogg" id="13_am3li"]
 [ext_resource type="AudioStream" uid="uid://rka5qxbj0svd" path="res://noah/assets/sounds/chart_editor/noteLay.ogg" id="14_am3li"]
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="17_75w6f"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="17_75w6f"]
 [ext_resource type="PackedScene" uid="uid://bx3kdd0dt1kkw" path="res://noah/tools/chart_editor/lower_ui.tscn" id="17_sxrev"]
 [ext_resource type="PackedScene" uid="uid://b6b2d2kloq60j" path="res://noah/tools/chart_editor/upper_ui.tscn" id="18_dd0y6"]
 [ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="19_2ab3f"]
+[ext_resource type="Material" uid="uid://b87ibevalpejo" path="res://noah/shaders/generic_big_mat.tres" id="19_almg3"]
+[ext_resource type="Script" uid="uid://mrj70uiannhy" path="res://noah/tools/chart_editor/tool_tip.gd" id="19_ym35o"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://noah/assets/fonts/primary_font.ttf" id="20_4y0c1"]
+[ext_resource type="Script" uid="uid://dn04gjsh1koqp" path="res://noah/tools/chart_editor/loaded_song_error.gd" id="21_et4bh"]
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_50rmr"]
 
@@ -32,6 +36,17 @@ stream_2/stream = ExtResource("7_5qx4x")
 streams_count = 2
 stream_0/stream = ExtResource("8_s4ovn")
 stream_1/stream = ExtResource("9_v13a8")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ym35o"]
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8qav3"]
+font = ExtResource("20_4y0c1")
+font_size = 24
+font_color = Color(0.7806942, 4.548356e-06, 4.813075e-07, 1)
+outline_size = 2
+outline_color = Color(0.22450125, 1.8349849e-07, 8.4228816e-08, 1)
 
 [node name="Chart Editor" type="Node2D" unique_id=373963802]
 script = ExtResource("1_ugmsy")
@@ -124,8 +139,8 @@ bus = &"SFX"
 
 [node name="Grid Layer" type="CanvasLayer" parent="." unique_id=1476007864]
 layer = -2
-offset = Vector2(640, 64)
-transform = Transform2D(1, 0, 0, 1, 640, 64)
+offset = Vector2(640, 80)
+transform = Transform2D(1, 0, 0, 1, 640, 80)
 
 [node name="Parallax2D" type="Parallax2D" parent="Grid Layer" unique_id=1878580833]
 repeat_times = 3
@@ -141,8 +156,8 @@ position_column_color = Color(0.20784314, 0.23529412, 0.28235295, 0.26666668)
 
 [node name="Waveform Layer" type="CanvasLayer" parent="." unique_id=476894491]
 layer = 2
-offset = Vector2(640, 64)
-transform = Transform2D(1, 0, 0, 1, 640, 64)
+offset = Vector2(640, 80)
+transform = Transform2D(1, 0, 0, 1, 640, 80)
 follow_viewport_enabled = true
 
 [node name="Notes Layer" type="CanvasLayer" parent="." unique_id=1790758764]
@@ -182,6 +197,7 @@ offset_top = 296.0
 offset_right = 640.0
 offset_bottom = 312.0
 focus_mode = 1
+mouse_default_cursor_shape = 2
 theme = ExtResource("17_75w6f")
 step = 0.001
 metadata/_edit_lock_ = true
@@ -200,6 +216,31 @@ offset_top = -328.0
 offset_right = 144.0
 offset_bottom = -296.0
 
+[node name="Tool Tip" type="Label" parent="UI" unique_id=538315361]
+visible = false
+z_index = 100
+offset_left = -144.0
+offset_top = -328.0
+offset_right = -143.0
+offset_bottom = -305.0
+theme = ExtResource("17_75w6f")
+text = "hello"
+label_settings = SubResource("LabelSettings_ym35o")
+script = ExtResource("19_ym35o")
+
+[node name="LoadedSong error" type="Label" parent="UI" unique_id=1634400954]
+visible = false
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+theme = ExtResource("17_75w6f")
+text = "Error: There is no loaded Song"
+label_settings = SubResource("LabelSettings_8qav3")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("21_et4bh")
+
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128
 offset = Vector2(640, 360)
@@ -207,6 +248,7 @@ transform = Transform2D(1, 0, 0, 1, 640, 360)
 
 [node name="genericBG" type="Sprite2D" parent="Background" unique_id=1878471884]
 modulate = Color(0.56078434, 0.6431373, 0.7490196, 1)
+material = ExtResource("19_almg3")
 texture = ExtResource("19_2ab3f")
 metadata/_edit_lock_ = true
 
@@ -216,4 +258,5 @@ metadata/_edit_lock_ = true
 [connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]
 [connection signal="new_tempo" from="Conductor" to="." method="_on_conductor_new_tempo"]
 [connection signal="finished" from="Audio/Instrumental" to="." method="_on_instrumental_finished"]
+[connection signal="drag_started" from="UI/Song Slider" to="." method="_on_song_slider_drag_started"]
 [connection signal="value_changed" from="UI/Song Slider" to="." method="_on_song_slider_value_changed"]

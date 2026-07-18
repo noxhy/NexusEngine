@@ -5,7 +5,7 @@ class_name ModChartNote
 var last_length: float
 
 # Applying Note Skin
-func _ready(): 
+func _ready() -> void: 
 	$Note.sprite_frames = note_skin.notes_texture
 	if note_skin.animation_names != null: 
 		if note_skin.animation_names.keys().size() > 0: 
@@ -33,7 +33,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta) -> void:
 	time_difference = (time - GameManager.offset) - GameManager.song_position
 	
 	if length > 0:

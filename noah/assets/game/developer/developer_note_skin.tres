@@ -2,7 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://noah/assets/game/developer/arrow/notes.tres" id="1_ovb1l"]
 [ext_resource type="AudioStream" uid="uid://bodc4sfit172e" path="res://noah/assets/sounds/chart_editor/sound-hit.wav" id="1_w8cuf"]
-[ext_resource type="Script" uid="uid://rwa2lqwuhfdc" path="res://resources/note_skin.gd" id="2_g6s64"]
+[ext_resource type="Script" uid="uid://rwa2lqwuhfdc" path="res://noah/resources/note_skin.gd" id="2_g6s64"]
 [ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://noah/assets/game/developer/arrow/strums.tres" id="3_7te8r"]
 
 [resource]
@@ -10,7 +10,6 @@ script = ExtResource("2_g6s64")
 strums_texture = ExtResource("3_7te8r")
 notes_texture = ExtResource("1_ovb1l")
 notes_scale = 0.2
-sustain_width = 600
 animation_names = Dictionary[StringName, StringName]({
 &"down": &"down",
 &"down end": &"end",

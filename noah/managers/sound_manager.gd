@@ -1,5 +1,7 @@
 extends Node
 
+var players: Dictionary[StringName, AudioStreamPlayer] = {}
+
 @onready var music: AudioStreamPlayer = $MusicPlayer ## global music player
 @onready var scroll: AudioStreamPlayer = $UI/ScrollPlayer ## global menu scroll sfx
 @onready var cancel: AudioStreamPlayer = $UI/CancelPlayer ## global menu cancel sfx
@@ -64,8 +66,7 @@ func _updated_volume():
 
 ## plays the global audio track from stream or path
 func play_music(stream: Variant, start_time: float = 0) -> void:
-	
-	stream = _get_stream(stream)
+	stream = get_stream(stream)
 	music.stream = stream
 	
 	music.play(start_time)
@@ -74,7 +75,7 @@ func play_music(stream: Variant, start_time: float = 0) -> void:
 func play_sound_once(stream: Variant, volume_linear: float = 1) -> void:
 	var player = AudioStreamPlayer.new()
 	add_child(player)
-	player.stream = _get_stream(stream)
+	player.stream = get_stream(stream)
 	player.volume_linear = volume_linear
 	player.play()
 	player.bus = &'SFX'
@@ -84,11 +85,24 @@ func play_sound_once(stream: Variant, volume_linear: float = 1) -> void:
 	remove_child(player)
 	player.queue_free()
 
-## asserts a given stream IS a AudioStream
-func _get_stream(stream: Variant) -> AudioStream:
+## attempts to retrieve a stream more thoroughly and asserts when failure.
+## [br][br]If the given file is a [code]String[/code], the func will attempt to load it (supports absolute paths)
+func get_stream(stream: Variant) -> AudioStream:
 	if stream is AudioStream or stream is AudioStreamOggVorbis:
 		return stream
 	elif stream is String:
+		if not stream.begins_with('res://'):
+			var file: FileAccess = FileAccess.open(stream, FileAccess.READ)
+			if file:
+				var raw_buffer = file.get_buffer(file.get_length())
+				
+				var potential_stream = get_stream_from_buffer(raw_buffer, stream.get_extension())
+				
+				file.close()
+				
+				if potential_stream:
+					return potential_stream
+		
 		assert(ResourceLoader.exists(stream), '%s could not be found and played.' % stream)
 		
 		var loaded_sound = load(stream)
@@ -99,3 +113,26 @@ func _get_stream(stream: Variant) -> AudioStream:
 		assert(false, '%s provided is not a valid stream' % stream)
 	
 	return null
+
+func get_stream_from_buffer(buffer: PackedByteArray, ext: String) -> AudioStream:
+		match ext:
+			'ogg':
+				return AudioStreamOggVorbis.load_from_buffer(buffer)
+			'wav':
+				return AudioStreamWAV.load_from_buffer(buffer)
+			'mp3':
+				return AudioStreamMP3.load_from_buffer(buffer)
+		return null
+
+## Creates a new [AudioStreamPlayer] that will always exist in memory.
+func create_player(id: StringName, sound: Variant) -> AudioStreamPlayer:
+	var player: AudioStreamPlayer = AudioStreamPlayer.new()
+	player.bus = &'SFX'
+	player.stream = get_stream(sound)
+	add_child(player)
+	players[id] = player
+	return player
+
+## Returns an [AudioStreamPlayer] from the user-generated players dictionary.
+func get_player(id: StringName) -> AudioStreamPlayer:
+	return players.get(id, null)

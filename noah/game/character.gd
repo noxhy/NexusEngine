@@ -66,7 +66,7 @@ enum AnimContext {
 
 @export_group("UI")
 ## Icons that are displayed in the ui. Can include [code]default[/code], [code]winning[/code] or [code]losing[/code].
-@export var icons: SpriteFrames = load("uid://dt82dx1mf15r")
+@export var icons: SpriteFrames
 @export var color: Color = Color(0.168627, 0.121569, 0.203922)
 
 @export_category("Tools")
@@ -92,25 +92,20 @@ var sing_time: float = 0
 
 var _ghost_sprite = null
 
-func _ready():
+func _ready() -> void:
 	animation_player = verify_animation_player(animation_player)
 	
 	if not animation_player:
 		printerr("Character animation player was not set and could not be found.")
 		return
 	
-	if animation_player:
-		if dance_animations.size() > 0:
-			play_animation(dance_animations[0])
-	
 	if animation_player is AnimateSymbol:
 		animation_player.connect(&"animation_finished", self._on_animation_finished)
 		if Engine.is_editor_hint():
 			animation_player.connect(&"animation_changed", self.update_ghost)
 	else:
-		animation_player.play()
 		animation_player.connect(&"animation_finished", self._on_animation_finished)
-		if Engine.is_editor_hint():
+		if Engine.is_editor_hint() and not animation_player is AnimationPlayer:
 			animation_player.connect(&"animation_changed", self.update_ghost)
 	
 	if not Engine.is_editor_hint():
@@ -132,7 +127,10 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 	anim_id = StringName(animation_prefix + anim_id)
 	var animation_name: StringName = get_animation_name(anim_id)
 	
-	if animation_name.is_empty():
+	if animation_player is AnimationPlayer and not animation_player.has_animation(anim_id):
+		printerr("(Character[", self.name, "]) ",'does not have "', anim_id, '" animation')
+		return
+	elif animation_name.is_empty():
 		printerr("(Character[", self.name, "]) ",'does not have "', anim_id, '" animation')
 		return
 	
@@ -142,7 +140,21 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 	current_animation = anim_id
 	current_context = context
 	
+#region AnimationPlayer Anim playback
+	if animation_player is AnimationPlayer: #for anim players we have to ignore a few things
+			
+		animation_player.play(anim_id)
+		if restart:
+			animation_player.seek(0, true)
+		
+		var current_anim = animation_player.get_animation(anim_id)
+		
+		set_sing_timer(current_anim.length)
+		return
+#endregion
+	
 	# Will not run idle animation if you can not run
+#region Atlas Anim playback
 	if animation_player is AnimateSymbol:
 		if offsets.has(animation_name):
 			animation_player.position = offsets.get(animation_name, animation_player.offset)
@@ -160,12 +172,14 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 		
 		set_sing_timer(animation_player.get_animation_length() / raw_atlas.get_framerate())
 		return
+#endregion
 	
+#region AnimatedSprite Anim playback
 	var animation_speed: float = animation_player.sprite_frames.get_animation_speed(animation_name)
 	var frame_count: int = animation_player.sprite_frames.get_frame_count(animation_name)
 	holding = false
 	
-	if (time >= 0):
+	if time >= 0:
 		# Calculates the speed it would need to go at the time requested
 		animation_player.play(animation_name, animation_speed / (frame_count * time))
 		set_sing_timer(time)
@@ -185,6 +199,7 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 		else:
 			animation_player.position.x = offsets_to_use.x
 			animation_player.position.y = offsets_to_use.y
+#endregion
 
 
 func _process(delta: float) -> void:
@@ -210,6 +225,9 @@ func set_prefix(prefix: StringName):
 func hold_animation():
 	if !animation_player: return
 	
+	if animation_player is AnimationPlayer: ##TODO implement this
+		return
+	
 	var hold_frame: int = 0
 	var animation_name: StringName = get_animation_name(current_animation)
 	var length: int
@@ -229,7 +247,7 @@ func hold_animation():
 		
 		animation_player.playing = true
 	else:
-		if animation_player.sprite_frames.get_animation_loop(animation_name):
+		if animation_player.sprite_frames.get_animation_loop_mode(animation_name) != SpriteFrames.LoopMode.LOOP_NONE:
 			return
 		
 		length = animation_player.sprite_frames.get_frame_count(animation_name)
@@ -264,7 +282,10 @@ func on_step_hit(current_step: int, measure_relative: int):
 		var restart: bool = true
 		var dance_to_play: StringName = get_animation_name(dance_animations[current_dance])
 		
-		if animation_player is AnimateSymbol:
+		if animation_player is AnimationPlayer:
+			if animation_player.has_animation(animation_player.current_animation):
+				restart = animation_player.get_animation(animation_player.current_animation).loop_mode != Animation.LOOP_LINEAR
+		elif animation_player is AnimateSymbol:
 			restart = !animation_player.loop
 		else:
 			restart = !animation_player.sprite_frames.get_animation_loop(dance_to_play)
@@ -404,6 +425,8 @@ func verify_animation_player(node: Node):
 		node = $AnimatedSprite2D
 		if !node:
 			node = $AnimateSymbol
+			if !node:
+				node = $AnimationPlayer
 	
 	return node
 #endregion

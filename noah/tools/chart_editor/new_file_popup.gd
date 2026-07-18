@@ -4,10 +4,10 @@ signal file_created(path: String, song: Song)
 
 var selected_vocals: PackedStringArray
 var selected_instrumental: String
-var save_dir: String
+var save_dir: String = 'res://'
 
 # Creates a new file that will send out a signal to the chart editor
-func new_file(dir: String):
+func new_file(dir: String, notify_editor: bool = true):
 	# Creates the file base properties
 	var song_file = Song.new()
 	song_file.artist = %"Song Credits".text
@@ -23,19 +23,21 @@ func new_file(dir: String):
 	var difficulties: Array[String] = []
 	
 	var selected = %"Difficulty Options".get_selected_items()[0]
-	if selected == 0:
-		difficulties = ["easy", "normal", "hard"]
-	elif selected == 1:
-		difficulties = ["erect", "nightmare"]
-	elif selected == 2:
-		difficulties = ["hard"]
-	else:
-		difficulties = []
+	match selected:
+		0:
+			difficulties = ["easy", "normal", "hard"]
+		
+		1:
+			difficulties = ["erect", "nightmare"]
+		
+		2:
+			difficulties = ["hard"]
+		
+		_:
+			difficulties = []
 	
 	var difficulty_dict: Dictionary[String, Dictionary] = {}
-	
 	for difficulty in difficulties:
-		
 		var chart: Chart = Chart.new()
 		
 		# Barebones chart data
@@ -43,7 +45,7 @@ func new_file(dir: String):
 			"notes": [],
 			"events": [],
 			"tempos": {0.0: song_file.tempo},
-			"meters": {0.0: [4, 16]}
+			"meters": {0.0: [4, 4]}
 		}
 		
 		var chart_path: String = dir + "/" + song_file.title + "-" + difficulty + ".res"
@@ -55,7 +57,10 @@ func new_file(dir: String):
 	ResourceSaver.save(song_file, song_path)
 	
 	# Emits signal to return to the chart editor
-	emit_signal("file_created", song_path, song_file)
+	if notify_editor:
+		emit_signal("file_created", song_path, song_file)
+	else:
+		ChartManager.song = song_file
 
 
 # "Select File Location" button pressed
@@ -104,3 +109,16 @@ func _on_create_button_pressed() -> void:
 
 func file_dailog_gui_focus_changed(node: Control) -> void:
 	emit_signal(&"gui_focus_changed", node)
+
+
+func _on_dummy_button_pressed() -> void:
+	if %"Difficulty Options".get_selected_items().size() == 0:
+		printerr("Difficulties not selected")
+		return
+	
+	if !DirAccess.dir_exists_absolute(save_dir):
+		printerr("Save Directory does not exist")
+		return
+	
+	new_file(save_dir, false)
+	_on_close_requested()

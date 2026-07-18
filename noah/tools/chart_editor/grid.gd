@@ -49,20 +49,23 @@ class_name Grid
 @export var event_column_color: Color = Color(1, 1, 1, 0.5)
 @export var position_column_color: Color = Color(1, 1, 1, 0.5)
 
+@onready var texture_rect: TextureRect = $TextureRect
+
 # Called when the node enters the scene tree for the first time.
 func draw():
-	$TextureRect.size = Vector2(16, 16) * Vector2(columns, rows)
-	$TextureRect.scale = grid_size / Vector2(16, 16)
-	$TextureRect.scale *= zoom
-	$TextureRect.self_modulate = grid_color
-	
-	if centered:
-		if !event_grid:
-			$TextureRect.position.x = ($TextureRect.size.x * $TextureRect.scale.x) / -2.0
+	if texture_rect:
+		texture_rect.size = Vector2(16, 16) * Vector2(columns, rows)
+		texture_rect.scale = grid_size / Vector2(16, 16)
+		texture_rect.scale *= zoom
+		texture_rect.self_modulate = grid_color
+		
+		if centered:
+			if !event_grid:
+				texture_rect.position.x = (texture_rect.size.x * texture_rect.scale.x) / -2.0
+			else:
+				texture_rect.position.y = (texture_rect.size.y * texture_rect.scale.y) / -2.0
 		else:
-			$TextureRect.position.y = ($TextureRect.size.y * $TextureRect.scale.y) / -2.0
-	else:
-		$TextureRect.position = Vector2.ZERO
+			texture_rect.position = Vector2.ZERO
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -87,15 +90,15 @@ func _draw():
 ## Returns the relative position of a grid position from the top left corner of a gridspace
 func get_real_position(location: Vector2, snap: Vector2 = grid_size) -> Vector2:
 	var output: Vector2 = Vector2(location) * snap * zoom
-	output += $TextureRect.position
+	output += texture_rect.position
 	return output
 
 ## Returns the grid position of a location
 func get_grid_position(location: Vector2, snap: Vector2 = grid_size) -> Vector2:
-	var output: Vector2 = location - $TextureRect.position
+	var output: Vector2 = location - texture_rect.position
 	output /= snap * zoom
 	return output
 
 ## Returns the size of the grid
 func get_size() -> Vector2:
-	return $TextureRect.size * $TextureRect.scale
+	return texture_rect.size * texture_rect.scale

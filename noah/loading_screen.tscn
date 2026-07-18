@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://ld5hyjhtx8wg"]
 
-[ext_resource type="Texture2D" uid="uid://bxxfj1ftr2ib" path="res://funkin/assets/images/menus/loading_screen.png" id="1_2a8i5"]
 [ext_resource type="Script" uid="uid://cbjq3veqm6jql" path="res://noah/loading_screen.gd" id="1_ojpmn"]
 
 [node name="Loading Screen" type="Node2D" unique_id=2045935946]
@@ -12,23 +11,13 @@ offset = Vector2(640, 360)
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=422845927]
 layer = 0
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
-
-[node name="ColorRect" type="ColorRect" parent="Background" unique_id=1098838123]
-offset_left = -640.0
-offset_top = -360.0
-offset_right = 640.0
-offset_bottom = 360.0
-color = Color(0.7921569, 1, 0.3019608, 1)
-
-[node name="LoadingScreen" type="Sprite2D" parent="Background" unique_id=380961951]
-texture = ExtResource("1_2a8i5")
-metadata/_edit_lock_ = true
 
 [node name="ProgressBar" type="ProgressBar" parent="Background" unique_id=392658439]
-offset_left = -640.0
-offset_top = 328.0
-offset_right = 640.0
-offset_bottom = 360.0
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
 metadata/_edit_lock_ = true

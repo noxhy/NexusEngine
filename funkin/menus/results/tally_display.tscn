@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dfpj0jopo6l1a"]
-
-[ext_resource type="Script" uid="uid://bjn0iv14f2uvb" path="res://funkin/menus/results/tally_display.gd" id="1_5s1gq"]
-
-[node name="Tally Display" type="Node2D" unique_id=1045715953]
-script = ExtResource("1_5s1gq")

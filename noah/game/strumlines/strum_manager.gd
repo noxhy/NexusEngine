@@ -2,10 +2,6 @@
 extends Node2D
 class_name StrumManager
 
-signal note_hit(note: Note, lane: int, hit_time_difference: float, manager: StrumManager)
-signal note_holding(note: Note, lane: int, hold_difference: float, manager: StrumManager)
-signal note_miss(note: Note, lane: int, manager: StrumManager)
-
 @export var note_skin: NoteSkin = NoteSkin.new()
 ## List of Nodes of the strumlines.
 @export var strums: Array[Strum] = []
@@ -25,21 +21,21 @@ signal note_miss(note: Note, lane: int, manager: StrumManager)
 @export var enemy_slot: bool = false
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	set_skin(note_skin)
 	set_press(can_press)
 	set_auto_play(auto_play)
 	set_can_splash(can_splash)
 	set_enemy_slot(enemy_slot)
 	
+	var i: int = 0
 	for strum in strums:
-		strum.connect(&"note_hit", self._on_note_hit)
-		strum.connect(&"note_holding", self._on_note_holding)
-		strum.connect(&"note_miss", self._on_note_miss)
+		strum.lane = i
+		i += 1
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta) -> void:
 	pass
 
 
@@ -101,8 +97,12 @@ func get_scroll_speed(lane: int) -> float:
 func create_note(time: float, lane: int, length: float, note_type: String, tempo: float):
 	strums[lane].create_note(time, length, note_type, tempo)
 
-func create_splash(lane: int, animation_name: String):
-	strums[lane].create_splash(animation_name) 
+func create_splash(lane: int, animation_name: StringName):
+	var anim_to_play: StringName = animation_name + &"_splash"
+	if animation_name.is_empty():
+		anim_to_play = strums[lane].strum_name + &"_splash"
+	
+	strums[lane].create_splash(anim_to_play)
 
 # Visual Util
 func glow_strum(lane: int):
@@ -111,15 +111,3 @@ func glow_strum(lane: int):
 
 func press_strum(lane: int):
 	strums[lane].press_strum()
-
-
-func _on_note_hit(note: Note, hit_time: float, strum: Strum):
-	emit_signal(&"note_hit", note, strums.find(strum), hit_time, self)
-
-
-func _on_note_holding(note: Note, hold_difference: float, strum: Strum):
-	emit_signal(&"note_holding", note, strums.find(strum), hold_difference, self)
-
-
-func _on_note_miss(note:Note, strum: Strum):
-	emit_signal(&"note_miss", note, strums.find(strum), self)

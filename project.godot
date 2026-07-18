@@ -11,10 +11,10 @@ config_version=5
 [application]
 
 config/name="Friday Night Funkin': Noah Engine"
-config/version="3.2"
-run/main_scene="res://funkin/menus/start_menu/start_menu.tscn"
+config/version="3.3.0"
+run/main_scene="uid://crfoqsmbdm5bd"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.png"
+config/icon="uid://dr2pbdp8x8xpb"
 
 [audio]
 
@@ -23,15 +23,16 @@ buses/default_bus_layout="uid://wp1fb3lbqup6"
 [autoload]
 
 Global="*res://noah/global.tscn"
-Transitions="*res://noah/transitions.tscn"
+TransitionManager="*res://noah/managers/transition_manager.tscn"
 GameManager="*res://noah/managers/game_manager.gd"
+Preload="*uid://cnqn5donqdijf"
 SettingsManager="*res://noah/managers/settings_manager.gd"
 ChartManager="*res://noah/managers/chart_manager.gd"
-Preload="*res://funkin/preload.gd"
 SoundManager="*res://noah/managers/sound_manager.tscn"
 SaveManager="*res://noah/managers/save_manager.gd"
 Signals="*res://noah/signals.gd"
 Constants="*uid://dctyx01j6jvbu"
+ModManager="*uid://xhbi3kfk6n15"
 
 [debug]
 
@@ -52,14 +53,12 @@ enabled=PackedStringArray("res://addons/gdanimate-rewrite-main/plugin.cfg", "res
 [file_customization]
 
 folder_colors={
-"res://funkin/": "orange",
-"res://noah/": "red",
+"res://noah/": "purple",
 "res://noah/assets/": "yellow",
-"res://noah/game/": "purple",
+"res://noah/game/": "red",
 "res://noah/managers/": "pink",
-"res://noah/tools/": "gray",
-"res://playable_songs/": "purple",
-"res://resources/": "green"
+"res://noah/resources/": "green",
+"res://noah/tools/": "gray"
 }
 
 [global_group]
@@ -68,6 +67,7 @@ player="The characters that should play an animation when the player notes are p
 enemy="The characters that should play an animation when the enemy notes are played"
 metronome="the characters that should play an animations every other beat (gf)"
 camera_positions="Camera positions for playstate"
+strums="Strumlines on UIs"
 
 [input]
 
@@ -133,7 +133,7 @@ kill={
 ]
 }
 note_left={
-"deadzone": 0.2,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
@@ -244,25 +244,25 @@ menu_accept={
 ]
 }
 menu_left={
-"deadzone": 0.2,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194319,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":65,"physical_keycode":0,"key_label":0,"unicode":97,"location":0,"echo":false,"script":null)
 ]
 }
 menu_down={
-"deadzone": 0.2,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194322,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":83,"physical_keycode":0,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
 ]
 }
 menu_up={
-"deadzone": 0.2,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194320,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":87,"physical_keycode":0,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)
 ]
 }
 menu_right={
-"deadzone": 0.2,
+"deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194321,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":68,"physical_keycode":0,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
 ]
@@ -272,4 +272,8 @@ menu_cancel={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194305,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194308,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
+}
+pause={
+"deadzone": 0.2,
+"events": []
 }

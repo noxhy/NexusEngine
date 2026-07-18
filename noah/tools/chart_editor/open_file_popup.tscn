@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://388mdmn1mwun"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_gikln"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_gikln"]
 [ext_resource type="Script" uid="uid://b6mqxjs7xwqjh" path="res://noah/tools/chart_editor/open_file_popup.gd" id="1_umk2k"]
 
-[node name="Open File Popup" type="FileDialog" unique_id=352470684]
+[node name="Open File Popup" type="FileDialog" unique_id=352470684 groups=["windows"]]
 msaa_2d = 1
 oversampling_override = 1.0
 title = "Open a File"
@@ -16,7 +16,6 @@ min_size = Vector2i(480, 0)
 theme = ExtResource("1_gikln")
 ok_button_text = "Open"
 file_mode = 0
-root_subfolder = "res://playable_songs/"
 filters = PackedStringArray("*.tres", "*.res")
 script = ExtResource("1_umk2k")
 

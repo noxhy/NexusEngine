@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://cnl3v75g6wec6"]
+
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_ndjvb"]
+[ext_resource type="PackedScene" uid="uid://bc4d7j7ifsf86" path="res://noah/tools/chart_editor/audio_panel.tscn" id="2_7t3tj"]
+[ext_resource type="Script" uid="uid://dw1amqwmw7xjr" path="res://noah/tools/chart_editor/new_audio_window.gd" id="2_pb1mr"]
+[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://noah/assets/fonts/primary_font.ttf" id="3_jm5px"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_io1j1"]
+font = ExtResource("3_jm5px")
+outline_size = 1
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_jm5px"]
+content_margin_right = 0.0
+color = Color(1, 1, 1, 0.5882353)
+grow_begin = -4.0
+grow_end = -4.0
+thickness = 2
+
+[node name="Window" type="Window" unique_id=838383365 groups=["windows"]]
+transparent_bg = true
+oversampling_override = 1.0
+title = "Audio Controls"
+position = Vector2i(0, 36)
+size = Vector2i(607, 383)
+unresizable = true
+transparent = true
+popup_window = true
+theme = ExtResource("1_ndjvb")
+script = ExtResource("2_pb1mr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1038355757]
+offset_right = 597.0
+offset_bottom = 400.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=687633761]
+layout_mode = 2
+text = "Instrumental Settings"
+label_settings = SubResource("LabelSettings_io1j1")
+
+[node name="inst panel" parent="VBoxContainer" unique_id=952900637 instance=ExtResource("2_7t3tj")]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=1435775829]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_jm5px")
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=122753152]
+layout_mode = 2
+text = "Vocal Settings"
+label_settings = SubResource("LabelSettings_io1j1")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1155183781]
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="vbox" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1784337024]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1899319082]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_jm5px")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=368860982]
+layout_mode = 2
+alignment = 1
+
+[node name="Add Track" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1051985501]
+layout_mode = 2
+text = "Add Track"
+
+[node name="Save Button" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1945608291]
+layout_mode = 2
+text = "Save Changes to Chart"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Add Track" to="." method="_on_add_track_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Save Button" to="." method="_on_save_button_pressed"]

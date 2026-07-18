@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://d1wj3tkjvp2xi"]
-
-[ext_resource type="Script" uid="uid://bd6ta13v6kdmj" path="res://funkin/menus/results/score_display.gd" id="1_p5w6v"]
-
-[node name="Score Display" type="Node2D" unique_id=1198071650]
-script = ExtResource("1_p5w6v")

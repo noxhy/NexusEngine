@@ -19,12 +19,13 @@ var no_animation: bool = false
 var damage_mult: float = 1.0
 var health_mult: float = 1.0
 var anim_prefix: String = ''
+var splash_animation: StringName = &""
 var scoreable: bool = true
 var mine: bool = false
 var hit: bool = false
 
 # Applying Note Skin
-func _ready(): 
+func _ready() -> void: 
 	end = $Tail/End
 	note.sprite_frames = note_skin.notes_texture
 	if note_skin.animation_names != null: 
@@ -54,6 +55,7 @@ func _ready():
 	if tail:
 		tail.scale = Vector2.ONE * note_skin.notes_scale
 		tail.position.x = tail.texture.get_height() / 2.0 * tail.scale.x
+		tail.modulate.a = note_skin.sustain_opacity
 	
 	if end:
 		end.scale.x = note_skin.notes_scale
@@ -61,7 +63,7 @@ func _ready():
 	load_basic_type()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta) -> void:
 	time_difference = time - GameManager.song_position
 	
 	if length > 0:

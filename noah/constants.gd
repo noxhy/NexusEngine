@@ -1,21 +1,12 @@
 extends Node
 
-
 #scene ids
-var START_MENU_SCENE: String = "uid://b1kmgjxpce1de"
-var MAIN_MENU_SCENE: String = "uid://rc52vcn2m7ob"
-var STORY_MODE_MENU_SCENE: String = "uid://lh8hi5dk1sja"
-var FREEPLAY_MENU_SCENE: String = "uid://gbra80y44814"
-var CHARACTER_SELECT_MENU_SCENE: String = "uid://cffkc1rbk4pcv"
-var OPTIONS_MENU_SCENE: String = "uid://stil5xd6xto6"
-var OPTIONS_SUBMENU_SCENE: String = "uid://bp581x6mu5f1w"
-var CREDITS_MENU_SCENE: String = "uid://clbeef0fp6xbw"
-var RESULTS_MENU_SCENE: String = "uid://cmwlnqqj5h0xy"
-
 var CHART_EDITOR_SCENE: String = "uid://c3lux2ajoe1g6"
 var EVENT_EDITOR_SCENE: String = "uid://cq6xqods6w7lw"
+var RESULTS_MENU_SCENE: String = ""
 
 #region Event Data
+
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
 		"parameters": ["Position Index"],
@@ -60,21 +51,35 @@ var EVENT_DATA: Dictionary = {
 }
 #endregion
 
+#region Transitions
+var DEFAULT_TRANSITION = &"down"
+var TRANSITIONS: Dictionary = {
+	&"down": "uid://degdcsx3er4ug",
+	&"fade": "uid://dp5sadsewp7fw"
+}
+#endregion
+
 #playstate constants
-const SCORING_SLOPE: float = 0.08
-const SCORING_OFFSET: float = 0.05499
-const COMBO_SLOPE: float = 20.0
+var SCORING_SLOPE: float = 0.08
+var SCORING_OFFSET: float = 0.05499
+var COMBO_SLOPE: float = 20.0
 
-const HOLD_SCORE_GAIN_PER_SECOND: float = 250
-const MIN_SCORE_GAIN: int = 9
-const MAX_SCORE_GAIN: int = 500
+var HOLD_SCORE_GAIN_PER_SECOND: float = 250
+var MIN_SCORE_GAIN: int = 9
+var MAX_SCORE_GAIN: int = 500
 
-const HOLD_HEALTH_GAIN_PER_SECOND: float = 6
-const HEALTH_GAIN: float = 1
+var HEALTH_GAIN: float = 1
+var HOLD_HEALTH_GAIN_PER_SECOND: float = 6
 
-const MISS_BASE_HEALTH_PENALTY: float = 4
-const MISS_MAX_HEALTH_PENALTY: float = 20.0
+var BAD_HIT_HEALTH_PENALTY: float = 0.5
+var MISS_BASE_HEALTH_PENALTY: float = 4
+var MISS_MAX_HEALTH_PENALTY: float = 20.0
 
+var SPAM_SCORE_PENALTY: float = 10
+var SPAM_HEALTH_PENALTY: float = 1
+var MISS_SCORE_PENALTY: float = 100
+
+var DEFAULT_NOTE_SKIN: String = "uid://buly8rgmgrrnm"
 #region Note Types
 ## The note type and the corresponding animation prefix.
 var NOTE_TYPES: Dictionary = {

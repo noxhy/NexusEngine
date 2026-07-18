@@ -2,25 +2,21 @@ extends Node2D
 
 @export var note_skin = NoteSkin.new()
 
+@onready var sprite = $OffsetSprite
+
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	
-	$OffsetSprite.sprite_frames = note_skin.splashes_texture
+func _ready() -> void:
+	sprite.sprite_frames = note_skin.splashes_texture
 	
 	if note_skin.animation_names != null:
-		$OffsetSprite.animation_names.merge(note_skin.animation_names, true)
+		sprite.animation_names.merge(note_skin.animation_names, true)
 	
-	$OffsetSprite.offsets = note_skin.offsets
+	sprite.offsets = note_skin.offsets
 	
 	if note_skin.pixel_texture:
-		$OffsetSprite.texture_filter = TEXTURE_FILTER_NEAREST
+		sprite.texture_filter = TEXTURE_FILTER_NEAREST
 	
-	$OffsetSprite.play()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+	sprite.play()
 
 
 func _on_offset_sprite_animation_finished():

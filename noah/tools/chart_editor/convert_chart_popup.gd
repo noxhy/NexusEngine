@@ -6,7 +6,7 @@ var selected_vocals: PackedStringArray
 var selected_instrumental: String
 var files_to_save: PackedStringArray
 
-func _ready():
+func _ready() -> void:
 	pass
 
 # Creates a new file that will send out a signal to the chart editor

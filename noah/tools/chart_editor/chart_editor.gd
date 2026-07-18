@@ -1,18 +1,27 @@
 extends Node2D
 class_name ChartEditor
 
+static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN) : 
+	get():
+		if note_skin == null:
+			note_skin = load(Constants.DEFAULT_NOTE_SKIN)
+		return note_skin
+		
+
+static var song_position: float = 0.0
+static var start_offset: float = 0.0
+static var vocal_waveforms: bool = false
+static var instrumental_waveforms: bool = false
+
+var TOOL_THEME = load("uid://b1gv0wfdmojbx")
+
 var NOTE_PRELOAD = load("uid://yyfqg2jvwcmt")
 var EVENT_PRELOAD = load("uid://n6k15grja0uh")
-var STRUM_BUTTON_PRELOAD = load("uid://ddohksqocyhnx")
+var STRUM_BUTTON_PRELOAD: PackedScene = load("uid://ddohksqocyhnx")
 
 var NEW_FILE_POPUP_PRELOAD = load("uid://d05iuopxfqlhj")
 var OPEN_FILE_POPUP_PRELOAD = load("uid://388mdmn1mwun")
 var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
-
-const SNAPS = [4.0, 8.0, 12.0, 16.0, 20.0, 24.0, 32.0, 48.0, 64.0, 96.0, 192.0]
-
-static var note_skin: NoteSkin = load("uid://buly8rgmgrrnm")
-static var song_position: float = 0.0
 
 @export_group("Colors")
 @export var hover_color: Color = Color(1, 1, 1, 0.5)
@@ -23,15 +32,27 @@ static var song_position: float = 0.0
 @export var selected_color: Color = Color.GREEN
 @export var time_change_color: Color = Color.PURPLE
 
-@onready var undo_redo: UndoRedo = UndoRedo.new()
+@onready var upper_ui: ChartEditorUpperUI = %"Upper UI"
+@onready var lower_ui: ChartEditorLowerUI = %"Lower UI"
+@onready var instrumental: AudioStreamPlayer = %Instrumental
+@onready var vocals: AudioStreamPlayer = %Vocals
+@onready var conductor: Conductor = $Conductor
+@onready var camera_2d: Camera2D = $Camera2D
+@onready var song_slider: HSlider = %"Song Slider"
 
 ## Chart Variables
 var backup_chart: Chart = null
 # So it turns out that the track ID's are not sequential and can be whatever number they want, I did this so it'd be easier
 var vocal_tracks: Array = []
 
+#some settings
+static var instrumental_volume: float = 1
+
+
 ## Editor Variables
-var start_offset: float = 0.0
+var undo_redo: UndoRedo = UndoRedo.new()
+const SNAPS = [4.0, 8.0, 12.0, 16.0, 20.0, 24.0, 32.0, 48.0, 64.0, 96.0, 192.0]
+
 var song_speed: float = 1.0
 var note_nodes: Array = []
 var clipboard: Array = []
@@ -56,18 +77,16 @@ var moved_time_distance: float
 var moved_lane_distance: int
 var hovered_note: int = -1
 var hovered_event: int = -1
-var current_focus_owner = null
-var current_focus_viewport: Viewport = null
 var current_visible_notes_L: int = -1
 var current_visible_notes_R: int = -1
 var current_note_type: String = ""
 
+var waveform_nodes: Dictionary = {}
+var waveform_dirty: bool = false
+
 var event_nodes: Array = []
 var current_visible_events_L: int = -1
 var current_visible_events_R: int = -1
-
-var default_font: Font = ThemeDB.fallback_font
-var default_font_size: int = ThemeDB.fallback_font_size
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -77,448 +96,228 @@ func _ready() -> void:
 			return
 	
 	get_window().content_scale_size = Vector2(1280, 720)
-	get_viewport().gui_focus_changed.connect(_on_gui_focus_changed)
 	Global.set_window_title("Chart Editor")
 	song_speed = SettingsManager.get_value("gameplay", "song_speed")
 	
-	if not ChartManager.song:
-		file_button_item_pressed(1)
-	else:
-		var old_song = null
+	$"UI/LoadedSong error".visible = not ChartManager.song
+	
+	if ChartManager.song:
 		var song = ChartManager.song
 		load_song(song, ChartManager.difficulty)
 		var action: String = "Loaded Song"
 		undo_redo.create_action(action)
 		undo_redo.add_do_property(self, "song", song)
-		undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
-		undo_redo.add_undo_property(self, "song", old_song)
+		undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
+		undo_redo.add_undo_property(self, "song", null)
 		undo_redo.commit_action()
-		can_chart = true
+		enable_can_chart_on_next_frame()
+	
+	update_ui_usable_state()
 	
 	update_grid()
 	
-	%"Lower UI".get_node("%Chart Snap").value = chart_snap
-	
 	## Initializing Popup Signals
-	%"Upper UI".get_node("%File Button").get_popup().connect(&"id_pressed", self.file_button_item_pressed)
-	%"Upper UI".get_node("%File Button").get_popup().set_item_checked(
-		%"Upper UI".get_node("%File Button").get_popup().get_item_index(3),
-		SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
-	%"Upper UI".get_node("%File Button").get_popup().set_hide_on_checkable_item_selection(false)
 	
-	var shortcut: Shortcut = Shortcut.new()
-	var key_event: InputEventKey
-	shortcut.events = InputMap.action_get_events(&"save")
-	
-	%"Upper UI".get_node("%File Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%File Button").get_popup().get_item_index(2), shortcut)
-	
-	%"Upper UI".get_node("%Edit Button").get_popup().connect(&"id_pressed", self.edit_button_item_pressed)
-	%"Upper UI".get_node("%Edit Button").get_popup().set_hide_on_checkable_item_selection(false)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_undo")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(0), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_redo")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(1), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_cut")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(3), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_copy")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(4), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_paste")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(5), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_text_delete_word")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(6), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"flip_notes")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(8), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"ui_text_select_all")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(10), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"deselect")
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Edit Button").get_popup().get_item_index(11), shortcut)
-	
-	shortcut = Shortcut.new()
-	shortcut.events = InputMap.action_get_events(&"menu_accept")
-	%"Upper UI".get_node("%Audio Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(0), shortcut)
-	
-	%"Upper UI".get_node("%Audio Button").get_popup().connect(&"id_pressed", self.audio_button_item_pressed)
-	%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
-		%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(7),
-		SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
-	%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
-		%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(8),
-		SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
-	%"Upper UI".get_node("%Audio Button").get_popup().set_hide_on_checkable_item_selection(false)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_EQUAL
-	key_event.shift_pressed = true
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%Audio Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(4), shortcut)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_MINUS
-	key_event.shift_pressed = true
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%Audio Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(5), shortcut)
-	
-	%"Upper UI".get_node("%View Button").get_popup().connect(&"id_pressed", self.view_button_item_pressed)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_TAB
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%View Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%View Button").get_popup().get_item_index(0), shortcut)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_EQUAL
-	key_event.ctrl_pressed = true
-	key_event.command_or_control_autoremap = true
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%View Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%View Button").get_popup().get_item_index(3), shortcut)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_MINUS
-	key_event.ctrl_pressed = true
-	key_event.command_or_control_autoremap = true
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%View Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%View Button").get_popup().get_item_index(4), shortcut)
-	
-	%"Upper UI".get_node("%Test Button").get_popup().connect(&"id_pressed", self.test_button_item_pressed)
-	%"Upper UI".get_node("%Test Button").get_popup().set_item_checked(
-		%"Upper UI".get_node("%Test Button").get_popup().get_item_index(3),
-		SettingsManager.get_value(SettingsManager.SEC_CHART, "start_at_current_position"))
-	%"Upper UI".get_node("%Test Button").get_popup().set_hide_on_checkable_item_selection(false)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_ENTER
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%Test Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Test Button").get_popup().get_item_index(0), shortcut)
-	
-	shortcut = Shortcut.new()
-	key_event = InputEventKey.new()
-	key_event.keycode = KEY_ENTER
-	key_event.shift_pressed = true
-	shortcut.events = [key_event]
-	%"Upper UI".get_node("%Test Button").get_popup().set_item_shortcut(
-		%"Upper UI".get_node("%Test Button").get_popup().get_item_index(1), shortcut)
-	
-	%"Upper UI".get_node("%Window Button").get_popup().connect(&"id_pressed", self.window_button_item_pressed)
-	%"Upper UI".get_node("%Window Button").get_popup().set_hide_on_checkable_item_selection(false)
-	
-	%"Lower UI".get_node("%Play Button").connect(&"toggled", self._on_play_button_toggled)
-	%"Lower UI".get_node("%Skip to Beginning").connect(&"pressed", self._on_skip_to_beginning_pressed)
-	%"Lower UI".get_node("%Skip to End").connect(&"pressed", self._on_skip_to_end_pressed)
-	%"Lower UI".get_node("%Skip Backward").connect(&"pressed", self._on_skip_backward_pressed)
-	%"Lower UI".get_node("%Skip Forward").connect(&"pressed", self._on_skip_forward_pressed)
-	%"Lower UI".get_node("%Difficulty Button").connect(&"item_selected", self._on_difficulty_button_item_selected)
-	%"Lower UI".get_node("%Chart Snap").connect(&"value_changed", self._on_chart_snap_value_changed)
-	
-	%"Upper UI".get_node("%Export External Popup").connect(&"file_selected", self._on_export_external_popup_file_selected)
-	
-	%"Upper UI".get_node("%Note Skin Window").connect(&"file_selected", self._on_note_skin_window_file_selected)
-	
-	%"Upper UI".get_node("%History Window").connect(&"close_requested", self._on_history_window_close_requested)
-	
-	%"Upper UI".get_node("%Metadata Window").connect(&"add_time_change", self._on_metadata_window_add_time_change)
-	%"Upper UI".get_node("%Metadata Window").connect(&"remove_time_change", self._on_metadata_window_remove_time_change)
-	%"Upper UI".get_node("%Metadata Window").connect(&"selected_time_change", self._on_metadata_window_selected_time_change)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_icon_texture", self._on_metadata_window_updated_icon_texture)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_scroll_speed", self._on_metadata_window_updated_scroll_speed)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_song_artist", self._on_metadata_window_updated_song_artist)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_song_charter", self._on_metadata_window_updated_song_charter)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_song_name", self._on_metadata_window_updated_song_name)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_song_scene", self._on_metadata_window_updated_song_scene)
-	%"Upper UI".get_node("%Metadata Window").connect(&"updated_starting_tempo", self._on_metadata_window_updated_starting_tempo)
-	%"Upper UI".get_node("%Metadata Window").connect(&"close_requested", self._on_metadata_window_close_requested)
-	
-	%"Upper UI".get_node("%Note Type Window").connect(&"selected_note_type", self.set_note_type)
-	%"Upper UI".get_node("%Note Type Window").connect(&"close_requested", self._on_note_type_window_close_requested)
+	lower_ui.chart_snap.value = chart_snap
 	
 	get_tree().get_root().files_dropped.connect(on_files_dropped)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if start_offset < 0:
-		start_offset = 0
+	start_offset = clampf(start_offset, 0, start_offset)
 	
-	if ChartManager.song:
-		if %Instrumental.playing:
-			song_position = %Instrumental.get_playback_position() - start_offset
-			%"Song Slider".value = song_position
+	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
+	
+	if ChartManager.song and instrumental.playing:
+		song_position = instrumental.get_playback_position() - start_offset
+		song_slider.value = song_position
+		
+		var notes_list = ChartManager.chart.get_notes_data()
+		
+		if notes_list.size() > 0:
+			if current_note < notes_list.size():
+				var note = notes_list[current_note]
+				if note[0] <= (song_position + start_offset):
+					var lane: float = note[1]
+					for id in ChartManager.strum_data.size():
+						if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
+							if ChartManager.strum_data[id].get('hit_sounds', true):
+								%"Hit Sound".play()
+					
+					current_note += 1
+		
+		refresh_audios()
+	
+	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_down")) - int(Input.is_action_just_pressed("mouse_scroll_up"))
+	if axis:
+		if can_interact_with_chart and not Input.is_action_pressed("control"): #song scrubbing
+			if not instrumental.stream_paused:
+				toggle_audios(true)
+			song_position += conductor.seconds_per_beat * axis
+			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
+			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
+			song_slider.value = song_position
+		elif not is_point_in_any_window(get_corrected_mouse_position()): #snap scrubbing
+			current_snap += axis
+			chart_snap = SNAPS[current_snap % SNAPS.size()]
+			lower_ui.chart_snap.value = chart_snap
 			
-			GameManager.seconds_per_beat = $Conductor.seconds_per_beat
-			
-			var notes_list = ChartManager.chart.get_notes_data()
-			
-			if notes_list.size() > 0:
-				if current_note < notes_list.size():
-					var note = notes_list[current_note]
-					if note[0] <= (song_position + start_offset):
-						var lane: float = note[1]
-						for id in ChartManager.strum_data.size():
-							if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
-								if (!ChartManager.strum_data[id]["muted"]):
-									%"Hit Sound".play()
-						
-						current_note += 1
-			
-			for strum in ChartManager.strum_data.size():
-				var track = ChartManager.strum_data[strum]["track"]
-				if track < vocal_tracks.size():
-					if ChartManager.strum_data[strum]["muted"]:
-						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], -80)
-					else:
-						%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], 0)
-		else:
-			if Input.is_action_just_pressed(&"mouse_scroll_up"):
-				if !Input.is_action_pressed(&"control"):
-					if can_chart:
-						song_position -= $Conductor.seconds_per_beat
-						song_position = snapped(song_position - $Conductor.offset, $Conductor.seconds_per_beat) + $Conductor.offset
-						song_position = clamp(song_position, start_offset, %Instrumental.stream.get_length())
-						%"Song Slider".value = song_position
-				else:
-					current_snap += 1
-					chart_snap = SNAPS[current_snap % SNAPS.size()]
-					%"Lower UI".get_node("%Chart Snap").value = chart_snap
-			
-			if Input.is_action_just_pressed(&"mouse_scroll_down"):
-				if !Input.is_action_pressed(&"control"):
-					if can_chart:
-						song_position += $Conductor.seconds_per_beat
-						song_position = snapped(song_position - $Conductor.offset, $Conductor.seconds_per_beat) + $Conductor.offset
-						song_position = clamp(song_position, start_offset - ChartManager.chart.offset, %Instrumental.stream.get_length())
-						%"Song Slider".value = song_position
-				else:
-					current_snap -= 1
-					chart_snap = SNAPS[current_snap % SNAPS.size()]
-					%"Lower UI".get_node("%Chart Snap").value = chart_snap
-			
-			$Conductor.time = song_position
+	conductor.time = song_position
 	
 	if ChartManager.chart:
 		var time: float = song_position + start_offset
-		$Conductor.tempo = ChartManager.chart.get_tempo_at(time)
+		conductor.tempo = ChartManager.chart.get_tempo_at(time)
 		var meter = ChartManager.chart.get_meter_at(time)
-		$Conductor.numerator = meter[0]
-		$Conductor.denominator = meter[1]
-		$Camera2D.position.y = 360 + time_to_y_position(song_position)
-		$Conductor.offset = ChartManager.chart.get_tempo_time_at(time) + ChartManager.chart.offset
-		$"Grid Layer/Parallax2D".scroll_offset.y = time_to_y_position($Conductor.offset - ChartManager.chart.offset)
-	
-	%"Lower UI".get_node("%Current Time Label").text = Global.format_time(song_position + start_offset)
-	
-	if song_speed != 1:
-		%"Lower UI".get_node("%Current Time Label").text += str(" (", song_speed, "x)")
-	
-	if ChartManager.song:
-		%"Lower UI".get_node("%Time Left Label").text = "-" + Global.format_time(%Instrumental.stream.get_length() - song_position)
-	else:
-		%"Lower UI".get_node("%Time Left Label").text = "- ??:??"
-	
-	if Input.is_action_just_pressed(&"menu_accept"):
-		_on_play_button_toggled(!%Instrumental.stream_paused)
+		conductor.numerator = meter[0]
+		conductor.denominator = meter[1]
+		conductor.offset = ChartManager.chart.get_tempo_time_at(time) + ChartManager.chart.offset
+		$"Grid Layer/Parallax2D".scroll_offset.y = time_to_y_position(conductor.offset - ChartManager.chart.offset)
+		
+		update_camera_song_position(instrumental.playing)
 	
 	var grid_offset: Vector2 = %Grid.position + $"Grid Layer".offset + $"Grid Layer/Parallax2D".scroll_offset
 	var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 	var grid_position: Vector2 = %Grid.get_grid_position(mouse_position)
 	var snapped_position: Vector2i = Vector2i(%Grid.get_grid_position(
-		mouse_position, %Grid.grid_size * Vector2(1, pow($Conductor.numerator, 2) / chart_snap)).floor())
+		mouse_position, %Grid.grid_size * Vector2(1, pow(conductor.numerator, 2) / chart_snap)).floor())
 	
 	$"Grid Layer/Parallax2D".repeat_size.y = %Grid.get_size().y
 	
-	var screen_mouse_position = get_global_mouse_position() - Vector2(0, $Camera2D.position.y - 360)
-	
-	if Input.is_action_just_pressed(&"mouse_left"):
-		if !Input.is_action_pressed(&"control"):
-			if screen_mouse_position.y > 64 and screen_mouse_position.y < 640:
-				if can_chart:
-					if (((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count)
-					and !current_focus_owner):
-						var lane: int = snapped_position.x - 1
-						var time: float = grid_position_to_time(snapped_position, true)
-						time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+	if can_interact_with_chart and Input.is_action_just_pressed(&"mouse_left"):
+		if Input.is_action_pressed(&"control"):
+			bounding_box = true
+			start_box = get_global_mouse_position()
+		elif is_mouse_over_grid() and not is_mouse_over_any_ui():
+			if (((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count)):
+				var lane: int = snapped_position.x - 1
+				var time: float = grid_position_to_time(snapped_position, true)
+				time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+				
+				if time <= instrumental.stream.get_length():
+					if !is_note_at(lane, time):
+						add_action("Placed Note", self.place_note.bind(time, lane, 0, current_note_type, true),
+						self.remove_note.bind(lane, time))
 						
-						if time <= %Instrumental.stream.get_length():
-							if !is_note_at(lane, time):
-								add_action("Placed Note", self.place_note.bind(time, lane, 0, current_note_type, true),
-								self.remove_note.bind(lane, time))
-								
-								%"Note Place".play()
-								placing_note = true
-							else:
-								var i: int = find_note(lane, time)
-								if selected_notes.has(i):
-									moving_notes = true
-									start_lane = lane
-									start_time = time
-									min_lane = ChartManager.strum_count
-									max_lane = 0
-									for j in selected_notes:
-										var note = ChartManager.chart.get_notes_data()[j]
-										min_lane = min(min_lane, note[1])
-										max_lane = max(max_lane, note[1])
-									
-									min_lane = 0 + (start_lane - min_lane)
-									max_lane = ChartManager.strum_count - 1 - (max_lane - start_lane)
-								else:
-									var index: int = find_note(lane, time)
-									selected_notes = [index]
-									selected_note_nodes = [note_nodes[index - current_visible_notes_L]]
-									min_lane = 0
-									max_lane = ChartManager.strum_count - 1
-								
-								%"Mouse Click".play()
-					elif (((grid_position.x - 1) >= -1 and (grid_position.x - 1) <= ChartManager.strum_count)
-					and current_focus_owner):
-						current_focus_viewport.gui_release_focus()
-						current_focus_owner = null
-		else:
-			if can_chart:
-				bounding_box = true
-				start_box = get_global_mouse_position()
-	
-	if Input.is_action_pressed(&"mouse_right"):
-		if !Input.is_action_pressed(&"control"):
-				if screen_mouse_position.y > 64 and screen_mouse_position.y < 640 and !current_focus_owner:
-					if can_chart:
-						if !Input.is_action_pressed("control"):
-							var lane: int = snapped_position.x - 1
-							
-							if hovered_note != -1:
-								var i: int = hovered_note
-								var note = ChartManager.chart.chart_data.notes[i]
-								var length: float = note[2]
-								var note_type = note[3]
-								
-								add_action("Removed Note", self.remove_note.bind(i),
-								self.place_note.bind(note[0], lane, length, note_type, true))
-								%"Note Remove".play()
-								
-								if selected_notes.has(i):
-									var j: int = selected_notes.find(i)
-									
-									selected_notes.remove_at(j)
-									selected_note_nodes.remove_at(j)
-									
-									if selected_notes.size() > 1:
-										var k: int = 0
-										for _i in range(selected_notes.size()):
-											if k >= j:
-												selected_notes[k] -= 1
-											k += 1
-								
-								hovered_note = -1
-								
-								auto_save()
-	
-	if Input.is_action_pressed(&"mouse_left"):
-		if !Input.is_action_pressed(&"control"):
-			if screen_mouse_position.y > 64 and screen_mouse_position.y < 640:
-				if !%Instrumental.playing:
-					if can_chart and !current_focus_owner:
-						## Song Position Slider
-						if grid_position.x < 1 and grid_position.x >= 0:
-							if Input.is_action_pressed(&"shift"):
-								var time: float = grid_position_to_time(snapped_position, true)
-								time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
-								time += ChartManager.chart.offset
-								start_offset = time - song_position
-							else:
-								var time: float = grid_position_to_time(grid_position)
-								time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
-								time += ChartManager.chart.offset
-								start_offset = time - song_position
-							
-						elif ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
-							if placing_note:
-								var cursor_time = grid_position_to_time(snapped_position, true)
-								cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
-								
-								for i in selected_notes:
-									var note: Array = ChartManager.chart.get_notes_data()[i]
-									
-									var time: float = note[0]
-									var lane: int = note[1]
-									var note_type = note[3]
-									
-									var distance = snappedf(clamp(cursor_time - time, 0.0, 16.0) / $Conductor.seconds_per_beat, 1.0 / chart_snap)
-									ChartManager.chart.chart_data.notes[i] = [time, lane, distance, note_type]
-									
-									changed_length = (distance > 0)
-									if changed_length:
-										if (note_nodes[i - current_visible_notes_L].length != distance): %"Note Stretch".play()
-										note_nodes[i - current_visible_notes_L].length = distance
-									
-									auto_save()
 						
-						if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
-							if moving_notes:
-								var cursor_time = grid_position_to_time(snapped_position, true)
-								cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
-								var cursor_lane = snapped_position.x - 1
-								
-								var lane_distance = cursor_lane - start_lane
-								var time_distance = cursor_time - start_time
-								changed_length = true
-								
-								if ((start_lane + lane_distance) >= min_lane and (start_lane + lane_distance) <= max_lane):
-									if changed_length:
-										var j: int = 0
-										for i in selected_notes:
-											var node = selected_note_nodes[j]
-											var time: float = node.time
-											var lane: int = node.lane
-											
-											node.position = Vector2(
-												%Grid.get_real_position(Vector2(1.5 + node.lane + lane_distance, 0)).x,
-												time_to_y_position(node.time + time_distance) + %Grid.grid_size.y * %Grid.zoom.y / 2) + $"Grid Layer".offset
-											j += 1
-										
-										auto_save()
-										moved_time_distance = time_distance
-										moved_lane_distance = lane_distance
-										# start_time += time_distance
-										# start_lane += lane_distance
-										# min_lane = 0 + (start_lane - min_lane)
-										# max_lane = ChartManager.strum_count - 1 - (max_lane - start_lane)
+						%"Note Place".play()
+						placing_note = true
+					else:
+						var i: int = find_note(lane, time)
+						if selected_notes.has(i):
+							moving_notes = true
+							start_lane = lane
+							start_time = time
+							min_lane = ChartManager.strum_count
+							max_lane = 0
+							for j in selected_notes:
+								var note = ChartManager.chart.get_notes_data()[j]
+								min_lane = min(min_lane, note[1])
+								max_lane = max(max_lane, note[1])
+							
+							min_lane = 0 + (start_lane - min_lane)
+							max_lane = ChartManager.strum_count - 1 - (max_lane - start_lane)
+						else:
+							var index: int = find_note(lane, time)
+							selected_notes = [index]
+							selected_note_nodes = [note_nodes[index - current_visible_notes_L]]
+							min_lane = 0
+							max_lane = ChartManager.strum_count - 1
+						
+						%"Mouse Click".play()
+	
+	if can_interact_with_chart and Input.is_action_pressed(&"mouse_right") and not Input.is_action_pressed(&"control") and is_mouse_over_grid():
+		var lane: int = snapped_position.x - 1
+		if hovered_note != -1:
+			var i: int = hovered_note
+			var note = ChartManager.chart.chart_data.notes[i]
+			var length: float = note[2]
+			var note_type = note[3]
+			
+			add_action("Removed Note", self.remove_note.bind(i),
+			self.place_note.bind(note[0], lane, length, note_type, true))
+			%"Note Remove".play()
+			
+			if selected_notes.has(i):
+				var j: int = selected_notes.find(i)
+				
+				selected_notes.remove_at(j)
+				selected_note_nodes.remove_at(j)
+				
+				if selected_notes.size() > 1:
+					var k: int = 0
+					for _i in range(selected_notes.size()):
+						if k >= j:
+							selected_notes[k] -= 1
+						k += 1
+			
+			hovered_note = -1
+			
+			auto_save()
+	
+	if can_interact_with_chart and Input.is_action_pressed(&"mouse_left") and not Input.is_action_pressed(&"control") and \
+		is_mouse_over_grid() and not instrumental.playing:
+		## Song Position Slider
+		if grid_position.x < 1 and grid_position.x >= 0:
+			if Input.is_action_pressed(&"shift"):
+				var time: float = grid_position_to_time(snapped_position, true)
+				time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+				time += ChartManager.chart.offset
+				start_offset = time - song_position
+			else:
+				var time: float = grid_position_to_time(grid_position)
+				time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+				time += ChartManager.chart.offset
+				start_offset = time - song_position
+			
+		elif ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
+			if placing_note:
+				var cursor_time = grid_position_to_time(snapped_position, true)
+				cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+				
+				for i in selected_notes:
+					var note: Array = ChartManager.chart.get_notes_data()[i]
+					
+					var time: float = note[0]
+					var lane: int = note[1]
+					var note_type = note[3]
+					
+					var distance = snappedf(max(cursor_time - time, 0.0) / conductor.seconds_per_beat, 1.0 / chart_snap)
+					ChartManager.chart.chart_data.notes[i] = [time, lane, distance, note_type]
+					
+					changed_length = (distance > 0)
+					if changed_length:
+						if (note_nodes[i - current_visible_notes_L].length != distance): %"Note Stretch".play()
+						note_nodes[i - current_visible_notes_L].length = distance
+					
+					auto_save()
+		
+		if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
+			if moving_notes:
+				var cursor_time = grid_position_to_time(snapped_position, true)
+				cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+				var cursor_lane = snapped_position.x - 1
+				
+				var lane_distance = cursor_lane - start_lane
+				var time_distance = cursor_time - start_time
+				changed_length = true
+				
+				if ((start_lane + lane_distance) >= min_lane and (start_lane + lane_distance) <= max_lane):
+					if changed_length:
+						var j: int = 0
+						for i in selected_notes:
+							var node = selected_note_nodes[j]
+							var time: float = node.time
+							var lane: int = node.lane
+							
+							node.position = Vector2(
+								%Grid.get_real_position(Vector2(1.5 + node.lane + lane_distance, 0)).x,
+								time_to_y_position(node.time + time_distance) + %Grid.grid_size.y * %Grid.zoom.y / 2) + $"Grid Layer".offset
+							j += 1
+						
+						auto_save()
+						moved_time_distance = time_distance
+						moved_lane_distance = lane_distance
+
 	
 	if Input.is_action_just_released(&"mouse_left"):
 		if placing_note:
@@ -545,10 +344,10 @@ func _process(delta: float) -> void:
 			var rect = Rect2(start_box, get_global_mouse_position() - start_box).abs()
 			# Added leniency since notes are centered from the top
 			var pos_1: Vector2 = %Grid.get_grid_position(rect.position - grid_offset) - Vector2(1, 0.5)
-			var pos_2: Vector2 = %Grid.get_grid_position(rect.end - grid_offset) - Vector2(1, 0.5)
+			var pos_2: Vector2 = %Grid.get_grid_position(rect.end - grid_offset) + Vector2(-1, 0.5)
 			
-			var time_a: float = grid_position_to_time(pos_1, true) + $Conductor.offset
-			var time_b: float = grid_position_to_time(pos_2, true) + $Conductor.offset
+			var time_a: float = grid_position_to_time(pos_1, true) + conductor.offset
+			var time_b: float = grid_position_to_time(pos_2, true) + conductor.offset
 			var lane_a: int = floor(pos_1.x)
 			var lane_b: int = floor(pos_2.x)
 			
@@ -559,8 +358,9 @@ func _process(delta: float) -> void:
 			
 			if (L == R + 1):
 				L -= 1
+			
 			L = max(0, L)
-			add_action("Selected Area", self.select_area.bind(L, R, lane_a, lane_b), self.deselect_all)
+			add_action("Selected Area", self.select_area.bind(L, R, lane_a, lane_b), self.set.bind(&"selected_notes", self.selected_notes))
 		
 		if moving_notes:
 			add_action("Moved Note(s)", self.move_selection.bind(moved_time_distance, moved_lane_distance),
@@ -571,6 +371,56 @@ func _process(delta: float) -> void:
 	
 	queue_redraw()
 
+func refresh_audios():
+	
+	instrumental.volume_linear = instrumental_volume
+	
+	for strum in ChartManager.strum_data.size():
+		var track = ChartManager.strum_data[strum]["track"]
+		if track < vocal_tracks.size():
+			vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(ChartManager.strum_data[track]['volume']))
+	
+func is_mouse_over_any_ui() -> bool:
+	var mouse = get_corrected_mouse_position()
+	
+	if is_point_in_any_window(mouse):
+		return true
+	
+	if Rect2i(upper_ui.global_position + upper_ui.get_parent().offset, upper_ui.size).has_point(mouse):
+		return true
+	
+	if Rect2i(lower_ui.global_position + lower_ui.get_parent().offset, lower_ui.size).has_point(mouse):
+		return true
+	
+	for button:HFlowContainer in get_tree().get_nodes_in_group(&"strum_buttons"):
+		#they sahre the same parent as lower ui so this is fine
+		if Rect2i(button.global_position + lower_ui.get_parent().offset, button.size).has_point(mouse):
+			return true
+	
+	return false
+
+func is_point_in_any_window(point: Vector2) -> bool:
+	for window: Window in get_tree().get_nodes_in_group(&"windows"):
+		if not window or not window.visible or window is not Window:
+			continue
+		
+		var position_offset = window.get_position_with_decorations() - window.position
+		
+		#the decoration addition is only needed for the y
+		var window_rect = Rect2i(window.get_position_with_decorations() + position_offset, window.get_size_with_decorations())
+		window_rect.position.x = window.position.x
+		window_rect.size.x = window.size.x
+		
+		if window_rect.has_point(point):
+			return true
+	return false
+
+func is_mouse_over_grid() -> bool:
+	var screen_mouse_pos = get_corrected_mouse_position()
+	return screen_mouse_pos.y > 64 and screen_mouse_pos.y < 640
+
+func get_corrected_mouse_position() -> Vector2:
+	return get_global_mouse_position() - Vector2(0, camera_2d.position.y - 360)
 
 func _draw() -> void:
 	var rect: Rect2
@@ -586,7 +436,7 @@ func _draw() -> void:
 		var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 		var grid_position: Vector2i = Vector2i(%Grid.get_grid_position(mouse_position).floor())
 		var snapped_position: Vector2i = Vector2i(
-			%Grid.get_grid_position(mouse_position, %Grid.grid_size * Vector2(1, pow($Conductor.numerator, 2) / chart_snap))
+			%Grid.get_grid_position(mouse_position, %Grid.grid_size * Vector2(1, pow(conductor.numerator, 2) / chart_snap))
 			)
 		
 		# Song Start Offset Marker
@@ -602,55 +452,39 @@ func _draw() -> void:
 		draw_rect(rect, current_time_color)
 		
 		# Hover Box
-		if (grid_position.x >= 0 and grid_position.x < %Grid.columns and !current_focus_owner):
-			rect = Rect2(%Grid.get_real_position(snapped_position, %Grid.grid_size * Vector2(1, pow($Conductor.numerator, 2) / chart_snap)) + grid_offset, \
-			%Grid.grid_size * %Grid.zoom * Vector2(1, pow($Conductor.numerator, 2) / chart_snap))
+		if grid_position.x >= 0 and grid_position.x < %Grid.columns and not is_mouse_over_any_ui():
+			rect = Rect2(%Grid.get_real_position(snapped_position, %Grid.grid_size * Vector2(1, pow(conductor.numerator, 2) / chart_snap)) + grid_offset, \
+			%Grid.grid_size * %Grid.zoom * Vector2(1, pow(conductor.numerator, 2) / chart_snap))
 			draw_rect(rect, hover_color)
 		
 		## Note Highlighting
 		for i in selected_notes.size():
 			var note = selected_note_nodes[i]
 			if note:
-				var length: float = note.length + 1.0 / $Conductor.numerator
+				var length: float = note.length + 1.0 / conductor.numerator
 				length *= %Grid.grid_size.y * %Grid.zoom.y
-				length *= $Conductor.numerator
+				length *= conductor.numerator
 				rect = Rect2(note.global_position - (%Grid.grid_size / 2 * %Grid.zoom),
 				Vector2(%Grid.grid_size.x * %Grid.zoom.x, length))
 				draw_rect(rect, selected_color)
-	
-	if hovered_note != -1 and ChartManager.chart:
-		var note_type = ChartManager.chart.get_notes_data()[hovered_note][3]
-		if note_type != "":
-			draw_string_outline(default_font, get_global_mouse_position(), str("Type: ", note_type),
-			HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size, default_font_size / 2, Color.BLACK)
-			draw_string(default_font, get_global_mouse_position(), str("Type: ", note_type),
-			HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
-	
-	if hovered_event != -1 and ChartManager.chart:
-		var event = ChartManager.chart.get_events_data()[hovered_event][1]
-		var parameters = ChartManager.chart.get_events_data()[hovered_event][2]
-		var text: String = str("\"", event, "\":  ", ", ".join(PackedStringArray(parameters)))
-		draw_string_outline(default_font, get_global_mouse_position(), text,
-		HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size, default_font_size / 2, Color.BLACK)
-		draw_string(default_font, get_global_mouse_position(), text,
-		HORIZONTAL_ALIGNMENT_LEFT, -1, default_font_size)
-
 
 func on_files_dropped(files: PackedStringArray):
-	print("Received files: ", files)
 	var file: String = files[0]
 	var local_file: String = ProjectSettings.localize_path(file)
 	print("File taken: ", local_file)
 	if ResourceLoader.exists(local_file) and ["res", "tres"].has(file.get_extension()):
-		if load(local_file) is Song:
-			load_song(load(local_file))
+		var resource = load(local_file)
+		if resource is Song:
+			load_song(resource)
+		elif resource is Chart:
+			load_chart(resource)
 		else:
 			printerr("(ChartEdtior) File is not a song is %s correct?" % local_file)
 
 
 func update_grid():
 	%Grid.columns = 2 + ChartManager.strum_count
-	%Grid.rows = pow($Conductor.numerator, 2)
+	%Grid.rows = pow(conductor.numerator, 2)
 	%"Strum Labels".position = %Grid.get_real_position(Vector2(1, -1)) - Vector2(2, 296)
 	%"Strum Labels".size.x = 0
 	%"Strum Labels".custom_minimum_size.x = ChartManager.strum_count * (
@@ -663,7 +497,6 @@ func update_grid():
 		var strum_label_instance = STRUM_BUTTON_PRELOAD.instantiate()
 		
 		strum_label_instance.id = id
-		strum_label_instance.muted = ChartManager.strum_data[id]["muted"]
 		
 		%"Strum Labels".add_child(strum_label_instance)
 		strum_label_instance.custom_minimum_size.x = (
@@ -681,7 +514,7 @@ func update_grid():
 		strum_label_instance.connect(&"opened", self.disable_charting)
 		strum_label_instance.connect(&"closed", self.close_popup)
 		strum_label_instance.connect(&"updated", self.updated_strums)
-		#strum_label_instance.connect(&"gui_focus_changed", self._on_gui_focus_changed)
+		strum_label_instance.add_to_group(&"strum_buttons")
 	
 	%"Strum Labels".size.y = 32
 
@@ -690,40 +523,46 @@ func load_song(song: Song, difficulty: Variant = null):
 	if ChartManager.song != song:
 		song_position = 0.0
 	
+	$"UI/LoadedSong error".visible = false
 	ChartManager.song = song
 	if difficulty == null:
 		difficulty = ChartManager.song.difficulties.keys()[0]
+	
 	var difficulty_data: Dictionary = song.difficulties.get(difficulty)
 	ChartManager.chart = Chart.load(difficulty_data.chart)
 	ChartManager.difficulty = difficulty
 	undo_redo.clear_history()
 	get_tree().call_group(&"history", &"queue_free")
-	%Instrumental.stream = load(ChartManager.song.instrumental)
+	instrumental.stream = SoundManager.get_stream(ChartManager.song.instrumental)
 	play_audios(song_position)
 	
-	%Vocals.stream_paused = true
-	%Instrumental.stream_paused = true
+	toggle_audios()
 	
-	%"Song Slider".max_value = %Instrumental.stream.get_length()
-	%"Song Slider".value = 0.0
-	$Conductor.tempo = ChartManager.chart.get_tempo_at(0.0)
+	song_slider.max_value = instrumental.stream.get_length()
+	song_slider.value = 0.0
+	conductor.tempo = ChartManager.chart.get_tempo_at(0.0)
 	var meter = ChartManager.chart.get_meter_at(0.0)
-	$Conductor.numerator = meter[0]
-	$Conductor.denominator = meter[1]
-	$Conductor.offset = ChartManager.chart.offset
+	conductor.numerator = meter[0]
+	conductor.denominator = meter[1]
+	conductor.offset = ChartManager.chart.offset
 	
-	%"Lower UI".get_node("%Difficulty Button").get_popup().clear()
+	lower_ui.get_node("%Difficulty Button").get_popup().clear()
 	for d in ChartManager.song.difficulties.keys():
-		%"Lower UI".get_node("%Difficulty Button").get_popup().add_item(d)
+		lower_ui.get_node("%Difficulty Button").get_popup().add_item(d)
 	
-	%"Lower UI".get_node("%Difficulty Button").select(ChartManager.song.difficulties.keys().find(difficulty))
+	lower_ui.get_node("%Difficulty Button").select(ChartManager.song.difficulties.keys().find(difficulty))
 	%"Upper UI".get_node("%Metadata Window").update_stats()
 	
 	load_chart(ChartManager.chart)
-	chart_snap = pow($Conductor.numerator, 2)
-	current_snap = SNAPS.bsearch(pow($Conductor.numerator, 2))
-	#load_waveforms()
-	can_chart = true
+	chart_snap = pow(conductor.numerator, 2)
+	current_snap = SNAPS.bsearch(pow(conductor.numerator, 2))
+	
+	waveform_dirty = true
+	update_waveforms(song_position)
+	
+	enable_can_chart_on_next_frame()
+	update_ui_usable_state()
+	
 
 
 func load_song_path(path: String, difficulty: Variant = null):
@@ -754,21 +593,22 @@ func load_chart(file: Chart, ghost: bool = false):
 	var action: String = "Loaded Chart"
 	undo_redo.create_action(action)
 	undo_redo.add_do_property(self, SettingsManager.SEC_CHART, file)
-	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
+	undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
 	undo_redo.commit_action()
 	
-	%"Upper UI".get_node("%Metadata Window").update_stats()
-	can_chart = true
+	upper_ui.metadata_window.update_stats()
+	enable_can_chart_on_next_frame()
 	load_section(song_position)
 	update_grid()
 	load_dividers()
+	update_camera_song_position(true)
 
 ## Loads all the notes and waveforms for the next two waveforms.
 func load_section(time: float):
-	if ChartManager.chart.get_notes_data().is_empty():
+	if not ChartManager.chart or ChartManager.chart.get_notes_data().is_empty():
 		return
 	
-	var _range: float = $Conductor.seconds_per_beat * $Conductor.numerator * 2 / %Grid.zoom.y
+	var _range: float = conductor.seconds_per_beat * conductor.numerator * 2 / %Grid.zoom.y
 	var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time - _range)
 	var R: int = bsearch_right_range(ChartManager.chart.get_notes_data(), time + _range)
 	
@@ -834,9 +674,10 @@ func load_section(time: float):
 		current_visible_events_R = R
 #endregion
 
+
 func load_dividers():
 	get_tree().call_group(&"dividers",  &"queue_free")
-	for i in range($Conductor.numerator):
+	for i in range(conductor.numerator):
 		var rect = ColorRect.new()
 		var size: float = 4 if i == 0 else 2
 		
@@ -844,7 +685,7 @@ func load_dividers():
 		rect.size = Vector2(%Grid.get_size().x, size)
 		rect.position = %Grid.position
 		rect.position.x -= %Grid.get_size().x / 2
-		rect.position.y += (%Grid.grid_size.y * %Grid.zoom.y) * $Conductor.numerator * i
+		rect.position.y += (%Grid.grid_size.y * %Grid.zoom.y) * conductor.numerator * i
 		rect.position.y -= rect.size.y / 2
 		
 		$"Grid Layer/Parallax2D".add_child(rect)
@@ -878,7 +719,7 @@ func load_dividers():
 		$"Grid Layer/Parallax2D".add_child(rect)
 		rect.add_to_group(&"dividers")
 	
-	var times: Array = [%Instrumental.stream.get_length()]
+	var times: Array = [instrumental.stream.get_length()]
 	times.append_array(ChartManager.chart.get_tempos_data().keys())
 	times.erase(0.0)
 	for i in times:
@@ -906,7 +747,7 @@ func new_file(path: String, song: Song):
 	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
 	undo_redo.add_undo_property(self, "song", old_song)
 	undo_redo.commit_action()
-	can_chart = true
+	enable_can_chart_on_next_frame()
 
 ## Adds an instance of a note on the chart editor, placed boolean adds it to the chart data.
 ## Reset the select notes and note nodes list before calling moved
@@ -1053,10 +894,6 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	event_instance.area.connect(&"mouse_exited", self.update_event.bind(null))
 	return output
 
-
-func sort_note(a, b):
-	return a.time < b.time
-
 # Returns the indexes of the new notes
 func place_notes(notes: Array) -> Array:
 	var indices: Array = []
@@ -1088,12 +925,6 @@ func remove_note(lane, time: float = -1):
 		note_nodes.remove_at(i - current_visible_notes_L)
 		current_visible_notes_R -= 1
 	
-	#if selected_notes.size() > 0:
-		#for j in range(selected_notes.size()):
-			#var note: int = selected_notes[j]
-			#if note > i:
-				#selected_notes[j] -= 1
-	
 	ChartManager.chart.chart_data["notes"].remove_at(i)
 
 func remove_notes(notes: Array):
@@ -1117,15 +948,32 @@ func find_note(lane: int, time: float) -> int:
 	
 	for i in range(L, R + 1):
 		var note: Array = ChartManager.chart.get_notes_data()[i]
-		if (note[1] == lane):
-			if is_equal_approx(note[0], time):
-				return i
+		if note[1] == lane and is_equal_approx(note[0], time):
+			return i
 	
 	return -1
 
+func find_events_at(time: float) -> Array[int]:
+	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.00001)
+	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.00001)
+	if L == -1 or R == -1:
+		return []
+	if L == (R + 1):
+		L -= 1
+	
+	var ret: Array[int] = []
+	
+	for i in range(L, R + 1):
+		var _event: Array = ChartManager.chart.get_events_data()[i]
+		if is_equal_approx(_event[0], time):
+			ret.append(i)
+	return ret
+
 func find_event(event: String, time: float) -> int:
-	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.1)
-	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.1)
+	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.00001)
+	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.00001)
+	
+	#print(find_events_at(time))
 	
 	if (L == -1 or R == -1):
 		return -1
@@ -1143,22 +991,22 @@ func find_event(event: String, time: float) -> int:
 	return -1
 
 func play_audios(time: float):
-	%Vocals.stream = AudioStreamPolyphonic.new()
+	vocals.stream = AudioStreamPolyphonic.new()
 	# This is to prevent null references
-	%Vocals.play()
+	vocals.play()
 	if not ChartManager.song:
 		return
-	%Vocals.stream.polyphony = ChartManager.song.vocals.size()
+	vocals.stream.polyphony = ChartManager.song.vocals.size()
 	
-	var playback = %Vocals.get_stream_playback()
+	var playback = vocals.get_stream_playback()
 	vocal_tracks = []
 	for stream in ChartManager.song.vocals:
-		vocal_tracks.append(playback.play_stream(load(stream),
+		vocal_tracks.append(playback.play_stream(SoundManager.get_stream(stream),
 		time + start_offset, 0.0, song_speed))
 	
-	time = clamp(time, 0, %Instrumental.stream.get_length() - 0.1)
-	%Instrumental.play(time + start_offset)
-	%Instrumental.pitch_scale = song_speed
+	time = clamp(time, 0, instrumental.stream.get_length() - 0.1)
+	instrumental.play(time + start_offset)
+	instrumental.pitch_scale = song_speed
 	song_position = time + start_offset
 	
 	current_note = bsearch_left_range(ChartManager.chart.get_notes_data(), song_position)
@@ -1200,6 +1048,10 @@ func time_to_y_position(time: float) -> float:
 		i += 1
 	
 	return y_offset
+	
+
+func enable_can_chart_on_next_frame():
+	get_tree().create_timer(0.0).timeout.connect(func(): can_chart = true)
 
 func update_note_position(node: Node2D):
 	if node is ChartNote:
@@ -1252,7 +1104,6 @@ func bsearch_left_range(value_set: Array, left_range: float) -> int:
 	
 	return found
 
-
 func bsearch_right_range(value_set: Array, right_range: float) -> int:
 	var length: int = value_set.size()
 	if (length == 0):
@@ -1273,41 +1124,18 @@ func bsearch_right_range(value_set: Array, right_range: float) -> int:
 	
 	return found
 
-## Binary searches for note nodes
-func bsearch_left_range_note(value_set: Array, left_range: float) -> int:
-	var length: int = value_set.size()
-	if (length == 0):
-		return -1
-	if (value_set[length - 1].time < left_range):
-		return -1
-	
-	var low: int = 0
-	var high: int = length - 1
-	var found: int = -1
-	
-	while (low <= high):
-		var mid: int = (low + high) / 2
-		
-		if (value_set[mid].time >= left_range):
-			found = mid
-			high = mid - 1
-		else:
-			low = mid + 1
-	
-	return found
-
 func is_note_at(lane: int, time: float) -> bool:
-	return (find_note(lane, time) != -1)
+	return find_note(lane, time) != -1
 
-func _on_play_button_toggled(toggled_on: bool) -> void:
-	%Vocals.stream_paused = !toggled_on
-	%Instrumental.stream_paused = !toggled_on
+func toggle_audios(paused: bool = true):
+	vocals.stream_paused = paused
+	instrumental.stream_paused = paused
 	
-	if toggled_on:
-		%"Lower UI".get_node("%Play Button").icon = load("uid://c1mgxe0dqdbgh")
+	if not paused:
 		play_audios(song_position)
 	
-	else: %"Lower UI".get_node("%Play Button").icon = load("uid://byl3boevtc02p")
+	lower_ui.toggle_play_button_state(not paused)
+	
 
 func move_bound_left(strum_id: int):
 	var strum_data = ChartManager.strum_data[strum_id]
@@ -1341,24 +1169,29 @@ func find_strum_id(strum_name: String) -> int:
 func _on_song_slider_value_changed(value: float) -> void:
 	song_position = value
 
+func _on_song_slider_drag_started() -> void:
+	toggle_audios(true)
+
+
 func _on_skip_forward_pressed() -> void:
 	song_position += 10
-	_on_play_button_toggled(true)
+	toggle_audios(false)
 
 func _on_skip_backward_pressed() -> void:
 	song_position -= 10
-	_on_play_button_toggled(true)
+	toggle_audios(false)
+	
 
 func _on_skip_to_beginning_pressed() -> void:
 	song_position = start_offset
-	_on_play_button_toggled(true)
+	toggle_audios(false)
 
 func _on_skip_to_end_pressed() -> void:
-	song_position = %Instrumental.stream.get_length() - 0.1
-	_on_play_button_toggled(true)
+	song_position = instrumental.stream.get_length() - 0.1
+	toggle_audios(false)
 
 func _on_instrumental_finished() -> void:
-	_on_play_button_toggled(false)
+	toggle_audios(true)
 
 func _on_conductor_new_beat(current_beat: int, measure_relative: int) -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"):
@@ -1369,195 +1202,40 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int) -> void:
 	
 	if ChartManager.chart:
 		load_section(song_position)
+		update_waveforms(song_position)
 	
-	%"Lower UI".get_node("%Beat").text = str("Beat: ", current_beat + 1)
+	lower_ui.get_node("%Beat").text = str("Beat: ", current_beat + 1)
 
 func _on_conductor_new_step(current_step: int, measure_relative: int) -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"):
 		%"Conductor Step".play(0.55)
-	%"Lower UI".get_node("%Step").text = str("Step: ", current_step + 1)
+	lower_ui.get_node("%Step").text = str("Step: ", current_step + 1)
 
 func _on_conductor_new_tempo(_tempo: float) -> void:
-	%"Lower UI".get_node("%Tempo").text = str("Tempo: ", _tempo)
+	lower_ui.get_node("%Tempo").text = str("Tempo: ", _tempo)
 	update_grid()
 	load_dividers()
-
-## File button item pressed
-func file_button_item_pressed(id):
-	match id:
-		0:
-			can_chart = false
-			var new_file_popup_instance = NEW_FILE_POPUP_PRELOAD.instantiate()
-			
-			add_child(new_file_popup_instance)
-			new_file_popup_instance.popup()
-			new_file_popup_instance.connect("file_created", self.new_file)
-			new_file_popup_instance.connect("close_requested", self.close_popup)
-			new_file_popup_instance.connect(&"guip_focus_changed", self._on_gui_focus_changed)
-			%"Open Window".play()
-		
-		1:
-			can_chart = false
-			var open_file_popup_instance = OPEN_FILE_POPUP_PRELOAD.instantiate()
-			
-			add_child(open_file_popup_instance)
-			open_file_popup_instance.popup()
-			open_file_popup_instance.connect("file_selected", self.load_song_path)
-			open_file_popup_instance.connect("close_requested", self.close_popup)
-			open_file_popup_instance.connect("canceled", self.close_popup)
-			open_file_popup_instance.connect(&"gui_focus_changed", self._on_gui_focus_changed)
-			%"Open Window".play()
-		
-		2:
-			if ChartManager.song and ChartManager.chart:
-				save()
-		
-		7:
-			can_chart = false
-			
-			var convert_chart_popup_instance = CONVERT_CHART_POPUP_PRELOAD.instantiate()
-			
-			add_child(convert_chart_popup_instance)
-			convert_chart_popup_instance.popup()
-			# convert_chart_popup_instance.connect("file_created", self._on_save_folder_dialog_dir_selected)
-			convert_chart_popup_instance.connect("file_created", self.new_file)
-			convert_chart_popup_instance.connect("close_requested", self.close_popup)
-			convert_chart_popup_instance.connect(&"gui_focus_changed", self._on_gui_focus_changed)
-			%"Open Window".play()
-		
-		3:
-			SettingsManager.set_value(SettingsManager.SEC_CHART, "auto_save",
-			!SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
-			SettingsManager.flush()
-			%"Upper UI".get_node("%File Button").get_popup().set_item_checked(
-				%"Upper UI".get_node("%File Button").get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
-			%"Mouse Click".play()
-		
-		6:
-			set_chart_from_chart(backup_chart)
-			Global.change_scene_to("uid://rc52vcn2m7ob")
-			can_chart = false
-		
-		8:
-			can_chart = false
-			%"Upper UI".get_node("%Export External Popup").popup()
-			%"Open Window".play()
-		9: #Save events
-			can_chart = false
-			%"Open Window".play()
-			
-			var export_window = FileDialog.new()
-			export_window.root_subfolder = 'playable_songs'
-			export_window.current_file = 'events.tres'
-			export_window.filters = PackedStringArray(['*.res','*.tres'])
-			export_window.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-			export_window.display_mode = FileDialog.DISPLAY_LIST
-			$"UI/Upper UI".add_child(export_window)
-			
-			export_window.popup_centered()
-			
-			if ChartManager.song and !ChartManager.song.events.is_empty():
-				if ResourceLoader.exists(ChartManager.song.events):
-					export_window.current_path = ResourceUID.uid_to_path(ChartManager.song.events)
-			
-			var on_save = func(path:String):
-				var event = ChartEvents.new()
-				event.data = ChartManager.chart.get_events_data()
-				ResourceSaver.save(event, path)
-				export_window.hide()
-			
-			var on_close = func():
-				export_window.queue_free()
-			
-			export_window.connect(&"file_selected", on_save)
-			export_window.connect(&"close_requested", self.close_popup)
-			export_window.connect(&"close_requested", on_close)
-			export_window.connect(&"gui_focus_changed", self._on_gui_focus_changed)
-		10: #Load events
-			can_chart = false
-			%"Open Window".play()
-			
-			var export_window = FileDialog.new()
-			export_window.root_subfolder = 'playable_songs'
-			export_window.filters = PackedStringArray(['*.res','*.tres'])
-			export_window.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-			export_window.display_mode = FileDialog.DISPLAY_LIST
-			$"UI/Upper UI".add_child(export_window)
-			
-			export_window.popup_centered()
-			if ChartManager.song and !ChartManager.song.events.is_empty():
-				if ResourceLoader.exists(ChartManager.song.events):
-					export_window.current_path = ResourceUID.uid_to_path(ChartManager.song.events)
-			
-			var on_open = func(path:String):
-				if path.is_empty() and not ResourceLoader.exists(path): 
-					printerr('File does not exist! [' + path + ']')
-				if not ChartManager.chart:
-					printerr("No chart is currenty loaded! Can't load events")
-					export_window.hide()
-					return
-				
-				var events_data = load(path)
-				if events_data is not ChartEvents:
-					printerr("Provided resource was not a chart event file!")
-				
-				ChartManager.chart.merge_events_into_this(events_data)
-				load_section(song_position)
-				export_window.hide()
-			
-			var on_close = func():
-				export_window.queue_free()
-			
-			export_window.connect(&"file_selected", on_open)
-			export_window.connect(&"close_requested", self.close_popup)
-			export_window.connect(&"close_requested", on_close)
-			export_window.connect(&"gui_focus_changed", self._on_gui_focus_changed)
-
-		_:
-			print("id: ", id)
 
 ## Edit button item pressed
 func edit_button_item_pressed(id):
 	match id:
-		0:
-			undo()
-		
-		1:
-			redo()
-		
-		3:
-			cut()
-		
-		4:
-			copy()
-		
-		5:
-			paste()
-		
-		6:
-			delete_stacked_notes()
-		
-		8:
-			do_flip()
-		
-		10:
-			select_all()
-		
-		11:
-			deselect_all()
-		
-		_:
-			print("id: ", id)
+		0:  undo()
+		1:  redo()
+		3:  cut()
+		4:  copy()
+		5:  paste()
+		6:  delete_stacked_notes()
+		8:  do_flip()
+		10: select_all()
+		11: deselect_all()
+		12: increase_length()
+		13: decrease_length()
+		_:  print("id: ", id)
 
 ## Audio button item pressed
 func audio_button_item_pressed(id):
 	match id:
-		0:
-			_on_play_button_toggled(!%Instrumental.playing)
-		
-		2:
-			%"Upper UI".get_node("%Audios Window").popup()
-		
+		0: toggle_audios(instrumental.playing)
 		4:
 			SettingsManager.set_value(SettingsManager.SEC_GAMEPLAY, "song_speed",
 			min(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed") + 0.05, 2))
@@ -1570,7 +1248,7 @@ func audio_button_item_pressed(id):
 			SettingsManager.flush()
 			song_speed = SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed")
 		
-		7:
+		7: #Toggle Beat Sound
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "conductor_beat",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
 			SettingsManager.flush()
@@ -1579,7 +1257,7 @@ func audio_button_item_pressed(id):
 				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
 		
-		8:
+		8: #Toggle Step Sound
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "conductor_step",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
 			SettingsManager.flush()
@@ -1587,10 +1265,47 @@ func audio_button_item_pressed(id):
 			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
 				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
+		11: #Toggle Vocal Waveforms
+			vocal_waveforms = !vocal_waveforms
+			%"Mouse Click".play()
+			upper_ui.audio_button.get_popup().set_item_checked(
+				upper_ui.audio_button.get_popup().get_item_index(id), vocal_waveforms)
+			update_waveforms(song_position)
+		
+		12: #Toggle Inst Waveforms
+			instrumental_waveforms = !instrumental_waveforms
+			%"Mouse Click".play()
+			upper_ui.audio_button.get_popup().set_item_checked(
+				upper_ui.audio_button.get_popup().get_item_index(id), instrumental_waveforms)
+			update_waveforms(song_position)
+			
+		10: #Toggle Hit Sound
+			SettingsManager.set_value(SettingsManager.SEC_CHART, "hit_sounds",
+			!SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
+			SettingsManager.flush()
+			%"Mouse Click".play()
+			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
+				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
+				SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
 		
 		_:
 			print("id: ", id)
 
+
+func update_ui_usable_state():
+	var cant_use: bool = not ChartManager.song
+	
+	lower_ui.play_button.disabled = cant_use
+	lower_ui.difficulty_button.disabled = cant_use
+	lower_ui.skip_backward.disabled = cant_use
+	lower_ui.skip_forward.disabled = cant_use
+	lower_ui.skip_to_beginning.disabled = cant_use
+	lower_ui.skip_to_end.disabled = cant_use
+	
+	upper_ui.edit_button.disabled = cant_use
+	upper_ui.test_button.disabled = cant_use
+	song_slider.editable = not cant_use
+	
 ## View button item pressed
 func view_button_item_pressed(id):
 	match id:
@@ -1621,56 +1336,26 @@ func view_button_item_pressed(id):
 ## Window button item pressed
 func window_button_item_pressed(id):
 	match id:
-		0:
-			if %"Upper UI".get_node("%History Window").visible:
-				%"Upper UI".get_node("%History Window").hide()
-				%"Close Window".play()
-			else:
-				%"Upper UI".get_node("%History Window").popup()
-				%"Open Window".play()
-			
-			%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(id, %"Upper UI".get_node("%History Window").visible)
-		1:
-			if %"Upper UI".get_node("%Metadata Window").visible:
-				%"Upper UI".get_node("%Metadata Window").hide()
-				%"Close Window".play()
-			else:
-				%"Upper UI".get_node("%Metadata Window").popup()
-				%"Open Window".play()
-			
-			%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(id, %"Upper UI".get_node("%Metadata Window").visible)
-		2:
-			if %"Upper UI".get_node("%Note Type Window").visible:
-				%"Upper UI".get_node("%Note Type Window").hide()
-				%"Close Window".play()
-			else:
-				%"Upper UI".get_node("%Note Type Window").popup()
-				%"Open Window".play()
-			
-			%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(id, %"Upper UI".get_node("%Note Type Window").visible)
+		0: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.history_window))
+		1: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.metadata_window))
+		2: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.note_type_window))
+		3: upper_ui.window_button.get_popup().set_item_checked(id, toggle_window_visibility(upper_ui.audios_window))
+
+func toggle_window_visibility(window: Window) -> bool:
+	var ret = not window.visible
+	if window.visible:
+		window.hide()
+		%"Close Window".play()
+	else:
+		window.popup()
+		%"Open Window".play()
+	return ret
 
 ## Edit button item pressed
 func test_button_item_pressed(id):
 	match id:
-		0:
-			if ResourceLoader.exists(ChartManager.song.scene):
-				GameManager.current_song = ChartManager.song
-				GameManager.difficulty = ChartManager.difficulty
-				GameManager.freeplay = true
-				GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
-				Global.change_scene_to(ChartManager.song.scene)
-				self.process_mode = Node.PROCESS_MODE_DISABLED
-			else:
-				printerr("(Chart Editor) Scene does not exist")
-		
-		1:
-			GameManager.current_song = ChartManager.song
-			GameManager.difficulty = ChartManager.difficulty
-			GameManager.freeplay = true
-			GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
-			Global.change_scene_to("uid://c56g0k7u2k6wo")
-			self.process_mode = Node.PROCESS_MODE_DISABLED
-		
+		0: test_current_song(false)
+		1: test_current_song(true)
 		2:
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "start_at_current_position",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "start_at_current_position"))
@@ -1680,16 +1365,42 @@ func test_button_item_pressed(id):
 			"start_at_current_position"))
 			%"Mouse Click".play()
 		
-		_:
-			print("id: ", id)
+		_: print("id: ", id)
+
+func test_current_song(minimal: bool):
+	if not ChartManager.song:
+		printerr("(Chart Editor) Cannot test chart as there is no Song")
+		return
+	if not ResourceLoader.exists(ChartManager.song.scene) and not minimal:
+		printerr('(Chart Editor) Cannot test chart as (%s) could not be found' % ChartManager.song.scene)
+		return
+	
+	var scene_to_load: String = "uid://c56g0k7u2k6wo" if minimal else ChartManager.song.scene
+	
+	GameManager.current_song = ChartManager.song
+	GameManager.difficulty = ChartManager.difficulty
+	GameManager.freeplay = true
+	GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
+	Global.change_scene_to(scene_to_load)
+
+
+func make_shortcut_quick(events: Array) -> Shortcut:
+	var shortcut: Shortcut = Shortcut.new()
+	shortcut.events = events
+	return shortcut
 
 
 func disable_charting():
 	can_chart = false
 
 
+func open_popup():
+	can_chart = false
+	%"Open Window".play()
+
+
 func close_popup():
-	can_chart = true
+	enable_can_chart_on_next_frame()
 	%"Close Window".play()
 
 
@@ -1754,46 +1465,99 @@ func move_selection(time_distance: float, lane_distance: float):
 
 
 func updated_strums():
-	can_chart = true
+	enable_can_chart_on_next_frame()
 	update_grid()
 
 func load_waveforms():
 	get_tree().call_group(&"waveforms", &"queue_free")
-	return
-	@warning_ignore("unreachable_code")
-	if ChartManager.song:
-		for id in ChartManager.strum_data.size():
-			var track: int = ChartManager.strum_data[id]["track"]
-			if track < ChartManager.song.vocals.size():
-				for i in ChartManager.chart.get_tempos_data().size():
-					var L: float = ChartManager.chart.get_tempos_data().keys()[i]
-					var R: float
-					if (i + 1) == ChartManager.chart.get_tempos_data().size():
-						R = %Instrumental.stream.get_length()
-					else:
-						R = ChartManager.chart.get_tempos_data().keys()[i + 1]
-					var waveform = WaveformRenderer.new()
-					
-					var stream = ChartManager.song.vocals[track]
-					waveform.keepData = true
-					waveform.width = time_to_y_position(R) - time_to_y_position(L)
-					waveform.position = %Grid.get_real_position(Vector2(ChartManager.strum_data[id]["strums"][1] + 1.5, 0.5))
-					waveform.position.y += time_to_y_position(L)
-					waveform.duration = R - L
-					
-					$"Waveform Layer".add_child(waveform)
-					waveform.setOrientation("VERTICAL")
-					waveform.add_to_group(&"waveforms")
-					waveform.create(stream, Color.MEDIUM_PURPLE, null, (R - L) * 130)
-			else:
-				printerr("(load_waveforms) Track ", track, " does not exist.")
+	waveform_nodes.clear()
+	
+	if not ChartManager.song:
+		return
+	for id in ChartManager.strum_data.size():
+		var track: int = ChartManager.strum_data[id]["track"]
+		if track < ChartManager.song.vocals.size() and vocal_tracks.get(track):
+			var waveform_data = WaveformDataParser.interpretSound(ChartManager.song.vocals[id])
+			if waveform_data:
+				var waveform: WaveformRenderer = WaveformRenderer.new(waveform_data, 0, Color.MEDIUM_PURPLE, Color.TRANSPARENT)
+				
+				waveform.visible = false
+				$"Waveform Layer".add_child(waveform)
+				waveform.current_orientation = WaveformRenderer.orientation.VERTICAL
+				waveform.add_to_group(&"waveforms")
+				
+				waveform_nodes[track] = waveform
+		else:
+			printerr("(load_waveforms) Track ", track, " does not exist.")
+
+
+	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.LIME, Color.TRANSPARENT)
+	
+	waveform.visible = false
+	$"Waveform Layer".add_child(waveform)
+	waveform.current_orientation = WaveformRenderer.orientation.VERTICAL
+	waveform.add_to_group(&"waveforms")
+	
+	waveform_nodes[-1] = waveform
+
+func update_camera_song_position(instant: bool = false):
+	if instant:
+		camera_2d.position.y = 360 + time_to_y_position(song_position)
+	else:
+		camera_2d.position.y = Global.frame_independent_lerp(
+			camera_2d.position.y, 360 + time_to_y_position(song_position), 20, get_process_delta_time())
+
+func update_waveforms(time: float = 0):
+	
+	var time_range: float = conductor.numerator * conductor.get_seconds_per_beat() * 2
+	
+	if (waveform_nodes.is_empty() or waveform_dirty) and (instrumental_waveforms or vocal_waveforms):
+		load_waveforms()
+		waveform_dirty = false
+		
+	for id in waveform_nodes:
+		var waveform = waveform_nodes.get(id)
+		
+		if not waveform:
+			return
+		
+		
+		if id == -1:
+			waveform.visible = instrumental_waveforms
+		else:
+			waveform.visible = vocal_waveforms
+		
+		if not waveform.visible:
+			continue
+		
+		var L: float = max(time, 0)
+		var R: float = min(time + time_range, instrumental.stream.get_length())
+		waveform.time = (L * 1000) / 7.8
+		waveform.duration = (R - L) * 128
+		#waveform.duration = (conductor.get_seconds_per_beat() * 1000) / 1.95
+		
+		waveform.width = time_to_y_position(R) - time_to_y_position(L)
+		if id == -1:
+			waveform.position = %Grid.get_real_position(Vector2(1, 0))
+			waveform.height = %Grid.grid_size.x * (%Grid.columns - 2) * %Grid.zoom.x
+		else:
+			waveform.position = %Grid.get_real_position(Vector2(
+				(ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
+				) / 2.0 + ChartManager.strum_data[id]["strums"][0],
+				0))
+			waveform.height = %Grid.grid_size.x * (
+				ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
+				) * %Grid.zoom.x
+		
+		waveform.position.y += time_to_y_position(L)
+		waveform.dirty = true
+
 
 func _on_chart_snap_value_changed(value: float) -> void:
-	# This is really dumb and janky
 	chart_snap = value
 
 func _on_difficulty_button_item_selected(index: int) -> void:
-	var _difficulty = %"Lower UI".get_node("%Difficulty Button").get_popup().get_item_text(index)
+	var _difficulty = lower_ui.get_node("%Difficulty Button").get_popup().get_item_text(index)
 	if ChartManager.song.difficulties.keys().has(_difficulty):
 		ChartManager.chart = Chart.load(ChartManager.song.difficulties.get(_difficulty).get(SettingsManager.SEC_CHART))
 		ChartManager.difficulty = _difficulty
@@ -1838,13 +1602,13 @@ func _on_metadata_window_updated_scroll_speed(speed: float) -> void:
 func _on_metadata_window_selected_time_change(time: float) -> void:
 	song_position = time
 	start_offset = 0
-	_on_play_button_toggled(false)
+	toggle_audios(true)
 
 func _on_metadata_window_add_time_change() -> void:
 	var time: float = song_position + start_offset
-	ChartManager.chart.chart_data["tempos"][time] = $Conductor.tempo
+	ChartManager.chart.chart_data["tempos"][time] = conductor.tempo
 	ChartManager.chart.chart_data["meters"][time] = [
-		$Conductor.numerator, $Conductor.denominator
+		conductor.numerator, conductor.denominator
 	]
 	
 	ChartManager.chart.chart_data["tempos"].sort()
@@ -1871,10 +1635,6 @@ func _on_export_external_popup_file_selected(path: String) -> void:
 	ResourceSaver.save(ChartManager.chart, path)
 	%"Upper UI".get_node("%Export External Popup").hide()
 
-func _on_gui_focus_changed(node):
-	current_focus_owner = node
-	current_focus_viewport = node.get_viewport()
-
 func set_chart_from_chart(_chart: Chart):
 	if !_chart:
 		return
@@ -1884,7 +1644,7 @@ func set_chart_from_chart(_chart: Chart):
 
 
 func _on_note_skin_window_file_selected(path: String) -> void:
-	can_chart = true
+	enable_can_chart_on_next_frame()
 	if !FileAccess.file_exists(path):
 		printerr("File does not exist is (%s) correct?" % path)
 		return
@@ -1928,6 +1688,7 @@ func paste() -> void:
 	selected_note_nodes = []
 	for i in selected_notes:
 		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+	
 	%"Note Place".play()
 
 
@@ -1992,23 +1753,41 @@ func flip():
 		
 		%"Note Place".play()
 
+func increase_length():
+	var delta: float = (pow(conductor.numerator, 2) / chart_snap) * (1.0 / conductor.numerator)
+	change_note_lengths(selected_notes,delta )
+
+func decrease_length():
+	var delta: float = (pow(conductor.numerator, 2) / chart_snap) * (1.0 / conductor.numerator)
+	change_note_lengths(selected_notes, -delta)
+
+
+func change_note_lengths(notes: Array, delta: float):
+	var action: String = "Changed Note Length(s)"
+	undo_redo.create_action(action)
+	for i in notes:
+		var length: float = ChartManager.chart.get_notes_data()[i][2]
+		undo_redo.add_do_method(self.change_length.bind(i, length + delta))
+		undo_redo.add_do_property(note_nodes[i - current_visible_notes_L], "length", length + delta)
+		undo_redo.add_do_method(%"Note Stretch".play)
+		undo_redo.add_undo_method(self.change_length.bind(i, length))
+		undo_redo.add_undo_property(note_nodes[i - current_visible_notes_L], "length", length)
+	
+	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
+	undo_redo.commit_action()
+
 
 func change_length(i: int, length: float) -> void:
-	ChartManager.chart.chart_data["notes"][i][2] = length
+	ChartManager.chart.chart_data["notes"][i][2] = max(length, 0)
 
 
 func select_area(L: int, R: int, lane_a, lane_b = null):
 	selected_notes = range(L, R + 1)
 	selected_note_nodes = []
 	
-	var _i: int = 0
-	for i in range(selected_notes.size()):
-		var lane: int = int(ChartManager.chart.get_notes_data()[selected_notes[_i]][1])
-		if !(lane >= lane_a and lane <= lane_b):
-			selected_notes.remove_at(_i)
-			_i -= 1
-		
-		_i += 1
+	selected_notes = selected_notes.filter(func(i):
+		var lane = ChartManager.chart.get_notes_data()[i][1]
+		return (lane >= lane_a and lane <= lane_b))
 	
 	for i in selected_notes:
 		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
@@ -2036,17 +1815,17 @@ func select_all():
 
 
 func deselect_all():
-	if !selected_notes.is_empty():
-		%"Note Place".play()
-		
-		selected_notes = []
-		selected_note_nodes = []
+	if selected_notes.is_empty():
+		return
+	
+	selected_notes = []
+	selected_note_nodes = []
+	%"Note Place".play()
 
 
 func _on_conductor_new_numerator(_numerator: int) -> void:
 	update_grid()
 	load_dividers()
-
 
 func _on_conductor_new_denominator(_denominator: int) -> void:
 	update_grid()
@@ -2056,22 +1835,6 @@ func _on_conductor_new_denominator(_denominator: int) -> void:
 func set_note_type(note_type):
 	current_note_type = note_type
 
-
 func _on_note_type_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(2, false)
 	%"Close Window".play()
-
-
-func _on_audios_window_close_requested() -> void:
-	can_chart = true
-	%"Close Window".play()
-
-
-func _on_audios_window_about_to_popup() -> void:
-	can_chart = false
-	%"Open Window".play()
-
-
-func _on_audios_window_updated() -> void:
-	%Instrumental.stream = load(ChartManager.song.instrumental)
-	auto_save()

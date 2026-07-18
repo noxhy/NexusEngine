@@ -2,13 +2,8 @@
 
 [ext_resource type="Script" uid="uid://disrmsl28koee" path="res://noah/menus/options/offset_calibrator.gd" id="1_to22u"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://noah/conductor.gd" id="3_wcm4s"]
-[ext_resource type="AudioStream" uid="uid://c7t6ab85b1td1" path="res://funkin/assets/songs/offset song.ogg" id="4_65mtm"]
-[ext_resource type="AudioStream" uid="uid://bka17tk7s4w3n" path="res://funkin/assets/songs/offset drums.ogg" id="5_0fft6"]
-[ext_resource type="AudioStream" uid="uid://baajtpwp5hvdp" path="res://funkin/assets/sounds/menu_sounds/snare.mp3" id="5_picn5"]
-[ext_resource type="AudioStream" uid="uid://dyy2yik0yf60r" path="res://funkin/assets/sounds/menu_sounds/menu cancel.ogg" id="6_q07ox"]
-[ext_resource type="PackedScene" uid="uid://by2sf7r6otryi" path="res://funkin/assets/characters/girlfriend/speaker.tscn" id="6_rhpjf"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://noah/assets/fonts/tertiary_font.ttf" id="8_48d4v"]
-[ext_resource type="Texture2D" uid="uid://djuslh4ulkynw" path="res://funkin/assets/images/menus/background/menuBGMagenta.png" id="9_0fft6"]
+[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="9_0a7dc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3110b"]
 font = ExtResource("8_48d4v")
@@ -29,62 +24,53 @@ stream_player = NodePath("../Audio/Base")
 [node name="Audio" type="Node" parent="." unique_id=218804045]
 
 [node name="Base" type="AudioStreamPlayer" parent="Audio" unique_id=968735576]
-stream = ExtResource("4_65mtm")
 bus = &"Music"
 
 [node name="Drums" type="AudioStreamPlayer" parent="Audio" unique_id=634750816]
-stream = ExtResource("5_0fft6")
 bus = &"Music"
 
 [node name="Hit Sound" type="AudioStreamPlayer" parent="Audio" unique_id=248828459]
-stream = ExtResource("5_picn5")
-bus = &"SFX"
-
-[node name="Menu Cancel" type="AudioStreamPlayer" parent="Audio" unique_id=105172691]
-stream = ExtResource("6_q07ox")
 bus = &"SFX"
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2075707160]
 layer = 0
-offset = Vector2(640, 360)
-transform = Transform2D(1, 0, 0, 1, 640, 360)
 follow_viewport_enabled = true
 
-[node name="Speaker" parent="UI" unique_id=1016974133 instance=ExtResource("6_rhpjf")]
-position = Vector2(0, 88)
-metadata/_edit_lock_ = true
-
 [node name="Offset Label" type="Label" parent="UI" unique_id=1756417995]
-offset_left = -640.0
-offset_top = -168.0
-offset_right = 640.0
-offset_bottom = -104.0
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 24.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Offset: 0 ms"
 label_settings = SubResource("LabelSettings_3110b")
 horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_lock_ = true
+vertical_alignment = 2
 
 [node name="Instructions" type="Label" parent="UI" unique_id=1143460261]
-offset_left = -640.0
-offset_top = 136.0
-offset_right = 640.0
-offset_bottom = 232.0
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -141.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "Press any key to calibrate your offset
 (Positive: Early, Negative: Late)
 (This may not be entirely accurate)"
 label_settings = SubResource("LabelSettings_3110b")
 horizontal_alignment = 1
 vertical_alignment = 1
-metadata/_edit_lock_ = true
 
 [node name="Visualizer" type="Node2D" parent="UI" unique_id=1949466874]
-visible = false
-position = Vector2(0, -200)
+position = Vector2(640, 360)
 
-[node name="MenuBgMagenta" type="Sprite2D" parent="." unique_id=1154318023]
+[node name="BG" type="Sprite2D" parent="." unique_id=1154318023]
 z_index = -4096
 position = Vector2(640, 360)
-texture = ExtResource("9_0fft6")
+texture = ExtResource("9_0a7dc")
 
 [connection signal="new_beat" from="Conductor" to="." method="_on_conductor_new_beat"]

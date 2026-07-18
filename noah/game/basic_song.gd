@@ -3,7 +3,7 @@ class_name BasicSong
 
 var camera_positions: Array = []
 
-@onready var playstate_host: PlayState = $"PlayState"
+@onready var playstate: PlayState = $"PlayState"
 
 @onready var stage: Node = %Stage
 @onready var player: Node = %Player
@@ -17,21 +17,23 @@ var camera_positions: Array = []
 
 # How often the camera bops. Based off the step rate in the conductor.
 var bop_rate: int = 16
+var pause_preload: PackedScene
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	if not playstate_host:
-		playstate_host = $"PlayState Host"
+func _ready() -> void:
+	if not playstate:
+		playstate = $"PlayState Host"
 	
-	assert(playstate_host, "Playstate host not found")
+	assert(playstate, "Playstate host not found")
 	camera_positions = get_tree().get_nodes_in_group(&"camera_positions")
+	
 	if player:
-		playstate_host.ui.update_player(player)
-		DeathScreen.player_position = player.global_position
-		DeathScreen.player_scale = Vector2(player.scale.x,player.scale.y)
+		playstate.ui.update_player(player)
 	
 	if enemy:
-		playstate_host.ui.update_enemy(enemy)
+		playstate.ui.update_enemy(enemy)
+	
+	pause_preload = load(playstate.ui_skin.pause_scene)
 	
 	await Signals.play_setup_finished
 	
@@ -41,9 +43,26 @@ func _ready():
 	Signals.play_combo_break.connect(_on_combo_break)
 	Signals.play_create_note.connect(_on_create_note)
 	Signals.play_new_event.connect(_on_new_event)
+	Signals.play_note_hit.connect(self.note_hit)
+	Signals.play_note_holding.connect(self.note_holding)
+	Signals.play_note_miss.connect(self.note_miss)
 	
 	Signals.play_song_ready_to_start.emit()
 	Signals.play_died.connect(self.died)
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed(&"pause"):
+		Global.manual_pause = true
+		pause()
+	
+	if Input.is_action_just_pressed(&"kill"):
+		playstate.health = 0
+	
+	if Input.is_action_just_pressed(&"chart_editor") and OS.is_debug_build():
+		ChartManager.event_editor = false
+		ChartManager.song = playstate.song_data
+		ChartManager.difficulty = GameManager.difficulty
+		Global.change_scene_to(Constants.CHART_EDITOR_SCENE)
 
 # Conductor Util
 func _on_conductor_new_beat(current_beat: int, measure_relative: int):
@@ -51,28 +70,27 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int):
 
 func _on_conductor_new_step(current_step: int, measure_relative: int):
 	if current_step % bop_rate == 0:
-		if playstate_host.camera.parent_3d:
-			var bump: float = playstate_host.camera_bop_strength.x * playstate_host.camera.zoom
-			playstate_host.camera.bump(bump)
+		if playstate.camera.parent_3d:
+			var bump: float = playstate.camera_bop_strength.x * playstate.camera.zoom
+			playstate.camera.bump(bump)
 		else:
-			var bump: Vector2 = playstate_host.camera_bop_strength * playstate_host.camera.zoom
-			playstate_host.camera.bump(bump)
+			var bump: Vector2 = playstate.camera_bop_strength * playstate.camera.zoom
+			playstate.camera.bump(bump)
 		
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
-			playstate_host.ui.bump(playstate_host.ui_bop_strength)
+			playstate.ui.bump(playstate.ui_bop_strength)
 
 
 func _on_create_note(time: float, lane: int, note_length: float, note_type: String, tempo: float):
 	if (lane > 3):
-		playstate_host.strums[1].create_note(time, lane % 4, note_length, note_type, tempo)
+		playstate.strums[1].create_note(time, lane % 4, note_length, note_type, tempo)
 	else:
-		playstate_host.strums[0].create_note(time, lane % 4, note_length, note_type, tempo)
+		playstate.strums[0].create_note(time, lane % 4, note_length, note_type, tempo)
 
 
 func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumManager):
 	var group: StringName = get_group_from_manager(strum_manager)
 	var anim_to_play: String = note.anim_prefix +  get_direction(lane % 4)
-	
 	
 	if not note.no_animation:
 		get_tree().call_group(group, &"play_animation", anim_to_play,
@@ -80,26 +98,19 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 		
 		get_tree().call_group(group, &"set_sing_timer")
 	
-	playstate_host.note_hit(note, lane, hit_time, strum_manager)
-	
 	if group == &"player":
-		show_combo(PlayState.get_rating(hit_time), playstate_host.combo)
+		show_combo(PlayState.get_rating(hit_time), playstate.combo)
 		
-		if playstate_host.combo > 0:
-			if (playstate_host.combo % 200 == 0):
+		if playstate.combo > 0:
+			if (playstate.combo % 200 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer_200")
-			elif (playstate_host.combo % 50 == 0):
+			elif (playstate.combo % 50 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer")
-	
-	Signals.play_note_hit.emit(note, lane, strum_manager)
+
 
 func note_holding(note: Note, lane: int, hold_difference: float, strum_manager: StrumManager):
 	var group: StringName = get_group_from_manager(strum_manager)
 	get_tree().call_group(group, &"set_sing_timer")
-	
-	playstate_host.note_holding(note, lane, hold_difference, strum_manager)
-	
-	Signals.play_note_holding.emit(note, lane, hold_difference, strum_manager)
 
 
 func note_miss(note: Note, lane: int, strum_manager: StrumManager):
@@ -107,18 +118,12 @@ func note_miss(note: Note, lane: int, strum_manager: StrumManager):
 		if not note:
 			SoundManager.anti_spam.play()
 		else:
-			SoundManager.miss.play()
 			get_tree().call_group(&"metronome", &"play_animation", &"cry",
 			Character.AnimContext.SPECIAL, true)
-			show_combo("miss", 0)
 	
 	get_tree().call_group(
 		&"enemy" if strum_manager.enemy_slot else &"player", &"play_animation",
 		&"miss_" + get_direction(lane % 4), Character.AnimContext.SING, true)
-	
-	playstate_host.note_miss(note, lane, strum_manager)
-	
-	Signals.play_note_miss.emit(note, lane, strum_manager)
 
 
 func get_group_from_manager(strum_manager: StrumManager) -> StringName:
@@ -132,7 +137,7 @@ func _on_new_event(time: float, event_name: String, event_parameters: Array):
 	match event_name:
 		&"play_animation":
 			var duration: float = -1
-			if event_parameters.get(2):
+			if event_parameters.get(2) and !event_parameters[2].is_empty():
 				duration = Global.string_to_time(event_parameters[2])
 			
 			get_tree().call_group(event_parameters[0], &"play_animation",
@@ -143,7 +148,9 @@ func _on_new_event(time: float, event_name: String, event_parameters: Array):
 
 
 func _on_combo_break():
-	pass
+	SoundManager.miss.play()
+	show_combo("miss", 0)
+
 
 func show_combo(rating: String, _combo: int):
 	if rating != "miss":
@@ -152,25 +159,25 @@ func show_combo(rating: String, _combo: int):
 	
 	var rating_instance = rating_node.instantiate()
 	
-	rating_instance.ui_skin = playstate_host.ui_skin
+	rating_instance.ui_skin = playstate.ui_skin
 	rating_instance.rating = rating
 	
 	var combo_numbers_manager_instance = combo_numbers_manager_node.instantiate()
 	
-	combo_numbers_manager_instance.ui_skin = playstate_host.ui_skin
+	combo_numbers_manager_instance.ui_skin = playstate.ui_skin
 	combo_numbers_manager_instance.combo = _combo
 	if GameManager.tallies.max_combo == GameManager.tallies.total_notes:
 		combo_numbers_manager_instance.fc = true
 	
 	if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui"):
-		if playstate_host.ui.rating_marker:
-			rating_instance.position = playstate_host.ui.rating_marker.position
+		if playstate.ui.rating_marker:
+			rating_instance.position = playstate.ui.rating_marker.position
 		
-		if playstate_host.ui.combo_marker:
-			combo_numbers_manager_instance.position = playstate_host.ui.combo_marker.position
+		if playstate.ui.combo_marker:
+			combo_numbers_manager_instance.position = playstate.ui.combo_marker.position
 		
-		playstate_host.ui.add_child(rating_instance)
-		playstate_host.ui.add_child(combo_numbers_manager_instance)
+		playstate.ui.add_child(rating_instance)
+		playstate.ui.add_child(combo_numbers_manager_instance)
 	else:
 		if rating_marker:
 			rating_instance.position = rating_marker.global_position
@@ -184,6 +191,15 @@ func show_combo(rating: String, _combo: int):
 		
 		self.add_child(rating_instance)
 		self.add_child(combo_numbers_manager_instance)
+
+
+func pause():
+	var pause_scene_instance = pause_preload.instantiate()
+	
+	Signals.play_paused.emit()
+	add_child(pause_scene_instance)
+	
+	get_tree().paused = true
 
 
 func died():

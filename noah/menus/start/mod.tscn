@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dquulk3yl1u8e"]
+
+[ext_resource type="StyleBox" uid="uid://d0f8qx5ndub6d" path="res://noah/menus/start/style_box_idle.tres" id="1_grbt0"]
+[ext_resource type="Script" uid="uid://c8tr3rtd2c85t" path="res://noah/menus/start/mod.gd" id="1_hvgl0"]
+
+[node name="Mod" type="PanelContainer" unique_id=1539448589 groups=["mods"]]
+show_behind_parent = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_grbt0")
+script = ExtResource("1_hvgl0")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1183754290]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=1720556394]
+custom_maximum_size = Vector2(-1, 256)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=2065269579]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Credits" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1616551707]
+layout_mode = 2
+size_flags_vertical = 3
+text_overrun_behavior = 3
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer" unique_id=917579713]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=888948731]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+vertical_alignment = 1
+text_overrun_behavior = 3

@@ -110,7 +110,7 @@ func do_it():
 	frames = null
 
 
-func _ready():
+func _ready() -> void:
 	set_process(false)
 	Global.set_window_title("XML to SpriteFrames Converter")
 	get_tree().get_root().files_dropped.connect(on_files_dropped)

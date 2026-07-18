@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://biy78xe1wlp27"]
 
 [ext_resource type="Script" uid="uid://bj7tgh8jkngdx" path="res://noah/game/character.gd" id="1_oe8gf"]
-[ext_resource type="SpriteFrames" uid="uid://dt82dx1mf15r" path="res://funkin/assets/game/face.tres" id="2_m5eya"]
+[ext_resource type="SpriteFrames" uid="uid://dt82dx1mf15r" path="res://Funkin-Modpack/funkin/assets/game/face.tres" id="2_m5eya"]
 
 [node name="Character" type="Node2D" unique_id=1315187757 node_paths=PackedStringArray("animation_player")]
 script = ExtResource("1_oe8gf")

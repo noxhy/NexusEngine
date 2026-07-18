@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d20lksrt6bgar"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_af6hw"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_af6hw"]
 [ext_resource type="Script" uid="uid://cxhrkbo2mxgoe" path="res://noah/tools/chart_editor/history_window.gd" id="1_egflg"]
 
 [node name="History Window" type="Window" unique_id=1289274319]

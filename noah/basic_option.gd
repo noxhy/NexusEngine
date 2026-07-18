@@ -8,7 +8,7 @@ class_name MenuOption
 @onready var sprite = $Sprite2D
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	label = $Label
 	label.text = text
 	if icon:

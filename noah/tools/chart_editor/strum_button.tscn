@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ddohksqocyhnx"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_4c1on"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_4c1on"]
 [ext_resource type="Script" uid="uid://ydtsb8wn2g1u" path="res://noah/tools/chart_editor/strum_button.gd" id="2_yyjwr"]
 
 [node name="Strum Button" type="HFlowContainer" unique_id=865871887]
@@ -39,70 +39,70 @@ transparent_bg = true
 oversampling_override = 1.0
 title = "Edit Strum Settings"
 initial_position = 4
-size = Vector2i(300, 180)
+size = Vector2i(300, 158)
 visible = false
 
-[node name="VBoxContainer" type="VFlowContainer" parent="Window" unique_id=1851138799]
+[node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=1716652347]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 5.0
+offset_right = 4.0
+offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Window/VBoxContainer" unique_id=2023436758]
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer" unique_id=1509225409]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="Window/MarginContainer/VBoxContainer" unique_id=1346180576]
+custom_minimum_size = Vector2(0, 7.935)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=2023436758]
 custom_minimum_size = Vector2(300, 16)
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Window/VBoxContainer/HBoxContainer" unique_id=681434192]
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/HBoxContainer" unique_id=681434192]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Strum Name:"
 
-[node name="Strum ID" type="LineEdit" parent="Window/VBoxContainer/HBoxContainer" unique_id=354814603]
+[node name="Strum ID" type="LineEdit" parent="Window/MarginContainer/VBoxContainer/HBoxContainer" unique_id=354814603]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Window/VBoxContainer" unique_id=2091309806]
+[node name="Control" type="Control" parent="Window/MarginContainer/VBoxContainer" unique_id=1663157548]
+custom_minimum_size = Vector2(0, 13.48)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=2091309806]
 custom_minimum_size = Vector2(300, 16)
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Window/VBoxContainer/HBoxContainer2" unique_id=680192948]
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=680192948]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Vocal Track:"
 
-[node name="Vocal Track" type="SpinBox" parent="Window/VBoxContainer/HBoxContainer2" unique_id=1581660247]
+[node name="Vocal Track" type="SpinBox" parent="Window/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1581660247]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="Window/VBoxContainer" unique_id=1809856718]
-custom_minimum_size = Vector2(300, 16)
+[node name="HSeparator" type="HSeparator" parent="Window/MarginContainer/VBoxContainer" unique_id=12133084]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Check Box" type="CheckButton" parent="Window/VBoxContainer/HBoxContainer4" unique_id=1640917289]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-text = "Muted:"
-
-[node name="HSeparator" type="HSeparator" parent="Window/VBoxContainer" unique_id=12133084]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="Window/VBoxContainer" unique_id=2142744680]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=2142744680]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-size_flags_vertical = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="Window/VBoxContainer/HBoxContainer3" unique_id=1689414730]
+[node name="Button" type="Button" parent="Window/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1689414730]
 layout_mode = 2
 text = "Save Settings"
 
@@ -112,4 +112,4 @@ text = "Save Settings"
 [connection signal="about_to_popup" from="Window" to="." method="_on_window_about_to_popup"]
 [connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
 [connection signal="gui_focus_changed" from="Window" to="." method="file_dailog_gui_focus_changed"]
-[connection signal="pressed" from="Window/VBoxContainer/HBoxContainer3/Button" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Window/MarginContainer/VBoxContainer/HBoxContainer3/Button" to="." method="_on_save_button_pressed"]

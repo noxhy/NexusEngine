@@ -5,7 +5,7 @@ class_name ChartNote
 @onready var collision_shape = $Area2D/CollisionShape2D
 
 # Applying Note Skin
-func _ready(): 
+func _ready() -> void: 
 	$Note.sprite_frames = note_skin.notes_texture
 	if note_skin.animation_names != null: 
 		if note_skin.animation_names.keys().size() > 0: 
@@ -44,7 +44,7 @@ func update():
 		%"Special Note Label".visible = note_type != ""
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta) -> void:
 	time_difference = (time - GameManager.offset) - GameManager.song_position
 	
 	if length > 0:

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dguo6hi3l0pxv"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_mysbr"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_mysbr"]
 [ext_resource type="Script" uid="uid://bjk501es4qmnv" path="res://noah/tools/chart_editor/event_editor/event_button.gd" id="2_tjtdw"]
 
 [node name="Event Button" type="HBoxContainer" unique_id=1905633154]

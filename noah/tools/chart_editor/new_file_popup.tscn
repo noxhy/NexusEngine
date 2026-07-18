@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://d05iuopxfqlhj"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_pptwc"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_pptwc"]
 [ext_resource type="Script" uid="uid://dsec7v7be3ekg" path="res://noah/tools/chart_editor/new_file_popup.gd" id="1_qca52"]
 
-[node name="New File Popup" type="Window" unique_id=1776972529]
+[node name="New File Popup" type="Window" unique_id=1776972529 groups=["windows"]]
 transparent_bg = true
 msaa_2d = 1
 oversampling_override = 1.0
@@ -18,7 +18,7 @@ min_size = Vector2i(480, 0)
 theme = ExtResource("1_pptwc")
 script = ExtResource("1_qca52")
 
-[node name="SaveFolderDialog" type="FileDialog" parent="." unique_id=1404695521]
+[node name="SaveFolderDialog" type="FileDialog" parent="." unique_id=1404695521 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a Directory"
@@ -30,7 +30,6 @@ min_size = Vector2i(320, 320)
 ok_button_text = "Select Current Folder"
 dialog_hide_on_ok = true
 file_mode = 2
-root_subfolder = "res://playable_songs/"
 
 [node name="FlowContainer" type="FlowContainer" parent="." unique_id=810239821]
 anchors_preset = 15
@@ -150,10 +149,10 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Select File Location"
 
-[node name="Vocals File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer" unique_id=381986006]
+[node name="Vocals File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer" unique_id=381986006 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
-title = "Open File(s)"
+title = "Provide Vocals file(s)"
 initial_position = 1
 size = Vector2i(640, 480)
 unresizable = true
@@ -161,6 +160,7 @@ always_on_top = true
 min_size = Vector2i(320, 320)
 ok_button_text = "Open"
 dialog_hide_on_ok = true
+mode_overrides_title = false
 file_mode = 1
 root_subfolder = "res://playable_songs/"
 filters = PackedStringArray("*.mp3", "*.ogg", "*.wav")
@@ -181,9 +181,9 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Select File Location"
 
-[node name="Inst File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer3" unique_id=812938838]
+[node name="Inst File Dialog" type="FileDialog" parent="FlowContainer/Audio Files/HBoxContainer3" unique_id=812938838 groups=["windows"]]
 unique_name_in_owner = true
-title = "Open a File"
+title = "Provide Inst file"
 initial_position = 1
 size = Vector2i(640, 480)
 unresizable = true
@@ -191,6 +191,7 @@ always_on_top = true
 min_size = Vector2i(320, 320)
 ok_button_text = "Open"
 dialog_hide_on_ok = true
+mode_overrides_title = false
 file_mode = 0
 root_subfolder = "res://playable_songs/"
 filters = PackedStringArray("*.mp3", "*.ogg", "*.wav")
@@ -216,7 +217,7 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "res://assets/songs/playable songs/"
+text = "res://"
 placeholder_text = "Export Location"
 editable = false
 
@@ -236,6 +237,10 @@ alignment = 1
 layout_mode = 2
 text = "Create New Song"
 
+[node name="Dummy Button" type="Button" parent="FlowContainer/VBoxContainer/HBoxContainer" unique_id=300108460]
+layout_mode = 2
+text = "Create Dummy Song"
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="dir_selected" from="SaveFolderDialog" to="." method="_on_save_folder_dialog_dir_selected"]
 [connection signal="gui_focus_changed" from="SaveFolderDialog" to="." method="file_dailog_gui_focus_changed"]
@@ -247,3 +252,4 @@ text = "Create New Song"
 [connection signal="gui_focus_changed" from="FlowContainer/Audio Files/HBoxContainer3/Inst File Dialog" to="." method="file_dailog_gui_focus_changed"]
 [connection signal="pressed" from="FlowContainer/VBoxContainer/Export Location/Button" to="." method="_on_export_button_pressed"]
 [connection signal="pressed" from="FlowContainer/VBoxContainer/HBoxContainer/Create Button" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="FlowContainer/VBoxContainer/HBoxContainer/Dummy Button" to="." method="_on_dummy_button_pressed"]

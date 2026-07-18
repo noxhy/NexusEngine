@@ -18,7 +18,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("1_klvsa")
 }],
-"loop": true,
+"loop": 1,
 "name": &"bad",
 "speed": 5.0
 }, {
@@ -26,7 +26,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("2_7bqa8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"epic",
 "speed": 5.0
 }, {
@@ -34,7 +34,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_py8kc")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fc_bad",
 "speed": 5.0
 }, {
@@ -42,7 +42,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_3esud")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fc_epic",
 "speed": 5.0
 }, {
@@ -50,7 +50,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_krs47")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fc_good",
 "speed": 5.0
 }, {
@@ -58,7 +58,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_wloy1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fc_shit",
 "speed": 5.0
 }, {
@@ -66,7 +66,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_ato0k")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fc_sick",
 "speed": 5.0
 }, {
@@ -74,7 +74,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_3bu07")
 }],
-"loop": true,
+"loop": 1,
 "name": &"good",
 "speed": 5.0
 }, {
@@ -82,7 +82,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_dr6tu")
 }],
-"loop": true,
+"loop": 1,
 "name": &"miss",
 "speed": 5.0
 }, {
@@ -90,7 +90,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_yp3bg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"shit",
 "speed": 5.0
 }, {
@@ -98,7 +98,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("6_f6bmv")
 }],
-"loop": true,
+"loop": 1,
 "name": &"sick",
 "speed": 5.0
 }]

@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://b6b2d2kloq60j"]
 
-[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/chart_editor.res" id="1_y1a63"]
-[ext_resource type="PackedScene" uid="uid://cdxtqaewsuba3" path="res://noah/tools/chart_editor/audios_window.tscn" id="2_esjoi"]
+[ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_y1a63"]
+[ext_resource type="Script" uid="uid://ci5vocm58ajmg" path="res://noah/tools/chart_editor/upper_ui.gd" id="2_pkb6e"]
 [ext_resource type="PackedScene" uid="uid://d20lksrt6bgar" path="res://noah/tools/chart_editor/history_window.tscn" id="3_xi38a"]
 [ext_resource type="PackedScene" uid="uid://bflvolhan5xvh" path="res://noah/tools/chart_editor/metadata_window.tscn" id="4_ax5pr"]
+[ext_resource type="PackedScene" uid="uid://cnl3v75g6wec6" path="res://noah/tools/chart_editor/new_audio_window.tscn" id="4_pmg4i"]
 [ext_resource type="PackedScene" uid="uid://b1ei656025t8s" path="res://noah/tools/chart_editor/note_type_window.tscn" id="5_c03gx"]
 
 [node name="Upper UI" type="HBoxContainer" unique_id=415464568]
@@ -13,14 +14,16 @@ offset_top = -360.0
 offset_right = 640.0
 offset_bottom = -327.0
 theme = ExtResource("1_y1a63")
+script = ExtResource("2_pkb6e")
 
 [node name="File Button" type="MenuButton" parent="." unique_id=1228980765]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "File"
-item_count = 11
+item_count = 13
 popup/item_0/text = "Create New Song"
 popup/item_0/id = 0
 popup/item_1/text = "Open Song"
@@ -29,25 +32,29 @@ popup/item_2/text = "Convert Chart"
 popup/item_2/id = 7
 popup/item_3/text = "Load Events"
 popup/item_3/id = 10
-popup/item_4/id = 4
-popup/item_4/separator = true
-popup/item_5/text = "Save Song"
-popup/item_5/id = 2
-popup/item_6/text = "Save Chart As"
-popup/item_6/id = 8
-popup/item_7/text = "Save Events As"
-popup/item_7/id = 9
-popup/item_8/text = "Autosave"
-popup/item_8/checkable = 1
-popup/item_8/checked = true
-popup/item_8/id = 3
-popup/item_9/id = 5
-popup/item_9/separator = true
-popup/item_10/text = "Exit"
-popup/item_10/id = 6
+popup/item_4/text = "Load from ZIP"
+popup/item_4/id = 21
+popup/item_5/id = 4
+popup/item_5/separator = true
+popup/item_6/text = "Save Song"
+popup/item_6/id = 2
+popup/item_7/text = "Save Chart As"
+popup/item_7/id = 8
+popup/item_8/text = "Save Events As"
+popup/item_8/id = 9
+popup/item_9/text = "Export to ZIP"
+popup/item_9/id = 20
+popup/item_10/id = 5
+popup/item_10/separator = true
+popup/item_11/text = "Autosave"
+popup/item_11/checkable = 1
+popup/item_11/checked = true
+popup/item_11/id = 3
+popup/item_12/text = "Exit"
+popup/item_12/id = 6
 metadata/_edit_use_anchors_ = true
 
-[node name="Export External Popup" type="FileDialog" parent="File Button" unique_id=1942631382]
+[node name="Export External Popup" type="FileDialog" parent="File Button" unique_id=1942631382 groups=["windows"]]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Save Events"
@@ -61,8 +68,9 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "Edit"
-item_count = 12
+item_count = 14
 popup/item_0/text = "Undo"
 popup/item_0/id = 0
 popup/item_1/text = "Redo"
@@ -87,6 +95,10 @@ popup/item_10/text = "Select All Visible Notes"
 popup/item_10/id = 10
 popup/item_11/text = "Deselect All"
 popup/item_11/id = 11
+popup/item_12/text = "Increase Note Length"
+popup/item_12/id = 12
+popup/item_13/text = "Decrease Note Length"
+popup/item_13/id = 13
 metadata/_edit_use_anchors_ = true
 
 [node name="View Button" type="MenuButton" parent="." unique_id=331440346]
@@ -94,6 +106,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "View"
 item_count = 5
 popup/item_0/text = "Switch Editors"
@@ -108,7 +121,7 @@ popup/item_4/text = "Zoom Out"
 popup/item_4/id = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="Note Skin Window" type="FileDialog" parent="View Button" unique_id=833636911]
+[node name="Note Skin Window" type="FileDialog" parent="View Button" unique_id=833636911 groups=["windows"]]
 unique_name_in_owner = true
 title = "Open a File"
 initial_position = 1
@@ -122,39 +135,39 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "Audio"
 item_count = 9
 popup/item_0/text = "Play/Pause"
 popup/item_0/id = 0
-popup/item_1/id = 1
-popup/item_1/separator = true
-popup/item_2/text = "Edit Audios"
-popup/item_2/id = 2
-popup/item_3/id = 3
+popup/item_1/text = "Speed Audio Up"
+popup/item_1/id = 4
+popup/item_2/text = "Slow Audio Down"
+popup/item_2/id = 5
+popup/item_3/id = 6
 popup/item_3/separator = true
-popup/item_4/text = "Speed Audio Up"
-popup/item_4/id = 4
-popup/item_5/text = "Slow Audio Down"
-popup/item_5/id = 5
+popup/item_4/text = "Conductor Beat"
+popup/item_4/checkable = 1
+popup/item_4/id = 7
+popup/item_5/text = "Conductor Step"
+popup/item_5/checkable = 1
+popup/item_5/id = 8
 popup/item_6/id = 6
 popup/item_6/separator = true
-popup/item_7/text = "Conductor Beat"
+popup/item_7/text = "Vocal Waveforms"
 popup/item_7/checkable = 1
-popup/item_7/id = 7
-popup/item_8/text = "Conductor Step"
+popup/item_7/id = 11
+popup/item_8/text = "Instrumental Waveforms"
 popup/item_8/checkable = 1
-popup/item_8/id = 8
+popup/item_8/id = 12
 metadata/_edit_use_anchors_ = true
-
-[node name="Audios Window" parent="Audio Button" unique_id=740299600 instance=ExtResource("2_esjoi")]
-unique_name_in_owner = true
-visible = false
 
 [node name="Test Button" type="MenuButton" parent="." unique_id=64458848]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "Test"
 item_count = 3
 popup/item_0/text = "Playtest Chart"
@@ -171,8 +184,9 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "Window"
-item_count = 3
+item_count = 4
 popup/item_0/text = "History"
 popup/item_0/checkable = 1
 popup/item_0/id = 0
@@ -182,9 +196,12 @@ popup/item_1/id = 1
 popup/item_2/text = "Notes"
 popup/item_2/checkable = 1
 popup/item_2/id = 2
+popup/item_3/text = "Audio"
+popup/item_3/checkable = 1
+popup/item_3/id = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="History Window" parent="Window Button" unique_id=1289274319 instance=ExtResource("3_xi38a")]
+[node name="History Window" parent="Window Button" unique_id=1289274319 groups=["windows"] instance=ExtResource("3_xi38a")]
 unique_name_in_owner = true
 initial_position = 4
 visible = false
@@ -194,16 +211,23 @@ unique_name_in_owner = true
 initial_position = 4
 visible = false
 
-[node name="Note Type Window" parent="Window Button" unique_id=1644438816 instance=ExtResource("5_c03gx")]
+[node name="Note Type Window" parent="Window Button" unique_id=1644438816 groups=["windows"] instance=ExtResource("5_c03gx")]
+unique_name_in_owner = true
+initial_position = 4
+visible = false
+
+[node name="AudioWindow" parent="Window Button" unique_id=838383365 instance=ExtResource("4_pmg4i")]
 unique_name_in_owner = true
 initial_position = 4
 visible = false
 
 [node name="Help Button" type="MenuButton" parent="." unique_id=1457749919]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
 text = "Help"
 item_count = 1
 popup/item_0/id = 0

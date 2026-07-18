@@ -1,21 +1,35 @@
 extends Node
 
 @onready var performance_label: Label = $"Performance Label"
+@onready var volume_node = $"Volume Node"
 
 var loading_screen: PackedScene = load("uid://ld5hyjhtx8wg")
 
 var fullscreen: bool = false
 var transitioning: bool = false
+var current_controller: int = -1
 
-func _ready():
+func _ready() -> void:
 	# FPS Booster
 	PhysicsServer2D.set_active(false)
 	PhysicsServer3D.set_active(false)
 	_correct_window_size()
+	Input.joy_connection_changed.connect(self.changed_contoller)
+	
+	if not OS.is_debug_build():
+		RenderingServer.set_default_clear_color(Color.BLACK)
+		
+
+
+func changed_contoller(device: int, connected: bool):
+	if connected:
+		current_controller = device
+	else:
+		current_controller = -1 if !Input.get_connected_joypads().front() else Input.get_connected_joypads().front()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	$"Volume Node".position.x = get_window().content_scale_size.x / 2
+	volume_node.position.x = get_window().content_scale_size.x / 2
 	performance_label.visible = SettingsManager.get_value(SettingsManager.SEC_DEBUG, &"show_performance")
 	if SettingsManager.get_value(SettingsManager.SEC_DEBUG, "show_performance"):
 		var performance_string: String = str("FPS: ", int(Engine.get_frames_per_second()),
@@ -41,7 +55,6 @@ func _process(delta: float) -> void:
 			get_tree().paused = false
 
 
-
 #region Auto Pause
 var manual_pause: bool = false
 func _notification(what: int) -> void:
@@ -57,22 +70,28 @@ func _notification(what: int) -> void:
 #endregion
 
 #region Scene Changing
-func change_scene_to(path: String, transition: Variant = &"down", show_loading_screen: bool = true): 
+func change_scene_to(path: String, transition: Variant = Constants.DEFAULT_TRANSITION, show_loading_screen: bool = true) -> void:
+	
+	if not ResourceLoader.exists(path):
+		printerr("Cannot switch to '%s' as it does not exist" % path)
+		return
+	
 	transitioning = true
 	
 	if transition: 
-		Transitions.transition(transition)
-		await Transitions.waiting
+		TransitionManager.transition(transition)
+		await TransitionManager.waiting
 	
 	get_tree().paused = false
 	LoadingScreen.scene = path
+	
 	
 	if show_loading_screen: 
 		get_tree().change_scene_to_packed(loading_screen)
 	else: 
 		get_tree().change_scene_to_file(path)
 		if transition: 
-			Transitions.resume()
+			TransitionManager.resume()
 #endregion
 
 func bop_tween(object: Object, property: NodePath, original_val: Variant, final_val: Variant, duration: float, trans: Tween.TransitionType):
@@ -148,7 +167,7 @@ func frame_independent_lerp(a, b, decay: float, delta: float) -> Variant:
 func show_volume():
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property($"Volume Node", "position:y", 0, 0.5)
+	tween.tween_property(volume_node, "position:y", 0, 0.5)
 	SoundManager.scroll.play()
 	
 	var master_volume = SettingsManager.get_value(SettingsManager.SEC_AUDIO, "master_volume")
@@ -164,7 +183,7 @@ func show_volume():
 func hide_volume():
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property($"Volume Node", "position:y", -32, 0.5)
+	tween.tween_property(volume_node, "position:y", -32, 0.5)
 
 
 func _on_hide_timer_timeout():
@@ -172,143 +191,130 @@ func _on_hide_timer_timeout():
 #endregion
 
 #region String to Tween
-## Returns an array with index 0 containing transition type and
-## index 1 containing easing type
+## Returns an array containing an transition and ease type formatted as [code][TransType, EaseType][/code]
 func string_to_ease(tween: String) -> Array:
-	match tween:
-		"backIn":
+	match tween.to_lower():
+		"backin":
 			return [Tween.TRANS_BACK, Tween.EASE_IN]
 		
-		"backInOut":
+		"backinout":
 			return [Tween.TRANS_BACK, Tween.EASE_IN_OUT]
 		
-		"backOut":
+		"backout":
 			return [Tween.TRANS_BACK, Tween.EASE_OUT]
 		
-		"backOutIn":
+		"backoutin":
 			return [Tween.TRANS_BACK, Tween.EASE_OUT_IN]
 		
-		"bounceIn":
+		"bouncein":
 			return [Tween.TRANS_BOUNCE, Tween.EASE_IN]
 		
-		"bounceOut":
+		"bounceinout":
 			return [Tween.TRANS_BOUNCE, Tween.EASE_IN_OUT]
 		
-		"bounceOut":
+		"bounceout":
 			return [Tween.TRANS_BOUNCE, Tween.EASE_OUT]
 		
-		"bounceOutIn":
+		"bounceoutin":
 			return [Tween.TRANS_BOUNCE, Tween.EASE_OUT_IN]
 		
-		"circkIn":
+		"circin":
 			return [Tween.TRANS_CIRC, Tween.EASE_IN]
 		
-		"circInOut":
+		"circinout":
 			return [Tween.TRANS_CIRC, Tween.EASE_IN_OUT]
 		
-		"circOut":
+		"circout":
 			return [Tween.TRANS_CIRC, Tween.EASE_OUT]
 		
-		"circOutIn":
+		"circoutin":
 			return [Tween.TRANS_CIRC, Tween.EASE_OUT_IN]
 		
-		"cubeIn":
+		"cubein":
 			return [Tween.TRANS_CUBIC, Tween.EASE_IN]
 		
-		"cubeInOut":
+		"cubeinout":
 			return [Tween.TRANS_CUBIC, Tween.EASE_IN_OUT]
 		
-		"cubeOut":
+		"cubeout":
 			return [Tween.TRANS_CUBIC, Tween.EASE_OUT]
 		
-		"cubeOutIn":
+		"cubeoutin":
 			return [Tween.TRANS_CUBIC, Tween.EASE_OUT_IN]
 		
-		"cubeIn":
-			return [Tween.TRANS_CUBIC, Tween.EASE_IN]
-		
-		"cubeInOut":
-			return [Tween.TRANS_CUBIC, Tween.EASE_IN_OUT]
-		
-		"cubeOut":
-			return [Tween.TRANS_CUBIC, Tween.EASE_OUT]
-		
-		"cubeOutIn":
-			return [Tween.TRANS_CUBIC, Tween.EASE_OUT_IN]
-		
-		"elasticIn":
+		"elasticin":
 			return [Tween.TRANS_ELASTIC, Tween.EASE_IN]
 		
-		"elasticInOut":
+		"elasticinout":
 			return [Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT]
 		
-		"elasticOut":
+		"elasticout":
 			return [Tween.TRANS_ELASTIC, Tween.EASE_OUT]
 		
-		"elasticOutIn":
+		"elasticoutin":
 			return [Tween.TRANS_ELASTIC, Tween.EASE_OUT_IN]
 		
-		"expoIn":
+		"expoin":
 			return [Tween.TRANS_EXPO, Tween.EASE_IN]
 		
-		"expoInOut":
+		"expoinout":
 			return [Tween.TRANS_EXPO, Tween.EASE_IN_OUT]
 		
-		"expoOut":
+		"expoout":
 			return [Tween.TRANS_EXPO, Tween.EASE_OUT]
 		
-		"expoOutIn":
+		"expooutin":
 			return [Tween.TRANS_EXPO, Tween.EASE_OUT_IN]
 		
-		"quadIn":
+		"quadin":
 			return [Tween.TRANS_QUAD, Tween.EASE_IN]
 		
-		"quadInOut":
+		"quadinout":
 			return [Tween.TRANS_QUAD, Tween.EASE_IN_OUT]
 		
-		"quadOut":
+		"quadout":
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT]
 		
-		"quadOutIn":
+		"quadoutin":
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT_IN]
 		
-		"quartIn":
+		"quartin":
 			return [Tween.TRANS_QUAD, Tween.EASE_IN]
 		
-		"quartInOut":
+		"quartinout":
 			return [Tween.TRANS_QUAD, Tween.EASE_IN_OUT]
 		
-		"quartOut":
+		"quartout":
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT]
 		
-		"quartOutIn":
+		"quartoutin":
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT_IN]
 		
-		"quintIn":
+		"quintin":
 			return [Tween.TRANS_QUAD, Tween.EASE_IN]
 		
-		"quintInOut":
+		"quintinout":
 			return [Tween.TRANS_QUAD, Tween.EASE_IN_OUT]
 		
-		"quintOut":
+		"quintout":
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT]
 		
-		"quintOutIn":
+		"quintoutin":
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT_IN]
 		
-		"sineIn":
+		"sinein":
 			return [Tween.TRANS_SINE, Tween.EASE_IN]
 		
-		"sinetInOut":
+		"sineinout":
 			return [Tween.TRANS_SINE, Tween.EASE_IN_OUT]
 		
-		"sineOut":
+		"sineout":
 			return [Tween.TRANS_SINE, Tween.EASE_OUT]
 		
-		"sineOutIn":
+		"sineoutin":
 			return [Tween.TRANS_SINE, Tween.EASE_OUT_IN]
 		
-		"CLASSIC":
+		"classic":
 			return [Tween.TRANS_CUBIC, Tween.EASE_IN_OUT]
 		
 		_:

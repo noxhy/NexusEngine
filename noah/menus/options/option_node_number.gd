@@ -10,7 +10,7 @@ class_name NumberOptionNode
 @onready var spin_box:SpinBox = %Value
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	var savedValue = clampf(SettingsManager.get_value(setting_category, setting_name, 1.0) / value_scale, minimum, maximum);
 	
 	spin_box.get_line_edit().context_menu_enabled = false
