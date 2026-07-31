@@ -103,7 +103,7 @@ func started_song(song: Song):
 
 func start_week(week: Week):
 	current_week = week
-	week_songs = week.song_list
+	week_songs = week.song_list.duplicate()
 	current_week_song = 0
 	freeplay = false
 	play_mode = GameManager.PLAY_MODE.STORY_MODE

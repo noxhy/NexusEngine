@@ -18,7 +18,6 @@ border_width_bottom = 1
 
 [node name="Start" type="Node2D" unique_id=314982262]
 script = ExtResource("1_ha2j4")
-debug_mod_dirs = PackedStringArray("res://Funkin-Modpack")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1832716492]
 
