@@ -247,7 +247,7 @@ func play_song(time: float):
 		play_audios(song_start_offset)
 	else:
 		if !ui_skin.countdown.is_empty():
-			var countdown_instance: AnimationPlayer = load(ui_skin.countdown_node).instantiate()
+			var countdown_instance: AnimationPlayer = load(ui_skin.countdown).instantiate()
 			
 			countdown_instance.speed_scale = chart.get_tempo_at(time - chart.offset) / 60.0
 			
@@ -408,7 +408,7 @@ func song_finished():
 		if (GameManager.week_songs.size() == GameManager.current_week_song):
 			Global.change_scene_to(next_scene)
 		else:
-			Global.change_scene_to(GameManager.current_week.song_list[GameManager.current_week_song].scene, "down")
+			Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene, "down")
 
 # Strum Util
 func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManager):
@@ -425,7 +425,6 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 			return
 		
 		var rating: String = get_rating(abs(hit_time))
-		var strum_node = strum_manager.get_strumline(lane)
 		
 		GameManager.tallies[rating] += 1
 		GameManager.tallies["total_notes"] += 1

@@ -101,6 +101,13 @@ func started_song(song: Song):
 	character = Preload.character_data[current_character]
 	score = 0
 
+func start_week(week: Week):
+	current_week = week
+	week_songs = week.song_list
+	current_week_song = 0
+	freeplay = false
+	play_mode = GameManager.PLAY_MODE.STORY_MODE
+
 func finished_song(_score: int):
 	week_score += _score
 	week_deaths += deaths
