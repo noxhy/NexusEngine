@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Friday Night Funkin': Noah Engine"
-config/version="3.3.1"
+config/version="3.3.2"
 run/main_scene="uid://crfoqsmbdm5bd"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://dr2pbdp8x8xpb"
