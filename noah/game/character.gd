@@ -343,6 +343,7 @@ func update_ghost():
 			_ghost_sprite.modulate = Color(1.825, 1.825, 1.825, 0.5)
 			_ghost_sprite.z_index = animation_player.z_index
 			_ghost_sprite.texture_filter = animation_player.texture_filter
+			_ghost_sprite.scale = animation_player.scale
 		elif animation_player is AnimateSymbol:
 			_ghost_sprite = AnimateSymbol.new()
 			_ghost_sprite.atlases = animation_player.atlases
@@ -351,11 +352,12 @@ func update_ghost():
 				var animation_name: StringName = get_animation_name(dance_animations[0])
 				_ghost_sprite.symbol = animation_name
 				_ghost_sprite.frame = _ghost_sprite.get_animation_length() - 1
-				_ghost_sprite.offset = offsets.get(animation_name, Vector2.ZERO)
+				_ghost_sprite.position = offsets.get(animation_name, Vector2.ZERO)
 			
 			_ghost_sprite.modulate = Color(1.825, 1.825, 1.825, 0.5)
 			_ghost_sprite.z_index = animation_player.z_index
 			_ghost_sprite.texture_filter = animation_player.texture_filter
+			_ghost_sprite.scale = animation_player.scale
 		
 		match _ghost_ordering:
 			0:
