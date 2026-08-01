@@ -357,7 +357,7 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 			if ease_string:
 				_ease = ease_string
 			
-			camera.tween_zoom(new_zoom, zoom_time / song_speed, ease_string)
+			camera.tween_zoom(new_zoom, zoom_time / song_speed, _ease)
 		
 		"bop_rate", "bop_delay":
 			host.bop_rate = int(event_parameters[0])
