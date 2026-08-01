@@ -24,7 +24,7 @@ const COMPENSATION: float = 1.0 / 30.0
 
 @export_group("Scenes")
 ## The scene that will be switched to when the song ends.
-@export_file('*.tscn') var next_scene: String = Constants.RESULTS_MENU_SCENE
+@export_file('*.tscn') var next_scene: String = Constants.get("RESULTS_MENU_SCENE")
 
 var song_starting:bool = false
 var song_started: bool = false
