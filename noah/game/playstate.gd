@@ -125,9 +125,6 @@ func _ready() -> void:
 	scroll_speed = chart.scroll_speed * SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale")
 	
 	get_tree().call_group(&"strums", "set_scroll_speed", scroll_speed)
-	get_tree().call_group(&"strums", "connect", "note_hit", host.note_hit)
-	get_tree().call_group(&"strums", "connect", "note_holding", host.note_holding)
-	get_tree().call_group(&"strums", "connect", "note_miss", host.note_miss)
 	get_tree().call_group(&"strums", "set_skin", note_skin)
 	get_tree().call_group(&"strums", "set_offset",
 	SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "offset"))
@@ -357,7 +354,10 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 			if ease_string:
 				_ease = ease_string
 			
-			camera.tween_zoom(new_zoom, zoom_time / song_speed, _ease)
+			if _ease.to_lower() == "classic":
+				camera.target_zoom = new_zoom
+			else:
+				camera.tween_zoom(new_zoom, zoom_time / song_speed, _ease)
 		
 		"bop_rate", "bop_delay":
 			host.bop_rate = int(event_parameters[0])
