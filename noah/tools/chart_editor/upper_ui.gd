@@ -435,7 +435,7 @@ func file_button_item_pressed(id):
 			export_window.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 			export_window.display_mode = FileDialog.DISPLAY_LIST
 			export_window.add_to_group(&"windows")
-			$"UI/Upper UI".add_child(export_window)
+			add_child(export_window)
 			
 			export_window.popup_centered()
 			
@@ -452,7 +452,7 @@ func file_button_item_pressed(id):
 			var on_close = func():
 				export_window.queue_free()
 			
-			export_window.connect(&"file_selected", chart_editor.on_save)
+			export_window.connect(&"file_selected", on_save)
 			export_window.connect(&"close_requested", chart_editor.close_popup)
 			export_window.connect(&"close_requested", on_close)
 		10: #Load events
@@ -465,7 +465,7 @@ func file_button_item_pressed(id):
 			export_window.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 			export_window.display_mode = FileDialog.DISPLAY_LIST
 			export_window.add_to_group(&"windows")
-			$"UI/Upper UI".add_child(export_window)
+			add_child(export_window)
 			
 			export_window.popup_centered()
 			if ChartManager.song and !ChartManager.song.events.is_empty():
