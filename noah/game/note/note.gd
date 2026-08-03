@@ -7,6 +7,7 @@ var length: float = 0.0
 var time: float = 0.0
 var note_skin: NoteSkin
 var lane: int = 0
+var tempo: float = 0
 var note_type: String
 
 var scroll_speed: float

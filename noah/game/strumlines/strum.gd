@@ -80,8 +80,9 @@ func _process(delta) -> void:
 					if note.length > 0:
 						note.holding = true
 						var temp = note.length
-						note.length = time_difference + (note.start_length * GameManager.seconds_per_beat)
-						note.length /= GameManager.seconds_per_beat
+						var spb: float = get_relative_seconds_per_beat(note)
+						note.length = time_difference + (note.start_length * spb)
+						note.length /= spb
 						
 						if note.note.visible:
 							hold_cover_sprite.play_animation("cover " + strum_name + " start")
@@ -162,8 +163,9 @@ func _process(delta) -> void:
 							state = STATE.GLOW
 							note.position.y = 0
 							var temp = note.length
-							note.length = ((note.time - offset) + (note.start_length * GameManager.seconds_per_beat)) - GameManager.song_position
-							note.length /= GameManager.seconds_per_beat
+							var spb: float = get_relative_seconds_per_beat(note)
+							note.length = ((note.time - offset) + (note.start_length * spb)) - GameManager.song_position
+							note.length /= spb
 							note.note.visible = false
 							Signals.play_note_holding.emit(note, lane, temp - max(0, note.length), get_parent())
 							
@@ -232,8 +234,6 @@ func set_skin(new_skin: NoteSkin):
 
 
 func create_note(time: float, length: float, note_type: String, _tempo: float):
-	self.tempo = tempo
-	
 	var note_instance = NOTE_PRELOAD.instantiate()
 	
 	note_instance.time = time - offset
@@ -242,6 +242,7 @@ func create_note(time: float, length: float, note_type: String, _tempo: float):
 	note_instance.note_type = note_type
 	note_instance.position.y = 1000
 	note_instance.scroll = scroll
+	note_instance.tempo = _tempo
 	
 	note_instance.direction = strum_name
 	note_type = Constants.NOTE_TYPES.get(note_type, "")
@@ -304,3 +305,7 @@ func release_note():
 					note.start_length = note.length
 		else:
 			state = STATE.IDLE
+
+## Returns the seconds per beat relative to the given note.
+func get_relative_seconds_per_beat(note: Note) -> float:
+	return (tempo / note.tempo) * GameManager.seconds_per_beat
