@@ -147,8 +147,10 @@ func load_values() -> void:
 						var saved_value = temp_config.get_value(section, key)
 						
 						if saved_value and instance_value.size() != saved_value.size():
-							for idx in range(instance_value.size() - 1):
-								instance_value[idx] = saved_value[idx]
+							for idx in range(instance_value.size()):
+								var saved_idx = saved_value.get(idx)
+								if saved_idx:
+									instance_value[idx] = saved_idx
 							
 							instance.set_value(section, key, instance_value)
 							continue

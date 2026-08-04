@@ -51,8 +51,8 @@ enum AnimContext {
 	set(v):
 		dance_animations = v
 		update_ghost()
-## How often [b](in steps)[/b] the dance will be played.
-@export_range(1, 1, 1, "suffix:steps", "or_greater") var dance_rate: int = 8
+## Bops at the rate of the divisor of the amount of beats per measure.
+@export_range(1, 1, 1, "suffix:steps", "or_greater") var dance_rate: int = 2
 ## When calling an animation, the id will be appended to this value.
 ## [br][br][b]Example:[/b] [code]"left"[/code] → [code]"mom_left"[/code]
 @export var animation_prefix: StringName = &"":
@@ -61,7 +61,6 @@ enum AnimContext {
 		update_ghost()
 ## How many steps an animation can play before being able to revert to idle.
 @export_custom(PROPERTY_HINT_NONE, 'suffix:steps') var sing_duration: float = 6
-
 
 
 @export_group("UI")
@@ -109,7 +108,7 @@ func _ready() -> void:
 			animation_player.connect(&"animation_changed", self.update_ghost)
 	
 	if not Engine.is_editor_hint():
-		Signals.play_conductor_step_hit.connect(on_step_hit)
+		Signals.play_conductor_step_hit.connect(on_beat_hit)
 	
 	dance()
 
@@ -277,8 +276,13 @@ func set_sing_timer(time: float = -1):
 	can_dance = false
 
 ## Helper function for [code]basic_song.gd[/code] to call idle whenever possible
-func on_step_hit(current_step: int, measure_relative: int):  
-	if dance_rate > 0 and measure_relative % dance_rate == 0:
+func on_beat_hit(current_beat: int, measure_relative: int): 
+	var beats: Array = []
+	for i in range(dance_rate):
+		if GameManager.conductor:
+			beats.append(GameManager.conductor.numerator * dance_rate * 1.0 / dance_rate)
+	
+	if dance_rate > 0 and beats.has(measure_relative):
 		var restart: bool = true
 		var dance_to_play: StringName = get_animation_name(dance_animations[current_dance])
 		
