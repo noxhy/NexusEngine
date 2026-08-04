@@ -52,7 +52,8 @@ enum AnimContext {
 		dance_animations = v
 		update_ghost()
 ## Bops at the rate of the divisor of the amount of beats per measure.
-@export_range(1, 1, 1, "suffix:steps", "or_greater") var dance_rate: int = 2
+## [br][b]Note:[/b] If the rate is 0, the rate will be every beat.
+@export_range(0, 1, 1, "suffix:divisions", "or_greater") var dance_rate: int = 2
 ## When calling an animation, the id will be appended to this value.
 ## [br][br][b]Example:[/b] [code]"left"[/code] → [code]"mom_left"[/code]
 @export var animation_prefix: StringName = &"":
@@ -78,6 +79,7 @@ enum AnimContext {
 		_ghost_ordering = v
 		update_ghost()
 
+## The current dance animation to be played.
 var current_dance: int = 0
 ## The current animation ID.
 var current_animation: StringName = dance_animations[0]
@@ -86,7 +88,7 @@ var current_context: AnimContext = AnimContext.NONE
 var can_dance: bool = true
 ## Used to make an animation loop at the given [code]hold_frame[/code] until given another animation.
 var holding: bool = false
-## Time elapsed since the char has started singing
+## Time elapsed since the character has started singing.
 var sing_time: float = 0
 
 var _ghost_sprite = null
@@ -116,9 +118,8 @@ func _ready() -> void:
 func _on_animation_finished():
 	holding = true
 
-## Plays an animation with the given context. Setting [param restart] to [code]true[/code] will replay the animation from the beginning.
+## Plays an animation with the given [enum AnimContext]. Setting [param restart] to [code]true[/code] will replay the animation from the beginning.
 ## Setting a [param time] will make the animation play within the given time.
-## [br][br]See [enum AnimContext] for information of animation contexts.
 func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContext.NONE, restart: bool = true, time: float = -1.0):
 	if process_mode == Node.PROCESS_MODE_DISABLED or current_context == AnimContext.LOCKED or !animation_player:
 		return
@@ -278,11 +279,14 @@ func set_sing_timer(time: float = -1):
 ## Helper function for [code]basic_song.gd[/code] to call idle whenever possible
 func on_beat_hit(current_beat: int, measure_relative: int): 
 	var beats: Array = []
-	for i in range(dance_rate):
-		if GameManager.conductor and (GameManager.conductor.numerator * i % 2 == 0):
-			beats.append(GameManager.conductor.numerator * i / dance_rate)
+	if dance_rate > 0:
+		for i in range(dance_rate):
+			if GameManager.conductor and (GameManager.conductor.numerator * i % 2 == 0):
+				beats.append(GameManager.conductor.numerator * i / dance_rate)
+	else:
+		beats = [measure_relative]
 	
-	if dance_rate > 0 and beats.has(measure_relative):
+	if beats.has(measure_relative):
 		var restart: bool = true
 		var dance_to_play: StringName = get_animation_name(dance_animations[current_dance])
 		
