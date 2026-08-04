@@ -282,8 +282,6 @@ func on_beat_hit(current_beat: int, measure_relative: int):
 		if GameManager.conductor:
 			beats.append(GameManager.conductor.numerator * i / dance_rate)
 	
-	print(beats)
-	
 	if dance_rate > 0 and beats.has(measure_relative):
 		var restart: bool = true
 		var dance_to_play: StringName = get_animation_name(dance_animations[current_dance])
