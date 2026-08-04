@@ -279,7 +279,7 @@ func set_sing_timer(time: float = -1):
 func on_beat_hit(current_beat: int, measure_relative: int): 
 	var beats: Array = []
 	for i in range(dance_rate):
-		if GameManager.conductor:
+		if GameManager.conductor and (GameManager.conductor.numerator * i % 2 == 0):
 			beats.append(GameManager.conductor.numerator * i / dance_rate)
 	
 	if dance_rate > 0 and beats.has(measure_relative):
