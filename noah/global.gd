@@ -150,7 +150,7 @@ func format_time(time: float) -> String:
 	
 	return "%02d:%02d.%02d" % [minutes, seconds, milliseconds]
 
-func get_keycode_string(keycodes: Array):
+func get_bind_string(keycodes: Array):
 	var strings: PackedStringArray
 	for keycode in keycodes:
 		strings.append(OS.get_keycode_string(keycode))

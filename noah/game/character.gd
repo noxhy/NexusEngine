@@ -343,6 +343,7 @@ func update_ghost():
 					_ghost_sprite.texture = animation_player.sprite_frames.get_frame_texture(
 						animation_name, animation_player.sprite_frames.get_frame_count(animation_name) - 1)
 					_ghost_sprite.position = offsets.get(animation_name, Vector2.ZERO)
+					_ghost_sprite.offset = animation_player.offset
 			
 			_ghost_sprite.modulate = Color(1.825, 1.825, 1.825, 0.5)
 			_ghost_sprite.z_index = animation_player.z_index
@@ -357,6 +358,7 @@ func update_ghost():
 				_ghost_sprite.symbol = animation_name
 				_ghost_sprite.frame = _ghost_sprite.get_animation_length() - 1
 				_ghost_sprite.position = offsets.get(animation_name, Vector2.ZERO)
+				_ghost_sprite.offset = animation_player.offset
 			
 			_ghost_sprite.modulate = Color(1.825, 1.825, 1.825, 0.5)
 			_ghost_sprite.z_index = animation_player.z_index

@@ -254,6 +254,7 @@ func load_keybinds():
 #region Controller Button Names
 func translate_joy_bind(device: int, bind: int) -> String:
 	var device_name: String = Input.get_joy_name(device)
+	var device_lower: String = device_name.to_lower()
 	
 	var joy_button_names: Dictionary = {
 		JoyButton.JOY_BUTTON_A: "A",
@@ -274,7 +275,7 @@ func translate_joy_bind(device: int, bind: int) -> String:
 		(JoyAxis.JOY_AXIS_TRIGGER_RIGHT + 100): "LR"
 	}
 	
-	if device_name.to_lower().contains("dualsense") or device_name.to_lower().contains("dualshock"):
+	if device_lower.contains("dualsense") or device_lower.contains("dualshock"):
 		joy_button_names = {
 			JoyButton.JOY_BUTTON_A: "❌",
 			JoyButton.JOY_BUTTON_B: "⭕",
@@ -293,7 +294,7 @@ func translate_joy_bind(device: int, bind: int) -> String:
 			(JoyAxis.JOY_AXIS_TRIGGER_LEFT + 100): "L2",
 			(JoyAxis.JOY_AXIS_TRIGGER_RIGHT + 100): "R2"
 		}
-	elif device_name.to_lower().contains("nintendo"):
+	elif device_lower.contains("nintendo"):
 		joy_button_names = {
 			JoyButton.JOY_BUTTON_A: "B",
 			JoyButton.JOY_BUTTON_B: "A",
