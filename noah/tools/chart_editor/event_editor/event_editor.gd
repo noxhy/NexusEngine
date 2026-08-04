@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 				if track < vocal_tracks.size():
 					%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
 	
-	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_down")) - int(Input.is_action_just_pressed("mouse_scroll_up"))
+	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_up")) - int(Input.is_action_just_pressed("mouse_scroll_down"))
 	if axis:
 		if can_interact_with_chart and not Input.is_action_pressed("control"): #song scrubbing
 			if not instrumental.stream_paused:
@@ -756,6 +756,7 @@ func _on_add_event_track_pressed() -> void:
 	
 	%"Add Track Window".hide()
 	close_popup()
+	load_section(song_position)
 
 
 func _on_add_track_window_close_requested() -> void:

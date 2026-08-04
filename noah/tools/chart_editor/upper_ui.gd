@@ -407,22 +407,22 @@ func file_button_item_pressed(id):
 			convert_chart_popup_instance.connect("close_requested", chart_editor.close_popup)
 			%"Open Window".play()
 		
-		3:
+		3: #Autosave
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "auto_save",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
 			SettingsManager.flush()
-			%"Upper UI".get_node("%File Button").get_popup().set_item_checked(
-				%"Upper UI".get_node("%File Button").get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
+			file_button.get_popup().set_item_checked(
+				file_button.get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
 			%"Mouse Click".play()
 		
-		6:
+		6: #Exit
 			chart_editor.set_chart_from_chart(chart_editor.backup_chart)
-			Global.change_scene_to("uid://rc52vcn2m7ob")
+			Global.change_scene_to(Constants.START_MENU_SCENE)
 			chart_editor.can_chart = false
 		
 		8:
 			chart_editor.can_chart = false
-			%"Upper UI".get_node("%Export External Popup").popup()
+			export_external_popup.popup()
 			%"Open Window".play()
 		9: #Save events
 			chart_editor.can_chart = false

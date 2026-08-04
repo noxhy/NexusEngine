@@ -3,7 +3,7 @@ extends Node
 #scene ids
 var CHART_EDITOR_SCENE: String = "uid://c3lux2ajoe1g6"
 var EVENT_EDITOR_SCENE: String = "uid://cq6xqods6w7lw"
-
+var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 #region Event Data
 
 var EVENT_DATA: Dictionary = {

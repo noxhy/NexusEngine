@@ -342,7 +342,7 @@ func update_ghost():
 					var animation_name: StringName = get_animation_name(dance_animations[0])
 					_ghost_sprite.texture = animation_player.sprite_frames.get_frame_texture(
 						animation_name, animation_player.sprite_frames.get_frame_count(animation_name) - 1)
-					_ghost_sprite.offset = offsets.get(animation_name, Vector2.ZERO)
+					_ghost_sprite.position = offsets.get(animation_name, Vector2.ZERO)
 			
 			_ghost_sprite.modulate = Color(1.825, 1.825, 1.825, 0.5)
 			_ghost_sprite.z_index = animation_player.z_index
