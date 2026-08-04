@@ -519,6 +519,8 @@ func update_grid():
 func load_song(song: Song, difficulty: Variant = null):
 	if ChartManager.song != song:
 		song_position = 0.0
+	else:
+		song_position -= start_offset
 	
 	$"UI/LoadedSong error".visible = false
 	ChartManager.song = song
@@ -558,7 +560,6 @@ func load_song(song: Song, difficulty: Variant = null):
 	
 	enable_can_chart_on_next_frame()
 	update_ui_usable_state()
-	
 
 
 func load_song_path(path: String, difficulty: Variant = null):
