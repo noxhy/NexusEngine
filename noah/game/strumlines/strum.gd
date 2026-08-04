@@ -37,9 +37,6 @@ var previous_note = null
 var state: STATE = STATE.IDLE
 var lane: int = -1
 
-var tempo: float = 60.0
-var seconds_per_beat: float = 60.0 / tempo
-
 var reset_timer: float = 0.0
 var coyote_timer: float = 0.0
 
@@ -308,4 +305,4 @@ func release_note():
 
 ## Returns the seconds per beat relative to the given note.
 func get_relative_seconds_per_beat(note: Note) -> float:
-	return (tempo / note.tempo) * GameManager.seconds_per_beat
+	return (GameManager.conductor.tempo / note.tempo) * GameManager.seconds_per_beat

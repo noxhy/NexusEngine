@@ -108,7 +108,7 @@ func _ready() -> void:
 			animation_player.connect(&"animation_changed", self.update_ghost)
 	
 	if not Engine.is_editor_hint():
-		Signals.play_conductor_step_hit.connect(on_beat_hit)
+		Signals.play_conductor_beat_hit.connect(on_beat_hit)
 	
 	dance()
 
@@ -280,7 +280,9 @@ func on_beat_hit(current_beat: int, measure_relative: int):
 	var beats: Array = []
 	for i in range(dance_rate):
 		if GameManager.conductor:
-			beats.append(GameManager.conductor.numerator * dance_rate * 1.0 / dance_rate)
+			beats.append(GameManager.conductor.numerator * i / dance_rate)
+	
+	print(beats)
 	
 	if dance_rate > 0 and beats.has(measure_relative):
 		var restart: bool = true

@@ -484,7 +484,7 @@ func on_files_dropped(files: PackedStringArray):
 
 func update_grid():
 	%Grid.columns = 2 + ChartManager.strum_count
-	%Grid.rows = pow(conductor.numerator, 2)
+	%Grid.rows = conductor.numerator * conductor.denominator
 	%"Strum Labels".position = %Grid.get_real_position(Vector2(1, -1)) - Vector2(2, 296)
 	%"Strum Labels".size.x = 0
 	%"Strum Labels".custom_minimum_size.x = ChartManager.strum_count * (
@@ -685,7 +685,7 @@ func load_dividers():
 		rect.size = Vector2(%Grid.get_size().x, size)
 		rect.position = %Grid.position
 		rect.position.x -= %Grid.get_size().x / 2
-		rect.position.y += (%Grid.grid_size.y * %Grid.zoom.y) * conductor.numerator * i
+		rect.position.y += (%Grid.grid_size.y * %Grid.zoom.y) * conductor.denominator * i
 		rect.position.y -= rect.size.y / 2
 		
 		$"Grid Layer/Parallax2D".add_child(rect)

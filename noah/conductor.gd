@@ -67,7 +67,7 @@ var current_beat: int = -1:
 
 var current_step: int = -1:
 	set(v):
-		measure_relative_step = v % (numerator * numerator)
+		measure_relative_step = v % (numerator * denominator)
 		if current_step != v:
 			emit_signal(&"new_step", v, measure_relative_step)
 		
@@ -106,4 +106,4 @@ func get_seconds_per_beat() -> float:
 
 
 func get_seconds_per_step() -> float:
-	return seconds_per_beat / numerator
+	return seconds_per_beat / denominator
