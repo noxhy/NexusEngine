@@ -36,10 +36,6 @@ func _process(delta: float) -> void:
 			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
 			song_slider.value = song_position
-		else: #snap scrubbing
-			current_snap += axis
-			chart_snap = SNAPS[current_snap % SNAPS.size()]
-			lower_ui.chart_snap.value = chart_snap
 	
 	conductor.time = song_position
 	

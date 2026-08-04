@@ -51,15 +51,16 @@ static var instrumental_volume: float = 1
 
 ## Editor Variables
 var undo_redo: UndoRedo = UndoRedo.new()
-const SNAPS = [4.0, 8.0, 12.0, 16.0, 20.0, 24.0, 32.0, 48.0, 64.0, 96.0, 192.0]
 
 var song_speed: float = 1.0
 var note_nodes: Array = []
 var clipboard: Array = []
 var can_chart: bool = false
 
-var current_snap: int = 3
-var chart_snap: float = SNAPS[current_snap]
+var current_snap: int = 4
+var chart_snap: float:
+	get():
+		return conductor.numerator * current_snap
 
 var selected_notes: Array = []
 var selected_note_nodes: Array = []
@@ -118,7 +119,7 @@ func _ready() -> void:
 	
 	## Initializing Popup Signals
 	
-	lower_ui.chart_snap.value = chart_snap
+	lower_ui.chart_snap.value = current_snap
 	
 	get_tree().get_root().files_dropped.connect(on_files_dropped)
 
@@ -157,11 +158,7 @@ func _process(delta: float) -> void:
 			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
 			song_slider.value = song_position
-		elif not is_point_in_any_window(get_corrected_mouse_position()): #snap scrubbing
-			current_snap += axis
-			chart_snap = SNAPS[current_snap % SNAPS.size()]
-			lower_ui.chart_snap.value = chart_snap
-			
+	
 	conductor.time = song_position
 	
 	if ChartManager.chart:
@@ -554,8 +551,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	%"Upper UI".get_node("%Metadata Window").update_stats()
 	
 	load_chart(ChartManager.chart)
-	chart_snap = conductor.numerator * conductor.denominator
-	current_snap = SNAPS.bsearch(conductor.numerator * conductor.denominator)
+	current_snap = conductor.numerator
 	
 	waveform_dirty = true
 	update_waveforms(song_position)
@@ -1479,6 +1475,7 @@ func load_waveforms():
 		if track < ChartManager.song.vocals.size() and vocal_tracks.get(track):
 			var waveform_data = WaveformDataParser.interpretSound(ChartManager.song.vocals[id])
 			if waveform_data:
+				@warning_ignore("confusable_local_declaration")
 				var waveform: WaveformRenderer = WaveformRenderer.new(waveform_data, 0, Color.MEDIUM_PURPLE, Color.TRANSPARENT)
 				
 				waveform.visible = false
@@ -1554,7 +1551,7 @@ func update_waveforms(time: float = 0):
 
 
 func _on_chart_snap_value_changed(value: float) -> void:
-	chart_snap = value
+	current_snap = int(value)
 
 func _on_difficulty_button_item_selected(index: int) -> void:
 	var _difficulty = lower_ui.get_node("%Difficulty Button").get_popup().get_item_text(index)
