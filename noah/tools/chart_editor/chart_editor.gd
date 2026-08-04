@@ -179,7 +179,7 @@ func _process(delta: float) -> void:
 	var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 	var grid_position: Vector2 = %Grid.get_grid_position(mouse_position)
 	var snapped_position: Vector2i = Vector2i(%Grid.get_grid_position(
-		mouse_position, %Grid.grid_size * Vector2(1, pow(conductor.numerator, 2) / chart_snap)).floor())
+		mouse_position, %Grid.grid_size * Vector2(1, conductor.numerator * conductor.denominator / chart_snap)).floor())
 	
 	$"Grid Layer/Parallax2D".repeat_size.y = %Grid.get_size().y
 	
@@ -436,7 +436,7 @@ func _draw() -> void:
 		var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 		var grid_position: Vector2i = Vector2i(%Grid.get_grid_position(mouse_position).floor())
 		var snapped_position: Vector2i = Vector2i(
-			%Grid.get_grid_position(mouse_position, %Grid.grid_size * Vector2(1, pow(conductor.numerator, 2) / chart_snap))
+			%Grid.get_grid_position(mouse_position, %Grid.grid_size * Vector2(1, conductor.numerator * conductor.denominator / chart_snap))
 			)
 		
 		# Song Start Offset Marker
@@ -453,8 +453,8 @@ func _draw() -> void:
 		
 		# Hover Box
 		if grid_position.x >= 0 and grid_position.x < %Grid.columns and not is_mouse_over_any_ui():
-			rect = Rect2(%Grid.get_real_position(snapped_position, %Grid.grid_size * Vector2(1, pow(conductor.numerator, 2) / chart_snap)) + grid_offset, \
-			%Grid.grid_size * %Grid.zoom * Vector2(1, pow(conductor.numerator, 2) / chart_snap))
+			rect = Rect2(%Grid.get_real_position(snapped_position, %Grid.grid_size * Vector2(1, conductor.numerator * conductor.denominator / chart_snap)) + grid_offset, \
+			%Grid.grid_size * %Grid.zoom * Vector2(1, conductor.numerator * conductor.denominator / chart_snap))
 			draw_rect(rect, hover_color)
 		
 		## Note Highlighting
@@ -554,8 +554,8 @@ func load_song(song: Song, difficulty: Variant = null):
 	%"Upper UI".get_node("%Metadata Window").update_stats()
 	
 	load_chart(ChartManager.chart)
-	chart_snap = pow(conductor.numerator, 2)
-	current_snap = SNAPS.bsearch(pow(conductor.numerator, 2))
+	chart_snap = conductor.numerator * conductor.denominator
+	current_snap = SNAPS.bsearch(conductor.numerator * conductor.denominator)
 	
 	waveform_dirty = true
 	update_waveforms(song_position)
@@ -1754,11 +1754,11 @@ func flip():
 		%"Note Place".play()
 
 func increase_length():
-	var delta: float = (pow(conductor.numerator, 2) / chart_snap) * (1.0 / conductor.numerator)
+	var delta: float = (conductor.numerator * conductor.denominator / chart_snap) * (1.0 / conductor.numerator)
 	change_note_lengths(selected_notes,delta )
 
 func decrease_length():
-	var delta: float = (pow(conductor.numerator, 2) / chart_snap) * (1.0 / conductor.numerator)
+	var delta: float = (conductor.numerator * conductor.denominator / chart_snap) * (1.0 / conductor.numerator)
 	change_note_lengths(selected_notes, -delta)
 
 
