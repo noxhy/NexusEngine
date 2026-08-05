@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://crfoqsmbdm5bd"]
 
 [ext_resource type="Script" uid="uid://cmn3noo2keqes" path="res://noah/menus/start/start.gd" id="1_ha2j4"]
-[ext_resource type="Texture2D" uid="uid://dr2pbdp8x8xpb" path="res://icon.svg" id="2_4na06"]
 [ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="2_dub8w"]
 [ext_resource type="Material" uid="uid://b87ibevalpejo" path="res://noah/shaders/generic_big_mat.tres" id="3_2fx4s"]
 
@@ -76,7 +75,6 @@ size_flags_vertical = 0
 [node name="Icon" type="TextureRect" parent="CanvasLayer/Information Container/Panel/VBoxContainer/HBoxContainer" unique_id=1988825796]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_4na06")
 expand_mode = 3
 stretch_mode = 6
 
