@@ -13,11 +13,11 @@ func _ready() -> void:
 	
 	$Note.play_animation(animation)
 	
-	var tail_animation = $Note.get_real_animation(StringName(animation + " tail"))
+	var tail_animation = $Note.get_animation_name(StringName(animation + " tail"))
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = $Note.get_real_animation(StringName(animation + " end"))
+	var end_animation = $Note.get_animation_name(StringName(animation + " end"))
 	if end_animation:
 		tail.end_texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 	

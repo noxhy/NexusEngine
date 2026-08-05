@@ -5,7 +5,7 @@ class_name BasicNote
 
 const PIXELS_PER_SECOND = 450
 
-@onready var note = $Note
+@onready var note: OffsetSprite = $Note
 @onready var tail = $Tail
 @onready var end = null
 
@@ -34,11 +34,11 @@ func _ready() -> void:
 	
 	note.play_animation(animation)
 	
-	var tail_animation = note.get_real_animation(animation + " tail")
+	var tail_animation = note.get_animation_name(animation + " tail")
 	if tail_animation and tail:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = note.get_real_animation(animation + " end")
+	var end_animation = note.get_animation_name(animation + " end")
 	if end_animation and end:
 		end.texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 		end.size = end.texture.get_size()

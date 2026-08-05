@@ -18,14 +18,13 @@ func _ready() -> void:
 	
 	if not OS.is_debug_build():
 		RenderingServer.set_default_clear_color(Color.BLACK)
-		
 
 
 func changed_contoller(device: int, connected: bool):
-	if connected:
+	if connected or !Input.get_connected_joypads().front():
 		current_controller = device
 	else:
-		current_controller = -1 if !Input.get_connected_joypads().front() else Input.get_connected_joypads().front()
+		current_controller = Input.get_connected_joypads().front()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -150,10 +149,17 @@ func format_time(time: float) -> String:
 	
 	return "%02d:%02d.%02d" % [minutes, seconds, milliseconds]
 
-func get_bind_string(keycodes: Array):
+func get_bind_string(action: StringName):
 	var strings: PackedStringArray
-	for keycode in keycodes:
-		strings.append(OS.get_keycode_string(keycode))
+	
+	if current_controller == -1:
+		var keycodes: Array = SettingsManager.get_keybind(action)
+		for keycode in keycodes:
+			strings.append(OS.get_keycode_string(keycode))
+	else:
+		var actions: Array = SettingsManager.get_controller_bind(action)
+		for _action in actions:
+			strings.append(SettingsManager.translate_joy_bind(-1, _action))
 	
 	return "/".join(strings)
 

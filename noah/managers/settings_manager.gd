@@ -218,7 +218,7 @@ func load_keybinds():
 				new_key.button_index = bind
 			
 			InputMap.action_add_event(bind_id, new_key)
-	
+
 #region Joystick Controls
 	var event: InputEventJoypadMotion
 	for axis in [JOY_AXIS_LEFT_X, JOY_AXIS_RIGHT_X]:

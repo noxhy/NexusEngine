@@ -21,7 +21,7 @@ func _input(event):
 						checking = false
 						SettingsManager.set_keybind(setting_name, event.keycode, index)
 						SettingsManager.flush()
-						self.text = OS.get_bind_string(event.keycode)
+						self.text = OS.get_keycode_string(event.keycode)
 						self.button_pressed = false
 						SoundManager.accept.play()
 			
@@ -68,7 +68,7 @@ func normal():
 func update_text(device: int = -1, connected: bool = false):
 	match type:
 		0:
-			self.text = OS.get_bind_string(SettingsManager.get_keybind(setting_name)[index])
+			self.text = OS.get_keycode_string(SettingsManager.get_keybind(setting_name)[index])
 		
 		1: 
 			if device == -1:
