@@ -19,7 +19,7 @@ enum AnimContext {
 }
 
 ##The actual sprite node that will be used to play the anims. If not assigned, it will fallback to
-##[AnimatedSprite2D] or [AnimateSymbol]
+##[AnimatedSprite2D] or [AnimateSymbol2D]
 @export var animation_player: Node = null:
 	set(v):
 		animation_player = verify_animation_player(v)
@@ -100,7 +100,7 @@ func _ready() -> void:
 		printerr("Character animation player was not set and could not be found.")
 		return
 	
-	if animation_player is AnimateSymbol:
+	if animation_player is AnimateSymbol2D:
 		animation_player.connect(&"animation_finished", self._on_animation_finished)
 		if Engine.is_editor_hint():
 			animation_player.connect(&"animation_changed", self.update_ghost)
@@ -155,7 +155,7 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 	
 	# Will not run idle animation if you can not run
 #region Atlas Anim playback
-	if animation_player is AnimateSymbol:
+	if animation_player is AnimateSymbol2D:
 		if offsets.has(animation_name):
 			animation_player.position = offsets.get(animation_name, animation_player.offset)
 		
@@ -235,7 +235,7 @@ func hold_animation():
 	if animation_name.is_empty():
 		return
 	
-	if animation_player is AnimateSymbol:
+	if animation_player is AnimateSymbol2D:
 		if animation_player.loop:
 			return
 		
@@ -293,7 +293,7 @@ func on_beat_hit(current_beat: int, measure_relative: int):
 		if animation_player is AnimationPlayer:
 			if animation_player.has_animation(animation_player.current_animation):
 				restart = animation_player.get_animation(animation_player.current_animation).loop_mode != Animation.LOOP_LINEAR
-		elif animation_player is AnimateSymbol:
+		elif animation_player is AnimateSymbol2D:
 			restart = !animation_player.loop
 		else:
 			restart = !animation_player.sprite_frames.get_animation_loop(dance_to_play)
@@ -353,8 +353,8 @@ func update_ghost():
 			_ghost_sprite.z_index = animation_player.z_index
 			_ghost_sprite.texture_filter = animation_player.texture_filter
 			_ghost_sprite.scale = animation_player.scale
-		elif animation_player is AnimateSymbol:
-			_ghost_sprite = AnimateSymbol.new()
+		elif animation_player is AnimateSymbol2D:
+			_ghost_sprite = AnimateSymbol2D.new()
 			_ghost_sprite.atlases = animation_player.atlases
 			
 			if dance_animations.size() > 0:
@@ -391,7 +391,7 @@ func _reset_position():
 			undo_redo.add_do_property(animation_player, &"position", offsets.get(animation_player.animation, Vector2.ZERO))
 			undo_redo.add_undo_property(animation_player, &"position", animation_player.position)
 			undo_redo.commit_action()
-		elif animation_player is AnimateSymbol:
+		elif animation_player is AnimateSymbol2D:
 			var undo_redo = __get_editor_undo_redo()
 			undo_redo.create_action("Reset Position")
 			undo_redo.add_do_property(animation_player, &"position", offsets.get(animation_player.symbol, Vector2.ZERO))
@@ -414,7 +414,7 @@ func _save_offset():
 			undo_redo.add_do_property(self, &"offsets", temp)
 			undo_redo.add_undo_property(self, &"offsets", self.offsets)
 			undo_redo.commit_action()
-		elif animation_player is AnimateSymbol:
+		elif animation_player is AnimateSymbol2D:
 			var undo_redo = __get_editor_undo_redo()
 			undo_redo.create_action("Save Offset")
 			var temp: Dictionary[StringName, Vector2] = offsets.duplicate(true)
@@ -436,7 +436,7 @@ func verify_animation_player(node: Node):
 	if !node:
 		node = $AnimatedSprite2D
 		if !node:
-			node = $AnimateSymbol
+			node = $AnimateSymbol2D
 			if !node:
 				node = $AnimationPlayer
 	
