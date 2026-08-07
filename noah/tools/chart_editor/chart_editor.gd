@@ -1212,6 +1212,19 @@ func _on_conductor_new_tempo(_tempo: float) -> void:
 	lower_ui.get_node("%Tempo").text = str("Tempo: ", _tempo)
 	update_grid()
 	load_dividers()
+	
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventPanGesture:
+		var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
+		
+		if can_interact_with_chart and not Input.is_action_pressed("control"): #song scrubbing
+			if not instrumental.stream_paused:
+				toggle_audios(true)
+			song_position += conductor.seconds_per_beat * event.delta.y
+			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
+			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
+			song_slider.value = song_position
 
 ## Edit button item pressed
 func edit_button_item_pressed(id):

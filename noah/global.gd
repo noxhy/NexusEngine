@@ -338,16 +338,10 @@ func string_to_time(formatted_time: String) -> float:
 	return float(formatted_time)
 
 func _correct_window_size() -> void:
-	if not OS.get_name().to_lower().contains('windows'): 
-		return
-	
-	var dpi = DisplayServer.screen_get_dpi(DisplayServer.window_get_current_screen()) / 96.0
-	var new_size = get_window().size * dpi
-	
-	DisplayServer.window_set_size(new_size)
-	
-	var w_pos = DisplayServer.screen_get_position(DisplayServer.window_get_current_screen())
-	var w_size = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen())
-	
-	get_window().position.x = w_pos.x + (w_size.x - new_size.x) / 2
-	get_window().position.y = w_pos.y + (w_size.y - new_size.y) / 2
+	if OS.get_name().to_lower().contains('windows'): 
+		var dpi = DisplayServer.screen_get_dpi(DisplayServer.window_get_current_screen()) / 96.0
+		var new_size = get_window().size * dpi
+		DisplayServer.window_set_size(new_size)
+	elif DisplayServer.screen_get_scale() != 1.0:
+		get_window().size *= DisplayServer.screen_get_scale()
+	get_window().move_to_center()
