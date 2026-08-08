@@ -7,3 +7,4 @@ addons/ffmpeg/win64/~libgdffmpeg.windows.template_debug.x86_64.dll
 *.dll
 !addons/AudioVorbisExtender/AudioStreamEXT.dll
 /FunkinCrew-FnF
+.DS_Store
