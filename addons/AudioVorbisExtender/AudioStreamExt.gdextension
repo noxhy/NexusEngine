@@ -7,3 +7,5 @@ reloadable = true
 [libraries]
 windows.debug.x86_64 = "res://addons/AudioVorbisExtender/AudioStreamEXT.dll"
 windows.release.x86_64 = "res://addons/AudioVorbisExtender/AudioStreamEXT.dll"
+macos.release.arm64 = "res://addons/AudioVorbisExtender/AudioStreamEXT.dylib"
+macos.debug.arm64 = "res://addons/AudioVorbisExtender/AudioStreamEXT.dylib"
