@@ -277,3 +277,7 @@ pause={
 "deadzone": 0.2,
 "events": []
 }
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
