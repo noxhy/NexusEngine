@@ -17,14 +17,14 @@ func _ready() -> void:
 	
 	find_mods(debug_mode)
 	
-	if ModManager.mods.size() == 1:
+	if ModManager.mods.size() == 1 and debug_mode:
 		run_mod(mods[0], debug_mode)
 
 ## Locates the folders with a .zip and metadata.json and adds them to the cached mods list.
 func find_mods(debug: bool = false) -> void:
 	var mods_dir: String
 	
-	if OS.is_debug_build():
+	if debug:
 		mods_dir = "res://"
 		if !DirAccess.open(mods_dir):
 			push_error("(ModManager) No mods folder found at %s" % mods_dir)
@@ -64,7 +64,7 @@ func run_mod(mod_dir: String, debug: bool = false):
 	debug_mode = debug
 	var init_path: String = mod_dir
 	
-	if OS.is_debug_build():
+	if debug:
 		init_path = init_path.path_join("init.gd")
 	else:
 		var mod_path: String
@@ -72,8 +72,7 @@ func run_mod(mod_dir: String, debug: bool = false):
 			if ["zip", "pck"].has(file.get_extension()):
 				mod_path = mod_dir.path_join(file)
 				init_path = "res://".path_join(mod_path.get_file().get_basename())
-			
-			break
+				break
 		
 		var rsp = ProjectSettings.load_resource_pack(mod_path, true)
 		if rsp:
