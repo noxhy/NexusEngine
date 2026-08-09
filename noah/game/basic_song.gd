@@ -70,12 +70,8 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int):
 
 func _on_conductor_new_step(current_step: int, measure_relative: int):
 	if current_step % bop_rate == 0:
-		if playstate.camera.parent_3d:
-			var bump: float = playstate.camera_bop_strength.x * playstate.camera.zoom
-			playstate.camera.bump(bump)
-		else:
-			var bump: Vector2 = playstate.camera_bop_strength * playstate.camera.zoom
-			playstate.camera.bump(bump)
+		var bump: Vector2 = playstate.camera_bop_strength * playstate.camera.zoom
+		playstate.camera.bump(bump)
 		
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
 			playstate.ui.bump(playstate.ui_bop_strength)
