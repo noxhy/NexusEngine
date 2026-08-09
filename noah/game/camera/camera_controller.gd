@@ -112,19 +112,15 @@ func get_direct() -> Variant:
 
 #region setters/getters
 func set_zoom(value: Vector2) -> void:
-	if parent_2d:
-		parent_2d.zoom = value
-	elif parent_3d:
-		parent_3d.fov = value.x
+	zoom_value.current = value
 	
-	zoom = value
+	if parent_2d:
+		parent_2d.zoom = zoom_value.current
+	elif parent_3d:
+		parent_3d.fov = zoom_value.current.x
 
 func get_zoom() -> Vector2:
-	if parent_2d:
-		return parent_2d.zoom
-	elif parent_3d: 
-		return Vector2.ONE * parent_3d.fov
-	return Vector2.ZERO
+	return zoom_value.current + bump_zoom_value.current + zoom_add_value.current
 
 func set_position(value: Variant) -> void:
 	if value == null: return
@@ -185,10 +181,7 @@ func get_rotation() -> Variant:
 
 func _process(delta) -> void:
 	
-	if zoom_smoothing:
-		zoom_value.current = Global.frame_independent_lerp(zoom_value.current, zoom_value.target, zoom_smoothing_speed, delta)
-		bump_zoom_value.current = Global.frame_independent_lerp(bump_zoom_value.current, bump_zoom_value.target, zoom_smoothing_speed, delta)
-		zoom_add_value.current = Global.frame_independent_lerp(zoom_add_value.current, zoom_add_value.target, zoom_smoothing_speed, delta)
+	update_zoom_values(delta)
 	
 	if parent_2d:
 		update_2d(delta)
@@ -196,6 +189,16 @@ func _process(delta) -> void:
 		update_3d(delta)
 	if shaking:
 		update_shake(delta)
+
+func update_zoom_values(delta: float) -> void:
+	if zoom_smoothing:
+		zoom_value.current = Global.frame_independent_lerp(zoom_value.current, zoom_value.target, zoom_smoothing_speed, delta)
+		bump_zoom_value.current = Global.frame_independent_lerp(bump_zoom_value.current, bump_zoom_value.target, zoom_smoothing_speed, delta)
+		zoom_add_value.current = Global.frame_independent_lerp(zoom_add_value.current, zoom_add_value.target, zoom_smoothing_speed, delta)
+	else:
+		zoom_value.snap()
+		bump_zoom_value.snap()
+		zoom_add_value.snap()
 
 func update_2d(delta: float) -> void:
 	if zoom_smoothing:
