@@ -140,10 +140,14 @@ func _process(delta: float) -> void:
 				var note = notes_list[current_note]
 				if note[0] <= (song_position + start_offset):
 					var lane: float = note[1]
-					for id in ChartManager.strum_data.size():
-						if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
-							if ChartManager.strum_data[id].get('hit_sounds', true):
-								%"Hit Sound".play()
+					if vocal_tracks.size() == 1 and ChartManager.strum_data.size() > 0:
+						if ChartManager.strum_data[0].get('hit_sounds', true):
+							%"Hit Sound".play()
+					else:
+						for id in ChartManager.strum_data.size():
+							if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
+								if ChartManager.strum_data[id].get('hit_sounds', true):
+									%"Hit Sound".play()
 					
 					current_note += 1
 		
