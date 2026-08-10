@@ -212,7 +212,7 @@ func _process(delta) -> void:
 func set_skin(new_skin: NoteSkin):
 	note_skin = new_skin
 	
-	sprite.frames = note_skin.strums_texture
+	sprite.sprite_frames = note_skin.strums_texture
 	sprite.scale = Vector2(note_skin.notes_scale, note_skin.notes_scale)
 	
 	hold_cover_sprite.frames = note_skin.hold_covers_texture
