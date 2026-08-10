@@ -429,7 +429,6 @@ func file_button_item_pressed(id):
 			%"Open Window".play()
 			
 			var export_window = FileDialog.new()
-			export_window.root_subfolder = 'playable_songs'
 			export_window.current_file = 'events.tres'
 			export_window.filters = PackedStringArray(['*.res','*.tres'])
 			export_window.file_mode = FileDialog.FILE_MODE_SAVE_FILE
@@ -460,7 +459,6 @@ func file_button_item_pressed(id):
 			%"Open Window".play()
 			
 			var export_window = FileDialog.new()
-			export_window.root_subfolder = 'playable_songs'
 			export_window.filters = PackedStringArray(['*.res','*.tres'])
 			export_window.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 			export_window.display_mode = FileDialog.DISPLAY_LIST
