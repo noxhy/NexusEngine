@@ -617,6 +617,9 @@ func load_section(time: float):
 	if selected_notes.size() > 0:
 		L = min(selected_notes.front(), L)
 		R = max(R, selected_notes.back())
+	elif bounding_box:
+		L = min(current_visible_notes_L, L)
+		R = max(R, current_visible_notes_R)
 	
 #region Loading Notes
 	if L > -1 and R > -1:
@@ -1223,7 +1226,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventPanGesture:
 		var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
 		
-		if can_interact_with_chart and not Input.is_action_pressed("control"): #song scrubbing
+		if can_interact_with_chart: #song scrubbing
 			if not instrumental.stream_paused:
 				toggle_audios(true)
 			song_position += conductor.seconds_per_beat * event.delta.y
