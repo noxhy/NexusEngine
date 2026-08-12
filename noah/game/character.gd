@@ -353,9 +353,10 @@ func update_ghost():
 			_ghost_sprite.z_index = animation_player.z_index
 			_ghost_sprite.texture_filter = animation_player.texture_filter
 			_ghost_sprite.scale = animation_player.scale
+			_ghost_sprite.centered = animation_player.centered
 		elif animation_player is AnimateSymbol2D:
 			_ghost_sprite = AnimateSymbol2D.new()
-			_ghost_sprite.atlases = animation_player.atlases
+			_ghost_sprite.atlases = animation_player.atlasest
 			
 			if dance_animations.size() > 0:
 				var animation_name: StringName = get_animation_name(dance_animations[0])
@@ -368,6 +369,7 @@ func update_ghost():
 			_ghost_sprite.z_index = animation_player.z_index
 			_ghost_sprite.texture_filter = animation_player.texture_filter
 			_ghost_sprite.scale = animation_player.scale
+			_ghost_sprite.centered = animation_player.centered
 		
 		match _ghost_ordering:
 			0:
