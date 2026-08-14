@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 	
 	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_up")) - int(Input.is_action_just_pressed("mouse_scroll_down"))
 	if axis:
-		if can_interact_with_chart and not Input.is_action_pressed("control"): #song scrubbing
+		if can_interact_with_chart: #song scrubbing
 			if not instrumental.stream_paused:
 				toggle_audios(true)
 			song_position += conductor.seconds_per_beat * axis
