@@ -356,7 +356,7 @@ func update_ghost():
 			_ghost_sprite.centered = animation_player.centered
 		elif animation_player is AnimateSymbol2D:
 			_ghost_sprite = AnimateSymbol2D.new()
-			_ghost_sprite.atlases = animation_player.atlases
+			_ghost_sprite.symbol_libraries = animation_player.symbol_libraries
 			
 			if dance_animations.size() > 0:
 				var animation_name: StringName = get_animation_name(dance_animations[0])
