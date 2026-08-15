@@ -8,7 +8,7 @@ const GOOD_COMBO_FREQUENCY: int = 50
 const GREAT_COMBO_FREQUENCY: int = 200
 const HOLD_NOTE_LENIENCY: float = 1 / 3.0
 
-var song_scene = "res://test/test_scene.tscn"
+var song_scene = null
 
 var conductor:Conductor
 
@@ -45,7 +45,6 @@ var current_character: String = ""
 
 var week_score: int = 0
 var week_deaths: int = 0
-var total_accuracy: float = 0
 var songs_played: int = 0
 var week_tallies: Dictionary = DEFAULT_TALLIES.duplicate()
 var tallies: Dictionary = DEFAULT_TALLIES.duplicate()
@@ -55,7 +54,6 @@ var score: int = 0
 
 var health: float = 50
 
-var accuracy: float = 0.0
 var deaths: int = 0
 var song_position: float
 var seconds_per_beat: float :
@@ -96,7 +94,6 @@ func _ready() -> void:
 
 func started_song(song: Song):
 	tallies = DEFAULT_TALLIES.duplicate()
-	accuracy = 0.0
 	current_song = song
 	character = Preload.character_data[current_character]
 	score = 0
@@ -111,7 +108,6 @@ func start_week(week: Week):
 func finished_song(_score: int):
 	week_score += _score
 	week_deaths += deaths
-	total_accuracy += accuracy
 	songs_played += 1
 	deaths = 0
 	current_week_song += 1
@@ -144,7 +140,6 @@ func finished_song(_score: int):
 		highscore = false
 
 func reset_stats():
-	accuracy = 0.0
 	deaths = 0
 	week_score = 0
 	week_deaths = 0
@@ -154,10 +149,7 @@ func reset_stats():
 	tallies = DEFAULT_TALLIES.duplicate()
 	week_tallies = DEFAULT_TALLIES.duplicate()
 
-func get_week_accuracy() -> float:
-	return total_accuracy / songs_played
-
-func get_grade(_tallies: Dictionary) -> float:
+func get_grade(_tallies: Dictionary = tallies) -> float:
 	if _tallies.total_notes > 0:
 		if _tallies.sick == _tallies.total_notes:
 			return 2
