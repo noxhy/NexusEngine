@@ -67,7 +67,7 @@ enum AnimContext {
 @export_group("UI")
 ## Icons that are displayed in the ui. Can include [code]default[/code], [code]winning[/code] or [code]losing[/code].
 @export_file("*.tres", "*.res") var icons: String
-@export var color: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var color: Color = Color.WHITE
 
 @export_category("Tools")
 @warning_ignore("unused_private_class_variable")
