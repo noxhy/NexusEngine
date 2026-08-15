@@ -338,7 +338,7 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 			if not event_parameters[1].is_empty():
 				camera_bop = float(event_parameters[1])
 			
-			camera.bump(Vector2.ONE * camera_bop)
+			camera.bump(camera_bop)
 			ui.bump(Vector2.ONE * ui_bop)
 		
 		"psych_camera_zoom":

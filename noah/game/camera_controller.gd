@@ -75,12 +75,7 @@ var _rotation_3d: Vector3 = Vector3.ZERO # needed for parity with camera 2d
 
 var rotation: Variant : set = set_rotation, get = get_rotation
 var position: Variant : set = set_position, get = get_position
-var zoom: Vector2 : set = set_zoom, get = get_zoom
-
-
-var zoom_value: CameraValue = CameraValue.new()
-var bump_zoom_value: CameraValue = CameraValue.new()
-var zoom_add_value: CameraValue = CameraValue.new()
+var zoom: Variant : set = set_zoom, get = get_zoom
 
 func _ready() -> void:
 	if not parent_2d and not parent_3d:
@@ -93,14 +88,11 @@ func _ready() -> void:
 		parent_2d.rotation_smoothing_enabled = rotation_smoothing
 		parent_2d.rotation_smoothing_speed = rotation_smoothing_speed
 		
-		zoom_value.target = parent_2d.zoom
+		target_zoom = parent_2d.zoom
 	elif parent_3d:
 		default_offset = Vector2(parent_3d.h_offset, parent_3d.v_offset)
 		_position_3d = parent_3d.position
-		zoom_value.target = Vector2(parent_3d.fov, parent_3d.fov)
-	
-	zoom_value.snap()
-	
+		target_zoom = Vector2(parent_3d.fov, parent_3d.fov)
 
 ## returns the actual camera node ([code]Camera2D[/code], [code]Camera3D[/code]) used by [code]this[/code]
 func get_direct() -> Variant:
@@ -111,19 +103,23 @@ func get_direct() -> Variant:
 	return null
 
 #region setters/getters
-func set_zoom(value: Vector2) -> void:
-	if parent_2d:
-		parent_2d.zoom = value
-	elif parent_3d:
-		parent_3d.fov = value.x
+func set_zoom(value: Variant) -> void:
+	if value == null: return
 	
-	zoom = value
-
-func get_zoom() -> Vector2:
 	if parent_2d:
-		return parent_2d.zoom
-	elif parent_3d: 
-		return Vector2.ONE * parent_3d.fov
+		if value is Vector2:
+			parent_2d.zoom = value
+		elif value is float:
+			parent_2d.zoom = Vector2(value, value)
+	elif parent_3d:
+		if value is Vector2:
+			parent_3d.fov = value.x
+		if value is float:
+			parent_3d.fov = value
+
+func get_zoom() -> Variant:
+	if parent_2d: return parent_2d.zoom
+	elif parent_3d: return parent_3d.fov
 	return Vector2.ZERO
 
 func set_position(value: Variant) -> void:
@@ -184,13 +180,7 @@ func get_rotation() -> Variant:
 #endregion
 
 func _process(delta) -> void:
-	
-	if zoom_smoothing:
-		zoom_value.current = Global.frame_independent_lerp(zoom_value.current, zoom_value.target, zoom_smoothing_speed, delta)
-		bump_zoom_value.current = Global.frame_independent_lerp(bump_zoom_value.current, bump_zoom_value.target, zoom_smoothing_speed, delta)
-		zoom_add_value.current = Global.frame_independent_lerp(zoom_add_value.current, zoom_add_value.target, zoom_smoothing_speed, delta)
-	
-	if parent_2d:
+	if parent_2d: 
 		update_2d(delta)
 	if parent_3d: 
 		update_3d(delta)
@@ -199,11 +189,11 @@ func _process(delta) -> void:
 
 func update_2d(delta: float) -> void:
 	if zoom_smoothing:
-		parent_2d.zoom = zoom_value.current + bump_zoom_value.current + zoom_add_value.current
+		parent_2d.zoom = Global.frame_independent_lerp(parent_2d.zoom, target_zoom, zoom_smoothing_speed, delta)
 
 func update_3d(delta: float) -> void:
 	if zoom_smoothing:
-		parent_3d.fov = zoom_value.current.x + bump_zoom_value.current.x + zoom_add_value.current.x
+		parent_3d.fov = Global.frame_independent_lerp(parent_3d.fov, target_zoom.x, zoom_smoothing_speed, delta)
 	
 	if position_smoothing:
 		parent_3d.position = lerp_position(parent_3d.position, _position_3d, delta)
@@ -263,13 +253,15 @@ func get_noise_offset(delta: float, speed: float, strength: float) -> Vector2:
 		noise.get_noise_2d(100, noise_i)
 	) * strength
 
-func bump(strength: Vector2) -> void:
+func bump(strength: Variant) -> void:
 	if parent_3d:
 		strength *= -1
-	
-	print(strength)
-	
-	bump_zoom_value.current += strength
+		zoom += strength
+	if parent_2d:
+		if strength is float:
+			zoom += Vector2(strength, strength)
+		else:
+			zoom += strength
 
 ## Moves the camera's [member position] and [member rotation] to a [code]Marker2D[/code] or [code]Marker3D[/code]
 ## [br][br]This method abides by the [member position_smoothing] and [member rotation_smoothing] settings.
@@ -325,8 +317,8 @@ func tween_zoom(new_zoom: Vector2, duration: float, ease_type: String = ''):
 	
 	_zoom_tween = create_tween().set_parallel().set_trans(ease_info[0]).set_ease(ease_info[1])
 	
-	_zoom_tween.tween_property(zoom_value, 'target', new_zoom, duration)
-	_zoom_tween.tween_property(zoom_value, 'current', new_zoom, duration)
+	_zoom_tween.tween_property(self, 'target_zoom', new_zoom, duration)
+	_zoom_tween.tween_property(self, 'zoom', new_zoom, duration)
 
 ## Recreation of godot's internal method for [code]position_smoothing[/code].
 ## [br][br]Used to give [code]Camera3D[/code] [member position_smoothing]
