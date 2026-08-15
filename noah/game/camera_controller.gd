@@ -219,7 +219,7 @@ func update_shake(delta: float) -> void:
 		end_shake()
 
 
-func shake(amount: int, time: float) -> void:
+func shake(amount: float, time: float) -> void:
 	noise.seed = randi()
 	noise.frequency = 2
 	
