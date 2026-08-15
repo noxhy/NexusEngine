@@ -5,6 +5,8 @@ class_name OffsetSprite
 @export var animation_names: Dictionary[StringName, StringName] = {}
 ## Each key is the animation name in the [code]SpriteFrames[/code] and the value is the offset
 @export var offsets: Dictionary[StringName, Vector2] = {}
+## The current animation ID being played.
+var current_animation: StringName
 
 func play_animation(animation_id: StringName, forced: bool = true):
 	var animation_name = get_animation_name(animation_id)
@@ -14,6 +16,7 @@ func play_animation(animation_id: StringName, forced: bool = true):
 			return
 		
 		play(animation_name)
+		current_animation = animation_id
 		offset = offsets.get(animation_name, Vector2.ZERO)
 
 ## Returns the animation name of the given id in SpriteFrames.

@@ -12,7 +12,7 @@ var SPLASH_PRELOAD = preload("uid://c23s1pbajtga2")
 ## Name of the input in the [code]InputMap[/code]
 @export var input: String = ""
 ## Strum direction name
-@export var strum_name: String = ""
+@export var strum_name: StringName = ""
 
 @export var can_press: bool  = true
 @export var auto_play: bool  = false
@@ -45,7 +45,6 @@ var coyote_timer: float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	sprite.play_animation(strum_name)
 	hold_cover_sprite.visible = false
 	Signals.connect(&"play_unpaused", self.release_note)
 
@@ -82,7 +81,7 @@ func _process(delta) -> void:
 						note.length /= spb
 						
 						if note.note.visible:
-							hold_cover_sprite.play_animation("cover " + strum_name + " start")
+							hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
 							hold_cover_sprite.visible = true
 						
 						note.note.visible = false
@@ -94,7 +93,7 @@ func _process(delta) -> void:
 						state = STATE.GLOW
 						
 						if can_splash:
-								hold_cover_sprite.play_animation("cover " + strum_name + " end")
+								hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
 						else:
 								hold_cover_sprite.visible = false
 						
@@ -137,7 +136,7 @@ func _process(delta) -> void:
 						coyote_timer = 0
 						
 						if !pressing:
-							hold_cover_sprite.play_animation("cover " + strum_name + " start")
+							hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
 							hold_cover_sprite.visible = true
 						
 						pressing = true
@@ -167,7 +166,7 @@ func _process(delta) -> void:
 							Signals.play_note_holding.emit(note, lane, temp - max(0, note.length), get_parent())
 							
 							if !pressing:
-								hold_cover_sprite.play_animation("cover " + strum_name + " start")
+								hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
 								hold_cover_sprite.visible = true
 							
 							pressing = true
@@ -175,7 +174,7 @@ func _process(delta) -> void:
 							if note.length <= 0:
 								pressing = false
 								if can_splash:
-									hold_cover_sprite.play_animation("cover " + strum_name + " end")
+									hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
 								else:
 									hold_cover_sprite.visible = false
 								
@@ -202,11 +201,11 @@ func _process(delta) -> void:
 				note.time -= GameManager.BAD_RATING_WINDOW
 	
 	if state == STATE.IDLE:
-		sprite.play_animation(strum_name)
+		sprite.play_animation(strum_name + &"_strum")
 	elif state == STATE.PRESSED:
-		sprite.play_animation(strum_name + " press", false)
+		sprite.play_animation(&"press_" + strum_name + &"_strum", false)
 	elif state == STATE.GLOW:
-		sprite.play_animation(strum_name + " glow", false)
+		sprite.play_animation(&"glow_" + strum_name + &"_strum", false)
 
 # Util
 func set_skin(new_skin: NoteSkin):
@@ -265,14 +264,14 @@ func _on_offset_sprite_animation_finished():
 
 
 func _on_hold_cover_animation_finished():
-	if hold_cover_sprite.animation == hold_cover_sprite.animation_names.get("cover " + strum_name + " start"):
-		hold_cover_sprite.play_animation("cover " + strum_name)
+	if hold_cover_sprite.current_animation == &"start_" + strum_name + &"_cover":
+		hold_cover_sprite.play_animation(strum_name + &"_cover")
 	
-	if hold_cover_sprite.animation == hold_cover_sprite.animation_names.get("cover " + strum_name + " end"):
+	if hold_cover_sprite.current_animation == &"end_" + strum_name + &"_cover":
 		hold_cover_sprite.visible = false
 
 
-func create_splash(animation_name: String = strum_name + " splash"):
+func create_splash(animation_name: StringName = strum_name + &"_splash"):
 	if can_splash:
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "note_splashes"):
 			var splash_instance = SPLASH_PRELOAD.instantiate()

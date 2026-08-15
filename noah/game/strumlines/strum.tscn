@@ -11,23 +11,24 @@ note_skin = ExtResource("2_aqqtq")
 
 [node name="OffsetSprite" type="AnimatedSprite2D" parent="." unique_id=1929831036]
 use_parent_material = true
+scale = Vector2(0.2, 0.2)
 sprite_frames = ExtResource("3_cik2r")
 animation = &"left"
 offset = Vector2(1, 1)
 script = ExtResource("4_kjy2w")
 animation_names = Dictionary[StringName, StringName]({
-&"strum_down": &"strum_down",
-&"strum_down_glow": &"strum_down_glow",
-&"strum_down_press": &"strum_down_press",
-&"strum_left": &"strum_left",
-&"strum_left_glow": &"strum_left_glow",
-&"strum_left_press": &"strum_left_press",
-&"strum_right": &"strum_right",
-&"strum_right_glow": &"strum_right_glow",
-&"strum_right_press": &"strum_right_press",
-&"strum_up": &"strum_up",
-&"strum_up_glow": &"strum_up_glow",
-&"strum_up_press": &"strum_up_press"
+&"down_strum": &"down_strum",
+&"glow_down_strum": &"glow_down_strum",
+&"glow_left_strum": &"glow_left_strum",
+&"glow_right_strum": &"glow_right_strum",
+&"glow_up_strum": &"glow_up_strum",
+&"left_strum": &"left_strum",
+&"press_down_strum": &"press_down_strum",
+&"press_left_strum": &"press_left_strum",
+&"press_right_strum": &"press_right_strum",
+&"press_up_strum": &"press_up_strum",
+&"right_strum": &"right_strum",
+&"up_strum": &"up_strum"
 })
 
 [node name="Hold Cover" type="AnimatedSprite2D" parent="." unique_id=225515688]
@@ -37,18 +38,18 @@ position = Vector2(12, 21)
 animation = &""
 script = ExtResource("4_kjy2w")
 animation_names = Dictionary[StringName, StringName]({
-&"cover_down": &"cover_down",
-&"cover_down_end": &"cover_down_end",
-&"cover_down_start": &"cover_down_start",
-&"cover_left": &"cover_left",
-&"cover_left_end": &"cover_left_end",
-&"cover_left_start": &"cover_left_start",
-&"cover_right": &"cover_right",
-&"cover_right end": &"cover_right_end",
-&"cover_right start": &"cover right_start",
-&"cover_up": &"cover_up",
-&"cover_up_end": &"cover_up_end",
-&"cover_up_start": &"cover_up_start"
+&"down_cover": &"down_cover",
+&"end_down_cover": &"end_down_cover",
+&"end_left_cover": &"end_left_cover",
+&"end_right_cover": &"cover_right_end",
+&"end_up_cover": &"end_up_cover",
+&"left_cover": &"left_cover",
+&"right_cover": &"right_cover",
+&"start_down_cover": &"start_down_cover",
+&"start_left_cover": &"start_left_cover",
+&"start_right_cover": &"cover right_start",
+&"start_up_cover": &"start_up_cover",
+&"up_cover": &"up_cover"
 })
 
 [connection signal="animation_finished" from="OffsetSprite" to="." method="_on_offset_sprite_animation_finished"]

@@ -12,23 +12,23 @@ strums = [NodePath("Left"), NodePath("Down"), NodePath("Up"), NodePath("Right")]
 [node name="Left" parent="." unique_id=102609042 instance=ExtResource("3_aabop")]
 position = Vector2(-192, 0)
 input = "note_left"
-strum_name = "left"
+strum_name = &"left"
 can_splash = true
 
 [node name="Down" parent="." unique_id=900293091 instance=ExtResource("3_aabop")]
 position = Vector2(-64, 0)
 input = "note_down"
-strum_name = "down"
+strum_name = &"down"
 can_splash = true
 
 [node name="Up" parent="." unique_id=2131350656 instance=ExtResource("3_aabop")]
 position = Vector2(64, 0)
 input = "note_up"
-strum_name = "up"
+strum_name = &"up"
 can_splash = true
 
 [node name="Right" parent="." unique_id=675437901 instance=ExtResource("3_aabop")]
 position = Vector2(192, 0)
 input = "note_right"
-strum_name = "right"
+strum_name = &"right"
 can_splash = true

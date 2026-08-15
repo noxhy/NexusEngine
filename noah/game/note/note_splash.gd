@@ -8,7 +8,7 @@ extends Node2D
 func _ready() -> void:
 	sprite.sprite_frames = note_skin.splashes_texture
 	
-	if note_skin.animation_names != null:
+	if note_skin.animation_names:
 		sprite.animation_names.merge(note_skin.animation_names, true)
 	
 	sprite.offsets = note_skin.offsets
