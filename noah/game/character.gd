@@ -103,7 +103,7 @@ func _ready() -> void:
 	if animation_player is AnimateSymbol2D:
 		animation_player.connect(&"animation_finished", self._on_animation_finished)
 		if Engine.is_editor_hint():
-			animation_player.connect(&"animation_changed", self.update_ghost)
+			animation_player.connect(&"symbol_changed", self.update_ghost)
 	else:
 		animation_player.connect(&"animation_finished", self._on_animation_finished)
 		if Engine.is_editor_hint() and not animation_player is AnimationPlayer:
