@@ -166,11 +166,11 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 		animation_player.playing = true
 		holding = false
 		
-		var raw_atlas = animation_player.get_atlas()
+		var raw_atlas = animation_player._current_library
 		if not raw_atlas:
 			return
 		
-		set_sing_timer(animation_player.get_animation_length() / raw_atlas.get_framerate())
+		set_sing_timer(animation_player.get_symbol_length() / raw_atlas.get_framerate())
 		return
 #endregion
 	
@@ -239,7 +239,7 @@ func hold_animation():
 		if animation_player.loop:
 			return
 		
-		length = animation_player.get_animation_length()
+		length = animation_player.get_symbol_length()
 		hold_frame = hold_frames.get(animation_name, length - 1)
 		
 		if (animation_player.frame == length - 1 and animation_player.frame_progress >= 1):
@@ -361,7 +361,7 @@ func update_ghost():
 			if dance_animations.size() > 0:
 				var animation_name: StringName = get_animation_name(dance_animations[0])
 				_ghost_sprite.symbol = animation_name
-				_ghost_sprite.frame = _ghost_sprite.get_animation_length() - 1
+				_ghost_sprite.frame = _ghost_sprite.get_symbol_length() - 1
 				_ghost_sprite.position = offsets.get(animation_name, Vector2.ZERO)
 				_ghost_sprite.offset = animation_player.offset
 			
