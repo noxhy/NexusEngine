@@ -34,11 +34,11 @@ func _ready() -> void:
 	
 	note.play_animation(animation)
 	
-	var tail_animation = note.get_animation_name(animation + "_tail")
+	var tail_animation = note.get_animation_name(animation + &"_tail")
 	if tail_animation and tail:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = note.get_animation_name(animation + "_end")
+	var end_animation = note.get_animation_name(animation + &"_end")
 	if end_animation and end:
 		end.texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 		end.size = end.texture.get_size()
