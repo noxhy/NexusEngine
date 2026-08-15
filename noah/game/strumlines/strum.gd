@@ -213,10 +213,10 @@ func set_skin(new_skin: NoteSkin):
 	note_skin = new_skin
 	
 	sprite.sprite_frames = note_skin.strums_texture
-	sprite.scale = Vector2(note_skin.notes_scale, note_skin.notes_scale)
+	sprite.scale = Vector2.ONE * note_skin.notes_scale
 	
 	hold_cover_sprite.sprite_frames = note_skin.hold_covers_texture
-	hold_cover_sprite.scale = Vector2(note_skin.hold_covers_scale, note_skin.hold_covers_scale)
+	hold_cover_sprite.scale = Vector2.ONE * note_skin.hold_covers_scale
 	
 	if note_skin.animation_names != null:
 		sprite.animation_names.merge(note_skin.animation_names, true)

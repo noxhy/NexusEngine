@@ -116,6 +116,7 @@ func mod_input(event: InputEvent, node: Variant):
 
 
 func _on_run_mod_pressed() -> void:
+	ModManager.start_scene = true
 	await get_tree().process_frame
 	ModManager.run_mod(ModManager.mods[selected])
 

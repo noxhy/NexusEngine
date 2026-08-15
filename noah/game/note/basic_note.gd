@@ -49,7 +49,6 @@ func _ready() -> void:
 		note.texture_filter = TEXTURE_FILTER_NEAREST
 		tail.texture_filter = TEXTURE_FILTER_NEAREST
 	
-	scale = Vector2(1, 1)
 	note.scale = Vector2.ONE * note_skin.notes_scale
 	
 	if tail:

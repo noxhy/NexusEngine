@@ -6,7 +6,6 @@
 
 [node name="Note" type="Node2D" unique_id=1794701138 groups=["note"]]
 use_parent_material = true
-scale = Vector2(0.2, 0.2)
 script = ExtResource("1_2my17")
 
 [node name="Note" type="AnimatedSprite2D" parent="." unique_id=1237220574]
@@ -18,17 +17,17 @@ animation = &"left"
 script = ExtResource("4_kfabs")
 animation_names = Dictionary[StringName, StringName]({
 &"down": &"down",
-&"down end": &"down end",
-&"down tail": &"down tail",
+&"down_end": &"down end",
+&"down_tail": &"down tail",
 &"left": &"left",
-&"left end": &"left end",
-&"left tail": &"left tail",
+&"left_end": &"left end",
+&"left_tail": &"left tail",
 &"right": &"right",
-&"right end": &"right end",
-&"right tail": &"right tail",
+&"right_end": &"right end",
+&"right_tail": &"right tail",
 &"up": &"up",
-&"up end": &"up end",
-&"up tail": &"up tail"
+&"up_end": &"up end",
+&"up_tail": &"up tail"
 })
 
 [node name="Tail" type="TextureRect" parent="." unique_id=1151387659]

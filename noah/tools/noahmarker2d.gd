@@ -50,7 +50,7 @@ func _find_camera_2d(parent: Node):
 		_find_camera_2d(child)
 
 func _draw_camera_view() -> void:
-	if Engine.is_editor_hint() and _bounds_visible:
+	if Engine.is_editor_hint() and _bounds_visible and visible:
 		
 		_find_camera_2d(get_tree().edited_scene_root)
 		if not _camera2d_ref:
@@ -62,4 +62,4 @@ func _draw_camera_view() -> void:
 			window_size.y / _camera2d_ref.zoom.y)
 		
 		_draw_helper.draw_set_transform(global_position, global_rotation)
-		_draw_helper.draw_rect(Rect2(-rect.size / 2, rect.size), _bounds_colour, false, 1)
+		_draw_helper.draw_rect(Rect2(-rect.size / 2, rect.size), _bounds_colour, false, 3)

@@ -70,7 +70,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_7qhrp")
 }],
 "loop": 0,
-"name": &"down glow",
+"name": &"down_glow",
 "speed": 24.0
 }, {
 "frames": [{
@@ -78,7 +78,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_rvglm")
 }],
 "loop": 0,
-"name": &"down press",
+"name": &"down_press",
 "speed": 24.0
 }, {
 "frames": [{
@@ -97,7 +97,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_s3nnw")
 }],
 "loop": 0,
-"name": &"left glow",
+"name": &"left_glow",
 "speed": 24.0
 }, {
 "frames": [{
@@ -105,7 +105,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_knpmu")
 }],
 "loop": 0,
-"name": &"left press",
+"name": &"left_press",
 "speed": 24.0
 }, {
 "frames": [{
@@ -124,7 +124,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_8os3u")
 }],
 "loop": 0,
-"name": &"right glow",
+"name": &"right_glow",
 "speed": 24.0
 }, {
 "frames": [{
@@ -132,7 +132,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_3wbwh")
 }],
 "loop": 0,
-"name": &"right press",
+"name": &"right_press",
 "speed": 24.0
 }, {
 "frames": [{
@@ -151,7 +151,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_vki4r")
 }],
 "loop": 0,
-"name": &"up glow",
+"name": &"up_glow",
 "speed": 24.0
 }, {
 "frames": [{
@@ -159,6 +159,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_bo5xe")
 }],
 "loop": 0,
-"name": &"up press",
+"name": &"up_press",
 "speed": 24.0
 }]

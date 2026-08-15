@@ -12,20 +12,20 @@ notes_texture = ExtResource("1_ovb1l")
 notes_scale = 0.2
 animation_names = Dictionary[StringName, StringName]({
 &"down": &"down",
-&"down end": &"end",
-&"down press": &"down press",
-&"down tail": &"tail",
+&"down_end": &"end",
+&"down_press": &"down_press",
+&"down_tail": &"tail",
 &"left": &"left",
-&"left end": &"end",
-&"left press": &"left press",
-&"left tail": &"tail",
+&"left_end": &"end",
+&"left_press": &"left_press",
+&"left_tail": &"tail",
 &"right": &"right",
-&"right end": &"end",
-&"right press": &"right press",
-&"right tail": &"tail",
+&"right_end": &"end",
+&"right_press": &"right_press",
+&"right_tail": &"tail",
 &"up": &"up",
-&"up end": &"end",
-&"up press": &"up press",
-&"up tail": &"tail"
+&"up_end": &"end",
+&"up_press": &"up_press",
+&"up_tail": &"tail"
 })
 hit_sound = ExtResource("1_w8cuf")
