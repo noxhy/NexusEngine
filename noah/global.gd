@@ -69,7 +69,7 @@ func _notification(what: int) -> void:
 #endregion
 
 #region Scene Changing
-func change_scene_to(path: String, transition: Variant = Constants.DEFAULT_TRANSITION, show_loading_screen: bool = true) -> void:
+func change_scene_to(path: String, transition: Variant = Constants.DEFAULT_TRANSITION, show_loading_screen: bool = false) -> void:
 	
 	if not ResourceLoader.exists(path):
 		printerr("Cannot switch to '%s' as it does not exist" % path)
