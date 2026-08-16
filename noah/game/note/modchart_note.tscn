@@ -21,17 +21,17 @@ animation = &"left"
 script = ExtResource("3_3ud5f")
 animation_names = Dictionary[StringName, StringName]({
 &"down": &"down",
-&"down_end": &"down end",
-&"down_tail": &"down tail",
+&"down_end": &"down_end",
+&"down_tail": &"down_tail",
 &"left": &"left",
-&"left_end": &"left end",
-&"left_tail": &"left tail",
+&"left_end": &"left_end",
+&"left_tail": &"left_tail",
 &"right": &"right",
-&"right_end": &"right end",
-&"right_tail": &"right tail",
+&"right_end": &"right_end",
+&"right_tail": &"right_tail",
 &"up": &"up",
-&"up_end": &"up end",
-&"up_tail": &"up tail"
+&"up_end": &"up_end",
+&"up_tail": &"up_tail"
 })
 
 [node name="Tail" type="Line2D" parent="." unique_id=2024668033]

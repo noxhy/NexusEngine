@@ -1,12 +1,12 @@
 extends Node2D
 class_name ChartEditor
 
-static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN) : 
+static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN): 
 	get():
-		if note_skin == null:
+		if !note_skin:
 			note_skin = load(Constants.DEFAULT_NOTE_SKIN)
-		return note_skin
 		
+		return note_skin
 
 static var song_position: float = 0.0
 static var start_offset: float = 0.0
@@ -39,6 +39,7 @@ var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 @onready var conductor: Conductor = $Conductor
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var song_slider: HSlider = %"Song Slider"
+@onready var notes_layer: CanvasLayer = $"Notes Layer"
 
 ## Chart Variables
 var backup_chart: Chart = null
@@ -572,12 +573,14 @@ func load_song_path(path: String, difficulty: Variant = null):
 	if song is not Song:
 		printerr("File: ", path, " is not a song file.")
 		return
+	
 	load_song(song, difficulty)
 
 
 func load_chart(file: Chart, ghost: bool = false):
 	if file:
 		backup_chart = file.duplicate(true)
+	
 	selected_notes = []
 	selected_note_nodes = []
 	current_visible_notes_L = -1
@@ -773,6 +776,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	note_instance.scroll_speed = meter[0]
 	note_instance.direction = directions[lane % 4]
 	note_instance.animation = str(Constants.NOTE_TYPES.get(type, ""), directions[lane % 4])
+	
 	update_note_position(note_instance)
 	
 	note_instance.note_skin = note_skin
@@ -826,7 +830,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 		else:
 			note_nodes.append(note_instance)
 	
-	$"Notes Layer".add_child(note_instance)
+	notes_layer.add_child(note_instance)
 	note_instance.add_to_group(&"notes")
 	note_instance.area.connect(&"mouse_entered", self.update_note.bind(note_instance))
 	note_instance.area.connect(&"mouse_exited", self.update_note.bind(null))
@@ -893,7 +897,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 		else:
 			event_nodes.append(event_instance)
 	
-	$"Notes Layer".add_child(event_instance)
+	notes_layer.add_child(event_instance)
 	event_instance.add_to_group(&"events")
 	event_instance.area.connect(&"mouse_entered", self.update_event.bind(event_instance))
 	event_instance.area.connect(&"mouse_exited", self.update_event.bind(null))
@@ -1201,9 +1205,9 @@ func _on_instrumental_finished() -> void:
 func _on_conductor_new_beat(current_beat: int, measure_relative: int) -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"):
 		if measure_relative == 0:
-			%"Conductor Beat".play(0.55)
+			SoundManager.conductor_beat.play()
 		else:
-			%"Conductor Off Beat".play(0.55)
+			SoundManager.conductor_off_beat.play()
 	
 	if ChartManager.chart:
 		load_section(song_position)
@@ -1213,7 +1217,8 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int) -> void:
 
 func _on_conductor_new_step(current_step: int, measure_relative: int) -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"):
-		%"Conductor Step".play(0.55)
+		SoundManager.conductor_step.play()
+	
 	lower_ui.get_node("%Step").text = str("Step: ", current_step + 1)
 
 func _on_conductor_new_tempo(_tempo: float) -> void:

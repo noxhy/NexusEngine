@@ -5,15 +5,14 @@ class_name ChartNote
 @onready var collision_shape = $Area2D/CollisionShape2D
 
 # Applying Note Skin
-func _ready() -> void: 
+func _ready() -> void:
 	note.sprite_frames = note_skin.notes_texture
-	if note_skin.animation_names != null: 
-		if note_skin.animation_names.keys().size() > 0: 
-			note.animation_names.merge(note_skin.animation_names, true)
+	if !note_skin.animation_names.is_empty(): 
+		note.animation_names.merge(note_skin.animation_names, true)
 	
 	note.play_animation(animation)
 	
-	var tail_animation = note.get_animation_name(StringName(animation + "_tail"))
+	var tail_animation = note.get_animation_name(animation + &"_tail")
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
@@ -26,22 +25,24 @@ func _ready() -> void:
 	update()
 
 func update():
-	scale = Vector2(1, 1)
-	note.scale = grid_size / note.sprite_frames.get_frame_texture(note.animation, 0).get_size()
-	#note.scale *= 0.9
-	%"Special Note Label".scale = grid_size / %"Special Note Label".size
-	if tail:
-		tail.scale = note.scale
-		if tail.texture:
-			tail.position.x = tail.texture.get_height() / 2.0 * tail.scale.x
-	
-	$VisibleOnScreenEnabler2D.scale = grid_size / Vector2(640, 640)
-	
-	if collision_shape:
-		collision_shape.shape = RectangleShape2D.new()
-		collision_shape.scale = $VisibleOnScreenEnabler2D.scale * 0.9
-		collision_shape.shape.set_size(Vector2($VisibleOnScreenEnabler2D.rect.size.x, $VisibleOnScreenEnabler2D.rect.size.x))
-		%"Special Note Label".visible = note_type != ""
+	if note:
+		scale = Vector2(1, 1)
+		note.scale = grid_size / note.sprite_frames.get_frame_texture(note.animation, 0).get_size()
+		
+		#note.scale *= 0.9
+		%"Special Note Label".scale = grid_size / %"Special Note Label".size
+		if tail:
+			tail.scale = note.scale
+			if tail.texture:
+				tail.position.x = tail.texture.get_height() / 2.0 * tail.scale.x
+		
+		$VisibleOnScreenEnabler2D.scale = grid_size / Vector2(640, 640)
+		
+		if collision_shape:
+			collision_shape.shape = RectangleShape2D.new()
+			collision_shape.scale = $VisibleOnScreenEnabler2D.scale * 0.9
+			collision_shape.shape.set_size(Vector2($VisibleOnScreenEnabler2D.rect.size.x, $VisibleOnScreenEnabler2D.rect.size.x))
+			%"Special Note Label".visible = note_type != ""
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:

@@ -77,7 +77,7 @@ func _ready() -> void:
 	
 	audios_window.close_requested.connect(func():
 		window_button.get_popup().set_item_checked(3, false)
-		%"Close Window".play()
+		SoundManager.tool_close_window.play()
 		)
 	audios_window.updated_current_song.connect(func():
 		if not chart_editor.instrumental.stream_paused:

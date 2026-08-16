@@ -11,19 +11,15 @@ strums_texture = ExtResource("3_7te8r")
 notes_texture = ExtResource("1_ovb1l")
 notes_scale = 0.2
 animation_names = Dictionary[StringName, StringName]({
-&"down": &"down",
 &"down_end": &"end",
 &"down_press": &"down_press",
 &"down_tail": &"tail",
-&"left": &"left",
 &"left_end": &"end",
 &"left_press": &"left_press",
 &"left_tail": &"tail",
-&"right": &"right",
 &"right_end": &"end",
 &"right_press": &"right_press",
 &"right_tail": &"tail",
-&"up": &"up",
 &"up_end": &"end",
 &"up_press": &"up_press",
 &"up_tail": &"tail"
