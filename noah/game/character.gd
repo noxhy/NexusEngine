@@ -242,7 +242,7 @@ func hold_animation():
 		length = animation_player.get_symbol_length()
 		hold_frame = hold_frames.get(animation_name, length - 1)
 		
-		if (animation_player.frame == length - 1 and animation_player.frame_progress >= 1):
+		if animation_player.frame == length - 1 and animation_player.frame_progress == 1:
 			animation_player.frame = hold_frame
 		
 		animation_player.playing = true
