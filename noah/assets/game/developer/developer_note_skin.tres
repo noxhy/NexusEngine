@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="NoteSkin" format=3 uid="uid://buly8rgmgrrnm"]
 
 [ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://noah/assets/game/developer/arrow/notes.tres" id="1_ovb1l"]
-[ext_resource type="AudioStream" uid="uid://bodc4sfit172e" path="res://noah/assets/sounds/chart_editor/sound-hit.wav" id="1_w8cuf"]
+[ext_resource type="AudioStream" uid="uid://yt7ay5ef2eiv" path="res://noah/tools/sounds/hit.ogg" id="1_w8cuf"]
 [ext_resource type="Script" uid="uid://rwa2lqwuhfdc" path="res://noah/resources/note_skin.gd" id="2_g6s64"]
 [ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://noah/assets/game/developer/arrow/strums.tres" id="3_7te8r"]
 

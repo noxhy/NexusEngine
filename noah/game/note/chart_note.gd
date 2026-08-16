@@ -6,32 +6,32 @@ class_name ChartNote
 
 # Applying Note Skin
 func _ready() -> void: 
-	$Note.sprite_frames = note_skin.notes_texture
+	note.sprite_frames = note_skin.notes_texture
 	if note_skin.animation_names != null: 
 		if note_skin.animation_names.keys().size() > 0: 
-			$Note.animation_names.merge(note_skin.animation_names, true)
+			note.animation_names.merge(note_skin.animation_names, true)
 	
-	$Note.play_animation(animation)
+	note.play_animation(animation)
 	
-	var tail_animation = $Note.get_animation_name(StringName(animation + "_tail"))
+	var tail_animation = note.get_animation_name(StringName(animation + "_tail"))
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	$Note.offsets = note_skin.offsets
+	note.offsets = note_skin.offsets
 	
 	if note_skin.pixel_texture: 
-		$Note.texture_filter = TEXTURE_FILTER_NEAREST
+		note.texture_filter = TEXTURE_FILTER_NEAREST
 		tail.texture_filter = TEXTURE_FILTER_NEAREST
 	
 	update()
 
 func update():
 	scale = Vector2(1, 1)
-	$Note.scale = grid_size / $Note.sprite_frames.get_frame_texture($Note.animation, 0).get_size()
-	#$Note.scale *= 0.9
+	note.scale = grid_size / note.sprite_frames.get_frame_texture(note.animation, 0).get_size()
+	#note.scale *= 0.9
 	%"Special Note Label".scale = grid_size / %"Special Note Label".size
 	if tail:
-		tail.scale = $Note.scale
+		tail.scale = note.scale
 		if tail.texture:
 			tail.position.x = tail.texture.get_height() / 2.0 * tail.scale.x
 	
@@ -59,11 +59,11 @@ func _process(delta) -> void:
 
 func _on_visible_on_screen_enabler_2d_screen_entered() -> void:
 	on_screen = true
-	$Note.visible = on_screen
+	note.visible = on_screen
 	tail.visible = on_screen
 
 
 func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
 	on_screen = false
-	$Note.visible = on_screen
+	note.visible = on_screen
 	tail.visible = on_screen

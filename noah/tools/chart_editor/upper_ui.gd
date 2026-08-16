@@ -374,7 +374,6 @@ func file_button_item_pressed(id):
 				misc_data.set('chart_keys', chart_keys)
 				misc_data.set('inst_key', inst_path.get_extension())
 				
-				
 				ZipTools.write_dict_to_zip(zip, 'misc_data.json', misc_data)
 				
 				zip.close()
@@ -388,9 +387,10 @@ func file_button_item_pressed(id):
 			new_file_popup_instance.popup()
 			new_file_popup_instance.connect("file_created", chart_editor.new_file)
 			new_file_popup_instance.connect("close_requested", chart_editor.close_popup)
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
 		
 		1: open_open_file_window()
+		
 		2:
 			if ChartManager.song and ChartManager.chart:
 				chart_editor.save()
@@ -405,7 +405,7 @@ func file_button_item_pressed(id):
 			# convert_chart_popup_instance.connect("file_created", chart_editor._on_save_folder_dialog_dir_selected)
 			convert_chart_popup_instance.connect("file_created", chart_editor.new_file)
 			convert_chart_popup_instance.connect("close_requested", chart_editor.close_popup)
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
 		
 		3: #Autosave
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "auto_save",
@@ -413,20 +413,21 @@ func file_button_item_pressed(id):
 			SettingsManager.flush()
 			file_button.get_popup().set_item_checked(
 				file_button.get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"))
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 		
 		6: #Exit
 			chart_editor.set_chart_from_chart(chart_editor.backup_chart)
 			Global.change_scene_to(Constants.START_MENU_SCENE)
 			chart_editor.can_chart = false
 		
-		8:
+		8: #Export External
 			chart_editor.can_chart = false
 			export_external_popup.popup()
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
+		
 		9: #Save events
 			chart_editor.can_chart = false
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
 			
 			var export_window = FileDialog.new()
 			export_window.current_file = 'events.tres'
@@ -456,7 +457,7 @@ func file_button_item_pressed(id):
 			export_window.connect(&"close_requested", on_close)
 		10: #Load events
 			chart_editor.can_chart = false
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
 			
 			var export_window = FileDialog.new()
 			export_window.filters = PackedStringArray(['*.res','*.tres'])
@@ -505,4 +506,4 @@ func open_open_file_window():
 	open_file_popup_instance.connect("file_selected", chart_editor.load_song_path)
 	open_file_popup_instance.connect("close_requested", chart_editor.close_popup)
 	open_file_popup_instance.connect("canceled", chart_editor.close_popup)
-	%"Open Window".play()
+	SoundManager.tool_open_window.play()

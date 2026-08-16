@@ -142,12 +142,12 @@ func _process(delta: float) -> void:
 					var lane: float = note[1]
 					if vocal_tracks.size() == 1 and ChartManager.strum_data.size() > 0:
 						if ChartManager.strum_data[0].get('hit_sounds', true):
-							%"Hit Sound".play()
+							SoundManager.tool_hit.play()
 					else:
 						for id in ChartManager.strum_data.size():
 							if ((lane >= ChartManager.strum_data[id]["strums"][0]) and (lane <= ChartManager.strum_data[id]["strums"][1])):
 								if ChartManager.strum_data[id].get('hit_sounds', true):
-									%"Hit Sound".play()
+									SoundManager.tool_hit.play()
 					
 					current_note += 1
 		
@@ -200,8 +200,7 @@ func _process(delta: float) -> void:
 						add_action("Placed Note", self.place_note.bind(time, lane, 0, current_note_type, true),
 						self.remove_note.bind(lane, time))
 						
-						
-						%"Note Place".play()
+						SoundManager.tool_note_place.play()
 						placing_note = true
 					else:
 						var i: int = find_note(lane, time)
@@ -225,7 +224,7 @@ func _process(delta: float) -> void:
 							min_lane = 0
 							max_lane = ChartManager.strum_count - 1
 						
-						%"Mouse Click".play()
+						SoundManager.tool_mouse_click.play()
 	
 	if can_interact_with_chart and Input.is_action_pressed(&"mouse_right") and not Input.is_action_pressed(&"control") and is_mouse_over_grid():
 		var lane: int = snapped_position.x - 1
@@ -237,7 +236,7 @@ func _process(delta: float) -> void:
 			
 			add_action("Removed Note", self.remove_note.bind(i),
 			self.place_note.bind(note[0], lane, length, note_type, true))
-			%"Note Remove".play()
+			SoundManager.tool_note_remove.play()
 			
 			if selected_notes.has(i):
 				var j: int = selected_notes.find(i)
@@ -288,7 +287,8 @@ func _process(delta: float) -> void:
 					
 					changed_length = (distance > 0)
 					if changed_length:
-						if (note_nodes[i - current_visible_notes_L].length != distance): %"Note Stretch".play()
+						if (note_nodes[i - current_visible_notes_L].length != distance):
+							SoundManager.tool_note_stretch.play()
 						note_nodes[i - current_visible_notes_L].length = distance
 					
 					auto_save()
@@ -1270,7 +1270,7 @@ func audio_button_item_pressed(id):
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "conductor_beat",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
 			SettingsManager.flush()
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
 				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
@@ -1279,20 +1279,20 @@ func audio_button_item_pressed(id):
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "conductor_step",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
 			SettingsManager.flush()
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
 				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
 		11: #Toggle Vocal Waveforms
 			vocal_waveforms = !vocal_waveforms
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 			upper_ui.audio_button.get_popup().set_item_checked(
 				upper_ui.audio_button.get_popup().get_item_index(id), vocal_waveforms)
 			update_waveforms(song_position)
 		
 		12: #Toggle Inst Waveforms
 			instrumental_waveforms = !instrumental_waveforms
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 			upper_ui.audio_button.get_popup().set_item_checked(
 				upper_ui.audio_button.get_popup().get_item_index(id), instrumental_waveforms)
 			update_waveforms(song_position)
@@ -1301,7 +1301,7 @@ func audio_button_item_pressed(id):
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "hit_sounds",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
 			SettingsManager.flush()
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
 				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
@@ -1334,7 +1334,7 @@ func view_button_item_pressed(id):
 		1:
 			can_chart = false
 			%"Upper UI".get_node("%Note Skin Window").popup()
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
 		
 		3:
 			%Grid.zoom = clamp(%Grid.zoom + Vector2.ONE * 0.1, Vector2.ONE * 0.5, Vector2.ONE * 1.5)
@@ -1363,10 +1363,10 @@ func toggle_window_visibility(window: Window) -> bool:
 	var ret = not window.visible
 	if window.visible:
 		window.hide()
-		%"Close Window".play()
+		SoundManager.tool_close_window.play()
 	else:
 		window.popup()
-		%"Open Window".play()
+		SoundManager.tool_open_window.play()
 	return ret
 
 ## Edit button item pressed
@@ -1381,7 +1381,7 @@ func test_button_item_pressed(id):
 			%"Upper UI".get_node("%Test Button").get_popup().set_item_checked(
 			%"Upper UI".get_node("%Test Button").get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART,
 			"start_at_current_position"))
-			%"Mouse Click".play()
+			SoundManager.tool_mouse_click.play()
 		
 		_: print("id: ", id)
 
@@ -1414,17 +1414,17 @@ func disable_charting():
 
 func open_popup():
 	can_chart = false
-	%"Open Window".play()
+	SoundManager.tool_open_window.play()
 
 
 func close_popup():
 	enable_can_chart_on_next_frame()
-	%"Close Window".play()
+	SoundManager.tool_close_window.play()
 
 
 func undo():
 	if undo_redo.has_undo():
-		%Undo.play()
+		SoundManager.tool_undo.play()
 		undo_redo.undo()
 		auto_save()
 	
@@ -1434,7 +1434,7 @@ func undo():
 
 func redo():
 	if undo_redo.has_redo():
-		%Redo.play()
+		SoundManager.tool_redo.play()
 		undo_redo.redo()
 		auto_save()
 	
@@ -1479,7 +1479,7 @@ func move_selection(time_distance: float, lane_distance: float):
 		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
 	
 	moving_notes = false
-	%"Note Place".play()
+	SoundManager.tool_note_place.play()
 
 
 func updated_strums():
@@ -1584,11 +1584,11 @@ func _on_difficulty_button_item_selected(index: int) -> void:
 
 func _on_history_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(0, false)
-	%"Close Window".play()
+	SoundManager.tool_close_window.play()
 
 func _on_metadata_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(1, false)
-	%"Close Window".play()
+	SoundManager.tool_close_window.play()
 
 func _on_metadata_window_updated_icon_texture(path: String) -> void:
 	ChartManager.song.icons = load(path)
@@ -1675,7 +1675,7 @@ func _on_note_skin_window_file_selected(path: String) -> void:
 		return
 	
 	note_skin = skin
-	%"Open Window".play()
+	SoundManager.tool_open_window.play()
 
 func cut() -> void:
 	if selected_notes.size() > 0:
@@ -1688,14 +1688,15 @@ func cut() -> void:
 		
 		add_action("Cut Note(s)", self.remove_notes.bind(selected_notes), self.place_notes.bind(temp))
 		selected_notes = []
-		%"Note Remove".play()
+		SoundManager.tool_note_remove.play()
 
 
 func copy() -> void:
 	clipboard = []
 	for note in selected_notes:
 		clipboard.append(ChartManager.chart.get_notes_data()[note])
-	%"Note Place".play()
+	
+	SoundManager.tool_note_place.play()
 
 
 func paste() -> void:
@@ -1708,7 +1709,7 @@ func paste() -> void:
 	for i in selected_notes:
 		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
 	
-	%"Note Place".play()
+	SoundManager.tool_note_place.play()
 
 
 func delete_stacked_notes() -> void:
@@ -1727,7 +1728,7 @@ func delete_stacked_notes() -> void:
 				i += 1
 			
 			if deleted:
-				%"Note Remove".play()
+				SoundManager.tool_note_remove.play()
 
 
 func do_flip():
@@ -1770,7 +1771,7 @@ func flip():
 		
 		selected_notes.sort()
 		
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 
 func increase_length():
 	var delta: float = (conductor.numerator * conductor.denominator / chart_snap) * (1.0 / conductor.numerator)
@@ -1812,7 +1813,7 @@ func select_area(L: int, R: int, lane_a, lane_b = null):
 		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
 	
 	if selected_notes.size() > 0:
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 
 
 func add_action(action: String, do_method: Callable, undo_method: Callable):
@@ -1830,7 +1831,7 @@ func select_all():
 	selected_notes = range(current_visible_notes_L, current_visible_notes_R + 1)
 	selected_note_nodes = get_tree().get_nodes_in_group(&"notes")
 	if selected_notes.size() > 0:
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 
 
 func deselect_all():
@@ -1839,7 +1840,7 @@ func deselect_all():
 	
 	selected_notes = []
 	selected_note_nodes = []
-	%"Note Place".play()
+	SoundManager.tool_note_place.play()
 
 
 func _on_conductor_new_numerator(_numerator: int) -> void:
@@ -1856,4 +1857,4 @@ func set_note_type(note_type):
 
 func _on_note_type_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(2, false)
-	%"Close Window".play()
+	SoundManager.tool_close_window.play()
