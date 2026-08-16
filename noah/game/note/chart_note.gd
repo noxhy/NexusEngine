@@ -3,6 +3,8 @@ class_name ChartNote
 
 @onready var area = $Area2D
 @onready var collision_shape = $Area2D/CollisionShape2D
+@onready var label = %"Special Note Label"
+@onready var screen_enabler = $VisibleOnScreenEnabler2D
 
 # Applying Note Skin
 func _ready() -> void:
@@ -30,19 +32,19 @@ func update():
 		note.scale = grid_size / note.sprite_frames.get_frame_texture(note.animation, 0).get_size()
 		
 		#note.scale *= 0.9
-		%"Special Note Label".scale = grid_size / %"Special Note Label".size
+		label.scale = grid_size / label.size
 		if tail:
 			tail.scale = note.scale
 			if tail.texture:
 				tail.position.x = tail.texture.get_height() / 2.0 * tail.scale.x
 		
-		$VisibleOnScreenEnabler2D.scale = grid_size / Vector2(640, 640)
+		screen_enabler.scale = grid_size / Vector2(640, 640)
 		
 		if collision_shape:
 			collision_shape.shape = RectangleShape2D.new()
-			collision_shape.scale = $VisibleOnScreenEnabler2D.scale * 0.9
-			collision_shape.shape.set_size(Vector2($VisibleOnScreenEnabler2D.rect.size.x, $VisibleOnScreenEnabler2D.rect.size.x))
-			%"Special Note Label".visible = note_type != ""
+			collision_shape.scale = screen_enabler.scale * 0.9
+			collision_shape.shape.set_size(Vector2(screen_enabler.rect.size.x, screen_enabler.rect.size.x))
+			label.visible = note_type != ""
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
@@ -53,7 +55,7 @@ func _process(delta) -> void:
 		tail.visible = true
 		tail.scale.x = scroll
 		tail.size.x = line_length
-		$VisibleOnScreenEnabler2D.rect.size.y = (length + 1) * scroll_speed * 640
+		screen_enabler.rect.size.y = (length + 1) * scroll_speed * 640
 	else:
 		tail.visible = false
 
