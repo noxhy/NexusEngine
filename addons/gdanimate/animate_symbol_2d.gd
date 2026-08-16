@@ -451,7 +451,6 @@ func _process_animation(delta: float) -> void:
 
 	var frames_per_second := _current_library.get_framerate()
 	var seconds_per_frame := 1.0 / frames_per_second
-	_frame_progress += absf(delta * frames_per_second * speed_scale)
 
 	while _frame_progress >= 1.0:
 		var frames_added := int(signf(speed_scale))
@@ -492,3 +491,5 @@ func _process_animation(delta: float) -> void:
 				_frame_progress = 0.0
 				playing = false
 				animation_finished.emit()
+	
+	_frame_progress += absf(delta * frames_per_second * speed_scale)
