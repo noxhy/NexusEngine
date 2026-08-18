@@ -1,6 +1,31 @@
 [gd_scene format=3 uid="uid://7m2w6liutbug"]
 
 [ext_resource type="Script" uid="uid://dssf2pfv2ma71" path="res://noah/managers/sound_manager.gd" id="1_ce5g3"]
+[ext_resource type="AudioStream" uid="uid://cubdatolmmtlb" path="res://noah/tools/sounds/conductor_on_beat.ogg" id="2_twovb"]
+[ext_resource type="AudioStream" uid="uid://cou57umxr05wh" path="res://noah/tools/sounds/conductor_off_beat.ogg" id="3_sy3ek"]
+[ext_resource type="AudioStream" uid="uid://dhpsobuc40uny" path="res://noah/tools/sounds/conductor_step.ogg" id="4_jrn1i"]
+[ext_resource type="AudioStream" uid="uid://rka5qxbj0svd" path="res://noah/tools/sounds/noteLay.ogg" id="4_twovb"]
+[ext_resource type="AudioStream" uid="uid://s88wsjen8kj7" path="res://noah/tools/sounds/keyboard1.ogg" id="5_sy3ek"]
+[ext_resource type="AudioStream" uid="uid://yt7ay5ef2eiv" path="res://noah/tools/sounds/hit.ogg" id="5_twovb"]
+[ext_resource type="AudioStream" uid="uid://cdoo62fj7frd" path="res://noah/tools/sounds/keyboard2.ogg" id="6_jrn1i"]
+[ext_resource type="AudioStream" uid="uid://dr4m1bpeomae5" path="res://noah/tools/sounds/keyboard3.ogg" id="7_8h44h"]
+[ext_resource type="AudioStream" uid="uid://rrkhugilc67r" path="res://noah/tools/sounds/noteErase.ogg" id="8_8y2fo"]
+[ext_resource type="AudioStream" uid="uid://dq71x4q0d1q18" path="res://noah/tools/sounds/stretch1_UI.ogg" id="9_v043w"]
+[ext_resource type="AudioStream" uid="uid://cl352to0t51ux" path="res://noah/tools/sounds/stretch2_UI.ogg" id="10_l33qp"]
+[ext_resource type="AudioStream" uid="uid://bittkmfqaayks" path="res://noah/tools/sounds/openWindow.ogg" id="11_habak"]
+[ext_resource type="AudioStream" uid="uid://bdbqayhnogbk5" path="res://noah/tools/sounds/exitWindow.ogg" id="12_weuxf"]
+[ext_resource type="AudioStream" uid="uid://bmj7ckgd3tlt1" path="res://noah/tools/sounds/undo.ogg" id="13_du4s4"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_p1oat"]
+streams_count = 3
+stream_0/stream = ExtResource("5_sy3ek")
+stream_1/stream = ExtResource("6_jrn1i")
+stream_2/stream = ExtResource("7_8h44h")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1rl50"]
+streams_count = 2
+stream_0/stream = ExtResource("9_v043w")
+stream_1/stream = ExtResource("10_l33qp")
 
 [node name="SoundManager" type="Node" unique_id=1256092759]
 process_mode = 3
@@ -29,4 +54,66 @@ bus = &"SFX"
 bus = &"SFX"
 
 [node name="AntiSpamPlayer" type="AudioStreamPlayer" parent="Game" unique_id=689274677]
+bus = &"SFX"
+
+[node name="Tool" type="Node" parent="." unique_id=585551337]
+
+[node name="Conductor Beat" type="AudioStreamPlayer" parent="Tool" unique_id=136191673]
+unique_name_in_owner = true
+stream = ExtResource("2_twovb")
+bus = &"SFX"
+
+[node name="Conductor Off Beat" type="AudioStreamPlayer" parent="Tool" unique_id=508055508]
+unique_name_in_owner = true
+stream = ExtResource("3_sy3ek")
+bus = &"SFX"
+
+[node name="Conductor Step" type="AudioStreamPlayer" parent="Tool" unique_id=1234115391]
+unique_name_in_owner = true
+stream = ExtResource("4_jrn1i")
+bus = &"SFX"
+
+[node name="Hit Sound" type="AudioStreamPlayer" parent="Tool" unique_id=2076158690]
+unique_name_in_owner = true
+stream = ExtResource("5_twovb")
+bus = &"SFX"
+
+[node name="Note Place" type="AudioStreamPlayer" parent="Tool" unique_id=332101590]
+unique_name_in_owner = true
+stream = ExtResource("4_twovb")
+bus = &"SFX"
+
+[node name="Mouse Click" type="AudioStreamPlayer" parent="Tool" unique_id=773607707]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_p1oat")
+bus = &"SFX"
+
+[node name="Note Remove" type="AudioStreamPlayer" parent="Tool" unique_id=2005622267]
+unique_name_in_owner = true
+stream = ExtResource("8_8y2fo")
+bus = &"SFX"
+
+[node name="Note Stretch" type="AudioStreamPlayer" parent="Tool" unique_id=402277141]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_1rl50")
+bus = &"SFX"
+
+[node name="Open Window" type="AudioStreamPlayer" parent="Tool" unique_id=1579839599]
+unique_name_in_owner = true
+stream = ExtResource("11_habak")
+bus = &"SFX"
+
+[node name="Close Window" type="AudioStreamPlayer" parent="Tool" unique_id=635711339]
+unique_name_in_owner = true
+stream = ExtResource("12_weuxf")
+bus = &"SFX"
+
+[node name="Undo" type="AudioStreamPlayer" parent="Tool" unique_id=1013093093]
+unique_name_in_owner = true
+stream = ExtResource("13_du4s4")
+bus = &"SFX"
+
+[node name="Redo" type="AudioStreamPlayer" parent="Tool" unique_id=192577292]
+unique_name_in_owner = true
+stream = ExtResource("4_twovb")
 bus = &"SFX"

@@ -3,18 +3,6 @@
 [ext_resource type="Script" uid="uid://ocjrud8madj7" path="res://noah/tools/chart_editor/chart_editor.gd" id="1_ugmsy"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://noah/conductor.gd" id="2_dontb"]
 [ext_resource type="PackedScene" uid="uid://dmjgk2qf3nl2i" path="res://noah/tools/chart_editor/grid.tscn" id="2_i6pv1"]
-[ext_resource type="AudioStream" uid="uid://bhbl74dwlqyhk" path="res://noah/assets/sounds/conductor sfx.mp3" id="3_myxvx"]
-[ext_resource type="AudioStream" uid="uid://bodc4sfit172e" path="res://noah/assets/sounds/chart_editor/sound-hit.wav" id="4_1k01c"]
-[ext_resource type="AudioStream" uid="uid://s88wsjen8kj7" path="res://noah/assets/sounds/chart_editor/keyboard1.ogg" id="5_ewdb4"]
-[ext_resource type="AudioStream" uid="uid://cdoo62fj7frd" path="res://noah/assets/sounds/chart_editor/keyboard2.ogg" id="6_0ge7q"]
-[ext_resource type="AudioStream" uid="uid://dr4m1bpeomae5" path="res://noah/assets/sounds/chart_editor/keyboard3.ogg" id="7_5qx4x"]
-[ext_resource type="AudioStream" uid="uid://rrkhugilc67r" path="res://noah/assets/sounds/chart_editor/noteErase.ogg" id="8_3odt1"]
-[ext_resource type="AudioStream" uid="uid://dq71x4q0d1q18" path="res://noah/assets/sounds/chart_editor/stretch1_UI.ogg" id="8_s4ovn"]
-[ext_resource type="AudioStream" uid="uid://cl352to0t51ux" path="res://noah/assets/sounds/chart_editor/stretch2_UI.ogg" id="9_v13a8"]
-[ext_resource type="AudioStream" uid="uid://bittkmfqaayks" path="res://noah/assets/sounds/chart_editor/openWindow.ogg" id="11_iakv7"]
-[ext_resource type="AudioStream" uid="uid://bdbqayhnogbk5" path="res://noah/assets/sounds/chart_editor/exitWindow.ogg" id="12_qymoy"]
-[ext_resource type="AudioStream" uid="uid://bmj7ckgd3tlt1" path="res://noah/assets/sounds/chart_editor/undo.ogg" id="13_am3li"]
-[ext_resource type="AudioStream" uid="uid://rka5qxbj0svd" path="res://noah/assets/sounds/chart_editor/noteLay.ogg" id="14_am3li"]
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="17_75w6f"]
 [ext_resource type="PackedScene" uid="uid://bx3kdd0dt1kkw" path="res://noah/tools/chart_editor/lower_ui.tscn" id="17_sxrev"]
 [ext_resource type="PackedScene" uid="uid://b6b2d2kloq60j" path="res://noah/tools/chart_editor/upper_ui.tscn" id="18_dd0y6"]
@@ -24,18 +12,7 @@
 [ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://noah/assets/fonts/primary_font.ttf" id="20_4y0c1"]
 [ext_resource type="Script" uid="uid://dn04gjsh1koqp" path="res://noah/tools/chart_editor/loaded_song_error.gd" id="21_et4bh"]
 
-[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_50rmr"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_q5g7a"]
-streams_count = 3
-stream_0/stream = ExtResource("5_ewdb4")
-stream_1/stream = ExtResource("6_0ge7q")
-stream_2/stream = ExtResource("7_5qx4x")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cp6sg"]
-streams_count = 2
-stream_0/stream = ExtResource("8_s4ovn")
-stream_1/stream = ExtResource("9_v13a8")
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_r2tof"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ym35o"]
 outline_size = 4
@@ -61,81 +38,19 @@ time_change_color = Color(0.5526029, 0.5802685, 0.9920456, 1)
 script = ExtResource("2_dontb")
 stream_player = NodePath("../Audio/Instrumental")
 
+[node name="Audio" type="Node" parent="." unique_id=158434399]
+
+[node name="Vocals" type="AudioStreamPlayer" parent="Audio" unique_id=1600138238]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamPolyphonic_r2tof")
+bus = &"Music"
+
+[node name="Instrumental" type="AudioStreamPlayer" parent="Audio" unique_id=1067197915]
+unique_name_in_owner = true
+bus = &"Music"
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=5194862]
 position = Vector2(640, 360)
-
-[node name="Audio" type="Node" parent="." unique_id=2140903853]
-
-[node name="Vocals" type="AudioStreamPlayer" parent="Audio" unique_id=680314243]
-unique_name_in_owner = true
-stream = SubResource("AudioStreamPolyphonic_50rmr")
-bus = &"Music"
-
-[node name="Instrumental" type="AudioStreamPlayer" parent="Audio" unique_id=940753275]
-unique_name_in_owner = true
-bus = &"Music"
-
-[node name="Conductor Beat" type="AudioStreamPlayer" parent="Audio" unique_id=638251549]
-unique_name_in_owner = true
-stream = ExtResource("3_myxvx")
-pitch_scale = 2.0
-bus = &"SFX"
-
-[node name="Conductor Off Beat" type="AudioStreamPlayer" parent="Audio" unique_id=1394109437]
-unique_name_in_owner = true
-stream = ExtResource("3_myxvx")
-bus = &"SFX"
-
-[node name="Conductor Step" type="AudioStreamPlayer" parent="Audio" unique_id=7155414]
-unique_name_in_owner = true
-stream = ExtResource("3_myxvx")
-pitch_scale = 1.5
-bus = &"SFX"
-
-[node name="Hit Sound" type="AudioStreamPlayer" parent="Audio" unique_id=1219194298]
-unique_name_in_owner = true
-stream = ExtResource("4_1k01c")
-bus = &"SFX"
-
-[node name="Note Place" type="AudioStreamPlayer" parent="Audio" unique_id=1079773390]
-unique_name_in_owner = true
-stream = ExtResource("14_am3li")
-bus = &"SFX"
-
-[node name="Mouse Click" type="AudioStreamPlayer" parent="Audio" unique_id=1254258411]
-unique_name_in_owner = true
-stream = SubResource("AudioStreamRandomizer_q5g7a")
-bus = &"SFX"
-
-[node name="Note Remove" type="AudioStreamPlayer" parent="Audio" unique_id=1452383116]
-unique_name_in_owner = true
-stream = ExtResource("8_3odt1")
-bus = &"SFX"
-
-[node name="Note Stretch" type="AudioStreamPlayer" parent="Audio" unique_id=1699989984]
-unique_name_in_owner = true
-stream = SubResource("AudioStreamRandomizer_cp6sg")
-bus = &"SFX"
-
-[node name="Open Window" type="AudioStreamPlayer" parent="Audio" unique_id=2017205801]
-unique_name_in_owner = true
-stream = ExtResource("11_iakv7")
-bus = &"SFX"
-
-[node name="Close Window" type="AudioStreamPlayer" parent="Audio" unique_id=2084436664]
-unique_name_in_owner = true
-stream = ExtResource("12_qymoy")
-bus = &"SFX"
-
-[node name="Undo" type="AudioStreamPlayer" parent="Audio" unique_id=1963888495]
-unique_name_in_owner = true
-stream = ExtResource("13_am3li")
-bus = &"SFX"
-
-[node name="Redo" type="AudioStreamPlayer" parent="Audio" unique_id=674140477]
-unique_name_in_owner = true
-stream = ExtResource("14_am3li")
-bus = &"SFX"
 
 [node name="Grid Layer" type="CanvasLayer" parent="." unique_id=1476007864]
 layer = -2
@@ -257,6 +172,5 @@ metadata/_edit_lock_ = true
 [connection signal="new_numerator" from="Conductor" to="." method="_on_conductor_new_numerator"]
 [connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]
 [connection signal="new_tempo" from="Conductor" to="." method="_on_conductor_new_tempo"]
-[connection signal="finished" from="Audio/Instrumental" to="." method="_on_instrumental_finished"]
 [connection signal="drag_started" from="UI/Song Slider" to="." method="_on_song_slider_drag_started"]
 [connection signal="value_changed" from="UI/Song Slider" to="." method="_on_song_slider_value_changed"]

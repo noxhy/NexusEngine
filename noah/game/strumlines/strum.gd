@@ -101,7 +101,7 @@ func _process(delta) -> void:
 						note.queue_free()
 					continue
 		
-		var relative_time: float = time_difference + (note.start_length * GameManager.seconds_per_beat - offset)
+		var relative_time: float = time_difference - offset + (note.start_length * GameManager.seconds_per_beat)
 		var hit_window: float = GameManager.SHIT_RATING_WINDOW
 		if ignored_note_types.has(note.note_type):
 			# This is for stuff like mine's so they have a smaller hit qindow

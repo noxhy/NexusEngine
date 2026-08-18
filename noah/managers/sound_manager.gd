@@ -11,6 +11,19 @@ var players: Dictionary[StringName, AudioStreamPlayer] = {}
 @onready var hit: AudioStreamPlayer = $Game/HitPlayer ## note hit sfx
 @onready var anti_spam: AudioStreamPlayer = $Game/AntiSpamPlayer ## anti spam sfx
 
+@onready var conductor_beat: AudioStreamPlayer = %"Conductor Beat"
+@onready var conductor_off_beat: AudioStreamPlayer = %"Conductor Off Beat"
+@onready var conductor_step: AudioStreamPlayer = %"Conductor Step"
+@onready var tool_hit: AudioStreamPlayer = %"Hit Sound"
+@onready var tool_note_place: AudioStreamPlayer = %"Note Place"
+@onready var tool_mouse_click: AudioStreamPlayer = %"Mouse Click"
+@onready var tool_note_remove: AudioStreamPlayer = %"Note Remove"
+@onready var tool_note_stretch: AudioStreamPlayer = %"Note Stretch"
+@onready var tool_open_window: AudioStreamPlayer = %"Open Window"
+@onready var tool_close_window: AudioStreamPlayer = %"Close Window"
+@onready var tool_undo: AudioStreamPlayer = %Undo
+@onready var tool_redo: AudioStreamPlayer = %Redo
+
 func _ready() -> void:
 	AudioServer.set_bus_mute(0, SettingsManager.get_value(SettingsManager.SEC_AUDIO, 'is_muted', false))
 	AudioServer.set_bus_volume_linear(0, SettingsManager.get_value('audio', "master_volume", 1.0))

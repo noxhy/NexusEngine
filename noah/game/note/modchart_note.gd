@@ -6,30 +6,30 @@ var last_length: float
 
 # Applying Note Skin
 func _ready() -> void: 
-	$Note.sprite_frames = note_skin.notes_texture
+	note.sprite_frames = note_skin.notes_texture
 	if note_skin.animation_names != null: 
 		if note_skin.animation_names.keys().size() > 0: 
-			$Note.animation_names.merge(note_skin.animation_names, true)
+			note.animation_names.merge(note_skin.animation_names, true)
 	
-	$Note.play_animation(animation)
+	note.play_animation(animation)
 	
-	var tail_animation = $Note.get_animation_name(StringName(animation + "_tail"))
+	var tail_animation = note.get_animation_name(StringName(animation + "_tail"))
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = $Note.get_animation_name(StringName(animation + "_end"))
+	var end_animation = note.get_animation_name(StringName(animation + "_end"))
 	if end_animation:
 		tail.end_texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 	
-	$Note.offsets = note_skin.offsets
+	note.offsets = note_skin.offsets
 	
 	if note_skin.pixel_texture: 
-		$Note.texture_filter = TEXTURE_FILTER_NEAREST
+		note.texture_filter = TEXTURE_FILTER_NEAREST
 		tail.texture_filter = TEXTURE_FILTER_NEAREST
 	
 	scale = Vector2(1, 1)
-	$Note.scale = grid_size / $Note.sprite_frames.get_frame_texture($Note.animation, 0).get_size()
-	tail.width = note_skin.sustain_width * $Note.scale.x
+	note.scale = grid_size / note.sprite_frames.get_frame_texture(note.animation, 0).get_size()
+	tail.width = note_skin.sustain_width * note.scale.x
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

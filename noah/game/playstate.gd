@@ -413,7 +413,7 @@ func song_finished():
 		if (GameManager.week_songs.size() == GameManager.current_week_song):
 			Global.change_scene_to(next_scene)
 		else:
-			Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene, "down")
+			Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene)
 
 # Strum Util
 func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManager):
