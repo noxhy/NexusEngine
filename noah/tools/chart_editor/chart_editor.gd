@@ -1533,7 +1533,7 @@ func load_waveforms():
 			printerr("(load_waveforms) Track ", track, " does not exist.")
 	
 	
-	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.FOREST_GREEN, Color.TRANSPARENT)
+	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.MEDIUM_SEA_GREEN, Color.TRANSPARENT)
 	
 	waveform.visible = false
 	$"Waveform Layer".add_child(waveform)
@@ -1579,8 +1579,8 @@ func update_waveforms(time: float = 0):
 		
 		waveform.width = time_to_y_position(R) - time_to_y_position(L)
 		if id == -1:
-			waveform.position = grid.get_real_position(Vector2(1, 0))
-			waveform.height = grid.grid_size.x * (grid.columns - 2) * grid.zoom.x
+			waveform.position = grid.get_real_position(Vector2(0, 0))
+			waveform.height = grid.grid_size.x * 1 * grid.zoom.x
 		else:
 			waveform.position = grid.get_real_position(Vector2(
 				(ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
