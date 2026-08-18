@@ -626,6 +626,9 @@ func load_section(time: float):
 	if selected_notes.size() > 0:
 		L = min(selected_notes.front(), L)
 		R = max(R, selected_notes.back())
+	elif bounding_box:
+		L = min(current_visible_notes_L, L)
+		R = max(R, current_visible_notes_R)
 	
 #region Loading Notes
 	if L > -1 and R > -1:
@@ -1865,7 +1868,7 @@ func update_selected_notes() -> void:
 		return
 	
 	selected_note_nodes = []
-	for i in range(current_visible_notes_L, current_visible_notes_R):
+	for i in range(current_visible_notes_L, current_visible_notes_R + 1):
 		if selected_notes.has(i):
 			selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
 		else:
