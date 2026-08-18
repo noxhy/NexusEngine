@@ -231,14 +231,14 @@ func _process(delta: float) -> void:
 				var j: int = selected_notes.find(i)
 				
 				selected_notes.remove_at(j)
-				selected_note_nodes.remove_at(j)
 				
-				if selected_notes.size() > 1:
-					var k: int = 0
-					for _i in range(selected_notes.size()):
+				# Adjusting any other selected notes
+				if selected_notes.size() > 0:
+					for k in selected_notes.size():
 						if k >= j:
 							selected_notes[k] -= 1
-						k += 1
+				
+				update_selected_notes()
 			
 			hovered_note = -1
 			
@@ -788,7 +788,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	# sizing purposes
 	note_instance.scroll_speed = meter[0]
 	note_instance.direction = directions[lane % 4]
-	note_instance.animation = str(Constants.NOTE_TYPES.get(type, ""), directions[lane % 4])
+	note_instance.animation = str(Constants.NOTE_TYPES.get(type, ""), note_instance.direction)
 	
 	update_note_position(note_instance)
 	
@@ -817,8 +817,8 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			
 			output = L
 		else:
-			note_nodes.append(note_instance)
 			ChartManager.chart.chart_data["notes"].append([time, lane, length, type])
+			note_nodes.append(note_instance)
 			L = ChartManager.chart.get_notes_data().size() - 1
 			selected_notes = [L]
 			selected_note_nodes = [note_instance]
@@ -827,7 +827,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			output = L
 		
 		# Preventing fake notes
-		current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
+		#current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
 		current_visible_notes_R += 1
 	else:
 		if sorted:
@@ -918,10 +918,10 @@ sorted: bool = false, sort_index: int = -1) -> int:
 
 # Returns the indexes of the new notes
 func place_notes(notes: Array) -> Array:
-	var indices: Array = []
 	for note in notes:
 		place_note(note[0], note[1], note[2], note[3], true)
 	
+	var indices: Array = []
 	# Surely there's a cleaner way to do this
 	for note in notes:
 		var i: int = find_note(note[1], note[0])
@@ -939,7 +939,7 @@ func remove_note(lane, time: float = -1):
 	else:
 		i = lane
 	
-	if i <= -1:
+	if i < 0:
 		return
 	
 	var index: int = i - current_visible_notes_L
@@ -950,12 +950,13 @@ func remove_note(lane, time: float = -1):
 	
 	ChartManager.chart.chart_data["notes"].remove_at(i)
 
-func remove_notes(notes: Array):
-	var i: int = 0
-	for note in notes:
-		var _note = ChartManager.chart.get_notes_data()[note - i]
-		remove_note(_note[1], _note[0])
-		i += 1
+## Removes the notes in the given indices
+func remove_notes(indices: Array):
+	var offset: int = 0
+	for i in indices:
+		var note = ChartManager.chart.get_notes_data()[i - offset]
+		remove_note(note[1], note[0])
+		offset += 1
 
 ## Returns the index of the given note in the notes list.
 func find_note(lane: int, time: float) -> int:
@@ -1495,9 +1496,7 @@ func move_selection(time_distance: float, lane_distance: float):
 	
 	var temp = place_notes(notes)
 	selected_notes = temp
-	selected_note_nodes = []
-	for i in selected_notes:
-		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+	update_selected_notes()
 	
 	moving_notes = false
 	SoundManager.tool_note_place.play()
@@ -1724,17 +1723,11 @@ func copy() -> void:
 func paste() -> void:
 	if clipboard.is_empty():
 		return
-	else:
-		var L: float = clipboard.front()[0]
-		var offset: float = song_position + start_offset
-		for i in clipboard.size():
-			clipboard[i][0] = offset + (clipboard[i][0] - L)
 	
-	var temp = place_notes(clipboard)
-	selected_notes = temp
-	selected_note_nodes = []
-	for i in selected_notes:
-		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+	var offset: float = (song_position + start_offset) - clipboard.front()[0]
+	selected_notes = place_notes(clipboard)
+	update_selected_notes()
+	move_selection(offset, 0)
 	
 	SoundManager.tool_note_place.play()
 
