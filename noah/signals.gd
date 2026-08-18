@@ -10,7 +10,7 @@ signal play_song_ready_to_start()
 signal play_setup_finished()
 
 signal play_conductor_step_hit(step: int, measure: int)
-signal play_conductor_beat_hit(step: int, measure: int)
+signal play_conductor_beat_hit(beat: int, measure: int)
 
 signal play_song_start()
 signal play_song_finished()
@@ -21,6 +21,7 @@ signal play_create_note(time: float, lane: int, note_length: float, note_type: S
 signal play_note_created(note: BasicNote, strum: Strum)
 signal play_new_event(time: float, event_name: String, params: Array)
 signal play_combo_break()
+signal play_health_changed(new_health: float)
 
 signal play_paused()
 signal play_unpaused()

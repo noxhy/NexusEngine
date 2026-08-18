@@ -49,12 +49,18 @@ var chart: Chart
 
 var misses: int = 0
 var score: float = 0
-var health: float = 50.0
+var health: float = 50.0 : set = set_health
 var combo: int = 0
 var died: bool = false
 
 var camera_bop_strength: Vector2 = Vector2(0.05, 0.05)
 var ui_bop_strength: Vector2 = Vector2(0.025, 0.025)
+
+func set_health(v: float):
+	if health != v: #is this even necessary
+		Signals.play_health_changed.emit(v)
+	health = v
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -141,7 +147,6 @@ func _ready() -> void:
 
 func _process(delta) -> void:
 	health = clamp(health, 0.0, 100.0)
-	GameManager.health = health
 	GameManager.score = int(score)
 	
 	if health <= 0 and !died:
