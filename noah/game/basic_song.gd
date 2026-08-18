@@ -50,6 +50,9 @@ func _ready() -> void:
 	
 	Signals.play_song_ready_to_start.emit()
 	Signals.play_died.connect(self.died)
+	
+	bop_rate = GameManager.conductor.numerator * GameManager.conductor.denominator
+
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed(&"pause"):
