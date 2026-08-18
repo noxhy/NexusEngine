@@ -54,7 +54,7 @@ var combo: int = 0
 var died: bool = false
 
 var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
-var ui_bop_strength: Vector2 = Vector2(0.03, 0.03)
+var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 func set_health(v: float):
 	if health != v: #is this even necessary

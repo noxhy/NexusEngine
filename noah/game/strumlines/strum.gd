@@ -113,7 +113,7 @@ func _process(delta) -> void:
 			note.queue_free()
 	# Inputs
 	if Input.is_action_just_pressed(input):
-		if can_press and !note_list.is_empty():
+		if can_press:
 			var note = note_list.front()
 			if note:
 				if note.can_press:
