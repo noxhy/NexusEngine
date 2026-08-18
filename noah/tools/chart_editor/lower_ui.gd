@@ -39,12 +39,12 @@ func _play_button_pressed(v):
 func _process(delta: float) -> void:
 	if not chart_editor:
 		return
-		
+	
 	if ChartManager.song and chart_editor.instrumental and chart_editor.instrumental.stream:
 		time_left_label.text = "-" + Global.format_time(chart_editor.instrumental.stream.get_length() - chart_editor.song_position - chart_editor.start_offset)
 	else:
 		time_left_label.text = "- ??:??"
-		
+	
 	current_time_label.text = Global.format_time(chart_editor.song_position + chart_editor.start_offset)
 	current_time_label.text += str(" (", chart_editor.song_speed, "x)")
 
