@@ -21,8 +21,6 @@ var offset: float = 0
 			emit_signal(&"new_tempo", v)
 		
 		tempo = v
-		seconds_per_beat = get_seconds_per_beat()
-		seconds_per_step = get_seconds_per_step()
 	get():
 		return tempo
 
@@ -34,8 +32,6 @@ var offset: float = 0
 			emit = true
 		
 		numerator = v
-		seconds_per_beat = get_seconds_per_beat()
-		seconds_per_step = get_seconds_per_step()
 		if emit:
 			emit_signal(&"new_numerator", v)
 
@@ -47,13 +43,16 @@ var offset: float = 0
 			emit = true
 		denominator = v
 		
-		seconds_per_beat = get_seconds_per_beat()
-		seconds_per_step = get_seconds_per_step()
 		if emit:
 			emit_signal(&"new_denominator", v)
 
-var seconds_per_beat: float = 1.0
-var seconds_per_step: float = 0.25
+var seconds_per_beat: float:
+	get():
+		return (60.0 / tempo) * (4.0 / denominator)
+
+var seconds_per_step: float:
+	get():
+		return seconds_per_beat / denominator
 
 # Stored Statistics:
 # These variables only exist for the purpose of grabbing info
@@ -99,11 +98,3 @@ func get_step_at(_time: float) -> int:
 
 func get_measure_at(_time: float) -> int:
 	return floor((_time - offset) / (seconds_per_beat * numerator))
-
-
-func get_seconds_per_beat() -> float:
-	return (60.0 / tempo) * (4.0 / denominator)
-
-
-func get_seconds_per_step() -> float:
-	return seconds_per_beat / denominator

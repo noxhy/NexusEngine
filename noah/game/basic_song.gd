@@ -17,6 +17,7 @@ var camera_positions: Array = []
 
 # How often the camera bops. Based off the step rate in the conductor.
 var bop_rate: int = 16
+var bop_rate_offset: int = 0
 var pause_preload: PackedScene
 
 # Called when the node enters the scene tree for the first time.
@@ -69,7 +70,7 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int):
 	pass
 
 func _on_conductor_new_step(current_step: int, measure_relative: int):
-	if current_step % bop_rate == 0:
+	if current_step % (bop_rate - bop_rate_offset) == 0:
 		if playstate.camera.parent_3d:
 			var bump: float = playstate.camera_bop_strength.x * playstate.camera.zoom
 			playstate.camera.bump(bump)
@@ -145,6 +146,8 @@ func _on_new_event(time: float, event_name: String, event_parameters: Array):
 		&"set_prefix":
 			get_tree().set_group(event_parameters[0], &"animation_prefix",
 			event_parameters[1])
+		&"set_bop_offset":
+			bop_rate_offset = int(event_parameters[0])
 
 
 func _on_combo_break():

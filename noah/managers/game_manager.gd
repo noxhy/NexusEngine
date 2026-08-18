@@ -79,7 +79,7 @@ func reset_conductor():
 func get_current_song() -> Song:
 	if freeplay:
 		return current_song
-		
+	
 	return week_songs[current_week_song]
 
 func _step_change(step: int, measure: int):
@@ -129,8 +129,7 @@ func finished_song(_score: int):
 				highscore = false
 			
 			_:
-				if (is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1)
-				and is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale"), 1)):
+				if validate_score():
 					highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(tallies))
 					if !GameManager.freeplay and current_week_song == week_songs.size():
 						highscore = SaveManager.set_week_stats(current_week, difficulty, week_score, grade)
@@ -138,6 +137,17 @@ func finished_song(_score: int):
 						highscore = false
 	else:
 		highscore = false
+
+## Checks is a score is valid and can be saved into storage
+func validate_score() -> bool:
+	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1):
+		return false
+	
+	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale"), 1):
+		return false
+	
+	return true
+
 
 func reset_stats():
 	deaths = 0

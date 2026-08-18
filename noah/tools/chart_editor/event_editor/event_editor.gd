@@ -148,27 +148,21 @@ func _process(delta: float) -> void:
 				
 				if ((grid_position.y - 1) > 0 and (grid_position.y - 1) < %Grid.rows):
 					if moving_notes:
-						var cursor_time = grid_position_to_time(snapped_position, true)
+						var cursor_time: float = grid_position_to_time(snapped_position, true)
 						cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
 						
-						var time_distance = cursor_time - start_time
+						var time_distance: float = cursor_time - start_time
 						changed_length = true
 						
-						if true:
-							if changed_length:
-								var j: int = 0
-								for i in selected_notes:
-									var node = selected_note_nodes[j]
+						if changed_length:
+							for node in selected_notes:
+								if node:
 									var time: float = node.time
 									
 									node.position.x = time_to_y_position((node.time + time_distance)
 									) + $"Grid Layer".offset.x + (%Grid.grid_size.x * %Grid.zoom.x / 2)
-									j += 1
-								
-								if SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"):
-									save()
-								
-								moved_time_distance = time_distance
+							
+							moved_time_distance = time_distance
 	
 	if Input.is_action_just_released(&"mouse_left"):
 		if bounding_box:
@@ -502,8 +496,8 @@ func is_event_at(_name: String, time: float) -> bool:
 
 ## Returns the index of the given event in the events list.
 func find_event(_name: String, time: float) -> int:
-	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.00001)
-	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.00001)
+	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - EPSILON)
+	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + EPSILON)
 	
 	if (L == -1 or R == -1):
 		return -1
@@ -531,38 +525,24 @@ func remove_note(_name, time: float = -1):
 	if i <= -1:
 		return
 	
-	if (i - current_visible_events_L) < event_nodes.size() and (i - current_visible_events_L) >= 0:
-		event_nodes[i - current_visible_events_L].queue_free()
-		event_nodes.remove_at(i - current_visible_events_L)
+	var index: int = i - current_visible_events_L
+	if index < event_nodes.size() and index >= 0:
+		event_nodes[index].queue_free()
+		event_nodes.remove_at(index)
 		current_visible_events_R -= 1
-	
-	#if selected_notes.size() > 0:
-		#for j in range(selected_notes.size()):
-			#var note: int = selected_notes[j]
-			#if note > i:
-				#selected_notes[j] -= 1
 	
 	ChartManager.chart.chart_data["events"].remove_at(i)
 
 ## In the event editor, lane_a is a list of event names
 func select_area(L: int, R: int, lane_a, lane_b = null):
-	selected_notes = range(L, R + 1)
-	selected_note_nodes = []
+	selected_notes = range(L, R + 1).filter(func(i):
+		var event: String = ChartManager.chart.get_events_data()[selected_notes[i]][1]
+		return lane_a.has(event)
+		)
 	
-	var _i: int = 0
-	for i in range(selected_notes.size()):
-		var event: String = ChartManager.chart.get_events_data()[selected_notes[_i]][1]
-		if !lane_a.has(event):
-			selected_notes.remove_at(_i)
-			_i -= 1
-		
-		_i += 1
-	
-	for i in selected_notes:
-		selected_note_nodes.append(event_nodes[i - current_visible_events_L])
-	
+	update_selected_notes()
 	if selected_notes.size() > 0:
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 
 
 func move_selection(time_distance: float, lane_distance: float):
@@ -578,7 +558,7 @@ func move_selection(time_distance: float, lane_distance: float):
 		selected_note_nodes.append(event_nodes[i - current_visible_events_L])
 	
 	moving_notes = false
-	%"Note Place".play()
+	SoundManager.tool_note_place.play()
 
 # Returns the indexes of the new notes
 func place_notes(events: Array) -> Array:
@@ -613,14 +593,15 @@ func cut() -> void:
 		
 		add_action("Cut Note(s)", self.remove_notes.bind(selected_notes), self.place_notes.bind(temp))
 		selected_notes = []
-		%"Note Remove".play()
+		SoundManager.tool_note_remove.play()
 
 
 func copy() -> void:
 	clipboard = []
 	for note in selected_notes:
 		clipboard.append(ChartManager.chart.get_events_data()[note])
-	%"Note Place".play()
+	
+	SoundManager.tool_note_place.play()
 
 
 func paste() -> void:
@@ -632,7 +613,8 @@ func paste() -> void:
 	selected_note_nodes = []
 	for i in selected_notes:
 		selected_note_nodes.append(event_nodes[i - current_visible_events_L])
-	%"Note Place".play()
+	
+	SoundManager.tool_note_place.play()
 
 
 func delete_stacked_notes() -> void:
@@ -771,9 +753,62 @@ func _on_note_type_window_selected_note_type(type: Variant) -> void:
 	pass # Replace with function body.
 
 
-func load_waveforms():
-	return
-
-
 func update_waveforms(time: float = 0):
-	return
+	var time_range: float = conductor.numerator * conductor.seconds_per_beat * 2
+	
+	if (waveform_nodes.is_empty() or waveform_dirty) and (instrumental_waveforms or vocal_waveforms):
+		load_waveforms()
+		waveform_dirty = false
+	
+	for id in waveform_nodes:
+		var waveform = waveform_nodes.get(id)
+		
+		if not waveform:
+			return
+		
+		if id == -1:
+			waveform.visible = instrumental_waveforms
+		else:
+			waveform.visible = vocal_waveforms
+		
+		if not waveform.visible:
+			continue
+		
+		var L: float = max(time, 0)
+		var R: float = min(time + time_range, instrumental.stream.get_length())
+		waveform.time = (L * 1000) / 7.8
+		waveform.duration = (R - L) * 128
+		
+		waveform.width = time_to_y_position(R) - time_to_y_position(L)
+		if id == -1:
+			waveform.position = grid.get_real_position(Vector2(1, 0))
+			waveform.height = grid.grid_size.x * (grid.columns - 2) * grid.zoom.x
+		else:
+			waveform.position = grid.get_real_position(Vector2(
+				(ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
+				) / 2.0 + ChartManager.strum_data[id]["strums"][0],
+				0))
+			waveform.height = grid.grid_size.x * (
+				ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
+				) * grid.zoom.x
+		
+		waveform.position.y += time_to_y_position(L)
+		waveform.dirty = true
+
+
+func update_selected_notes() -> void:
+	if selected_notes.is_empty():
+		return
+	
+	if selected_notes.front() > current_visible_notes_R:
+		return
+	
+	if selected_notes.back() < current_visible_notes_L:
+		return
+	
+	selected_note_nodes = []
+	for i in range(current_visible_notes_L, current_visible_notes_R):
+		if selected_notes.has(i):
+			selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+		else:
+			continue

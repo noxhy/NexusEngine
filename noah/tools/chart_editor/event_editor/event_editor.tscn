@@ -251,7 +251,7 @@ metadata/_edit_lock_ = true
 [connection signal="popup_hide" from="UI/Event Creator" to="." method="close_popup"]
 [connection signal="pressed" from="UI/Event Creator/VBoxContainer/Place Event" to="." method="_on_place_event_pressed"]
 [connection signal="about_to_popup" from="UI/Add Track Window" to="." method="_on_window_about_to_popup"]
-[connection signal="close_requested" from="UI/Add Track Window" to="." method="_on_add_track_window_close_requested"]
 [connection signal="close_requested" from="UI/Add Track Window" to="." method="close_popup"]
+[connection signal="close_requested" from="UI/Add Track Window" to="." method="_on_add_track_window_close_requested"]
 [connection signal="gui_focus_changed" from="UI/Add Track Window" to="." method="_on_gui_focus_changed"]
 [connection signal="pressed" from="UI/Add Track Window/VBoxContainer/Add Event Track" to="." method="_on_add_event_track_pressed"]
