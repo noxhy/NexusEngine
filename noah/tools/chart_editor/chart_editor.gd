@@ -179,7 +179,7 @@ func _process(delta: float) -> void:
 			bounding_box = true
 			start_box = get_global_mouse_position()
 		elif is_mouse_over_grid() and not is_mouse_over_any_ui():
-			if (((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count)):
+			if (((snapped_position.x - 1) >= 0 and (snapped_position.x - 1) < ChartManager.strum_count)):
 				var lane: int = snapped_position.x - 1
 				var time: float = grid_position_to_time(snapped_position, true)
 				time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
@@ -247,9 +247,10 @@ func _process(delta: float) -> void:
 	if can_interact_with_chart and Input.is_action_pressed(&"mouse_left") and not Input.is_action_pressed(&"control") and \
 		is_mouse_over_grid() and not instrumental.playing:
 		## Song Position Slider
-		if grid_position.x < 1 and grid_position.x >= 0:
-			set_start_offset(grid_position, Input.is_action_pressed(&"shift"))
-		elif ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
+		if snapped_position.x == 0:
+			@warning_ignore("incompatible_ternary")
+			set_start_offset(snapped_position if Input.is_action_pressed(&"shift") else grid_position)
+		elif ((snapped_position.x - 1) >= 0 and (snapped_position.x - 1) < ChartManager.strum_count):
 			if placing_note:
 				var cursor_time = grid_position_to_time(snapped_position, true)
 				cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
@@ -273,7 +274,7 @@ func _process(delta: float) -> void:
 					
 					auto_save()
 		
-		if ((grid_position.x - 1) > 0 and (grid_position.x - 1) < ChartManager.strum_count):
+		if ((snapped_position.x - 1) >= 0 and (snapped_position.x - 1) < ChartManager.strum_count):
 			if moving_notes:
 				var cursor_time: float = grid_position_to_time(snapped_position, true)
 				cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
@@ -372,8 +373,8 @@ func update_conductor():
 	conductor.offset = ChartManager.chart.get_tempo_time_at(time) + ChartManager.chart.offset
 
 
-func set_start_offset(grid_position: Vector2, snap: bool):
-	var time: float = grid_position_to_time(grid_position, snap)
+func set_start_offset(grid_position: Vector2):
+	var time: float = grid_position_to_time(grid_position)
 	time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
 	time += ChartManager.chart.offset
 	start_offset = time - song_position
@@ -1532,7 +1533,7 @@ func load_waveforms():
 			printerr("(load_waveforms) Track ", track, " does not exist.")
 	
 	
-	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.LIME, Color.TRANSPARENT)
+	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.FOREST_GREEN, Color.TRANSPARENT)
 	
 	waveform.visible = false
 	$"Waveform Layer".add_child(waveform)
@@ -1723,6 +1724,11 @@ func copy() -> void:
 func paste() -> void:
 	if clipboard.is_empty():
 		return
+	else:
+		var L: float = clipboard.front()[0]
+		var offset: float = song_position + start_offset
+		for i in clipboard.size():
+			clipboard[i][0] = offset + (clipboard[i][0] - L)
 	
 	var temp = place_notes(clipboard)
 	selected_notes = temp

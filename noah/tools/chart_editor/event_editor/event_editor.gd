@@ -18,9 +18,9 @@ func _process(delta: float) -> void:
 	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
 	
 	if ChartManager.song:
-		if %Instrumental.playing:
-			song_position = %Instrumental.get_playback_position() - start_offset
-			%"Song Slider".value = song_position
+		if instrumental.playing:
+			song_position = instrumental.get_playback_position() - start_offset
+			song_slider.value = song_position
 			
 			for strum in ChartManager.strum_data.size():
 				var track = ChartManager.strum_data[strum]["track"]
@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 		$"Grid Layer/Parallax2D".scroll_offset.x = time_to_y_position(conductor.offset - ChartManager.chart.offset)
 		update_camera_song_position(instrumental.playing)
 	
-	var grid_offset: Vector2 = grid.position + $"Grid Layer".offset + $"Grid Layer/Parallax2D".scroll_offset
+	var grid_offset: Vector2 = grid.position + grid_layer.offset + $"Grid Layer/Parallax2D".scroll_offset
 	var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 	var grid_position: Vector2 = grid.get_grid_position(mouse_position)
 	var snapped_position: Vector2i = Vector2i(
@@ -53,7 +53,7 @@ func _process(delta: float) -> void:
 					var time: float = grid_position_to_time(snapped_position, true)
 					time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
 					
-					if time <= %Instrumental.stream.get_length():
+					if time <= instrumental.stream.get_length():
 						if !is_event_at(event, time):
 							if Constants.EVENT_DATA.has(event):
 								current_event = event
@@ -122,16 +122,13 @@ func _process(delta: float) -> void:
 				save()
 	
 	if Input.is_action_pressed(&"mouse_left") and !Input.is_action_pressed(&"control") and is_mouse_over_grid():
-		if !%Instrumental.playing:
+		if !instrumental.playing:
 			if can_chart:
 				## Song Position Slider
-				if grid_position.y < 1 and grid_position.y >= 0:
-					if Input.is_action_pressed(&"shift"):
-						start_offset = grid_position_to_time(snapped_position, true) + conductor.offset - song_position
-					else:
-						start_offset = grid_position_to_time(grid_position) + conductor.offset - song_position
-				
-				if ((grid_position.y - 1) > 0 and (grid_position.y - 1) < grid.rows):
+				if snapped_position.y == 0:
+					@warning_ignore("incompatible_ternary")
+					set_start_offset(snapped_position if Input.is_action_pressed(&"shift") else grid_position)
+				elif ((snapped_position.y - 1) >= 0 and (snapped_position.y - 1) < grid.rows):
 					if moving_notes:
 						var cursor_time: float = grid_position_to_time(snapped_position, true)
 						cursor_time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
@@ -330,7 +327,7 @@ func load_dividers():
 		$"Grid Layer/Parallax2D".add_child(rect)
 		rect.add_to_group(&"dividers")
 	
-	var times: Array = [%Instrumental.stream.get_length()]
+	var times: Array = [instrumental.stream.get_length()]
 	times.append_array(ChartManager.chart.get_tempos_data().keys())
 	times.erase(0.0)
 	for i in times:

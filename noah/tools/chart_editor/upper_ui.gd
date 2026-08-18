@@ -46,10 +46,10 @@ func _ready() -> void:
 	audio_button.get_popup().set_hide_on_checkable_item_selection(false)
 	
 	audio_button.get_popup().set_item_checked(
-		audio_button.get_popup().get_item_index(7), ChartEditor.vocal_waveforms)
+		audio_button.get_popup().get_item_index(11), ChartEditor.vocal_waveforms)
 		
 	audio_button.get_popup().set_item_checked(
-		audio_button.get_popup().get_item_index(8), ChartEditor.instrumental_waveforms)
+		audio_button.get_popup().get_item_index(12), ChartEditor.instrumental_waveforms)
 	
 	
 	#audio_button.get_popup().set_item_checked(
