@@ -565,19 +565,6 @@ func copy() -> void:
 	SoundManager.tool_note_place.play()
 
 
-func paste() -> void:
-	if clipboard.is_empty():
-		return
-	
-	var temp = place_notes(clipboard)
-	selected_notes = temp
-	selected_note_nodes = []
-	for i in selected_notes:
-		selected_note_nodes.append(event_nodes[i - current_visible_events_L])
-	
-	SoundManager.tool_note_place.play()
-
-
 func delete_stacked_notes() -> void:
 	if ChartManager.chart.get_events_data().size() > 1:
 		var i: int = 0

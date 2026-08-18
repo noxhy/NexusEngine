@@ -1227,15 +1227,18 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int) -> void:
 	if ChartManager.chart:
 		load_section(song_position)
 		update_waveforms(song_position)
-	
-	lower_ui.get_node("%Beat").text = str("Beat: ", current_beat + 1)
+		
+		lower_ui.get_node("%Beat").text = str("Beat: ", Conductor.get_accumulated_beat_at(
+			song_position, ChartManager.chart.get_tempos_data(), ChartManager.chart.get_meters_data()) + 1)
 
 
 func _on_conductor_new_step(current_step: int, measure_relative: int) -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"):
 		SoundManager.conductor_step.play()
 	
-	lower_ui.get_node("%Step").text = str("Step: ", current_step + 1)
+	if ChartManager.chart:
+		lower_ui.get_node("%Step").text = str("Step: ", Conductor.get_accumulated_step_at(
+			song_position, ChartManager.chart.get_tempos_data(), ChartManager.chart.get_meters_data()) + 1)
 
 
 func _on_conductor_new_tempo(_tempo: float) -> void:
