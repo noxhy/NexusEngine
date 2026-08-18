@@ -166,7 +166,7 @@ func _process(delta: float) -> void:
 		$"Grid Layer/Parallax2D".scroll_offset.y = time_to_y_position(conductor.offset - ChartManager.chart.offset)
 		update_camera_song_position(instrumental.playing)
 	
-	var grid_offset: Vector2 = grid.position + $"Grid Layer".offset + $"Grid Layer/Parallax2D".scroll_offset
+	var grid_offset: Vector2 = grid.position + grid_layer.offset + $"Grid Layer/Parallax2D".scroll_offset
 	var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 	var grid_position: Vector2 = grid.get_grid_position(mouse_position)
 	var snapped_position: Vector2i = Vector2i(grid.get_grid_position(
@@ -442,7 +442,7 @@ func _draw() -> void:
 	
 	if ChartManager.chart:
 		# The offset the grid has from the normal canvas layer
-		var grid_offset: Vector2 = grid.position + $"Grid Layer".offset + $"Grid Layer/Parallax2D".scroll_offset
+		var grid_offset: Vector2 = grid.position + grid_layer.offset + $"Grid Layer/Parallax2D".scroll_offset
 		var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
 		var grid_position: Vector2i = Vector2i(grid.get_grid_position(mouse_position).floor())
 		var snapped_position: Vector2i = Vector2i(
@@ -751,7 +751,7 @@ func load_dividers():
 		rect.position.x -= grid.get_size().x / 2
 		rect.position.y = time_to_y_position(i)
 		rect.position.y -= rect.size.y / 2
-		rect.position += grid.position + $"Grid Layer".offset
+		rect.position += grid.position + grid_layer.offset
 		rect.color = time_change_color
 		
 		self.add_child(rect)
@@ -1079,13 +1079,13 @@ func update_note_position(node: Node2D):
 	if node is ChartNote:
 		node.position = Vector2(grid.get_real_position(Vector2(1.5 + node.lane, 0)).x,
 		time_to_y_position(node.time) + grid.grid_size.y * grid.zoom.y / 2)
-		node.position += $"Grid Layer".offset
+		node.position += grid_layer.offset
 		node.grid_size = (grid.grid_size * grid.zoom)
 		node.update()
 	elif node is ChartEvent:
 		node.position = Vector2(grid.get_real_position(Vector2(-0.5 + grid.columns, 0)).x,
 		time_to_y_position(node.time) + grid.grid_size.y * grid.zoom.y / 2)
-		node.position += $"Grid Layer".offset
+		node.position += grid_layer.offset
 		node.grid_size = (grid.grid_size * grid.zoom)
 		node.update()
 	else:
