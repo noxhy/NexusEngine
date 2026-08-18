@@ -655,7 +655,7 @@ func change_parameters(i: int, parameters: Array) -> void:
 
 func _on_add_track_pressed() -> void:
 	%"Add Track Window".popup()
-	%"Mouse Click".play()
+	SoundManager.tool_open_window.play()
 
 
 func _on_window_about_to_popup() -> void:

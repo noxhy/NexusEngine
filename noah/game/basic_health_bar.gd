@@ -2,14 +2,16 @@ extends TextureProgressBar
 class_name BasicHealthBar
 
 var target_health: float = 50
+
 func _ready() -> void:
 	Signals.play_health_changed.connect(health_changed)
 
 func health_changed(v: float):
 	target_health = v
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	self.value = Global.frame_independent_lerp(self.value, target_health, 25, delta)
+	value = Global.frame_independent_lerp(value, target_health, 25, delta)
 	update_performance_text()
 
 func update_performance_text():
