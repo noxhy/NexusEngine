@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjm5vp6yx42am"
-path="res://.godot/imported/noteSplashes.png-0d90269ab56a945c9cb06a6546ff3649.ctex"
+uid="uid://cast1ua5idb6d"
+path="res://.godot/imported/up_2.png-ef2440eb57eef17c7e4ae70ce2f0705c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/game/developer/arrow/splashes/noteSplashes.png"
-dest_files=["res://.godot/imported/noteSplashes.png-0d90269ab56a945c9cb06a6546ff3649.ctex"]
+source_file="res://noah/assets/game/developer/splashes/up_2.png"
+dest_files=["res://.godot/imported/up_2.png-ef2440eb57eef17c7e4ae70ce2f0705c.ctex"]
 
 [params]
 

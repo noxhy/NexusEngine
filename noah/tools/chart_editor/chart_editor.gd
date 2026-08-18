@@ -86,7 +86,7 @@ var current_visible_notes_L: int = -1
 var current_visible_notes_R: int = -1
 var current_note_type: String = ""
 
-var waveform_nodes: Dictionary = {}
+var waveform_nodes: Dictionary[int, WaveformRenderer] = {}
 var waveform_dirty: bool = false
 
 var event_nodes: Array = []
@@ -1499,6 +1499,7 @@ func updated_strums():
 	enable_can_chart_on_next_frame()
 	update_grid()
 
+
 func load_waveforms():
 	get_tree().call_group(&"waveforms", &"queue_free")
 	waveform_nodes.clear()
@@ -1522,8 +1523,8 @@ func load_waveforms():
 				waveform_nodes[track] = waveform
 		else:
 			printerr("(load_waveforms) Track ", track, " does not exist.")
-
-
+	
+	
 	var waveform: WaveformRenderer = WaveformRenderer.new(WaveformDataParser.interpretSound(ChartManager.song.instrumental), 0, Color.LIME, Color.TRANSPARENT)
 	
 	waveform.visible = false
@@ -1532,6 +1533,7 @@ func load_waveforms():
 	waveform.add_to_group(&"waveforms")
 	
 	waveform_nodes[-1] = waveform
+
 
 func update_camera_song_position(instant: bool = false):
 	if instant:
@@ -1542,7 +1544,7 @@ func update_camera_song_position(instant: bool = false):
 
 
 func update_waveforms(time: float = 0):
-	var time_range: float = conductor.numerator * conductor.seconds_per_beat * 2
+	var time_range: float = conductor.numerator * conductor.seconds_per_beat * 2 / grid.zoom.y
 	
 	if (waveform_nodes.is_empty() or waveform_dirty) and (instrumental_waveforms or vocal_waveforms):
 		load_waveforms()

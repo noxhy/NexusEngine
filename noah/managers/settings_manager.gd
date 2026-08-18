@@ -79,7 +79,7 @@ static var _defaults: Dictionary = {
 		"note_up": [KEY_UP, KEY_W],
 		"note_right": [KEY_RIGHT, KEY_D],
 		
-		"pause": [KEY_ENTER, KEY_KP_ENTER, KEY_ESCAPE, KEY_BACKSPACE],
+		"pause": [KEY_ENTER, KEY_ESCAPE, KEY_BACKSPACE],
 		"kill": [KEY_R],
 		
 		# Ui Keybinds

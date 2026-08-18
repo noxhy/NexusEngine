@@ -66,8 +66,8 @@ position_column_color = Color(0.20784314, 0.23529412, 0.28235295, 0.26666668)
 
 [node name="Waveform Layer" type="CanvasLayer" parent="." unique_id=1474105227]
 layer = 2
-offset = Vector2(640, 64)
-transform = Transform2D(1, 0, 0, 1, 640, 64)
+offset = Vector2(144, 360)
+transform = Transform2D(1, 0, 0, 1, 144, 360)
 follow_viewport_enabled = true
 
 [node name="Notes Layer" type="CanvasLayer" parent="." unique_id=2024624303]

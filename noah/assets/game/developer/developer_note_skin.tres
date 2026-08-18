@@ -4,11 +4,13 @@
 [ext_resource type="AudioStream" uid="uid://yt7ay5ef2eiv" path="res://noah/tools/sounds/hit.ogg" id="1_w8cuf"]
 [ext_resource type="Script" uid="uid://rwa2lqwuhfdc" path="res://noah/resources/note_skin.gd" id="2_g6s64"]
 [ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://noah/assets/game/developer/arrow/strums.tres" id="3_7te8r"]
+[ext_resource type="SpriteFrames" uid="uid://7ikydrvafmjw" path="res://noah/assets/game/developer/splashes/splashes.tres" id="4_eel8i"]
 
 [resource]
 script = ExtResource("2_g6s64")
 strums_texture = ExtResource("3_7te8r")
 notes_texture = ExtResource("1_ovb1l")
+splashes_texture = ExtResource("4_eel8i")
 notes_scale = 0.2
 animation_names = Dictionary[StringName, StringName]({
 &"down_end": &"end",

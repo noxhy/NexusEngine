@@ -79,7 +79,7 @@ func _process(delta: float) -> void:
 									else:
 										add_action("Placed Event", self.place_event.bind(time, event, [], true),
 										self.remove_note.bind(event, time))
-										%"Note Place".play()
+										SoundManager.tool_note_place.play()
 										
 							else:
 								var i: int = find_event(event, time)
@@ -116,7 +116,7 @@ func _process(delta: float) -> void:
 			
 			add_action("Removed Event", self.remove_note.bind(i),
 			self.place_event.bind(event[0], event_name, parameters, true))
-			%"Note Remove".play()
+			SoundManager.tool_note_remove.play()
 			
 			if selected_notes.has(i):
 				var j: int = selected_notes.find(i)
@@ -268,7 +268,7 @@ func view_button_item_pressed(id):
 		1:
 			can_chart = false
 			%"Note Skin Window".popup()
-			%"Open Window".play()
+			SoundManager.tool_open_window.play()
 		
 		3:
 			%Grid.zoom = clamp(%Grid.zoom + Vector2.ONE * 0.1, Vector2.ONE * 0.5, Vector2.ONE * 1.5)
@@ -633,14 +633,14 @@ func delete_stacked_notes() -> void:
 				i += 1
 			
 			if deleted:
-				%"Note Remove".play()
+				SoundManager.tool_note_remove.play()
 
 
 func select_all():
-	selected_notes = range(current_visible_events_L, current_visible_events_R + 1)
+	selected_notes = ChartManager.chart.get_events_data()
 	selected_note_nodes = get_tree().get_nodes_in_group(&"events")
 	if selected_notes.size() > 0:
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 
 
 func _on_event_parameters_about_to_popup() -> void:
@@ -670,7 +670,7 @@ func _on_event_parameters_about_to_popup() -> void:
 		%"Event Parameters".add_child(line_edit)
 		i += 1
 	
-	%"Open Window".play()
+	SoundManager.tool_open_window.play()
 
 
 func _on_place_event_pressed() -> void:
@@ -681,7 +681,7 @@ func _on_place_event_pressed() -> void:
 	if editing == -1:
 		add_action("Placed Event", self.place_event.bind(current_event_time, current_event, parameters, true),
 		self.remove_note.bind(current_event, current_event_time))
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 		%"Event Creator".hide()
 	else:
 		var action: String = "Edit Event"
@@ -695,7 +695,7 @@ func _on_place_event_pressed() -> void:
 		undo_redo.add_undo_method(self.change_parameters.bind(editing, temp))
 		undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
 		undo_redo.commit_action()
-		%"Note Place".play()
+		SoundManager.tool_note_place.play()
 		%"Event Creator".hide()
 	
 	auto_save()
@@ -754,7 +754,7 @@ func _on_note_type_window_selected_note_type(type: Variant) -> void:
 
 
 func update_waveforms(time: float = 0):
-	var time_range: float = conductor.numerator * conductor.seconds_per_beat * 2
+	var time_range: float = conductor.numerator * conductor.seconds_per_beat * 2 / grid.zoom.x
 	
 	if (waveform_nodes.is_empty() or waveform_dirty) and (instrumental_waveforms or vocal_waveforms):
 		load_waveforms()
@@ -780,19 +780,12 @@ func update_waveforms(time: float = 0):
 		waveform.duration = (R - L) * 128
 		
 		waveform.width = time_to_y_position(R) - time_to_y_position(L)
-		if id == -1:
-			waveform.position = grid.get_real_position(Vector2(1, 0))
-			waveform.height = grid.grid_size.x * (grid.columns - 2) * grid.zoom.x
-		else:
-			waveform.position = grid.get_real_position(Vector2(
-				(ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
-				) / 2.0 + ChartManager.strum_data[id]["strums"][0],
-				0))
-			waveform.height = grid.grid_size.x * (
-				ChartManager.strum_data[id]["strums"][1] - ChartManager.strum_data[id]["strums"][0]
-				) * grid.zoom.x
 		
-		waveform.position.y += time_to_y_position(L)
+		waveform.position = grid.get_real_position(Vector2(0, 0))
+		waveform.height = grid.grid_size.y * 1 * grid.zoom.y
+		waveform.current_orientation = WaveformRenderer.orientation.HORIZONTAL
+		
+		waveform.position.x += time_to_y_position(L)
 		waveform.dirty = true
 
 
