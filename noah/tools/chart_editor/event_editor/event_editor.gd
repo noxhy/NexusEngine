@@ -28,27 +28,13 @@ func _process(delta: float) -> void:
 					%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
 	
 	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_up")) - int(Input.is_action_just_pressed("mouse_scroll_down"))
-	if axis:
-		if can_interact_with_chart: #song scrubbing
-			if not instrumental.stream_paused:
-				toggle_audios(true)
-			song_position += conductor.seconds_per_beat * axis
-			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
-			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
-			song_slider.value = song_position
-	
-	conductor.time = song_position
+	if axis and can_interact_with_chart:
+		scrub(axis)
 	
 	if ChartManager.chart:
-		var time: float = song_position + start_offset
-		$Conductor.tempo = ChartManager.chart.get_tempo_at(song_position + start_offset)
-		var meter = ChartManager.chart.get_meter_at(song_position + start_offset)
-		$Conductor.numerator = meter[0]
-		$Conductor.denominator = meter[1]
-		$Conductor.offset = ChartManager.chart.get_tempo_time_at(time) + ChartManager.chart.offset
+		update_conductor()
 		$"Grid Layer/Parallax2D".scroll_offset.x = time_to_y_position($Conductor.offset - ChartManager.chart.offset)
 		update_camera_song_position(instrumental.playing)
-	
 	
 	var grid_offset: Vector2 = %Grid.position + $"Grid Layer".offset + $"Grid Layer/Parallax2D".scroll_offset
 	var mouse_position: Vector2 = get_global_mouse_position() - grid_offset
@@ -61,34 +47,33 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed(&"mouse_left"):
 		if !Input.is_action_pressed(&"control"):
-			if is_mouse_over_grid():
-				if can_interact_with_chart:
-					if (((snapped_position.y - 1) >= 0 and (snapped_position.y) < %Grid.rows)):
-						var event: String = ChartManager.event_tracks[snapped_position.y - 1]
-						var time: float = grid_position_to_time(snapped_position, true)
-						time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
-						
-						if time <= %Instrumental.stream.get_length():
-							if !is_event_at(event, time):
-								if Constants.EVENT_DATA.has(event):
-									current_event = event
-									current_event_time = time
-									editing = -1
-									if Constants.EVENT_DATA.get(event).has("parameters"):
-										%"Event Creator".popup()
-									else:
-										add_action("Placed Event", self.place_event.bind(time, event, [], true),
-										self.remove_note.bind(event, time))
-										SoundManager.tool_note_place.play()
-										
-							else:
-								var i: int = find_event(event, time)
-								if selected_notes.has(i):
-									moving_notes = true
-									start_time = time
+			if is_mouse_over_grid() and can_interact_with_chart:
+				if (((snapped_position.y - 1) >= 0 and (snapped_position.y) < %Grid.rows)):
+					var event: String = ChartManager.event_tracks[snapped_position.y - 1]
+					var time: float = grid_position_to_time(snapped_position, true)
+					time += ChartManager.chart.get_tempo_time_at(song_position + start_offset)
+					
+					if time <= %Instrumental.stream.get_length():
+						if !is_event_at(event, time):
+							if Constants.EVENT_DATA.has(event):
+								current_event = event
+								current_event_time = time
+								editing = -1
+								if Constants.EVENT_DATA.get(event).has("parameters"):
+									%"Event Creator".popup()
 								else:
-									selected_notes = [i]
-									selected_note_nodes = [event_nodes[i - current_visible_events_L]]
+									add_action("Placed Event", self.place_event.bind(time, event, [], true),
+									self.remove_note.bind(event, time))
+									SoundManager.tool_note_place.play()
+									
+						else:
+							var i: int = find_event(event, time)
+							if selected_notes.has(i):
+								moving_notes = true
+								start_time = time
+							else:
+								selected_notes = [i]
+								selected_note_nodes = [event_nodes[i - current_visible_events_L]]
 		else:
 			if can_chart:
 				bounding_box = true
@@ -155,7 +140,7 @@ func _process(delta: float) -> void:
 						changed_length = true
 						
 						if changed_length:
-							for node in selected_notes:
+							for node in selected_note_nodes:
 								if node:
 									var time: float = node.time
 									
@@ -793,15 +778,19 @@ func update_selected_notes() -> void:
 	if selected_notes.is_empty():
 		return
 	
-	if selected_notes.front() > current_visible_notes_R:
+	if selected_notes.front() > current_visible_events_R:
 		return
 	
-	if selected_notes.back() < current_visible_notes_L:
+	if selected_notes.back() < current_visible_events_L:
 		return
 	
 	selected_note_nodes = []
-	for i in range(current_visible_notes_L, current_visible_notes_R):
+	for i in range(current_visible_events_L, current_visible_events_R):
 		if selected_notes.has(i):
-			selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+			selected_note_nodes.append(note_nodes[i - current_visible_events_L])
 		else:
 			continue
+
+
+func get_corrected_mouse_position() -> Vector2:
+	return get_global_mouse_position() - Vector2(camera_2d.position.x - 640, camera_2d.position.y - 360)

@@ -163,7 +163,6 @@ func _process(delta: float) -> void:
 	
 	if ChartManager.chart:
 		update_conductor()
-		
 		$"Grid Layer/Parallax2D".scroll_offset.y = time_to_y_position(conductor.offset - ChartManager.chart.offset)
 		update_camera_song_position(instrumental.playing)
 	
@@ -390,7 +389,7 @@ func refresh_audios():
 
 
 func is_mouse_over_any_ui() -> bool:
-	var mouse = get_corrected_mouse_position()
+	var mouse: Vector2 = get_corrected_mouse_position()
 	
 	if is_point_in_any_window(mouse):
 		return true
@@ -423,6 +422,7 @@ func is_point_in_any_window(point: Vector2) -> bool:
 		
 		if window_rect.has_point(point):
 			return true
+	
 	return false
 
 func is_mouse_over_grid() -> bool:

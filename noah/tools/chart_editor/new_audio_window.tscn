@@ -3,11 +3,6 @@
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_ndjvb"]
 [ext_resource type="PackedScene" uid="uid://bc4d7j7ifsf86" path="res://noah/tools/chart_editor/audio_panel.tscn" id="2_7t3tj"]
 [ext_resource type="Script" uid="uid://dw1amqwmw7xjr" path="res://noah/tools/chart_editor/new_audio_window.gd" id="2_pb1mr"]
-[ext_resource type="FontFile" uid="uid://ede277aql5vu" path="res://noah/assets/fonts/primary_font.ttf" id="3_jm5px"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_io1j1"]
-font = ExtResource("3_jm5px")
-outline_size = 1
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_jm5px"]
 content_margin_right = 0.0
@@ -35,7 +30,6 @@ offset_bottom = 400.0
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=687633761]
 layout_mode = 2
 text = "Instrumental Settings"
-label_settings = SubResource("LabelSettings_io1j1")
 
 [node name="inst panel" parent="VBoxContainer" unique_id=952900637 instance=ExtResource("2_7t3tj")]
 layout_mode = 2
@@ -47,7 +41,6 @@ theme_override_styles/separator = SubResource("StyleBoxLine_jm5px")
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=122753152]
 layout_mode = 2
 text = "Vocal Settings"
-label_settings = SubResource("LabelSettings_io1j1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1155183781]
 custom_minimum_size = Vector2(0, 170)
