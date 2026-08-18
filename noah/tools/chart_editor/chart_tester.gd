@@ -10,6 +10,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
+	super(delta)
 	$"UI/Chart Stats".text = "Song: " + str(playstate.song_data.title)
 	$"UI/Chart Stats".text += "\n" + "Artist: " + str(playstate.song_data.artist)
 	$"UI/Chart Stats".text += "\n" + "Difficulty: " + str(GameManager.difficulty)

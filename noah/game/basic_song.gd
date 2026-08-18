@@ -40,6 +40,8 @@ func _ready() -> void:
 	
 	Signals.play_conductor_step_hit.connect(_on_conductor_new_step)
 	Signals.play_conductor_beat_hit.connect(_on_conductor_new_beat)
+	GameManager.conductor.new_numerator.connect(update_bop_rate)
+	GameManager.conductor.new_denominator.connect(update_bop_rate)
 	
 	Signals.play_combo_break.connect(_on_combo_break)
 	Signals.play_create_note.connect(_on_create_note)
@@ -50,8 +52,6 @@ func _ready() -> void:
 	
 	Signals.play_song_ready_to_start.emit()
 	Signals.play_died.connect(self.died)
-	
-	bop_rate = GameManager.conductor.numerator * GameManager.conductor.denominator
 
 
 func _process(delta: float) -> void:
@@ -83,6 +83,10 @@ func _on_conductor_new_step(current_step: int, measure_relative: int):
 		
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
 			playstate.ui.bump(playstate.ui_bop_strength)
+
+
+func update_bop_rate(_i: int) -> void:
+	bop_rate = GameManager.conductor.numerator * GameManager.conductor.denominator
 
 
 func _on_create_note(time: float, lane: int, note_length: float, note_type: String, tempo: float):
