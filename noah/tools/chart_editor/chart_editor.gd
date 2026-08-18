@@ -1889,6 +1889,7 @@ func _on_conductor_new_numerator(_numerator: int) -> void:
 	update_grid()
 	load_dividers()
 
+
 func _on_conductor_new_denominator(_denominator: int) -> void:
 	update_grid()
 	load_dividers()
