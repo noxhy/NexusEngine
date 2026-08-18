@@ -630,7 +630,16 @@ func load_section(time: float):
 		L = min(current_visible_notes_L, L)
 		R = max(R, current_visible_notes_R)
 	
-#region Loading Notes
+	load_notes(L, R)
+	
+	L = bsearch_left_range(ChartManager.chart.get_events_data(), time - _range)
+	R = bsearch_right_range(ChartManager.chart.get_events_data(), time + _range)
+	
+	load_events(L, R)
+	update_selected_notes()
+
+
+func load_notes(L: int, R: int):
 	if L > -1 and R > -1:
 		## Clearing any invisible notes
 		if current_visible_notes_L != L or current_visible_notes_R != R:
@@ -656,11 +665,9 @@ func load_section(time: float):
 		
 		current_visible_notes_L = L
 		current_visible_notes_R = R
-#endregion
-#region Loading Events
-	L = bsearch_left_range(ChartManager.chart.get_events_data(), time - _range)
-	R = bsearch_right_range(ChartManager.chart.get_events_data(), time + _range)
-	
+
+
+func load_events(L: int, R: int):
 	if L > -1 and R > -1:
 		## Clearing any invisible notes
 		if current_visible_events_L != L or current_visible_events_R != R:
@@ -686,9 +693,6 @@ func load_section(time: float):
 		
 		current_visible_events_L = L
 		current_visible_events_R = R
-		#endregion
-	
-	update_selected_notes()
 
 
 func load_dividers():

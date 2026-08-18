@@ -287,35 +287,7 @@ func load_section(time: float):
 		L = min(current_visible_events_L, L)
 		R = max(R, current_visible_events_R)
 	
-#region Loading Events
-	if L > -1 and R > -1:
-		## Clearing any invisible notes
-		if current_visible_events_L != L or current_visible_events_R != R:
-			var i: int = 0
-			for _i in range(event_nodes.size()):
-				var event = event_nodes[i]
-				if (event.time < ChartManager.chart.get_events_data()[L][0]
-				or event.time > ChartManager.chart.get_events_data()[R][0]):
-					event.queue_free()
-					event_nodes.remove_at(i)
-					i -= 1
-				
-				i += 1
-		
-		for i in range(L, R + 1):
-			if i >= current_visible_events_L and i <= current_visible_events_R:
-				if (i - L) >= 0 and (i - L) < event_nodes.size():
-					update_note_position(event_nodes[i - L])
-				continue
-			
-			var event = ChartManager.chart.get_events_data()[i]
-			place_event(event[0], event[1], event[2], false, false, true, i - L)
-		
-		current_visible_events_L = L
-		current_visible_events_R = R
-		#endregion
-	
-	update_selected_notes()
+	load_events(L, R)
 
 
 func update_note_position(node: Node2D):
