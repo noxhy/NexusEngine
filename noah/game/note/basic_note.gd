@@ -5,7 +5,7 @@ class_name BasicNote
 
 const PIXELS_PER_SECOND = 450
 
-@onready var note: OffsetSprite = $Note
+@onready var note = $Note
 @onready var tail = $Tail
 @onready var end = null
 

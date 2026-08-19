@@ -6,19 +6,35 @@ class_name ChartNote
 @onready var label = %"Special Note Label"
 @onready var screen_enabler = $VisibleOnScreenEnabler2D
 
+var animation_names: Dictionary[StringName, StringName] = {
+	&"down": &"down",
+	&"down_end": &"down_end",
+	&"down_tail": &"down_tail",
+	&"left": &"left",
+	&"left_end": &"left_end",
+	&"left_tail": &"left_tail",
+	&"right": &"right",
+	&"right_end": &"right_end",
+	&"right_tail": &"right_tail",
+	&"up": &"up",
+	&"up_end": &"up_end",
+	&"up_tail": &"up_tail"
+}
+
+## Returns the animation name of the given id in SpriteFrames.
+func get_animation_name(animation_id: StringName) -> Variant:
+	return animation_names.get(animation_id)
+
 # Applying Note Skin
 func _ready() -> void:
-	note.sprite_frames = note_skin.notes_texture
 	if !note_skin.animation_names.is_empty(): 
-		note.animation_names.merge(note_skin.animation_names, true)
+		animation_names.merge(note_skin.animation_names, true)
 	
-	note.play_animation(animation)
+	note.texture = note_skin.notes_texture.get_frame_texture(get_animation_name(animation), 0)
 	
-	var tail_animation = note.get_animation_name(animation + &"_tail")
+	var tail_animation = get_animation_name(animation + &"_tail")
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
-	
-	note.offsets = note_skin.offsets
 	
 	if note_skin.pixel_texture: 
 		note.texture_filter = TEXTURE_FILTER_NEAREST
@@ -28,13 +44,11 @@ func _ready() -> void:
 
 func update():
 	if note:
-		scale = Vector2(1, 1)
-		note.scale = grid_size / note.sprite_frames.get_frame_texture(note.animation, 0).get_size()
+		note.size = grid_size
+		note.position = -note.size / 2
 		
-		#note.scale *= 0.9
-		label.scale = grid_size / label.size
 		if tail:
-			tail.scale = note.scale
+			tail.scale = grid_size / note.texture.get_size()
 			if tail.texture:
 				tail.position.x = tail.texture.get_height() / 2.0 * tail.scale.x
 		
@@ -44,7 +58,10 @@ func update():
 			collision_shape.shape = RectangleShape2D.new()
 			collision_shape.scale = screen_enabler.scale * 0.9
 			collision_shape.shape.set_size(Vector2(screen_enabler.rect.size.x, screen_enabler.rect.size.x))
-			label.visible = note_type != ""
+			
+			label.size = grid_size
+			label.position = -grid_size / 2
+			label.label_settings.font_size = grid_size.y / 2
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
@@ -64,9 +81,11 @@ func _on_visible_on_screen_enabler_2d_screen_entered() -> void:
 	on_screen = true
 	note.visible = on_screen
 	tail.visible = on_screen
+	label.visible = (note_type != "")
 
 
 func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
 	on_screen = false
 	note.visible = on_screen
 	tail.visible = on_screen
+	label.visible = on_screen

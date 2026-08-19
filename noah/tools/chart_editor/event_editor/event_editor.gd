@@ -202,6 +202,7 @@ func _draw() -> void:
 	if bounding_box:
 		rect = Rect2(start_box, get_global_mouse_position() - start_box).abs()
 		draw_rect(rect, box_color)
+		draw_rect(rect, Color.LIME, false, 1)
 	
 	if ChartManager.chart:
 		## The offset the grid has from the normal canvas layer
@@ -233,12 +234,9 @@ func _draw() -> void:
 		## Event Highlighting
 		for note in selected_note_nodes:
 			if note:
-				var length: float = 1.0 / conductor.numerator
-				length *= grid.grid_size.x * grid.zoom.x
-				length *= conductor.numerator
-				rect = Rect2(note.global_position - (grid.grid_size / 2 * grid.zoom),
-				Vector2(grid.grid_size.x * grid.zoom.x, length))
+				rect = Rect2(note.global_position - (grid.grid_size / 2 * grid.zoom), grid.grid_size * grid.zoom)
 				draw_rect(rect, selected_color)
+				draw_rect(rect, Color.LIME, false, 1)
 
 ## View button item pressed
 func view_button_item_pressed(id):

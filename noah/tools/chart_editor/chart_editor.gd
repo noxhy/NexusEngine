@@ -26,12 +26,12 @@ var OPEN_FILE_POPUP_PRELOAD = load("uid://388mdmn1mwun")
 var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 
 @export_group("Colors")
-@export var hover_color: Color = Color(1, 1, 1, 0.5)
-@export var divider_color: Color = Color(1, 1, 1, 0.5)
-@export var current_time_color: Color = Color(1, 0, 0, 1)
-@export var muted_color: Color = Color(0.8, 0.8, 0.8, 0.5)
-@export var box_color: Color = Color.LIGHT_GREEN
-@export var selected_color: Color = Color.GREEN
+@export var hover_color: Color = Color("ffffff80")
+@export var divider_color: Color = Color("b6b6b6")
+@export var current_time_color: Color = Color("c100ffcc")
+@export var muted_color: Color = Color("29292980")
+@export var box_color: Color = Color("27722c49")
+@export var selected_color: Color = Color("67bf71bb")
 @export var time_change_color: Color = Color.PURPLE
 
 @onready var upper_ui: ChartEditorUpperUI = %"Upper UI"
@@ -44,6 +44,7 @@ var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 @onready var notes_layer: CanvasLayer = $"Notes Layer"
 @onready var grid_layer: CanvasLayer = $"Grid Layer"
 @onready var grid: Grid = %Grid
+@onready var minimap: Control = %Minimap
 
 ## Chart Variables
 var backup_chart: Chart = null
@@ -118,10 +119,7 @@ func _ready() -> void:
 		enable_can_chart_on_next_frame()
 	
 	update_ui_usable_state()
-	
 	update_grid()
-	
-	## Initializing Popup Signals
 	
 	lower_ui.chart_snap.value = current_snap
 	
@@ -438,6 +436,7 @@ func _draw() -> void:
 	if bounding_box:
 		rect = Rect2(start_box, get_global_mouse_position() - start_box).abs()
 		draw_rect(rect, box_color)
+		draw_rect(rect, Color.LIME, false, 1)
 	
 	if ChartManager.chart:
 		# The offset the grid has from the normal canvas layer
@@ -475,6 +474,7 @@ func _draw() -> void:
 				rect = Rect2(note.global_position - (grid.grid_size / 2 * grid.zoom),
 				Vector2(grid.grid_size.x * grid.zoom.x, length))
 				draw_rect(rect, selected_color)
+				draw_rect(rect, Color.LIME, false, 1)
 
 func on_files_dropped(files: PackedStringArray):
 	var file: String = files[0]
@@ -1810,11 +1810,11 @@ func change_note_lengths(notes: Array, delta: float):
 		var length: float = ChartManager.chart.get_notes_data()[i][2]
 		undo_redo.add_do_method(self.change_length.bind(i, length + delta))
 		undo_redo.add_do_property(note_nodes[i - current_visible_notes_L], "length", length + delta)
-		undo_redo.add_do_method(%"Note Stretch".play)
+		undo_redo.add_do_method(SoundManager.tool_note_stretch.play)
 		undo_redo.add_undo_method(self.change_length.bind(i, length))
 		undo_redo.add_undo_property(note_nodes[i - current_visible_notes_L], "length", length)
 	
-	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
+	undo_redo.add_do_reference(upper_ui.get_node("%History Window").add_action(action))
 	undo_redo.commit_action()
 
 
@@ -1896,3 +1896,19 @@ func set_note_type(note_type):
 func _on_note_type_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(2, false)
 	SoundManager.tool_close_window.play()
+
+
+func _on_minimap_gui_input(event: InputEvent) -> void:
+	if !ChartManager.chart:
+		return
+	
+	if event is InputEventMouseMotion:
+		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
+			var mouse_position: Vector2 = get_corrected_mouse_position()
+			song_position = remap(mouse_position.y - 360,
+			minimap.global_position.y, minimap.global_position.y + minimap.size.y,
+			start_offset, instrumental.stream.get_length() - start_offset)
+			
+			song_position = clamp(song_position, start_offset, instrumental.stream.get_length() - start_offset)
+			
+			song_slider.value = song_position
