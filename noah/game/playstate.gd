@@ -47,9 +47,12 @@ var output_latency: float = AudioServer.get_output_latency()
 
 var chart: Chart
 
-var health: float = 50.0 : set = set_health
-var health_min: float = 0.0
-var health_max: float = 100.0
+
+@export_group("Data")
+@export var health_min: float = 0.0
+@export var health_max: float = 100.0
+
+var health: float = health_max * 0.5 : set = set_health
 
 func set_health(v: float):
 	v = clampf(v, health_min, health_max)
