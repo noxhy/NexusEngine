@@ -794,9 +794,10 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	
 	var output: int
 	if placed:
+		var packet: Array = [time, lane, length, type]
 		var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time)
 		if L != -1:
-			ChartManager.chart.chart_data["notes"].insert(L, [time, lane, length, type])
+			ChartManager.chart.chart_data["notes"].insert(L, packet)
 			
 			if note_nodes.is_empty():
 				note_nodes.append(note_instance)
@@ -815,7 +816,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			
 			output = L
 		else:
-			ChartManager.chart.chart_data["notes"].append([time, lane, length, type])
+			ChartManager.chart.chart_data["notes"].append(packet)
 			note_nodes.append(note_instance)
 			L = ChartManager.chart.get_notes_data().size() - 1
 			selected_notes = [L]
@@ -823,6 +824,8 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			min_lane = 0
 			max_lane = ChartManager.strum_count - 1
 			output = L
+		
+		minimap.map(packet)
 		
 		# Preventing fake notes
 		#current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
@@ -946,6 +949,7 @@ func remove_note(lane, time: float = -1):
 		note_nodes.remove_at(index)
 		current_visible_notes_R -= 1
 	
+	minimap.unmap(ChartManager.chart.chart_data["notes"][i])
 	ChartManager.chart.chart_data["notes"].remove_at(i)
 
 ## Removes the notes in the given indices
@@ -991,6 +995,7 @@ func find_events_at(time: float) -> Array[int]:
 			ret.append(i)
 	return ret
 
+## Returns the index of the given note in the events list.
 func find_event(event: String, time: float) -> int:
 	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - EPSILON)
 	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + EPSILON)

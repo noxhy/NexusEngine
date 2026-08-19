@@ -158,6 +158,10 @@ script = ExtResource("21_et4bh")
 
 [node name="Minimap" parent="UI" unique_id=507710740 instance=ExtResource("10_kpohl")]
 unique_name_in_owner = true
+offset_left = -640.0
+offset_top = -297.0
+offset_right = -576.0
+offset_bottom = 279.0
 precision = 2
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
