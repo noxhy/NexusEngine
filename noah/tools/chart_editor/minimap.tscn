@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://s3uvtxiv1wo4"]
+
+[ext_resource type="Script" uid="uid://365k0b6cyyt7" path="res://noah/tools/chart_editor/minimap.gd" id="1_5wgq0"]
+
+[node name="Minimap" type="TextureRect" unique_id=107610443]
+texture_filter = 1
+offset_left = -324.0
+offset_top = -296.0
+offset_right = -256.0
+offset_bottom = 280.0
+script = ExtResource("1_5wgq0")

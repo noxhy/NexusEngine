@@ -1,43 +1,23 @@
 [gd_scene format=3 uid="uid://yyfqg2jvwcmt"]
 
 [ext_resource type="Script" uid="uid://b2wrl2lit1tus" path="res://noah/game/note/chart_note.gd" id="1_ud7f5"]
-[ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://noah/assets/game/developer/arrow/notes.tres" id="2_jcxlk"]
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="3_gsgsu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ud7f5"]
 size = Vector2(640.0001, 640.0001)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wqobl"]
-font_size = 320
 font_color = Color(1, 1, 0, 1)
-outline_size = 64
+outline_size = 4
 outline_color = Color(0, 0, 0, 1)
 
 [node name="Note" type="Node2D" unique_id=626587340 groups=["note"]]
 use_parent_material = true
 script = ExtResource("1_ud7f5")
 
-[node name="Note" type="AnimatedSprite2D" parent="." unique_id=1501669476]
+[node name="Note" type="TextureRect" parent="." unique_id=770732835]
 z_index = 1
 use_parent_material = true
-scale = Vector2(1.065, 1.065)
-sprite_frames = ExtResource("2_jcxlk")
-animation = &"left"
-script = ExtResource("3_gsgsu")
-animation_names = Dictionary[StringName, StringName]({
-&"down": &"down",
-&"down_end": &"down_end",
-&"down_tail": &"down_tail",
-&"left": &"left",
-&"left_end": &"left_end",
-&"left_tail": &"left_tail",
-&"right": &"right",
-&"right_end": &"right_end",
-&"right_tail": &"right_tail",
-&"up": &"up",
-&"up_end": &"up_end",
-&"up_tail": &"up_tail"
-})
+expand_mode = 4
 
 [node name="Tail" type="TextureRect" parent="." unique_id=968104361]
 rotation = 1.5707964
@@ -56,10 +36,8 @@ shape = SubResource("RectangleShape2D_ud7f5")
 unique_name_in_owner = true
 visible = false
 z_index = 1
-offset_left = -320.0
-offset_top = -320.0
-offset_right = 320.0
-offset_bottom = 320.0
+offset_right = 9.0
+offset_bottom = 23.0
 pivot_offset = Vector2(320, 320)
 text = "*"
 label_settings = SubResource("LabelSettings_wqobl")

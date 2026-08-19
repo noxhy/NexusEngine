@@ -12,6 +12,7 @@ strums_texture = ExtResource("3_7te8r")
 notes_texture = ExtResource("1_ovb1l")
 splashes_texture = ExtResource("4_eel8i")
 notes_scale = 0.2
+sustain_width = 600.0
 animation_names = Dictionary[StringName, StringName]({
 &"down_end": &"end",
 &"down_press": &"down_press",

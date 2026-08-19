@@ -39,7 +39,7 @@ transparent_bg = true
 oversampling_override = 1.0
 title = "Edit Strum Settings"
 initial_position = 4
-size = Vector2i(300, 158)
+size = Vector2i(300, 128)
 visible = false
 
 [node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=1716652347]
@@ -56,39 +56,35 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer" unique_id=1509225409]
 layout_mode = 2
 
-[node name="Control2" type="Control" parent="Window/MarginContainer/VBoxContainer" unique_id=1346180576]
-custom_minimum_size = Vector2(0, 7.935)
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=160499164]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=2023436758]
+[node name="HBoxContainer" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer/VBoxContainer" unique_id=2023436758]
 custom_minimum_size = Vector2(300, 16)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/HBoxContainer" unique_id=681434192]
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=681434192]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Strum Name:"
 
-[node name="Strum ID" type="LineEdit" parent="Window/MarginContainer/VBoxContainer/HBoxContainer" unique_id=354814603]
+[node name="Strum ID" type="LineEdit" parent="Window/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=354814603]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="Control" type="Control" parent="Window/MarginContainer/VBoxContainer" unique_id=1663157548]
-custom_minimum_size = Vector2(0, 13.48)
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=2091309806]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer/VBoxContainer" unique_id=2091309806]
 custom_minimum_size = Vector2(300, 16)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=680192948]
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=680192948]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Vocal Track:"
 
-[node name="Vocal Track" type="SpinBox" parent="Window/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1581660247]
+[node name="Vocal Track" type="SpinBox" parent="Window/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1581660247]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

@@ -35,7 +35,7 @@ func flush() -> void:
 static var _defaults: Dictionary = {
 	SEC_GAMEPLAY: {
 		"offset": 0.0, ## Puts a delay on the notes
-		"ghost_tapping": true, ## Allows tapping when no notes are active
+		"ghost_tapping": false, ## Allows tapping when no notes are active
 		"downscroll": false, ## Notes go down instead of up, downscroll ui function is called
 		"botplay": false, ## By default it only works for one strumline, more support for botplay on strumlines will be need to be per song script.
 		"song_speed": 1.0,

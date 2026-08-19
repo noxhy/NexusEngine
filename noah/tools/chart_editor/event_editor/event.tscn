@@ -9,8 +9,9 @@ size = Vector2(16.000006, 16.000006)
 [node name="Event" type="Node2D" unique_id=1882757800]
 script = ExtResource("1_c5tis")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=909834546]
+[node name="Sprite2D" type="TextureRect" parent="." unique_id=921164148]
 texture = ExtResource("2_fth7j")
+expand_mode = 4
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=666586302]
 rect = Rect2(-8, -8, 16, 16)

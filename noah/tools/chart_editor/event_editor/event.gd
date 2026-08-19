@@ -3,7 +3,7 @@ class_name ChartEvent
 
 @onready var area = $Area2D
 @onready var collision_shape = $Area2D/CollisionShape2D
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: TextureRect = $Sprite2D
 
 var time: float
 var event: String
@@ -20,7 +20,8 @@ func _ready() -> void:
 
 func update():
 	if sprite:
-		sprite.scale = grid_size / sprite.get_rect().size
+		sprite.size = grid_size
+		sprite.position = -sprite.size / 2
 	
 	if collision_shape:
 		collision_shape.shape = RectangleShape2D.new()

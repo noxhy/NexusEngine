@@ -13,7 +13,6 @@ class_name NoteSkin
 @export_range(0, 1) var sustain_opacity: float = 0.6
 @export var notes_scale: float = 1.0
 @export var splash_scale: float = 1.0
-@export var sustain_width: float = 0
 @export var hold_covers_scale: float = 1.0
 
 @export_subgroup("Offsets")

@@ -69,7 +69,7 @@ func merge_events_into_this(events:ChartEvents):
 	
 	chart_data.set('events', ret_events)
 
-
+## Returns the tempo at a given time
 func get_tempo_at(time: float) -> float:
 	time = max(0, time)
 	var output: float = -1
@@ -81,7 +81,7 @@ func get_tempo_at(time: float) -> float:
 	
 	return output
 
-
+## Returns the time signature at a given time
 func get_meter_at(time: float) -> Array:
 	time = max(0, time)
 	var output: Array = []
@@ -93,7 +93,7 @@ func get_meter_at(time: float) -> Array:
 	
 	return output
 
-
+## Gets the time of a tempo change.
 func get_tempo_time_at(time: float) -> float:
 	time = max(0, time)
 	var output: float = -1

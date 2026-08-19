@@ -22,12 +22,6 @@ font_color = Color(1, 0, 0, 1)
 
 [node name="Event Editor" type="Node2D" unique_id=677401117]
 script = ExtResource("1_06aqy")
-divider_color = Color(0.71484375, 0.71484375, 0.71484375, 1)
-current_time_color = Color(0.75668746, 0, 1, 0.8)
-muted_color = Color(0.16, 0.16, 0.16, 0.502)
-box_color = Color(0.151337, 0.445313, 0.17072, 0.287)
-selected_color = Color(0.404297, 0.75, 0.442108, 0.734)
-time_change_color = Color(0.5526029, 0.5802685, 0.9920456, 1)
 
 [node name="Conductor" type="Node" parent="." unique_id=484917149 node_paths=PackedStringArray("stream_player")]
 script = ExtResource("2_mcaef")
