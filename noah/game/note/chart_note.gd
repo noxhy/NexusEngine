@@ -23,13 +23,10 @@ var animation_names: Dictionary[StringName, StringName] = {
 
 ## Returns the animation name of the given id in SpriteFrames.
 func get_animation_name(animation_id: StringName) -> Variant:
-	return animation_names.get(animation_id)
+	return note_skin.animation_names.get(animation_id, animation_names.get(animation_id))
 
 # Applying Note Skin
 func _ready() -> void:
-	if !note_skin.animation_names.is_empty(): 
-		animation_names.merge(note_skin.animation_names, true)
-	
 	note.texture = note_skin.notes_texture.get_frame_texture(get_animation_name(animation), 0)
 	
 	var tail_animation = get_animation_name(animation + &"_tail")
