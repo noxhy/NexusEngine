@@ -1,6 +1,7 @@
 extends Node
 
 ##TODO: better docs use better tag stuff 
+
 const SICK_RATING_WINDOW: float = 0.045
 const GOOD_RATING_WINDOW: float = 0.09
 const BAD_RATING_WINDOW: float = 0.135
@@ -136,21 +137,13 @@ func finished_song(_stats: NoahStats = null):
 	
 	grade = get_grade(week_stats)
 	get_rank(grade)
-	if !SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "botplay"):
-		match play_mode:
-			PLAY_MODE.CHARTING:
-				highscore = false
-			
-			PLAY_MODE.PRACTICE:
-				highscore = false
-			
-			_:
-				if validate_score():
-					highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(last_song_stats))
-					if !GameManager.freeplay and current_week_song == week_songs.size():
-						highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
-					else:
-						highscore = false
+	
+	if can_save_score():
+		highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(last_song_stats))
+		if !GameManager.freeplay and current_week_song == week_songs.size():
+			highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
+		else:
+			highscore = false
 	else:
 		highscore = false
 
@@ -164,8 +157,14 @@ func reset_stats():
 	songs_played = 0
 	current_week_song = 0
 	
-## Checks is a score is valid and can be saved into storage
-func validate_score() -> bool:
+## Checks preferences to see if scoring should be saved.
+func can_save_score() -> bool:
+	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "botplay"):
+		return false
+	
+	if play_mode == PLAY_MODE.CHARTING or play_mode == PLAY_MODE.PRACTICE:
+		return false
+		
 	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1):
 		return false
 	
