@@ -3,6 +3,10 @@ extends BasicNote
 class_name ModChartNote
 
 var last_length: float
+var update_tail: Callable = func() -> void:
+	var line_length: float = length * scroll_speed * grid_size.y
+	tail.visible = true
+	tail.points = [Vector2.ZERO, Vector2(0, line_length)]
 
 # Applying Note Skin
 func _ready() -> void: 
@@ -41,8 +45,6 @@ func _process(delta) -> void:
 	time_difference = (time - GameManager.offset) - GameManager.song_position
 	
 	if length > 0:
-		var line_length: float = length * scroll_speed * grid_size.y
-		tail.visible = true
-		tail.points = [Vector2.ZERO, Vector2(0, line_length)]
+		update_tail.call()
 	else:
 		tail.visible = false
