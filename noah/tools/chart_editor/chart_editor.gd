@@ -1917,15 +1917,21 @@ func _on_minimap_gui_input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion:
 		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
-			if not instrumental.stream_paused:
-				toggle_audios(true)
-			
-			var mouse_position: Vector2 = get_corrected_mouse_position()
-			song_position = remap(mouse_position.y - 360,
-			minimap.global_position.y, minimap.global_position.y + minimap.size.y,
-			start_offset, instrumental.stream.get_length() - start_offset)
-			
-			song_position = clamp(song_position, start_offset, instrumental.stream.get_length() - start_offset)
-			update_camera_song_position(true)
-			
-			song_slider.value = song_position
+			scrub_minimap()
+	elif event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+			scrub_minimap()
+
+func scrub_minimap():
+	if not instrumental.stream_paused:
+		toggle_audios(true)
+	
+	var mouse_position: Vector2 = get_corrected_mouse_position()
+	song_position = remap(mouse_position.y - 360,
+	minimap.global_position.y, minimap.global_position.y + minimap.size.y,
+	start_offset, instrumental.stream.get_length() - start_offset)
+	
+	song_position = clamp(song_position, start_offset, instrumental.stream.get_length() - start_offset)
+	update_camera_song_position(true)
+	
+	song_slider.value = song_position
