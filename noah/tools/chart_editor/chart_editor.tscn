@@ -162,7 +162,6 @@ offset_left = -640.0
 offset_top = -297.0
 offset_right = -576.0
 offset_bottom = 279.0
-precision = 3
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128

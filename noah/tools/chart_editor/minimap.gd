@@ -6,14 +6,13 @@ Color(0.235, 0.769, 0.208), Color(0.757, 0.149, 0.322)]
 
 @export var background_color: Color = Color(0.114, 0.133, 0.161)
 @export var area_color: Color = Color(1.0, 1.0, 1.0, 0.4)
-
-@export var precision: int = 2:
-	set(v):
-		precision = v
-		point_width = size.x / ChartManager.strum_count
+@export var precision: int = 2
 
 var chart_editor: ChartEditor
-var point_width: float = size.x / ChartManager.strum_count
+var point_width: float:
+	get():
+		return size.x / ChartManager.strum_count
+
 var minimap_image: Image
 var point_data: Dictionary[int, Dictionary] = {}
 
@@ -48,7 +47,7 @@ func _draw() -> void:
 		draw_rect(rect, area_color)
 		
 		draw_rect_on_texture(map_to_image_position(Vector2(0,
-		chart_editor.song_position + chart_editor.start_offset)), Vector2(size.x, 2), Color.RED)
+		chart_editor.song_position + chart_editor.start_offset)), Vector2(size.x, precision), Color.RED)
 
 ## Creates an image texture of a map of the given data
 func refresh(data: Array):
@@ -100,7 +99,7 @@ func unmap_from_texture(packet):
 ## Maps a point to a position on the container
 func map_to_image_position(point: Vector2) -> Vector2i:
 	var y: float = point.y / chart_editor.instrumental.stream.get_length()
-	y *= (size.y - precision)
+	y *= size.y
 	y = snappedi(y, precision)
 	return Vector2i(int(point_width * point.x), int(y))
 

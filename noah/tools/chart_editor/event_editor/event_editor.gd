@@ -349,6 +349,7 @@ func load_chart(file: Chart, ghost: bool = false):
 	for event in file.get_events_data():
 		if !ChartManager.event_tracks.has(event[1]):
 			ChartManager.event_tracks.append(event[1])
+	
 	update_grid()
 	_on_event_tracks_ready()
 
