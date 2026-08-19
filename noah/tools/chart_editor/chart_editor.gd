@@ -2,6 +2,7 @@ extends Node2D
 class_name ChartEditor
 
 const EPSILON: float = 0.00001
+const DIRECTIONS: Array = ["left", "down", "up", "right"]
 
 static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN): 
 	get():
@@ -44,7 +45,7 @@ var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 @onready var notes_layer: CanvasLayer = $"Notes Layer"
 @onready var grid_layer: CanvasLayer = $"Grid Layer"
 @onready var grid: Grid = %Grid
-@onready var minimap: Control = %Minimap
+@onready var minimap: EditorMinimap = %Minimap
 
 ## Chart Variables
 var backup_chart: Chart = null
@@ -610,6 +611,7 @@ func load_chart(file: Chart, ghost: bool = false):
 	enable_can_chart_on_next_frame()
 	load_section(song_position)
 	update_grid()
+	minimap.refresh(file.get_notes_data())
 	load_dividers()
 	update_camera_song_position(true)
 
@@ -772,8 +774,6 @@ func new_file(path: String, song: Song):
 ## Reset the select notes and note nodes list before calling moved
 func place_note(time: float, lane: int, length: float, type: String, placed: bool = false, moved: bool = false,
 sorted: bool = false, sort_index: int = -1) -> int:
-	var directions: Array = ["left", "down", "up", "right"]
-	
 	var note_instance = NOTE_PRELOAD.instantiate()
 	
 	var meter: Array = ChartManager.chart.get_meter_at(time)
@@ -785,7 +785,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	# I am treating scroll speed as a multiplier that would've acted like the grid size for
 	# sizing purposes
 	note_instance.scroll_speed = meter[0]
-	note_instance.direction = directions[lane % 4]
+	note_instance.direction = DIRECTIONS[lane % 4]
 	note_instance.animation = str(Constants.NOTE_TYPES.get(type, ""), note_instance.direction)
 	
 	update_note_position(note_instance)

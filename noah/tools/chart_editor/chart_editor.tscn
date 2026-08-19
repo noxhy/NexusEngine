@@ -158,6 +158,7 @@ script = ExtResource("21_et4bh")
 
 [node name="Minimap" parent="UI" unique_id=507710740 instance=ExtResource("10_kpohl")]
 unique_name_in_owner = true
+precision = 2
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128
