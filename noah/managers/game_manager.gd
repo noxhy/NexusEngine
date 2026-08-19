@@ -145,8 +145,7 @@ func finished_song(_stats: NoahStats = null):
 				highscore = false
 			
 			_:
-				if (SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed") != 1
-				or SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale") != 1):
+				if validate_score():
 					highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(last_song_stats))
 					if !GameManager.freeplay and current_week_song == week_songs.size():
 						highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
@@ -164,6 +163,16 @@ func reset_stats():
 	
 	songs_played = 0
 	current_week_song = 0
+	
+## Checks is a score is valid and can be saved into storage
+func validate_score() -> bool:
+	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1):
+		return false
+	
+	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale"), 1):
+		return false
+	
+	return true
 
 func get_grade(_stats: NoahStats = last_song_stats) -> float:
 	if _stats.total_notes == 0:
