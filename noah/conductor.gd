@@ -125,7 +125,7 @@ static func get_accumulated_beat_at(_time: float, tempo_data: Dictionary, ts_dat
 		
 		return beat
 	else:
-		return time_calc.call(_time, tempo_data[0], ts_data[0][1])
+		return time_calc.call(_time, tempo_data[tempo_data.keys().front()], ts_data[ts_data.keys().front()][1])
 
 ## Gets the step counting previous time changes at the given time.
 static func get_accumulated_step_at(_time: float, tempo_data: Dictionary, ts_data: Dictionary) -> int:
@@ -153,4 +153,4 @@ static func get_accumulated_step_at(_time: float, tempo_data: Dictionary, ts_dat
 		
 		return step
 	else:
-		return time_calc.call(_time, tempo_data[0], ts_data[0][1])
+		return time_calc.call(_time, tempo_data[tempo_data.keys().front()], ts_data[ts_data.keys().front()][1])

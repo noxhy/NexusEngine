@@ -611,7 +611,9 @@ func load_chart(file: Chart, ghost: bool = false):
 	enable_can_chart_on_next_frame()
 	load_section(song_position)
 	update_grid()
-	minimap.refresh(file.get_notes_data())
+	if minimap:
+		minimap.refresh(file.get_notes_data())
+	
 	load_dividers()
 	update_camera_song_position(true)
 
