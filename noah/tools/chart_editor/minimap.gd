@@ -31,9 +31,13 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	for pixel in point_data:
-		var packet: Dictionary = point_data[pixel]
-		draw_rect_on_texture(packet.get("position"), point_size, packet.get("color"))
+	if ChartManager.chart:
+		for pixel in point_data:
+			var packet: Dictionary = point_data[pixel]
+			draw_rect_on_texture(packet.get("position"), point_size, packet.get("color"))
+		
+		draw_rect_on_texture(map_to_image_position(Vector2(0,
+		chart_editor.song_position + chart_editor.start_offset)), Vector2(size.x, 2), Color.RED)
 
 ## Creates an image texture of a map of the given data
 func refresh(data: Array):
