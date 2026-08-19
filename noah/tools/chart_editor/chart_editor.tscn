@@ -3,18 +3,7 @@
 [ext_resource type="Script" uid="uid://ocjrud8madj7" path="res://noah/tools/chart_editor/chart_editor.gd" id="1_ugmsy"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://noah/conductor.gd" id="2_dontb"]
 [ext_resource type="PackedScene" uid="uid://dmjgk2qf3nl2i" path="res://noah/tools/chart_editor/grid.tscn" id="2_i6pv1"]
-[ext_resource type="AudioStream" uid="uid://bhbl74dwlqyhk" path="res://noah/assets/sounds/conductor sfx.mp3" id="3_myxvx"]
-[ext_resource type="AudioStream" uid="uid://bodc4sfit172e" path="res://noah/assets/sounds/chart_editor/sound-hit.wav" id="4_1k01c"]
-[ext_resource type="AudioStream" uid="uid://s88wsjen8kj7" path="res://noah/assets/sounds/chart_editor/keyboard1.ogg" id="5_ewdb4"]
-[ext_resource type="AudioStream" uid="uid://cdoo62fj7frd" path="res://noah/assets/sounds/chart_editor/keyboard2.ogg" id="6_0ge7q"]
-[ext_resource type="AudioStream" uid="uid://dr4m1bpeomae5" path="res://noah/assets/sounds/chart_editor/keyboard3.ogg" id="7_5qx4x"]
-[ext_resource type="AudioStream" uid="uid://rrkhugilc67r" path="res://noah/assets/sounds/chart_editor/noteErase.ogg" id="8_3odt1"]
-[ext_resource type="AudioStream" uid="uid://dq71x4q0d1q18" path="res://noah/assets/sounds/chart_editor/stretch1_UI.ogg" id="8_s4ovn"]
-[ext_resource type="AudioStream" uid="uid://cl352to0t51ux" path="res://noah/assets/sounds/chart_editor/stretch2_UI.ogg" id="9_v13a8"]
-[ext_resource type="AudioStream" uid="uid://bittkmfqaayks" path="res://noah/assets/sounds/chart_editor/openWindow.ogg" id="11_iakv7"]
-[ext_resource type="AudioStream" uid="uid://bdbqayhnogbk5" path="res://noah/assets/sounds/chart_editor/exitWindow.ogg" id="12_qymoy"]
-[ext_resource type="AudioStream" uid="uid://bmj7ckgd3tlt1" path="res://noah/assets/sounds/chart_editor/undo.ogg" id="13_am3li"]
-[ext_resource type="AudioStream" uid="uid://rka5qxbj0svd" path="res://noah/assets/sounds/chart_editor/noteLay.ogg" id="14_am3li"]
+[ext_resource type="PackedScene" uid="uid://s3uvtxiv1wo4" path="res://noah/tools/chart_editor/minimap.tscn" id="10_kpohl"]
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="17_75w6f"]
 [ext_resource type="PackedScene" uid="uid://bx3kdd0dt1kkw" path="res://noah/tools/chart_editor/lower_ui.tscn" id="17_sxrev"]
 [ext_resource type="PackedScene" uid="uid://b6b2d2kloq60j" path="res://noah/tools/chart_editor/upper_ui.tscn" id="18_dd0y6"]
@@ -54,7 +43,6 @@ divider_color = Color(0.71484375, 0.71484375, 0.71484375, 1)
 current_time_color = Color(0.75668746, 0, 1, 0.8)
 muted_color = Color(0.16, 0.16, 0.16, 0.502)
 box_color = Color(0.151337, 0.445313, 0.17072, 0.287)
-selected_color = Color(0.404297, 0.75, 0.442108, 0.734)
 time_change_color = Color(0.5526029, 0.5802685, 0.9920456, 1)
 
 [node name="Conductor" type="Node" parent="." unique_id=1602922239 node_paths=PackedStringArray("stream_player")]
@@ -150,7 +138,7 @@ follow_viewport = false
 unique_name_in_owner = true
 grid_size = Vector2(36, 36)
 columns = 10
-grid_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
+grid_color = Color(0.114, 0.133, 0.161, 1)
 event_column_color = Color(0.2071459, 0.23626423, 0.2815594, 0.26666668)
 position_column_color = Color(0.20784314, 0.23529412, 0.28235295, 0.26666668)
 
@@ -241,6 +229,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("21_et4bh")
 
+[node name="Minimap" parent="UI" unique_id=507710740 instance=ExtResource("10_kpohl")]
+unique_name_in_owner = true
+offset_left = -640.0
+offset_top = -297.0
+offset_right = -576.0
+offset_bottom = 279.0
+
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128
 offset = Vector2(640, 360)
@@ -260,3 +255,4 @@ metadata/_edit_lock_ = true
 [connection signal="finished" from="Audio/Instrumental" to="." method="_on_instrumental_finished"]
 [connection signal="drag_started" from="UI/Song Slider" to="." method="_on_song_slider_drag_started"]
 [connection signal="value_changed" from="UI/Song Slider" to="." method="_on_song_slider_value_changed"]
+[connection signal="gui_input" from="UI/Minimap" to="." method="_on_minimap_gui_input"]

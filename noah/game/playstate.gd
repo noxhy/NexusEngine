@@ -68,8 +68,8 @@ var misses: int :
 		return song_stats.misses
 var died: bool = false
 
-var camera_bop_strength: Vector2 = Vector2(0.05, 0.05)
-var ui_bop_strength: Vector2 = Vector2(0.025, 0.025)
+var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
+var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -345,11 +345,11 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 			camera.go_to_marker(marker)
 		
 		"camera_bop":
-			var camera_bop: float = 0.015
+			var camera_bop: float = camera_bop_strength.x
 			if not event_parameters[0].is_empty():
 				camera_bop = float(event_parameters[0])
-				
-			var ui_bop: float = 0.03
+			
+			var ui_bop: float = ui_bop_strength.x
 			if not event_parameters[1].is_empty():
 				camera_bop = float(event_parameters[1])
 			

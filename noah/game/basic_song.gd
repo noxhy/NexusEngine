@@ -74,8 +74,7 @@ func _on_conductor_new_step(current_step: int, measure_relative: int):
 			var bump: float = playstate.camera_bop_strength.x * playstate.camera.zoom
 			playstate.camera.bump(bump)
 		else:
-			var bump: Vector2 = playstate.camera_bop_strength * playstate.camera.zoom
-			playstate.camera.bump(bump)
+			playstate.camera.bump(playstate.camera_bop_strength)
 		
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
 			playstate.ui.bump(playstate.ui_bop_strength)

@@ -225,6 +225,7 @@ func _draw() -> void:
 	if bounding_box:
 		rect = Rect2(start_box, get_global_mouse_position() - start_box).abs()
 		draw_rect(rect, box_color)
+		draw_rect(rect, Color.LIME, false, 1)
 	
 	if ChartManager.chart:
 		## The offset the grid has from the normal canvas layer
@@ -257,12 +258,9 @@ func _draw() -> void:
 		for i in selected_notes.size():
 			var note = selected_note_nodes[i]
 			if note:
-				var length: float = 1.0 / $Conductor.numerator
-				length *= %Grid.grid_size.x * %Grid.zoom.x
-				length *= $Conductor.numerator
-				rect = Rect2(note.global_position - (%Grid.grid_size / 2 * %Grid.zoom),
-				Vector2(%Grid.grid_size.x * %Grid.zoom.x, length))
+				rect = Rect2(note.global_position - (grid.grid_size / 2 * grid.zoom), grid.grid_size * grid.zoom)
 				draw_rect(rect, selected_color)
+				draw_rect(rect, Color.LIME, false, 1)
 
 ## View button item pressed
 func view_button_item_pressed(id):
@@ -396,6 +394,7 @@ func load_chart(file: Chart, ghost: bool = false):
 	for event in file.get_events_data():
 		if !ChartManager.event_tracks.has(event[1]):
 			ChartManager.event_tracks.append(event[1])
+	
 	update_grid()
 	_on_event_tracks_ready()
 
@@ -623,18 +622,6 @@ func copy() -> void:
 	%"Note Place".play()
 
 
-func paste() -> void:
-	if clipboard.is_empty():
-		return
-	
-	var temp = place_notes(clipboard)
-	selected_notes = temp
-	selected_note_nodes = []
-	for i in selected_notes:
-		selected_note_nodes.append(event_nodes[i - current_visible_events_L])
-	%"Note Place".play()
-
-
 func delete_stacked_notes() -> void:
 	if ChartManager.chart.get_events_data().size() > 1:
 		var i: int = 0
@@ -725,7 +712,7 @@ func change_parameters(i: int, parameters: Array) -> void:
 
 func _on_add_track_pressed() -> void:
 	%"Add Track Window".popup()
-	%"Mouse Click".play()
+	SoundManager.tool_open_window.play()
 
 
 func _on_window_about_to_popup() -> void:

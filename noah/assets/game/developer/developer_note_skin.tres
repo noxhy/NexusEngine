@@ -10,6 +10,7 @@ script = ExtResource("2_g6s64")
 strums_texture = ExtResource("3_7te8r")
 notes_texture = ExtResource("1_ovb1l")
 notes_scale = 0.2
+sustain_width = 600.0
 animation_names = Dictionary[StringName, StringName]({
 &"down": &"down",
 &"down_end": &"end",

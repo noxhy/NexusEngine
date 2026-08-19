@@ -11,7 +11,6 @@ script = ExtResource("1_2my17")
 [node name="Note" type="AnimatedSprite2D" parent="." unique_id=1237220574]
 z_index = 1
 use_parent_material = true
-scale = Vector2(1.065, 1.065)
 sprite_frames = ExtResource("2_r4bqa")
 animation = &"left"
 script = ExtResource("4_kfabs")

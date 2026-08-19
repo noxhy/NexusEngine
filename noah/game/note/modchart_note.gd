@@ -3,6 +3,10 @@ extends BasicNote
 class_name ModChartNote
 
 var last_length: float
+var update_tail: Callable = func() -> void:
+	var line_length: float = length * scroll_speed * grid_size.y
+	tail.visible = true
+	tail.points = [Vector2.ZERO, Vector2(0, line_length)]
 
 # Applying Note Skin
 func _ready() -> void: 
@@ -11,25 +15,29 @@ func _ready() -> void:
 		if note_skin.animation_names.keys().size() > 0: 
 			$Note.animation_names.merge(note_skin.animation_names, true)
 	
-	$Note.play_animation(animation)
-	
-	var tail_animation = $Note.get_animation_name(StringName(animation + "_tail"))
-	if tail_animation:
+	var tail_animation = get_animation_name(animation + &"_tail")
+	if tail_animation and tail:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = $Note.get_animation_name(StringName(animation + "_end"))
-	if end_animation:
+	var end_animation = get_animation_name(animation + &"_end")
+	if end_animation and tail:
 		tail.end_texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 	
-	$Note.offsets = note_skin.offsets
+	note.offsets = note_skin.offsets
+	note.play_animation(animation)
 	
 	if note_skin.pixel_texture: 
 		$Note.texture_filter = TEXTURE_FILTER_NEAREST
 		tail.texture_filter = TEXTURE_FILTER_NEAREST
 	
-	scale = Vector2(1, 1)
-	$Note.scale = grid_size / $Note.sprite_frames.get_frame_texture($Note.animation, 0).get_size()
-	tail.width = note_skin.sustain_width * $Note.scale.x
+	note.scale = Vector2.ONE * note_skin.notes_scale
+	
+	if tail:
+		tail.modulate.a = note_skin.sustain_opacity
+		tail.width = tail.texture.get_height()
+		tail.scale.x = note_skin.notes_scale
+	
+	load_basic_type()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,13 +45,6 @@ func _process(delta) -> void:
 	time_difference = (time - GameManager.offset) - GameManager.song_position
 	
 	if length > 0:
-		var line_length = length * scroll_speed  * grid_size.y
-		line_length /= note_skin.notes_scale
-		
-		tail.visible = true
-		tail.scale.y = scroll
-		
-		if last_length != length:
-			tail.points = [Vector2.ZERO, Vector2(0, line_length)]
-	else: 
+		update_tail.call()
+	else:
 		tail.visible = false

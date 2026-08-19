@@ -1,7 +1,10 @@
 extends Node2D
 class_name ChartEditor
 
-static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN) : 
+const EPSILON: float = 0.00001
+const DIRECTIONS: Array = ["left", "down", "up", "right"]
+
+static var note_skin: NoteSkin = load(Constants.DEFAULT_NOTE_SKIN): 
 	get():
 		if note_skin == null:
 			note_skin = load(Constants.DEFAULT_NOTE_SKIN)
@@ -24,12 +27,12 @@ var OPEN_FILE_POPUP_PRELOAD = load("uid://388mdmn1mwun")
 var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 
 @export_group("Colors")
-@export var hover_color: Color = Color(1, 1, 1, 0.5)
-@export var divider_color: Color = Color(1, 1, 1, 0.5)
-@export var current_time_color: Color = Color(1, 0, 0, 1)
-@export var muted_color: Color = Color(0.8, 0.8, 0.8, 0.5)
-@export var box_color: Color = Color.LIGHT_GREEN
-@export var selected_color: Color = Color.GREEN
+@export var hover_color: Color = Color("ffffff80")
+@export var divider_color: Color = Color("b6b6b6")
+@export var current_time_color: Color = Color("c100ffcc")
+@export var muted_color: Color = Color("29292980")
+@export var box_color: Color = Color("27722c49")
+@export var selected_color: Color = Color("67bf71bb")
 @export var time_change_color: Color = Color.PURPLE
 
 @onready var upper_ui: ChartEditorUpperUI = %"Upper UI"
@@ -39,6 +42,10 @@ var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 @onready var conductor: Conductor = $Conductor
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var song_slider: HSlider = %"Song Slider"
+@onready var notes_layer: CanvasLayer = $"Notes Layer"
+@onready var grid_layer: CanvasLayer = $"Grid Layer"
+@onready var grid: Grid = %Grid
+@onready var minimap: EditorMinimap = %Minimap
 
 ## Chart Variables
 var backup_chart: Chart = null
@@ -114,10 +121,7 @@ func _ready() -> void:
 		enable_can_chart_on_next_frame()
 	
 	update_ui_usable_state()
-	
 	update_grid()
-	
-	## Initializing Popup Signals
 	
 	lower_ui.chart_snap.value = current_snap
 	
@@ -243,14 +247,14 @@ func _process(delta: float) -> void:
 				var j: int = selected_notes.find(i)
 				
 				selected_notes.remove_at(j)
-				selected_note_nodes.remove_at(j)
 				
-				if selected_notes.size() > 1:
-					var k: int = 0
-					for _i in range(selected_notes.size()):
+				# Adjusting any other selected notes
+				if selected_notes.size() > 0:
+					for k in selected_notes.size():
 						if k >= j:
 							selected_notes[k] -= 1
-						k += 1
+				
+				update_selected_notes()
 			
 			hovered_note = -1
 			
@@ -353,8 +357,6 @@ func _process(delta: float) -> void:
 			var lane_a: int = floor(pos_1.x)
 			var lane_b: int = floor(pos_2.x)
 			
-			print(time_a, " - ", time_b)
-			
 			var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time_a)
 			var R: int = bsearch_right_range(ChartManager.chart.get_notes_data(), time_b)
 			
@@ -431,6 +433,7 @@ func _draw() -> void:
 	if bounding_box:
 		rect = Rect2(start_box, get_global_mouse_position() - start_box).abs()
 		draw_rect(rect, box_color)
+		draw_rect(rect, Color.LIME, false, 1)
 	
 	if ChartManager.chart:
 		# The offset the grid has from the normal canvas layer
@@ -469,6 +472,7 @@ func _draw() -> void:
 				rect = Rect2(note.global_position - (%Grid.grid_size / 2 * %Grid.zoom),
 				Vector2(%Grid.grid_size.x * %Grid.zoom.x, length))
 				draw_rect(rect, selected_color)
+				draw_rect(rect, Color.LIME, false, 1)
 
 func on_files_dropped(files: PackedStringArray):
 	var file: String = files[0]
@@ -602,6 +606,9 @@ func load_chart(file: Chart, ghost: bool = false):
 	enable_can_chart_on_next_frame()
 	load_section(song_position)
 	update_grid()
+	if minimap:
+		minimap.refresh(file.get_notes_data())
+	
 	load_dividers()
 	update_camera_song_position(true)
 
@@ -758,8 +765,6 @@ func new_file(path: String, song: Song):
 ## Reset the select notes and note nodes list before calling moved
 func place_note(time: float, lane: int, length: float, type: String, placed: bool = false, moved: bool = false,
 sorted: bool = false, sort_index: int = -1) -> int:
-	var directions: Array = ["left", "down", "up", "right"]
-	
 	var note_instance = NOTE_PRELOAD.instantiate()
 	
 	var meter: Array = ChartManager.chart.get_meter_at(time)
@@ -771,17 +776,19 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	# I am treating scroll speed as a multiplier that would've acted like the grid size for
 	# sizing purposes
 	note_instance.scroll_speed = meter[0]
-	note_instance.direction = directions[lane % 4]
-	note_instance.animation = str(Constants.NOTE_TYPES.get(type, ""), directions[lane % 4])
+	note_instance.direction = DIRECTIONS[lane % 4]
+	note_instance.animation = str(Constants.NOTE_TYPES.get(type, ""), note_instance.direction)
+	
 	update_note_position(note_instance)
 	
 	note_instance.note_skin = note_skin
 	
 	var output: int
 	if placed:
+		var packet: Array = [time, lane, length, type]
 		var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time)
 		if L != -1:
-			ChartManager.chart.chart_data["notes"].insert(L, [time, lane, length, type])
+			ChartManager.chart.chart_data["notes"].insert(L, packet)
 			
 			if note_nodes.is_empty():
 				note_nodes.append(note_instance)
@@ -800,8 +807,8 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			
 			output = L
 		else:
+			ChartManager.chart.chart_data["notes"].append(packet)
 			note_nodes.append(note_instance)
-			ChartManager.chart.chart_data["notes"].append([time, lane, length, type])
 			L = ChartManager.chart.get_notes_data().size() - 1
 			selected_notes = [L]
 			selected_note_nodes = [note_instance]
@@ -809,8 +816,10 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			max_lane = ChartManager.strum_count - 1
 			output = L
 		
+		minimap.map_to_texture(packet)
+		
 		# Preventing fake notes
-		current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
+		#current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
 		current_visible_notes_R += 1
 	else:
 		if sorted:
@@ -901,10 +910,10 @@ sorted: bool = false, sort_index: int = -1) -> int:
 
 # Returns the indexes of the new notes
 func place_notes(notes: Array) -> Array:
-	var indices: Array = []
 	for note in notes:
 		place_note(note[0], note[1], note[2], note[3], true)
 	
+	var indices: Array = []
 	# Surely there's a cleaner way to do this
 	for note in notes:
 		var i: int = find_note(note[1], note[0])
@@ -922,7 +931,7 @@ func remove_note(lane, time: float = -1):
 	else:
 		i = lane
 	
-	if i <= -1:
+	if i < 0:
 		return
 	
 	if (i - current_visible_notes_L) < note_nodes.size() and (i - current_visible_notes_L) >= 0:
@@ -930,14 +939,16 @@ func remove_note(lane, time: float = -1):
 		note_nodes.remove_at(i - current_visible_notes_L)
 		current_visible_notes_R -= 1
 	
+	minimap.unmap_from_texture(ChartManager.chart.chart_data["notes"][i])
 	ChartManager.chart.chart_data["notes"].remove_at(i)
 
-func remove_notes(notes: Array):
-	var i: int = 0
-	for note in notes:
-		var _note = ChartManager.chart.get_notes_data()[note - i]
-		remove_note(_note[1], _note[0])
-		i += 1
+## Removes the notes in the given indices
+func remove_notes(indices: Array):
+	var offset: int = 0
+	for i in indices:
+		var note = ChartManager.chart.get_notes_data()[i - offset]
+		remove_note(note[1], note[0])
+		offset += 1
 
 ## Returns the index of the given note in the notes list.
 func find_note(lane: int, time: float) -> int:
@@ -974,6 +985,7 @@ func find_events_at(time: float) -> Array[int]:
 			ret.append(i)
 	return ret
 
+## Returns the index of the given note in the events list.
 func find_event(event: String, time: float) -> int:
 	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - 0.00001)
 	var R: int = bsearch_right_range(ChartManager.chart.get_events_data(), time + 0.00001)
@@ -1140,7 +1152,7 @@ func toggle_audios(paused: bool = true):
 		play_audios(song_position)
 	
 	lower_ui.toggle_play_button_state(not paused)
-	
+
 
 func move_bound_left(strum_id: int):
 	var strum_data = ChartManager.strum_data[strum_id]
@@ -1211,10 +1223,14 @@ func _on_conductor_new_beat(current_beat: int, measure_relative: int) -> void:
 	
 	lower_ui.get_node("%Beat").text = str("Beat: ", current_beat + 1)
 
+
 func _on_conductor_new_step(current_step: int, measure_relative: int) -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"):
-		%"Conductor Step".play(0.55)
-	lower_ui.get_node("%Step").text = str("Step: ", current_step + 1)
+		SoundManager.conductor_step.play()
+	
+	if ChartManager.chart:
+		lower_ui.get_node("%Step").text = str("Step: ", Conductor.get_accumulated_step_at(
+			song_position, ChartManager.chart.get_tempos_data(), ChartManager.chart.get_meters_data()) + 1)
 
 func _on_conductor_new_tempo(_tempo: float) -> void:
 	lower_ui.get_node("%Tempo").text = str("Tempo: ", _tempo)
@@ -1474,9 +1490,7 @@ func move_selection(time_distance: float, lane_distance: float):
 	
 	var temp = place_notes(notes)
 	selected_notes = temp
-	selected_note_nodes = []
-	for i in selected_notes:
-		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+	update_selected_notes()
 	
 	moving_notes = false
 	%"Note Place".play()
@@ -1702,11 +1716,10 @@ func paste() -> void:
 	if clipboard.is_empty():
 		return
 	
-	var temp = place_notes(clipboard)
-	selected_notes = temp
-	selected_note_nodes = []
-	for i in selected_notes:
-		selected_note_nodes.append(note_nodes[i - current_visible_notes_L])
+	var offset: float = (song_position + start_offset) - clipboard.front()[0]
+	selected_notes = place_notes(clipboard)
+	update_selected_notes()
+	move_selection(offset, 0)
 	
 	%"Note Place".play()
 
@@ -1788,11 +1801,11 @@ func change_note_lengths(notes: Array, delta: float):
 		var length: float = ChartManager.chart.get_notes_data()[i][2]
 		undo_redo.add_do_method(self.change_length.bind(i, length + delta))
 		undo_redo.add_do_property(note_nodes[i - current_visible_notes_L], "length", length + delta)
-		undo_redo.add_do_method(%"Note Stretch".play)
+		undo_redo.add_do_method(SoundManager.tool_note_stretch.play)
 		undo_redo.add_undo_method(self.change_length.bind(i, length))
 		undo_redo.add_undo_property(note_nodes[i - current_visible_notes_L], "length", length)
 	
-	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
+	undo_redo.add_do_reference(upper_ui.get_node("%History Window").add_action(action))
 	undo_redo.commit_action()
 
 
@@ -1856,4 +1869,23 @@ func set_note_type(note_type):
 
 func _on_note_type_window_close_requested() -> void:
 	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(2, false)
-	%"Close Window".play()
+	SoundManager.tool_close_window.play()
+
+
+func _on_minimap_gui_input(event: InputEvent) -> void:
+	if !ChartManager.chart:
+		return
+	
+	if event is InputEventMouseMotion:
+		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
+			if not instrumental.stream_paused:
+				toggle_audios(true)
+			
+			var mouse_position: Vector2 = get_corrected_mouse_position()
+			song_position = remap(mouse_position.y - 360,
+			minimap.global_position.y, minimap.global_position.y + minimap.size.y,
+			start_offset, instrumental.stream.get_length() - start_offset)
+			
+			song_position = clamp(song_position, start_offset, instrumental.stream.get_length() - start_offset)
+			
+			song_slider.value = song_position

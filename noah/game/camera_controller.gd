@@ -255,13 +255,13 @@ func get_noise_offset(delta: float, speed: float, strength: float) -> Vector2:
 
 func bump(strength: Variant) -> void:
 	if parent_3d:
-		strength *= -1
-		zoom += strength
+		zoom *= (1 - strength)
+	
 	if parent_2d:
 		if strength is float:
-			zoom += Vector2(strength, strength)
+			zoom *= (1 + strength)
 		else:
-			zoom += strength
+			zoom *= Vector2.ONE + strength
 
 ## Moves the camera's [member position] and [member rotation] to a [code]Marker2D[/code] or [code]Marker3D[/code]
 ## [br][br]This method abides by the [member position_smoothing] and [member rotation_smoothing] settings.

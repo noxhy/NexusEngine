@@ -21,8 +21,7 @@ func stats_changed(stats: NoahStats):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	self.value = Global.frame_independent_lerp(self.value, target_health, 25, delta)
-	
+	value = Global.frame_independent_lerp(value, target_health, 25, delta)
 
 func update_performance_text():
 	var perf_str: String = 'Botplay'

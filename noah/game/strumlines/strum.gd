@@ -6,6 +6,7 @@ class_name Strum
 const PIXELS_PER_SECOND: float = 450
 
 var NOTE_PRELOAD = preload("uid://krhxbwnjnr7r")
+var MODCHART_NOTE_PRELOAD = preload("uid://bfovtttcq6f32")
 var SPLASH_PRELOAD = preload("uid://c23s1pbajtga2")
 
 @export var note_skin: NoteSkin
@@ -20,6 +21,7 @@ var SPLASH_PRELOAD = preload("uid://c23s1pbajtga2")
 @export var enemy_slot: bool = false
 ## Note types that autoplay wont press
 @export var ignored_note_types: Array = []
+@export_enum("NORMAL", "MODCHART") var node_type: int
 
 enum STATE {
 	IDLE,
@@ -113,7 +115,7 @@ func _process(delta) -> void:
 			note.queue_free()
 	# Inputs
 	if Input.is_action_just_pressed(input):
-		if can_press and !note_list.is_empty():
+		if can_press:
 			var note = note_list.front()
 			if note:
 				if note.can_press:
@@ -230,7 +232,11 @@ func set_skin(new_skin: NoteSkin):
 
 
 func create_note(time: float, length: float, note_type: String, _tempo: float):
-	var note_instance = NOTE_PRELOAD.instantiate()
+	var note_instance;
+	if node_type == 0:
+		note_instance = NOTE_PRELOAD.instantiate()
+	else:
+		note_instance = MODCHART_NOTE_PRELOAD.instantiate()
 	
 	note_instance.time = time - offset
 	note_instance.length = length

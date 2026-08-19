@@ -100,10 +100,58 @@ func get_step_at(_time: float) -> int:
 func get_measure_at(_time: float) -> int:
 	return floor((_time - offset) / (seconds_per_beat * numerator))
 
+## Gets the beat counting previous time changes at the given time.
+static func get_accumulated_beat_at(_time: float, tempo_data: Dictionary, ts_data: Dictionary) -> int:
+	var beat: int = 0
+	var time_calc: Callable = func(t, bpm, d) -> int:
+		var spb: float = 60.0 / bpm * (4.0 / d)
+		return floor(t / spb)
+	
+	if tempo_data.size() > 1:
+		for i in range(0, tempo_data.size()):
+			var tempo_time: float = tempo_data.keys()[i]
+			var next_time: float = _time if i == tempo_data.size() - 1 else tempo_data.keys()[i + 1]
+			
+			var rel_time: float
+			if next_time >= _time:
+				rel_time = _time - tempo_time
+			else:
+				rel_time = next_time - tempo_time
+			
+			var time_signature: Array = ts_data.get(tempo_time, ts_data.get(0, [4, 4]))
+			beat += time_calc.call(rel_time, tempo_data[tempo_time], time_signature[1])
+			
+			if next_time >= _time:
+				break
+		
+		return beat
+	else:
+		return time_calc.call(_time, tempo_data[tempo_data.keys().front()], ts_data[ts_data.keys().front()][1])
 
-func get_seconds_per_beat() -> float:
-	return (60.0 / tempo) * (4.0 / denominator)
-
-
-func get_seconds_per_step() -> float:
-	return seconds_per_beat / denominator
+## Gets the step counting previous time changes at the given time.
+static func get_accumulated_step_at(_time: float, tempo_data: Dictionary, ts_data: Dictionary) -> int:
+	var step: int = 0
+	var time_calc: Callable = func(t, bpm, d) -> int:
+		var spb: float = 60.0 / bpm * (4.0 / d)
+		return floor(t / (spb / d))
+	
+	if tempo_data.size() > 1:
+		for i in range(0, tempo_data.size()):
+			var tempo_time: float = tempo_data.keys()[i]
+			var next_time: float = _time if i == tempo_data.size() - 1 else tempo_data.keys()[i + 1]
+			
+			var rel_time: float
+			if next_time >= _time:
+				rel_time = _time - tempo_time
+			else:
+				rel_time = next_time - tempo_time
+			
+			var time_signature: Array = ts_data.get(tempo_time, ts_data.get(0, [4, 4]))
+			step += time_calc.call(rel_time, tempo_data[tempo_time], time_signature[1])
+			
+			if next_time >= _time:
+				break
+		
+		return step
+	else:
+		return time_calc.call(_time, tempo_data[tempo_data.keys().front()], ts_data[ts_data.keys().front()][1])
