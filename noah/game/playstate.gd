@@ -258,8 +258,7 @@ func play_song(time: float):
 	
 	var notes_list = chart.get_notes_data()
 	current_note = bsearch_left_range(notes_list, time)
-	var events_list = chart.get_events_data()
-	current_event = bsearch_left_range(events_list, max(song_start_offset, 0))
+	current_event = 0
 
 # This if for actually playing the audio tracks, the reason this is a function is because
 # I also call it in the process function for when the song starts before 4 beats are possible.
