@@ -1909,6 +1909,9 @@ func _on_minimap_gui_input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion:
 		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
+			if not instrumental.stream_paused:
+				toggle_audios(true)
+			
 			var mouse_position: Vector2 = get_corrected_mouse_position()
 			song_position = remap(mouse_position.y - 360,
 			minimap.global_position.y, minimap.global_position.y + minimap.size.y,
