@@ -1920,5 +1920,6 @@ func _on_minimap_gui_input(event: InputEvent) -> void:
 			start_offset, instrumental.stream.get_length() - start_offset)
 			
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length() - start_offset)
+			update_camera_song_position(true)
 			
 			song_slider.value = song_position
