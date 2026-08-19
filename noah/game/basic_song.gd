@@ -53,7 +53,6 @@ func _ready() -> void:
 	Signals.play_song_ready_to_start.emit()
 	Signals.play_died.connect(self.died)
 
-
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed(&"pause"):
 		Global.manual_pause = true
@@ -83,10 +82,8 @@ func _on_conductor_new_step(current_step: int, measure_relative: int):
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
 			playstate.ui.bump(playstate.ui_bop_strength)
 
-
 func update_bop_rate(_i: int) -> void:
 	bop_rate = GameManager.conductor.numerator * GameManager.conductor.denominator
-
 
 func _on_create_note(time: float, lane: int, note_length: float, note_type: String, tempo: float):
 	if (lane > 3):
@@ -106,12 +103,12 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 		get_tree().call_group(group, &"set_sing_timer")
 	
 	if group == &"player":
-		show_combo(PlayState.get_rating(hit_time), playstate.combo)
+		show_combo(PlayState.get_rating(hit_time), playstate.song_stats.combo)
 		
-		if playstate.combo > 0:
-			if (playstate.combo % 200 == 0):
+		if playstate.song_stats.combo > 0:
+			if (playstate.song_stats.combo % 200 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer_200")
-			elif (playstate.combo % 50 == 0):
+			elif (playstate.song_stats.combo % 50 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer")
 
 
@@ -155,7 +152,6 @@ func _on_new_event(time: float, event_name: String, event_parameters: Array):
 		&"set_bop_offset":
 			bop_rate_offset = int(event_parameters[0])
 
-
 func _on_combo_break():
 	SoundManager.miss.play()
 	show_combo("miss", 0)
@@ -163,7 +159,7 @@ func _on_combo_break():
 
 func show_combo(rating: String, _combo: int):
 	if rating != "miss":
-		if GameManager.tallies.sick == GameManager.tallies.total_notes:
+		if playstate.song_stats.sicks == playstate.song_stats.total_notes:
 			rating = "fc_" + rating
 	
 	var rating_instance = rating_node.instantiate()
@@ -175,7 +171,7 @@ func show_combo(rating: String, _combo: int):
 	
 	combo_numbers_manager_instance.ui_skin = playstate.ui_skin
 	combo_numbers_manager_instance.combo = _combo
-	if GameManager.tallies.max_combo == GameManager.tallies.total_notes:
+	if playstate.song_stats.max_combo == playstate.song_stats.total_notes:
 		combo_numbers_manager_instance.fc = true
 	
 	if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui"):

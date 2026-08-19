@@ -47,24 +47,34 @@ var output_latency: float = AudioServer.get_output_latency()
 
 var chart: Chart
 
-var misses: int = 0
-var score: float = 0
 var health: float = 50.0 : set = set_health
-var combo: int = 0
+var health_min: float = 0.0
+var health_max: float = 100.0
+
+func set_health(v: float):
+	v = clampf(v, health_min, health_max)
+	
+	Signals.play_health_changed.emit(v, v - health)
+	health = v
+
+var song_stats: NoahStats = NoahStats.new()
+
+var score: float : 
+	get():
+		return song_stats.score
+
+var misses: int :
+	get():
+		return song_stats.misses
 var died: bool = false
 
 var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
 var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
-func set_health(v: float):
-	if health != v: #is this even necessary
-		Signals.play_health_changed.emit(v)
-	health = v
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	song_data = GameManager.get_current_song()
+	song_data = GameManager.current_song
 	
 	assert(host, 'A Host was not assigned.')
 	assert(ui, 'A UI was not assigned.')
@@ -146,17 +156,16 @@ func _ready() -> void:
 
 
 func _process(delta) -> void:
-	health = clamp(health, 0.0, 100.0)
-	GameManager.score = int(score)
 	
-	if health <= 0 and !died:
+	if health <= health_min and !died:
 		GameManager.deaths += 1
+		
 		GameManager.song_scene = get_tree().current_scene.scene_file_path
 		Signals.play_died.emit()
 		died = true
 	
 	# Why is this a thing I have to do
-	if get_tree():
+	if is_inside_tree():
 		get_tree().call_group(&"note", &"update")
 	
 	if !song_started and song_starting:
@@ -317,7 +326,8 @@ func score_note(hit_time: float):
 	var factor: float = 1.0 - (1.0 / (1.0 + exp(-Constants.SCORING_SLOPE * ((abs(hit_time) - Constants.SCORING_OFFSET) * 1000))))
 	var add: float = Constants.MAX_SCORE_GAIN * factor + Constants.MIN_SCORE_GAIN
 	add = clamp(add, Constants.MIN_SCORE_GAIN, Constants.MAX_SCORE_GAIN)
-	score += add
+	song_stats.score += add
+	Signals.play_stats_changed.emit(song_stats)
 
 
 func basic_event(time: float, event_name: String, event_parameters: Array):
@@ -406,14 +416,14 @@ func song_finished():
 				Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
 			
 			_:
-				GameManager.finished_song(int(score))
+				GameManager.finished_song(song_stats)
 				Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
 	else:
-		GameManager.finished_song(int(score))
+		GameManager.finished_song(song_stats)
 		if (GameManager.week_songs.size() == GameManager.current_week_song):
 			Global.change_scene_to(next_scene)
 		else:
-			Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene)
+			Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene, "down")
 
 # Strum Util
 func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManager):
@@ -431,28 +441,32 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 			Signals.play_note_miss.emit(note, lane, strum_manager)
 			return
 		
-		var rating: String = get_rating(abs(hit_time))
 		
-		GameManager.tallies[rating] += 1
-		GameManager.tallies["total_notes"] += 1
 		if note.scoreable:
 			score_note(hit_time)
+			
+		var rating: String = get_rating(abs(hit_time)) #TODO: add stats equiv
 		
+		song_stats.total_notes += 1
 		match rating:
 			"sick":
+				song_stats.sicks += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
 				strum_manager.create_splash(lane, note.splash_animation)
 				if note.scoreable:
 					add_combo()
 			"good":
+				song_stats.goods += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
 				if note.scoreable:
 					add_combo()
 			"bad":
+				song_stats.bads += 1
 				health -= Constants.BAD_HIT_HEALTH_PENALTY * note.health_mult
 				if note.scoreable:
 					reset_combo()
 			"shit":
+				song_stats.shits += 1
 				health -= Constants.BAD_HIT_HEALTH_PENALTY * note.health_mult
 				if note.scoreable:
 					reset_combo()
@@ -469,7 +483,8 @@ func note_holding(note: Note, lane: int, hold_difference: float, strum_manager: 
 		health += hold_difference * Constants.HOLD_HEALTH_GAIN_PER_SECOND
 		
 		if note.scoreable:
-			score += hold_difference * Constants.HOLD_SCORE_GAIN_PER_SECOND
+			song_stats.score += hold_difference * Constants.HOLD_SCORE_GAIN_PER_SECOND
+			Signals.play_stats_changed.emit(song_stats)
 
 
 func note_miss(note: Note, lane: int, strum_manager: StrumManager):
@@ -481,29 +496,34 @@ func note_miss(note: Note, lane: int, strum_manager: StrumManager):
 	if !strum_manager.enemy_slot:
 		# Ghost tapping
 		if not note:
-			score -= Constants.SPAM_SCORE_PENALTY
+			song_stats.score -= Constants.SPAM_SCORE_PENALTY
+			Signals.play_stats_changed.emit(song_stats)
+			
 			health -= Constants.SPAM_HEALTH_PENALTY
 		elif note.scoreable:
 			if note.mine and !note.hit:
 				return
 			
-			score -= Constants.MISS_SCORE_PENALTY
-			health -= min(Constants.MISS_BASE_HEALTH_PENALTY + (combo / Constants.COMBO_SLOPE) + (note.length * Constants.HOLD_HEALTH_GAIN_PER_SECOND),
+			song_stats.score -= Constants.SPAM_SCORE_PENALTY
+			
+			health -= min(Constants.MISS_BASE_HEALTH_PENALTY + (song_stats.combo / Constants.COMBO_SLOPE) + (note.length * Constants.HOLD_HEALTH_GAIN_PER_SECOND),
 			Constants.MISS_MAX_HEALTH_PENALTY) * note.damage_mult
 			reset_combo()
-			misses += 1
-			 
-			GameManager.tallies["miss"] = misses
-			GameManager.tallies["total_notes"] += 1
 			
+			song_stats.misses += 1
+			song_stats.total_notes += 1
+			
+			Signals.play_stats_changed.emit(song_stats)
 			Signals.play_combo_break.emit()
 
 
 func add_combo():
-	combo += 1
-	if combo > GameManager.tallies["max_combo"]:
-		GameManager.tallies["max_combo"] = combo
-
+	song_stats.combo += 1
+	
+	if song_stats.combo > song_stats.max_combo:
+		song_stats.max_combo = song_stats.combo
+	Signals.play_stats_changed.emit(song_stats)
 
 func reset_combo():
-	combo = 0
+	song_stats.combo = 0
+	Signals.play_stats_changed.emit(song_stats)

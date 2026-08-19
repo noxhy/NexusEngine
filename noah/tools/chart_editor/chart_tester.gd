@@ -11,12 +11,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
 	super(delta)
-	$"UI/Chart Stats".text = "Song: " + str(playstate.song_data.title)
-	$"UI/Chart Stats".text += "\n" + "Artist: " + str(playstate.song_data.artist)
-	$"UI/Chart Stats".text += "\n" + "Difficulty: " + str(GameManager.difficulty)
-	$"UI/Chart Stats".text += "\n" + "Tempo: " + str(GameManager.conductor.tempo)
-	$"UI/Chart Stats".text += "\n" + "Scroll Speed: " + str(playstate.ui.strums[0].strums[0].scroll_speed)
-	$"UI/Chart Stats".text += "\n" + str(GameManager.tallies).replace("{", "").replace("}", "").replace(",", "\n")
+	var string_to_show = "Song: " + str(playstate.song_data.title)
+	string_to_show += "\n" + "Artist: " + str(playstate.song_data.artist)
+	string_to_show += "\n" + "Difficulty: " + str(GameManager.difficulty)
+	string_to_show += "\n" + "Tempo: " + str(GameManager.conductor.tempo)
+	string_to_show += "\n" + "Scroll Speed: " + str(playstate.ui.strums[0].strums[0].scroll_speed)
+	string_to_show += "\n" + str(playstate.song_stats)
+	
+	$"UI/Chart Stats".text = string_to_show
 
 
 func _on_setup_finished() -> void:
