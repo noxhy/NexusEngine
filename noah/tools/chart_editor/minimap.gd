@@ -46,7 +46,6 @@ func _draw() -> void:
 		@warning_ignore("narrowing_conversion")
 		var rect: Rect2 = Rect2(point_a, point_b - point_a + Vector2i(size.x, 0))
 		draw_rect(rect, area_color)
-		draw_rect(rect, area_color, false, 2)
 		
 		draw_rect_on_texture(map_to_image_position(Vector2(0,
 		chart_editor.song_position + chart_editor.start_offset)), Vector2(size.x, 2), Color.RED)
