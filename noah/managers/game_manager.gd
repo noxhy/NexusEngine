@@ -12,20 +12,7 @@ var song_scene = null
 
 var conductor:Conductor
 
-# Constants are read only even if I set a new variable to the constant
-# so it's just a regular variable with constant notations
-# future note: ok so this apparently just also gets set whenever
-# other things do so idk
-var DEFAULT_TALLIES: Dictionary = {
-	"sick": 0,
-	"good": 0,
-	"bad": 0,
-	"shit": 0,
-	"miss": 0,
-	"max_combo": 0,
-	"total_notes": 0
-}
-
+## The current defined play mode. decides where playstate will go next after a given song and whether to save score.
 enum PLAY_MODE {
 	STORY_MODE,
 	FREEPLAY,
@@ -33,22 +20,33 @@ enum PLAY_MODE {
 	PRACTICE
 }
 
+## The previous played song's remembered stats. Used for things such as a result screen.
+var last_song_stats: NoahStats = NoahStats.new()
+
+## The accumulated stats from a week when playing in Story Mode.
 var week_stats: NoahStats = NoahStats.new()
+
+## The total deaths on a singular song.
 var deaths: int = 0
+
+## The total deaths within a week.
 var week_deaths: int = 0
 
 var freeplay: bool = true
 var difficulty: String
 var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
 
-# TODO: make this _
 
-var current_week: Week
 
 var week_songs: Array[Song] = []
 var current_week_song: int = 0
 var _current_song_freeplay: Song
 
+
+var current_week: Week
+
+## the currently loaded song. this should not be set directly with set_song_freeplay and set_song_storymode being used instead.
+## if current_song is null, the song was not set correctly.
 var current_song: Song :
 	get():
 		if freeplay:
@@ -57,15 +55,27 @@ var current_song: Song :
 			return week_songs[current_week_song]
 		return null
 
+## helper function to prepare the game for song to use a given song in the next playstate instance
+func set_song_freeplay(song: Song, song_difficulty: String):
+	_current_song_freeplay = song
+	freeplay = true
+	play_mode = PLAY_MODE.FREEPLAY
+	difficulty = song_difficulty
+	
+## helper function to prepare the game to use a given week in the next playstate instance
+func set_song_storymode(songs: Array[Song], song_difficulty: String):
+	week_songs = songs
+	current_week_song = 0
+	freeplay = false
+	play_mode = PLAY_MODE.STORY_MODE
+	difficulty = song_difficulty
+
 var character: PlayableCharacter
 var current_character: String = ""
 
 var songs_played: int = 0
-var week_tallies: Dictionary = DEFAULT_TALLIES.duplicate()
-var tallies: Dictionary = DEFAULT_TALLIES.duplicate()
 var grade: float
 var highscore: bool = false
-
 
 var song_position: float
 var seconds_per_beat: float :
@@ -98,7 +108,8 @@ func _ready() -> void:
 	reset_stats()
 
 func started_song(song: Song):
-	tallies = DEFAULT_TALLIES.duplicate()
+	last_song_stats.reset()
+	
 	current_song = song
 	character = Preload.character_data[current_character]
 
@@ -113,7 +124,9 @@ func finished_song(_stats: NoahStats = null):
 	var _score: int = 0
 	if _stats:
 		week_stats.add_from(_stats)
-		_score = int(_stats.score)
+		_score = _stats.score_as_int
+		last_song_stats.copy_from(_stats)
+	
 	week_deaths += deaths
 	
 	deaths = 0
@@ -121,13 +134,7 @@ func finished_song(_stats: NoahStats = null):
 	songs_played += 1
 	current_week_song += 1
 	
-	for tally in tallies.keys():
-		if week_tallies.has(tally):
-			week_tallies[tally] += tallies[tally]
-		else:
-			week_tallies[tally] = tallies[tally]
-	
-	grade = get_grade(week_tallies)
+	grade = get_grade(week_stats)
 	get_rank(grade)
 	if !SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "botplay"):
 		match play_mode:
@@ -140,9 +147,9 @@ func finished_song(_stats: NoahStats = null):
 			_:
 				if (SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed") != 1
 				or SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale") != 1):
-					highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(tallies))
+					highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(last_song_stats))
 					if !GameManager.freeplay and current_week_song == week_songs.size():
-						highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score, grade)
+						highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
 					else:
 						highscore = false
 	else:
@@ -150,25 +157,21 @@ func finished_song(_stats: NoahStats = null):
 
 func reset_stats():
 	week_stats.reset()
+	last_song_stats.reset()
 	
-	tallies = DEFAULT_TALLIES.duplicate()
-	week_tallies = DEFAULT_TALLIES.duplicate()
 	deaths = 0
 	week_deaths = 0
 	
 	songs_played = 0
 	current_week_song = 0
+
+func get_grade(_stats: NoahStats = last_song_stats) -> float:
+	if _stats.total_notes == 0:
+		return 0.0
+	if _stats.sicks == _stats.total_notes:
+		return 2.0
 	
-
-
-func get_grade(_tallies: Dictionary = tallies) -> float:
-	if _tallies.total_notes > 0:
-		if _tallies.sick == _tallies.total_notes:
-			return 2
-		else:
-			return float(_tallies.sick + _tallies.good - _tallies.miss) / _tallies.total_notes
-	else:
-		return 0
+	return float(_stats.sick + _stats.good - _stats.miss) / _stats.total_notes
 
 func get_rank(_grade: float) -> String:
 	var accuracies = [

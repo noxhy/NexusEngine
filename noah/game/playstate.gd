@@ -441,28 +441,32 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 			Signals.play_note_miss.emit(note, lane, strum_manager)
 			return
 		
-		var rating: String = get_rating(abs(hit_time)) #TODO: add stats equiv
 		
-		GameManager.tallies[rating] += 1
-		GameManager.tallies["total_notes"] += 1
 		if note.scoreable:
 			score_note(hit_time)
+			
+		var rating: String = get_rating(abs(hit_time)) #TODO: add stats equiv
 		
+		song_stats.total_notes += 1
 		match rating:
 			"sick":
+				song_stats.sicks += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
 				strum_manager.create_splash(lane, note.splash_animation)
 				if note.scoreable:
 					add_combo()
 			"good":
+				song_stats.goods += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
 				if note.scoreable:
 					add_combo()
 			"bad":
+				song_stats.bads += 1
 				health -= Constants.BAD_HIT_HEALTH_PENALTY * note.health_mult
 				if note.scoreable:
 					reset_combo()
 			"shit":
+				song_stats.shits += 1
 				health -= Constants.BAD_HIT_HEALTH_PENALTY * note.health_mult
 				if note.scoreable:
 					reset_combo()
@@ -508,9 +512,6 @@ func note_miss(note: Note, lane: int, strum_manager: StrumManager):
 			
 			song_stats.misses += 1
 			song_stats.total_notes += 1
-			
-			GameManager.tallies["miss"] = song_stats.misses
-			GameManager.tallies["total_notes"] += 1
 			
 			Signals.play_stats_changed.emit(song_stats)
 			Signals.play_combo_break.emit()

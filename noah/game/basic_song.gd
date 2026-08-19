@@ -154,7 +154,7 @@ func _on_combo_break():
 
 func show_combo(rating: String, _combo: int):
 	if rating != "miss":
-		if GameManager.tallies.sick == GameManager.tallies.total_notes:
+		if playstate.song_stats.sicks == playstate.song_stats.total_notes:
 			rating = "fc_" + rating
 	
 	var rating_instance = rating_node.instantiate()
@@ -166,7 +166,7 @@ func show_combo(rating: String, _combo: int):
 	
 	combo_numbers_manager_instance.ui_skin = playstate.ui_skin
 	combo_numbers_manager_instance.combo = _combo
-	if GameManager.tallies.max_combo == GameManager.tallies.total_notes:
+	if playstate.song_stats.max_combo == playstate.song_stats.total_notes:
 		combo_numbers_manager_instance.fc = true
 	
 	if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui"):
