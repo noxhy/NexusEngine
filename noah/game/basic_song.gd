@@ -99,12 +99,12 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 		get_tree().call_group(group, &"set_sing_timer")
 	
 	if group == &"player":
-		show_combo(PlayState.get_rating(hit_time), playstate.combo)
+		show_combo(PlayState.get_rating(hit_time), playstate.song_stats.combo)
 		
-		if playstate.combo > 0:
-			if (playstate.combo % 200 == 0):
+		if playstate.song_stats.combo > 0:
+			if (playstate.song_stats.combo % 200 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer_200")
-			elif (playstate.combo % 50 == 0):
+			elif (playstate.song_stats.combo % 50 == 0):
 				get_tree().call_group(&"metronome", &"play_animation", &"cheer")
 
 

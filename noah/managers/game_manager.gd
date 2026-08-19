@@ -33,26 +33,41 @@ enum PLAY_MODE {
 	PRACTICE
 }
 
+var week_stats: NoahStats = NoahStats.new()
+var deaths: int = 0
+var week_score: int = 0 #scrap
+var week_deaths: int = 0
+
 var freeplay: bool = true
 var difficulty: String
 var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
-var current_song: Song
+
+# TODO: make this _
+
 var current_week: Week
-var week_songs: Array[Song]
+
+var week_songs: Array[Song] = []
 var current_week_song: int = 0
+var _current_song_freeplay: Song
+
+var current_song: Song :
+	get():
+		if freeplay:
+			return _current_song_freeplay
+		if current_week_song > week_songs.size():
+			return week_songs[current_week_song]
+		return null
+
 var character: PlayableCharacter
 var current_character: String = ""
 
-var week_score: int = 0
-var week_deaths: int = 0
 var songs_played: int = 0
 var week_tallies: Dictionary = DEFAULT_TALLIES.duplicate()
 var tallies: Dictionary = DEFAULT_TALLIES.duplicate()
 var grade: float
 var highscore: bool = false
-var score: int = 0
 
-var deaths: int = 0
+
 var song_position: float
 var seconds_per_beat: float :
 	get():
@@ -73,13 +88,6 @@ func reset_conductor():
 	conductor.new_beat.connect(_beat_change)
 	conductor.new_step.connect(_step_change)
 
-## Helper function to get the current song. Automatically checks for story mode
-func get_current_song() -> Song:
-	if freeplay:
-		return current_song
-		
-	return week_songs[current_week_song]
-
 func _step_change(step: int, measure: int):
 	Signals.play_conductor_step_hit.emit(step, measure)
 
@@ -94,7 +102,6 @@ func started_song(song: Song):
 	tallies = DEFAULT_TALLIES.duplicate()
 	current_song = song
 	character = Preload.character_data[current_character]
-	score = 0
 
 func start_week(week: Week):
 	current_week = week
@@ -103,11 +110,16 @@ func start_week(week: Week):
 	freeplay = false
 	play_mode = GameManager.PLAY_MODE.STORY_MODE
 
-func finished_song(_score: int):
-	week_score += _score
+func finished_song(_stats: NoahStats = null):
+	var _score: int = 0
+	if _stats:
+		week_stats.add_from(_stats)
+		_score = int(_stats.score)
 	week_deaths += deaths
-	songs_played += 1
+	
 	deaths = 0
+	
+	songs_played += 1
 	current_week_song += 1
 	
 	for tally in tallies.keys():
@@ -138,14 +150,18 @@ func finished_song(_score: int):
 		highscore = false
 
 func reset_stats():
-	deaths = 0
-	week_score = 0
-	week_deaths = 0
-	songs_played = 0
-	current_week_song = 0
+	week_stats.reset()
 	
 	tallies = DEFAULT_TALLIES.duplicate()
 	week_tallies = DEFAULT_TALLIES.duplicate()
+	deaths = 0
+	week_score = 0
+	week_deaths = 0
+	
+	songs_played = 0
+	current_week_song = 0
+	
+
 
 func get_grade(_tallies: Dictionary = tallies) -> float:
 	if _tallies.total_notes > 0:
