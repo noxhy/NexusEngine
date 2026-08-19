@@ -35,7 +35,6 @@ enum PLAY_MODE {
 
 var week_stats: NoahStats = NoahStats.new()
 var deaths: int = 0
-var week_score: int = 0 #scrap
 var week_deaths: int = 0
 
 var freeplay: bool = true
@@ -143,7 +142,7 @@ func finished_song(_stats: NoahStats = null):
 				or SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale") != 1):
 					highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(tallies))
 					if !GameManager.freeplay and current_week_song == week_songs.size():
-						highscore = SaveManager.set_week_stats(current_week, difficulty, week_score, grade)
+						highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score, grade)
 					else:
 						highscore = false
 	else:
@@ -155,7 +154,6 @@ func reset_stats():
 	tallies = DEFAULT_TALLIES.duplicate()
 	week_tallies = DEFAULT_TALLIES.duplicate()
 	deaths = 0
-	week_score = 0
 	week_deaths = 0
 	
 	songs_played = 0
