@@ -1,35 +1,29 @@
-extends ColorRect
+extends TextureRect
 class_name EditorMinimap
 
 const COLORS: Array[Color] = [Color(0.49, 0.078, 1.0), Color(0.086, 0.737, 0.749),
 Color(0.235, 0.769, 0.208), Color(0.757, 0.149, 0.322)]
 
-@export var precision: int = 1:
+@export var background_color: Color = Color(0.114, 0.133, 0.161)
+
+@export var precision: int = 2:
 	set(v):
 		precision = v
-		point_size = size.x / ChartManager.strum_count
-		refresh(data)
+		point_width = size.x / ChartManager.strum_count
 
 var chart_editor: ChartEditor
-var data: Array[Vector2] = []
-var point_size: float = 1
+var point_width: float = size.x / ChartManager.strum_count
+var minimap_image: Image
+var point_data: Dictionary[int, Dictionary] = {}
+
+var point_size: Vector2:
+	get():
+		return Vector2(point_width, precision)
+
 
 func _ready() -> void:
 	chart_editor = get_parent().get_parent()
-
-
-func refresh(_data: Array):
-	data = []
-	for packet in _data:
-		map(packet)
-
-
-func map(packet):
-	data.append(Vector2(packet[1], packet[0]))
-
-
-func unmap(packet):
-	data.erase(Vector2(packet[1], packet[0]))
+	texture = ImageTexture.create_from_image(Image.create_empty(int(size.x), int(size.y), false, Image.FORMAT_RGB8))
 
 
 func _process(delta: float) -> void:
@@ -37,9 +31,71 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	for point in data:
-		var y: float = point.y / chart_editor.instrumental.stream.get_length()
-		y *= (size.y - precision)
-		y = snappedf(y, precision)
-		var rect: Rect2 = Rect2(Vector2(point_size * point.x, y), Vector2(point_size, precision))
-		draw_rect(rect, COLORS[int(point.x) % 4])
+	for pixel in point_data:
+		var packet: Dictionary = point_data[pixel]
+		draw_rect_on_texture(packet.get("position"), point_size, packet.get("color"))
+
+## Creates an image texture of a map of the given data
+func refresh(data: Array):
+	minimap_image = Image.create_empty(int(size.x), int(size.y), false, Image.FORMAT_RGB8)
+	point_data = {}
+	draw_rect_on_image(Vector2i(0, 0), size, background_color)
+	
+	for packet in data:
+		map_to_image(packet)
+	
+	update()
+
+
+func update():
+	texture.update(minimap_image)
+
+## Draws the note color at a point on the image.
+func map_to_image(packet):
+	var pos: Vector2i = Vector2i(packet[1], packet[0])
+	draw_rect_on_image(map_to_image_position(pos), point_size, COLORS[packet[1] % 4])
+
+## Draws the background color at a point on the image.
+func unmap_from_image(packet):
+	var pos: Vector2i = Vector2i(packet[1], packet[0])
+	draw_rect_on_image(map_to_image_position(pos), point_size, background_color)
+
+## Returns the given point to its pixel number
+func map_point_to_pixel(point: Vector2i) -> int:
+	return point.x + point.y * minimap_image.get_height()
+
+## Adds a point to draw over the image with the note color.
+func map_to_texture(packet):
+	var pos: Vector2i = Vector2i(packet[1], packet[0])
+	var point: Vector2i = map_to_image_position(pos)
+	point_data[map_point_to_pixel(pos)] = {
+		"position": point,
+		"color": COLORS[packet[1] % 4]
+	}
+
+## Adds a point to draw over the image with the background color.
+func unmap_from_texture(packet):
+	var pos: Vector2i = Vector2i(packet[1], packet[0])
+	var point: Vector2i = map_to_image_position(pos)
+	point_data[map_point_to_pixel(pos)] = {
+		"position": point,
+		"color": background_color
+	}
+
+## Maps a point to a position on the container
+func map_to_image_position(point: Vector2) -> Vector2i:
+	var y: float = point.y / chart_editor.instrumental.stream.get_length()
+	y *= (size.y - precision)
+	y = snappedi(y, precision)
+	return Vector2i(int(point_width * point.x), int(y))
+
+## Draws a rectangle on the image
+func draw_rect_on_image(pos: Vector2i, rect_size: Vector2i, color: Color):
+	for y in rect_size.y:
+		for x in rect_size.x:
+			minimap_image.set_pixel(pos.x + x, pos.y + y, color)
+
+## Draws a rectangle over the image
+func draw_rect_on_texture(pos: Vector2i, rect_size: Vector2i, color: Color):
+	var rect: Rect2 = Rect2(pos, rect_size)
+	draw_rect(rect, color)

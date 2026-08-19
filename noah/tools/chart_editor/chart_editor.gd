@@ -825,7 +825,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			max_lane = ChartManager.strum_count - 1
 			output = L
 		
-		minimap.map(packet)
+		minimap.map_to_texture(packet)
 		
 		# Preventing fake notes
 		#current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
@@ -949,7 +949,7 @@ func remove_note(lane, time: float = -1):
 		note_nodes.remove_at(index)
 		current_visible_notes_R -= 1
 	
-	minimap.unmap(ChartManager.chart.chart_data["notes"][i])
+	minimap.unmap_from_texture(ChartManager.chart.chart_data["notes"][i])
 	ChartManager.chart.chart_data["notes"].remove_at(i)
 
 ## Removes the notes in the given indices

@@ -65,7 +65,7 @@ follow_viewport = false
 unique_name_in_owner = true
 grid_size = Vector2(36, 36)
 columns = 10
-grid_color = Color(0.11372549, 0.13333334, 0.16078432, 1)
+grid_color = Color(0.114, 0.133, 0.161, 1)
 event_column_color = Color(0.2071459, 0.23626423, 0.2815594, 0.26666668)
 position_column_color = Color(0.20784314, 0.23529412, 0.28235295, 0.26666668)
 
@@ -162,7 +162,7 @@ offset_left = -640.0
 offset_top = -297.0
 offset_right = -576.0
 offset_bottom = 279.0
-precision = 2
+precision = 3
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1879271863]
 layer = -128
