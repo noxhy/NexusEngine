@@ -357,7 +357,7 @@ func scrub(axis: int) -> void:
 	song_position += conductor.seconds_per_beat * axis
 	song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
 	song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
-	song_slider.value = song_position
+	song_slider.set_value_no_signal(song_position)
 
 
 func update_conductor():
@@ -1195,8 +1195,10 @@ func find_strum_id(strum_name: String) -> int:
 			return id
 	return -1
 
+
 func _on_song_slider_value_changed(value: float) -> void:
 	song_position = value
+	update_camera_song_position(true)
 
 func _on_song_slider_drag_started() -> void:
 	toggle_audios(true)
@@ -1259,6 +1261,7 @@ func _input(event: InputEvent) -> void:
 		if can_interact_with_chart: #song scrubbing
 			if not instrumental.stream_paused:
 				toggle_audios(true)
+			
 			song_position += conductor.seconds_per_beat * event.delta.y
 			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
@@ -1920,5 +1923,6 @@ func _on_minimap_gui_input(event: InputEvent) -> void:
 			start_offset, instrumental.stream.get_length() - start_offset)
 			
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length() - start_offset)
+			update_camera_song_position(true)
 			
 			song_slider.value = song_position

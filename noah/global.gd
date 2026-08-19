@@ -11,8 +11,8 @@ var current_controller: int = -1
 
 func _ready() -> void:
 	# FPS Booster
-	PhysicsServer2D.set_active(false)
-	PhysicsServer3D.set_active(false)
+	#PhysicsServer2D.set_active(false)
+	#PhysicsServer3D.set_active(false)
 	_correct_window_size()
 	Input.joy_connection_changed.connect(self.changed_contoller)
 	
