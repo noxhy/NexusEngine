@@ -1162,7 +1162,7 @@ func toggle_audios(paused: bool = true):
 		play_audios(song_position)
 	
 	lower_ui.toggle_play_button_state(not paused)
-	
+
 
 func move_bound_left(strum_id: int):
 	var strum_data = ChartManager.strum_data[strum_id]

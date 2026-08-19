@@ -5,6 +5,7 @@ const COLORS: Array[Color] = [Color(0.49, 0.078, 1.0), Color(0.086, 0.737, 0.749
 Color(0.235, 0.769, 0.208), Color(0.757, 0.149, 0.322)]
 
 @export var background_color: Color = Color(0.114, 0.133, 0.161)
+@export var area_color: Color = Color(1.0, 1.0, 1.0, 0.4)
 
 @export var precision: int = 2:
 	set(v):
@@ -35,6 +36,17 @@ func _draw() -> void:
 		for pixel in point_data:
 			var packet: Dictionary = point_data[pixel]
 			draw_rect_on_texture(packet.get("position"), point_size, packet.get("color"))
+		
+		
+		var _range: float = chart_editor.conductor.numerator * chart_editor.conductor.denominator * chart_editor.conductor.seconds_per_step / chart_editor.grid.zoom.y
+		var point_a: Vector2i = map_to_image_position(Vector2(0, chart_editor.song_position))
+		var point_b: Vector2i = map_to_image_position(Vector2(0,
+		chart_editor.song_position + _range))
+		
+		@warning_ignore("narrowing_conversion")
+		var rect: Rect2 = Rect2(point_a, point_b - point_a + Vector2i(size.x, 0))
+		draw_rect(rect, area_color)
+		draw_rect(rect, area_color, false, 2)
 		
 		draw_rect_on_texture(map_to_image_position(Vector2(0,
 		chart_editor.song_position + chart_editor.start_offset)), Vector2(size.x, 2), Color.RED)
