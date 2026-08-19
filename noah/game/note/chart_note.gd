@@ -6,25 +6,6 @@ class_name ChartNote
 @onready var label = %"Special Note Label"
 @onready var screen_enabler = $VisibleOnScreenEnabler2D
 
-var animation_names: Dictionary[StringName, StringName] = {
-	&"down": &"down",
-	&"down_end": &"down_end",
-	&"down_tail": &"down_tail",
-	&"left": &"left",
-	&"left_end": &"left_end",
-	&"left_tail": &"left_tail",
-	&"right": &"right",
-	&"right_end": &"right_end",
-	&"right_tail": &"right_tail",
-	&"up": &"up",
-	&"up_end": &"up_end",
-	&"up_tail": &"up_tail"
-}
-
-## Returns the animation name of the given id in SpriteFrames.
-func get_animation_name(animation_id: StringName) -> Variant:
-	return note_skin.animation_names.get(animation_id, animation_names.get(animation_id))
-
 # Applying Note Skin
 func _ready() -> void:
 	note.texture = note_skin.notes_texture.get_frame_texture(get_animation_name(animation), 0)

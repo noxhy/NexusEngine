@@ -4,6 +4,20 @@ extends Note
 class_name BasicNote
 
 const PIXELS_PER_SECOND = 450
+const DEFAULT_ANIMATION_DATA: Dictionary[StringName, StringName] = {
+	&"down": &"down",
+	&"down_end": &"down_end",
+	&"down_tail": &"down_tail",
+	&"left": &"left",
+	&"left_end": &"left_end",
+	&"left_tail": &"left_tail",
+	&"right": &"right",
+	&"right_end": &"right_end",
+	&"right_tail": &"right_tail",
+	&"up": &"up",
+	&"up_end": &"up_end",
+	&"up_tail": &"up_tail"
+}
 
 @onready var note = $Note
 @onready var tail = $Tail
@@ -24,6 +38,10 @@ var scoreable: bool = true
 var mine: bool = false
 var hit: bool = false
 
+## Returns the animation name of the given id in SpriteFrames.
+func get_animation_name(animation_id: StringName) -> Variant:
+	return note_skin.animation_names.get(animation_id, DEFAULT_ANIMATION_DATA.get(animation_id))
+
 # Applying Note Skin
 func _ready() -> void: 
 	end = $Tail/End
@@ -32,18 +50,17 @@ func _ready() -> void:
 		if note_skin.animation_names.keys().size() > 0: 
 			note.animation_names.merge(note_skin.animation_names, true)
 	
-	note.play_animation(animation)
-	
-	var tail_animation = note.get_animation_name(animation + &"_tail")
+	var tail_animation = get_animation_name(animation + &"_tail")
 	if tail_animation and tail:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = note.get_animation_name(animation + &"_end")
+	var end_animation = get_animation_name(animation + &"_end")
 	if end_animation and end:
 		end.texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 		end.size = end.texture.get_size()
 	
 	note.offsets = note_skin.offsets
+	note.play_animation(animation)
 	
 	if note_skin.pixel_texture: 
 		note.texture_filter = TEXTURE_FILTER_NEAREST
