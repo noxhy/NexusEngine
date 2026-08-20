@@ -124,7 +124,7 @@ func play_animation(anim_id: StringName = &"", context: AnimContext = AnimContex
 	if process_mode == Node.PROCESS_MODE_DISABLED or current_context == AnimContext.LOCKED or !animation_player:
 		return
 	
-	anim_id = StringName(animation_prefix + anim_id)
+	anim_id = correct_anim_id(StringName(animation_prefix + anim_id))
 	var animation_name: StringName = get_animation_name(anim_id)
 	
 	if animation_player is AnimationPlayer and not animation_player.has_animation(anim_id):
@@ -212,13 +212,24 @@ func _process(delta: float) -> void:
 		sing_time -= delta
 		if sing_time <= 0 and !can_dance:
 			can_dance = true
+			
+## attempts to ensure a anim is valid. If there is no anim but a prefix, the prefix will be stripped and check again until a anim is found.
+func correct_anim_id(anim_id: StringName) -> StringName:
+	if animation_names.has(anim_id):
+		return anim_id
+	
+	if anim_id.find('_') != -1:
+		var fixed_id = anim_id.substr(anim_id.find('_') + 1)
+		return correct_anim_id(fixed_id)
+	
+	return &""
 
 ## Gets the [SpriteFrames] animation name of the given [param anim_id] in [member animation_names].
-func get_animation_name(anim_id: StringName = &""):
+func get_animation_name(anim_id: StringName = &"") -> StringName:
 	return animation_names.get(anim_id, &"")
 
 
-func set_prefix(prefix: StringName):
+func set_prefix(prefix: StringName) -> void:
 	animation_prefix = prefix
 
 ## Lets an animation loop at the given [code]hold_frame[/code] until given another animation.
