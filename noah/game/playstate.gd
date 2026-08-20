@@ -69,6 +69,7 @@ var score: float :
 var misses: int :
 	get():
 		return song_stats.misses
+
 var died: bool = false
 
 var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
@@ -79,9 +80,11 @@ var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 func _ready() -> void:
 	song_data = GameManager.current_song
 	
+	#TODO we should make playstate safe and print errors rather than asserts
 	assert(host, 'A Host was not assigned.')
 	assert(ui, 'A UI was not assigned.')
 	assert(camera, 'A Camera Controller was not assigned.')
+	assert(GameManager.current_song, "A song was not set correctly.")
 	
 	# This delay is so variables initialize
 	await host.ready
@@ -93,15 +96,16 @@ func _ready() -> void:
 	vocals.set_bus(&"Music")
 	for v in song_data.vocals:
 		vocal_streams.append(SoundManager.get_stream(v))
+	add_child(vocals)
 	
 	instrumental = AudioStreamPlayer.new()
 	instrumental.stream = SoundManager.get_stream(song_data.instrumental)
 	instrumental.connect("finished", song_finished)
 	instrumental.pitch_scale = song_speed
 	instrumental.set_bus(&"Music")
-	self.add_child(vocals)
+	add_child(instrumental)
+	
 	vocals.play()
-	self.add_child(instrumental)
 	
 	GameManager.reset_conductor()
 	

@@ -10,6 +10,13 @@ const GOOD_COMBO_FREQUENCY: int = 50
 const GREAT_COMBO_FREQUENCY: int = 200
 const HOLD_NOTE_LENIENCY: float = 1 / 3.0
 
+const GOLD_RANK_REQ: float = 2.0
+const PERFECT_RANK_REQ: float = 1.0
+const EXCELLENT_RANK_REQ: float = 0.90
+const GREAT_RANK_REQ: float = 0.80
+const GOOD_RANK_REQ: float = 0.60
+const LOSS_RANK_REQ: float = 0.00
+
 var song_scene = null
 
 var conductor:Conductor
@@ -121,25 +128,21 @@ func start_week(week: Week):
 	freeplay = false
 	play_mode = GameManager.PLAY_MODE.STORY_MODE
 
-func finished_song(_stats: NoahStats = null):
-	var _score: int = 0
-	if _stats:
-		week_stats.add_from(_stats)
-		_score = _stats.score_as_int
-		last_song_stats.copy_from(_stats)
+## called by PlayState whenever a song is finished. Saves scoring.
+func finished_song(_stats: NoahStats):
+	week_stats.add_from(_stats)
+	last_song_stats.copy_from(_stats)
 	
 	week_deaths += deaths
-	
 	deaths = 0
 	
 	songs_played += 1
 	current_week_song += 1
 	
 	grade = get_grade(week_stats)
-	get_rank(grade)
 	
 	if can_save_score():
-		highscore = SaveManager.set_song_stats(current_song, difficulty, _score, get_grade(last_song_stats))
+		highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, get_grade(last_song_stats))
 		if !GameManager.freeplay and current_week_song == week_songs.size():
 			highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
 		else:
@@ -183,12 +186,12 @@ func get_grade(_stats: NoahStats = last_song_stats) -> float:
 
 func get_rank(_grade: float) -> String:
 	var accuracies = [
-		[_grade == 2, "gold"],
-		[_grade == 1, "perfect"],
-		[_grade >= 0.90, "excellent"],
-		[_grade >= 0.80, "great"],
-		[_grade >= 0.60, "good"],
-		[_grade >= 0, "loss"],
+		[_grade == GOLD_RANK_REQ, "gold"],
+		[_grade == PERFECT_RANK_REQ, "perfect"],
+		[_grade >= EXCELLENT_RANK_REQ, "excellent"],
+		[_grade >= GREAT_RANK_REQ, "great"],
+		[_grade >= GOOD_RANK_REQ, "good"],
+		[_grade >= LOSS_RANK_REQ, "loss"],
 	]
 	
 	for condition in accuracies: if condition[0]:
