@@ -10,15 +10,11 @@ var transitioning: bool = false
 var current_controller: int = -1
 
 func _ready() -> void:
-	# FPS Booster
-	#PhysicsServer2D.set_active(false)
-	#PhysicsServer3D.set_active(false)
 	_correct_window_size()
 	Input.joy_connection_changed.connect(self.changed_contoller)
 	
 	if not OS.is_debug_build():
 		RenderingServer.set_default_clear_color(Color.BLACK)
-
 
 func changed_contoller(device: int, connected: bool):
 	if connected or !Input.get_connected_joypads().front():
@@ -53,7 +49,6 @@ func _process(delta: float) -> void:
 			get_tree().reload_current_scene()
 			get_tree().paused = false
 
-
 #region Auto Pause
 var manual_pause: bool = false
 func _notification(what: int) -> void:
@@ -83,7 +78,6 @@ func change_scene_to(path: String, transition: Variant = Constants.DEFAULT_TRANS
 	
 	get_tree().paused = false
 	LoadingScreen.scene = path
-	
 	
 	if show_loading_screen: 
 		get_tree().change_scene_to_packed(loading_screen)

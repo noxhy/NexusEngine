@@ -17,7 +17,8 @@ const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 const LOSS_RANK_REQ: float = 0.00
 
-var song_scene = null
+## The last remembered path the loaded scene. Useful if u need to return to a song after exiting.
+var song_scene: String = ''
 
 var conductor:Conductor
 
@@ -25,6 +26,7 @@ var conductor:Conductor
 enum PLAY_MODE {
 	STORY_MODE,
 	FREEPLAY,
+	## Returns to the editor after play.
 	CHARTING,
 	PRACTICE
 }
@@ -42,7 +44,6 @@ var deaths: int = 0
 ## The total deaths within a week.
 var week_deaths: int = 0
 
-var freeplay: bool = true
 var difficulty: String
 var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
 
@@ -50,23 +51,20 @@ var week_songs: Array[Song] = []
 var current_week_song: int = 0
 var _current_song_freeplay: Song
 
-
 var current_week: Week
 
 ## the currently loaded song. this should not be set directly with set_song_freeplay and set_song_storymode being used instead.
 ## if current_song is null, the song was not set correctly.
 var current_song: Song :
 	get():
-		if freeplay:
-			return _current_song_freeplay
-		if current_week_song > week_songs.size():
+		if play_mode == PLAY_MODE.STORY_MODE and current_week_song > week_songs.size():
 			return week_songs[current_week_song]
-		return null
+		
+		return _current_song_freeplay
 
 ## helper function to prepare the game for song to use a given song in the next playstate instance
 func set_song_freeplay(song: Song, song_difficulty: String):
 	_current_song_freeplay = song
-	freeplay = true
 	play_mode = PLAY_MODE.FREEPLAY
 	difficulty = song_difficulty
 	
@@ -74,7 +72,6 @@ func set_song_freeplay(song: Song, song_difficulty: String):
 func set_song_storymode(songs: Array[Song], song_difficulty: String):
 	week_songs = songs
 	current_week_song = 0
-	freeplay = false
 	play_mode = PLAY_MODE.STORY_MODE
 	difficulty = song_difficulty
 
@@ -125,7 +122,6 @@ func start_week(week: Week):
 	current_week = week
 	week_songs = week.song_list.duplicate()
 	current_week_song = 0
-	freeplay = false
 	play_mode = GameManager.PLAY_MODE.STORY_MODE
 
 ## called by PlayState whenever a song is finished. Saves scoring.
@@ -143,13 +139,14 @@ func finished_song(_stats: NoahStats):
 	
 	if can_save_score():
 		highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, get_grade(last_song_stats))
-		if !GameManager.freeplay and current_week_song == week_songs.size():
+		if play_mode != PLAY_MODE.FREEPLAY and current_week_song == week_songs.size():
 			highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
 		else:
 			highscore = false
 	else:
 		highscore = false
 
+## Resets all remembered gameplay stats back to 0.
 func reset_stats():
 	week_stats.reset()
 	last_song_stats.reset()

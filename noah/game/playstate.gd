@@ -413,23 +413,24 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 func song_finished():
 	Signals.play_song_finished.emit()
 	
-	if GameManager.freeplay:
-		match GameManager.play_mode:
-			GameManager.PLAY_MODE.CHARTING:
-				Global.change_scene_to(Constants.CHART_EDITOR_SCENE)
-			
-			GameManager.PLAY_MODE.PRACTICE:
-				Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
-			
-			_:
-				GameManager.finished_song(song_stats)
-				Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
-	else:
-		GameManager.finished_song(song_stats)
-		if (GameManager.week_songs.size() == GameManager.current_week_song):
-			Global.change_scene_to(next_scene)
-		else:
-			Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene, "down")
+	match GameManager.play_mode:
+		GameManager.PLAY_MODE.STORY_MODE:
+			GameManager.finished_song(song_stats)
+			if (GameManager.week_songs.size() == GameManager.current_week_song):
+				Global.change_scene_to(next_scene)
+			else:
+				Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene)
+
+		GameManager.PLAY_MODE.CHARTING:
+			Global.change_scene_to(Constants.CHART_EDITOR_SCENE)
+		
+		GameManager.PLAY_MODE.PRACTICE:
+			Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
+		
+		_:
+			GameManager.finished_song(song_stats)
+			Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
+
 
 # Strum Util
 func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManager):

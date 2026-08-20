@@ -1430,7 +1430,6 @@ func test_current_song(minimal: bool):
 	
 	GameManager._current_song_freeplay = ChartManager.song
 	GameManager.difficulty = ChartManager.difficulty
-	GameManager.freeplay = true
 	GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
 	Global.change_scene_to(scene_to_load)
 

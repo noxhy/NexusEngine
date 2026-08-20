@@ -153,10 +153,11 @@ func select_option(i: int):
 			GameManager.reset_stats()
 			self.process_mode = Node.PROCESS_MODE_DISABLED
 			
-			if GameManager.freeplay:
-				Global.change_scene_to(Constants.FREEPLAY_MENU_SCENE)
-			else:
+			if GameManager.play_mode == GameManager.PLAY_MODE.STORY_MODE:
 				Global.change_scene_to(Constants.STORY_MODE_MENU_SCENE)
+			else:
+				Global.change_scene_to(Constants.FREEPLAY_MENU_SCENE)
+
 		
 		"chart_editor":
 			GameManager.reset_stats()
