@@ -539,7 +539,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	if difficulty == null:
 		difficulty = ChartManager.song.difficulties.keys()[0]
 	
-	var difficulty_data: Dictionary = song.difficulties.get(difficulty)
+	var difficulty_data: SongDifficultyData = song.difficulties.get(difficulty)
 	ChartManager.chart = Chart.load(difficulty_data.chart)
 	ChartManager.difficulty = difficulty
 	undo_redo.clear_history()
