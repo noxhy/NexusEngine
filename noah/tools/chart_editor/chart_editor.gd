@@ -1913,10 +1913,6 @@ func _on_note_type_window_close_requested() -> void:
 func _on_minimap_gui_input(event: InputEvent) -> void:
 	if !ChartManager.chart:
 		return
-	
-	if event is InputEventMouseButton:
-		if event.is_pressed():
-			_move_song_by_minimap()
 			
 	if event is InputEventMouseMotion:
 		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
