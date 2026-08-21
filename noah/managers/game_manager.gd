@@ -1,7 +1,9 @@
 extends Node
 
 ##TODO: better docs use better tag stuff 
+##TODO: rename storymode to playlist and alter some business
 
+# These are explanatory.
 const SICK_RATING_WINDOW: float = 0.045
 const GOOD_RATING_WINDOW: float = 0.09
 const BAD_RATING_WINDOW: float = 0.135
@@ -10,12 +12,14 @@ const GOOD_COMBO_FREQUENCY: int = 50
 const GREAT_COMBO_FREQUENCY: int = 200
 const HOLD_NOTE_LENIENCY: float = 1 / 3.0
 
+# These are explanatory.
 const GOLD_RANK_REQ: float = 2.0
 const PERFECT_RANK_REQ: float = 1.0
 const EXCELLENT_RANK_REQ: float = 0.90
 const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 const LOSS_RANK_REQ: float = 0.00
+
 
 ## The last remembered path the loaded scene. Useful if u need to return to a song after exiting.
 var song_scene: String = ''
@@ -24,7 +28,9 @@ var conductor:Conductor
 
 ## The current defined play mode. decides where playstate will go next after a given song and whether to save score.
 enum PLAY_MODE {
+	## Used for playing a "week". Moves to the next songs scene after play and saves progression as a week.
 	STORY_MODE,
+	## Standard mode returnb
 	FREEPLAY,
 	## Returns to the editor after play.
 	CHARTING,
@@ -44,6 +50,7 @@ var deaths: int = 0
 var week_deaths: int = 0
 
 var difficulty: String
+## The current defined play mode. Check [code]GameManager.PLAY_MODE[/code] for these are used.
 var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
 
 var week_songs: Array[Song] = []
@@ -61,18 +68,23 @@ var current_song: Song :
 		
 		return _current_song_freeplay
 
-## helper function to prepare the game for song to use a given song in the next playstate instance
-func set_song_freeplay(song: Song, song_difficulty: String):
-	_current_song_freeplay = song
-	play_mode = PLAY_MODE.FREEPLAY
-	difficulty = song_difficulty
+## Function to initiate [code]GameManager[/code] for a song to be played. if the _play_mode is not STORY_MODE, only the first song in songs is used.
+## [br][br] NOTE: If you are using story mode look to [method load_songs_from_week]
+func load_songs(songs: Array[Song], _difficulty: String, _play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY):
+	play_mode = _play_mode
+	difficulty = _difficulty
 	
-## helper function to prepare the game to use a given week in the next playstate instance
-func set_song_storymode(songs: Array[Song], song_difficulty: String):
-	week_songs = songs
 	current_week_song = 0
-	play_mode = PLAY_MODE.STORY_MODE
-	difficulty = song_difficulty
+	match _play_mode:
+		PLAY_MODE.STORY_MODE:
+			week_songs = songs
+		_:
+			_current_song_freeplay = songs[0]
+
+## Function to initiate [code]GameManager[/code] to play a week.
+func load_from_week(week: Week, _difficulty: String):
+	current_week = week
+	load_songs(week.song_list, _difficulty, PLAY_MODE.STORY_MODE)
 
 var character: PlayableCharacter
 var current_character: String = ""
@@ -116,12 +128,6 @@ func started_song(song: Song):
 	
 	current_song = song
 	character = Preload.character_data[current_character]
-
-func start_week(week: Week):
-	current_week = week
-	week_songs = week.song_list.duplicate()
-	current_week_song = 0
-	play_mode = GameManager.PLAY_MODE.STORY_MODE
 
 ## called by PlayState whenever a song is finished. Saves scoring.
 func save_and_refresh_stats(_stats: NoahStats):
@@ -172,6 +178,7 @@ func can_save_score() -> bool:
 	
 	return true
 
+## gets a grade from a stats
 func get_grade(_stats: NoahStats = last_song_stats) -> float:
 	if _stats.total_notes == 0:
 		return 0.0
@@ -180,6 +187,7 @@ func get_grade(_stats: NoahStats = last_song_stats) -> float:
 	
 	return float(_stats.sicks + _stats.goods - _stats.misses) / _stats.total_notes
 
+## gets a rank by a grade.
 func get_rank(_grade: float) -> String:
 	var accuracies = [
 		[_grade == GOLD_RANK_REQ, "gold"],

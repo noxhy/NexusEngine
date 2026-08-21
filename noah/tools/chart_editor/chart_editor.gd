@@ -1431,9 +1431,7 @@ func test_current_song(minimal: bool):
 	
 	var scene_to_load: String = "uid://c56g0k7u2k6wo" if minimal else ChartManager.song.scene
 	
-	GameManager._current_song_freeplay = ChartManager.song
-	GameManager.difficulty = ChartManager.difficulty
-	GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
+	GameManager.load_songs([ChartManager.song], ChartManager.difficulty, GameManager.PLAY_MODE.CHARTING)
 	Global.change_scene_to(scene_to_load)
 
 

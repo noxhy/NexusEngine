@@ -94,6 +94,7 @@ func bop_tween(object: Object, property: NodePath, original_val: Variant, final_
 	tween.tween_property(object, property, final_val, duration * 0.0625).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(object, property, original_val, duration).set_ease(Tween.EASE_OUT).set_delay(duration * 0.0625)
 
+## appends [code]title[/code] to the application name.
 func set_window_title(title: String = ''):
 	var app_title: String = ProjectSettings.get_setting("application/config/name") + \
 		' ' + ProjectSettings.get_setting("application/config/version")
