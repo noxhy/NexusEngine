@@ -29,7 +29,7 @@ var conductor:Conductor
 ## The current defined play mode. decides where playstate will go next after a given song and whether to save score.
 enum PLAY_MODE {
 	## Used for playing a "week". Moves to the next songs scene after play and saves progression as a week.
-	STORY_MODE,
+	PLAYLIST,
 	## Standard mode returnb
 	FREEPLAY,
 	## Returns to the editor after play.
@@ -50,46 +50,44 @@ var deaths: int = 0
 var week_deaths: int = 0
 
 var difficulty: String
-## The current defined play mode. Check [code]GameManager.PLAY_MODE[/code] for these are used.
+## The current defined play mode. Check [enum GameManager.PLAY_MODE] for how these are used.
 var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
 
 var week_songs: Array[Song] = []
 var current_week_song: int = 0
-var _current_song_freeplay: Song
 
 var current_week: Week
 
-## the currently loaded song. this should not be set directly with set_song_freeplay and set_song_storymode being used instead.
+## the currently loaded song. this should not be set directly with [method load_songs], [method load_song], [method load_from_week] being used instead.
 ## if current_song is null, the song was not set correctly.
 var current_song: Song :
 	get():
-		if play_mode == PLAY_MODE.STORY_MODE and current_week_song > week_songs.size():
-			return week_songs[current_week_song]
-		
-		return _current_song_freeplay
+		if week_songs.is_empty(): return null
+		return week_songs[current_week_song % week_songs.size()]
 
-## Function to initiate [code]GameManager[/code] for a song to be played. if the _play_mode is not STORY_MODE, only the first song in songs is used.
-## [br][br] NOTE: If you are using story mode look to [method load_songs_from_week]
+## Func to initiate [code]GameManager[/code] for a song to be played. if the [param _play_mode] is not [code]PLAYLIST[/code], only the first song in songs is used.
+## [br][br][color=khaki]NOTE[/color]: If you are using [code]PLAY_MODE.PLAYLIST[/code] look to [method load_songs_from_week]
 func load_songs(songs: Array[Song], _difficulty: String, _play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY):
 	play_mode = _play_mode
 	difficulty = _difficulty
 	
 	current_week_song = 0
-	match _play_mode:
-		PLAY_MODE.STORY_MODE:
-			week_songs = songs
-		_:
-			_current_song_freeplay = songs[0]
+	week_songs = songs
 
-## Function to initiate [code]GameManager[/code] to play a week.
+## Helper func to initiate [code]GameManager[/code] to play a song.
+## [br][br]Simplified wrapper to load 1 song via [method GameManager.load_songs]
+func load_song(song: Song, _difficulty: String):
+	load_songs([song], _difficulty, PLAY_MODE.FREEPLAY)
+
+## Helper func to initiate [code]GameManager[/code] to play a playlist.
+## [br][br]Simplified wrapper to load a playlist via [method GameManager.load_songs]
 func load_from_week(week: Week, _difficulty: String):
 	current_week = week
-	load_songs(week.song_list, _difficulty, PLAY_MODE.STORY_MODE)
+	load_songs(week.song_list, _difficulty, PLAY_MODE.PLAYLIST)
 
 var character: PlayableCharacter
 var current_character: String = ""
 
-var songs_played: int = 0
 var grade: float
 var highscore: bool = false
 
@@ -137,17 +135,15 @@ func save_and_refresh_stats(_stats: NoahStats):
 	week_deaths += deaths
 	deaths = 0
 	
-	songs_played += 1
 	current_week_song += 1
 	
 	grade = get_grade(week_stats)
 	
 	if can_save_score():
-		highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, get_grade(last_song_stats))
-		if play_mode != PLAY_MODE.FREEPLAY and current_week_song == week_songs.size():
-			highscore = SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
+		if play_mode == PLAY_MODE.PLAYLIST:
+			highscore = current_week_song == week_songs.size() and SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
 		else:
-			highscore = false
+			highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, get_grade(last_song_stats))
 	else:
 		highscore = false
 
@@ -159,7 +155,6 @@ func reset_stats():
 	deaths = 0
 	week_deaths = 0
 	
-	songs_played = 0
 	current_week_song = 0
 	
 ## Checks preferences to see if scoring should be saved.
