@@ -22,8 +22,8 @@ const COMPENSATION: float = 1.0 / 30.0
 @export var ui_skin: UISkin
 
 @export_group("Scenes")
-## The Scene to enter after the song/week is finished.
-## [br][br]NOTE this does not apply when [code]GameManager.play_mode[/code] is [code]CHARTING_MODE[/code].
+## The next scene to enter after the song/playlist is finished.
+## [br][br][color=khaki]NOTE[/color] this does not apply when [member GameManager.play_mode] is [constant GameManager.PLAY_MODE.CHARTING_MODE].
 @export_file('*.tscn') var next_scene: String = ""
 
 @export_group("Data")

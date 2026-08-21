@@ -26,11 +26,11 @@ var song_scene: String = ''
 
 var conductor:Conductor
 
-## The current defined play mode. decides where playstate will go next after a given song and whether to save score.
+## The current defined play mode. decides where [PlayState] will go next after a given song and whether to save score.
 enum PLAY_MODE {
 	## Used for playing a "week". Moves to the next songs scene after play and saves progression as a week.
 	PLAYLIST,
-	## Standard mode returnb
+	## Standard mode for playing a individual song. Moves to [member PlayState.next_scene] after play.
 	FREEPLAY,
 	## Returns to the editor after play.
 	CHARTING,
