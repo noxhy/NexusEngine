@@ -28,7 +28,6 @@ enum PLAY_MODE {
 	FREEPLAY,
 	## Returns to the editor after play.
 	CHARTING,
-	PRACTICE
 }
 
 ## The previous played song's remembered stats. Can be used for things such as a result screen.
@@ -125,7 +124,7 @@ func start_week(week: Week):
 	play_mode = GameManager.PLAY_MODE.STORY_MODE
 
 ## called by PlayState whenever a song is finished. Saves scoring.
-func finished_song(_stats: NoahStats):
+func save_and_refresh_stats(_stats: NoahStats):
 	week_stats.add_from(_stats)
 	last_song_stats.copy_from(_stats)
 	
@@ -162,7 +161,7 @@ func can_save_score() -> bool:
 	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "botplay"):
 		return false
 	
-	if play_mode == PLAY_MODE.CHARTING or play_mode == PLAY_MODE.PRACTICE:
+	if play_mode == PLAY_MODE.CHARTING:
 		return false
 		
 	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1):

@@ -28,11 +28,12 @@ func _ready() -> void:
 	assert(playstate, "Playstate host not found")
 	camera_positions = get_tree().get_nodes_in_group(&"camera_positions")
 	
-	if player:
-		playstate.ui.update_player(player)
-	
-	if enemy:
-		playstate.ui.update_enemy(enemy)
+	if playstate.ui:
+		if player:
+			playstate.ui.update_player(player)
+		
+		if enemy:
+			playstate.ui.update_enemy(enemy)
 	
 	pause_preload = load(playstate.ui_skin.pause_scene)
 	
@@ -79,17 +80,18 @@ func _on_conductor_new_step(current_step: int, measure_relative: int):
 		else:
 			playstate.camera.bump(playstate.camera_bop_strength)
 		
-		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
+		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops") and playstate.ui:
 			playstate.ui.bump(playstate.ui_bop_strength)
 
 func update_bop_rate(_i: int) -> void:
 	bop_rate = GameManager.conductor.numerator * GameManager.conductor.denominator
 
 func _on_create_note(time: float, lane: int, note_length: float, note_type: String, tempo: float):
-	if (lane > 3):
-		playstate.strums[1].create_note(time, lane % 4, note_length, note_type, tempo)
-	else:
-		playstate.strums[0].create_note(time, lane % 4, note_length, note_type, tempo)
+	if not playstate.strums.is_empty():
+		if (lane > 3):
+			playstate.strums[1].create_note(time, lane % 4, note_length, note_type, tempo)
+		else:
+			playstate.strums[0].create_note(time, lane % 4, note_length, note_type, tempo)
 
 
 func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumManager):
@@ -174,7 +176,7 @@ func show_combo(rating: String, _combo: int):
 	if playstate.song_stats.max_combo == playstate.song_stats.total_notes:
 		combo_numbers_manager_instance.fc = true
 	
-	if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui"):
+	if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui") and playstate.ui:
 		if playstate.ui.rating_marker:
 			rating_instance.position = playstate.ui.rating_marker.position
 		

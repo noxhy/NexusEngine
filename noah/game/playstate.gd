@@ -13,8 +13,7 @@ const COMPENSATION: float = 1.0 / 30.0
 @export_group("Nodes")
 ## The host song script. Usually the parent of this node.
 @export var host: Node
-## The UI node that requires a list: [code]strums[/code].
-@export var ui: BasicUI
+
 ## Camera with built-in functions.
 @export var camera: CameraController
 
@@ -23,8 +22,13 @@ const COMPENSATION: float = 1.0 / 30.0
 @export var ui_skin: UISkin
 
 @export_group("Scenes")
-## The scene that will be switched to when the song ends.
-@export_file('*.tscn') var next_scene: String = Constants.get("RESULTS_MENU_SCENE")
+## The Scene to enter after the song/week is finished.
+## [br][br]NOTE this does not apply when [code]GameManager.play_mode[/code] is [code]CHARTING_MODE[/code].
+@export_file('*.tscn') var next_scene: String = ""
+
+@export_group("Data")
+@export var health_min: float = 0.0
+@export var health_max: float = 100.0
 
 var song_starting:bool = false
 var song_started: bool = false
@@ -47,10 +51,8 @@ var output_latency: float = AudioServer.get_output_latency()
 
 var chart: Chart
 
-
-@export_group("Data")
-@export var health_min: float = 0.0
-@export var health_max: float = 100.0
+## The UI node that requires a list: [code]strums[/code].
+@onready var ui: BasicUI
 
 var health: float = health_max * 0.5 : set = set_health
 
@@ -75,14 +77,14 @@ var died: bool = false
 var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
 var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	song_data = GameManager.current_song
 	
+	ui = get_tree().get_first_node_in_group(&"ui")
+	
 	#TODO we should make playstate safe and print errors rather than asserts
 	assert(host, 'A Host was not assigned.')
-	assert(ui, 'A UI was not assigned.')
 	assert(camera, 'A Camera Controller was not assigned.')
 	assert(GameManager.current_song, "A song was not set correctly.")
 	
@@ -109,7 +111,7 @@ func _ready() -> void:
 	
 	GameManager.reset_conductor()
 	
-	strums = ui.strums
+	strums = get_tree().get_nodes_in_group(&"strums")
 	
 	GameManager.song_scene = LoadingScreen.scene
 	
@@ -142,9 +144,6 @@ func _ready() -> void:
 			get_tree().call_group(&"strums", "set_auto_play", true)
 			get_tree().call_group(&"strums", "set_press", false)
 	
-	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "downscroll"):
-		ui.downscroll_ui()
-	
 	scroll_speed = chart.scroll_speed * SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale")
 	
 	get_tree().call_group(&"strums", "set_scroll_speed", scroll_speed)
@@ -155,9 +154,9 @@ func _ready() -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "downscroll"):
 		get_tree().call_group(&"strums", "set_scroll", -1)
 	
-	Signals.play_note_hit.connect(self.note_hit)
-	Signals.play_note_holding.connect(self.note_holding)
-	Signals.play_note_miss.connect(self.note_miss)
+	Signals.play_note_hit.connect(note_hit)
+	Signals.play_note_holding.connect(note_holding)
+	Signals.play_note_miss.connect(note_miss)
 	
 	Signals.play_setup_finished.emit()
 
@@ -264,7 +263,7 @@ func play_song(time: float):
 	if time >= GameManager.conductor.seconds_per_beat * 4:
 		play_audios(song_start_offset)
 	else:
-		if !ui_skin.countdown.is_empty():
+		if !ui_skin.countdown.is_empty() and ui:
 			var countdown_instance: AnimationPlayer = load(ui_skin.countdown).instantiate()
 			
 			countdown_instance.speed_scale = chart.get_tempo_at(time - chart.offset) / 60.0
@@ -357,11 +356,11 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 			
 			var ui_bop: float = ui_bop_strength.x
 			if not event_parameters[1].is_empty():
-				camera_bop = float(event_parameters[1])
+				ui_bop = float(event_parameters[1])
 			
 			camera.bump(camera_bop)
-			ui.bump(Vector2.ONE * ui_bop)
-		
+			if ui:
+				ui.bump(Vector2.ONE * ui_bop)
 		"psych_camera_zoom":
 			var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
 			camera.target_zoom = new_zoom
@@ -389,8 +388,9 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 		
 		"set_smoothing", 'lerping':
 			var smoothing: bool = event_parameters[0] == "true"
-			ui.zoom_smoothing = smoothing
 			camera.zoom_smoothing = smoothing
+			if ui:
+				ui.zoom_smoothing = smoothing
 		
 		"scroll_speed":
 			var tween_time = Global.string_to_time(event_parameters[1])
@@ -409,28 +409,23 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 	
 	Signals.play_new_event.emit(time, event_name, event_parameters)
 
-
 func song_finished():
 	Signals.play_song_finished.emit()
+	var scene_to_enter: String = next_scene
 	
 	match GameManager.play_mode:
+		GameManager.PLAY_MODE.FREEPLAY:
+			GameManager.save_and_refresh_stats(song_stats)
+			
 		GameManager.PLAY_MODE.STORY_MODE:
-			GameManager.finished_song(song_stats)
-			if (GameManager.week_songs.size() == GameManager.current_week_song):
-				Global.change_scene_to(next_scene)
-			else:
-				Global.change_scene_to(GameManager.week_songs[GameManager.current_week_song].scene)
-
+			GameManager.save_and_refresh_stats(song_stats)
+			if GameManager.week_songs.size() != GameManager.current_week_song:
+				scene_to_enter = GameManager.week_songs[GameManager.current_week_song].scene
+				
 		GameManager.PLAY_MODE.CHARTING:
-			Global.change_scene_to(Constants.CHART_EDITOR_SCENE)
-		
-		GameManager.PLAY_MODE.PRACTICE:
-			Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
-		
-		_:
-			GameManager.finished_song(song_stats)
-			Global.change_scene_to(Constants.RESULTS_MENU_SCENE)
-
+			scene_to_enter = Constants.CHART_EDITOR_SCENE
+	
+	Global.change_scene_to(scene_to_enter)
 
 # Strum Util
 func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManager):
@@ -451,11 +446,9 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 		
 		if note.scoreable:
 			score_note(hit_time)
-			
-		var rating: String = get_rating(abs(hit_time)) #TODO: add stats equiv
 		
 		song_stats.total_notes += 1
-		match rating:
+		match get_rating(abs(hit_time)):
 			"sick":
 				song_stats.sicks += 1
 				health += Constants.HEALTH_GAIN * note.health_mult

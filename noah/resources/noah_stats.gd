@@ -31,9 +31,8 @@ var bads: int = 0
 ## the total notes hit within the "shit" hit  window by the player.
 var shits: int = 0 
 
-## the total notes within a song
+## the total notes hit/missed within a song
 var total_notes: int = 0
-
 
 ## resets all given values to their defaults.
 func reset():
