@@ -178,7 +178,7 @@ func get_grade(_stats: NoahStats = last_song_stats) -> float:
 	if _stats.sicks == _stats.total_notes:
 		return 2.0
 	
-	return float(_stats.sick + _stats.good - _stats.miss) / _stats.total_notes
+	return float(_stats.sicks + _stats.goods - _stats.misses) / _stats.total_notes
 
 func get_rank(_grade: float) -> String:
 	var accuracies = [
