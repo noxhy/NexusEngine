@@ -398,6 +398,9 @@ func is_mouse_over_any_ui() -> bool:
 	if Rect2i(lower_ui.global_position + lower_ui.get_parent().offset, lower_ui.size).has_point(mouse):
 		return true
 	
+	if minimap and Rect2i(minimap.global_position + minimap.get_parent().offset, minimap.size).has_point(mouse):
+		return true
+	
 	for button:HFlowContainer in get_tree().get_nodes_in_group(&"strum_buttons"):
 		#they sahre the same parent as lower ui so this is fine
 		if Rect2i(button.global_position + lower_ui.get_parent().offset, button.size).has_point(mouse):
@@ -1917,10 +1920,12 @@ func _on_minimap_gui_input(event: InputEvent) -> void:
 			
 	if event is InputEventMouseMotion:
 		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
-			_move_song_by_minimap()
+			scrub_minimap()
+	elif event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+			scrub_minimap()
 
-
-func _move_song_by_minimap():
+func scrub_minimap():
 	if not instrumental.stream_paused:
 		toggle_audios(true)
 	
