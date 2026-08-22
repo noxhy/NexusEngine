@@ -8,7 +8,6 @@ const COMPENSATION: float = 1.0 / 30.0
 @onready var vocals: AudioStreamPlayer
 @onready var instrumental: AudioStreamPlayer
 @onready var strums: Array = []
-@onready var characters: Array = []
 
 @export_group("Nodes")
 ## The host song script. Usually the parent of this node.
@@ -27,8 +26,15 @@ const COMPENSATION: float = 1.0 / 30.0
 @export_file('*.tscn') var next_scene: String = ""
 
 @export_group("Data")
+## The minimum amount of health the player can have before they "die"
 @export var health_min: float = 0.0
+## The maximum amount of health the player can have.
 @export var health_max: float = 100.0
+
+## The default "bop" strength to be applied to the main camera.
+@export var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
+## The default "bop" strength to be applied to the ui instance.
+@export var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 var song_starting:bool = false
 var song_started: bool = false
@@ -51,6 +57,9 @@ var output_latency: float = AudioServer.get_output_latency()
 
 var chart: Chart
 
+## Flag enabled whenever the player has "died"
+var died: bool = false
+
 ## The UI node that requires a list: [code]strums[/code].
 @onready var ui: BasicUI
 
@@ -71,11 +80,6 @@ var score: float :
 var misses: int :
 	get():
 		return song_stats.misses
-
-var died: bool = false
-
-var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
-var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -159,7 +163,6 @@ func _ready() -> void:
 	Signals.play_note_miss.connect(note_miss)
 	
 	Signals.play_setup_finished.emit()
-
 
 func _process(delta) -> void:
 	
