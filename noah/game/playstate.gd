@@ -252,7 +252,6 @@ func play_song(time: float):
 	
 	GameManager.last_song_stats.reset()
 	
-	GameManager.started_song(song_data)
 	GameManager.conductor.stream_player = instrumental
 	GameManager.conductor.tempo = chart.get_tempo_at(-chart.offset + time)
 	GameManager.conductor.seconds_per_beat = 60.0 / GameManager.conductor.tempo
