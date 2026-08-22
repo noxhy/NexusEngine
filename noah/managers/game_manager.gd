@@ -20,7 +20,7 @@ const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 const LOSS_RANK_REQ: float = 0.00
 
-## The last remembered path the loaded scene. Useful if u need to return to a song after temporarily exiting.
+## The last remembered song scene assigned by [PlayState]. useful for needing to return to a song after exiting the scene.
 var song_scene: String = ''
 
 ## Global conductor utilized by the playstate.
@@ -93,9 +93,10 @@ func load_from_week(week: Week, _difficulty: String):
 	current_week = week
 	load_songs(week.song_list, _difficulty, PLAY_MODE.PLAYLIST)
 
-var character: PlayableCharacter
+## The currently assigned [PlayableCharacter]
 var current_character: String = ""
 
+## The last saved grade. From 0.0 - 2.0
 var grade: float = 0.0
 
 ## Will be true if the last played Song/Playlist got a highscore.
@@ -124,13 +125,7 @@ func _ready() -> void:
 	reset_conductor()
 	reset_stats()
 
-func started_song(song: Song):
-	last_song_stats.reset()
-	
-	if Preload.character_data.has(current_character):
-		character = Preload.character_data[current_character]
-
-## called by PlayState whenever a song is finished. Saves scoring.
+## called by [PlayState] whenever a song is finished. Saves scoring.
 func save_and_refresh_stats(_stats: NoahStats):
 	week_stats.add_from(_stats)
 	last_song_stats.copy_from(_stats)
@@ -151,6 +146,7 @@ func save_and_refresh_stats(_stats: NoahStats):
 		highscore = false
 
 ## Resets all remembered gameplay stats back to 0.
+## [br][br][color=khaki]NOTE[/color] This also resets the current playlist progression.
 func reset_stats():
 	week_stats.reset()
 	last_song_stats.reset()
@@ -176,7 +172,7 @@ func can_save_score() -> bool:
 	
 	return true
 
-## gets a grade from a stats
+## gets a grade from a [NoahStats] instance.
 func get_grade(_stats: NoahStats = last_song_stats) -> float:
 	if _stats.total_notes == 0:
 		return 0.0

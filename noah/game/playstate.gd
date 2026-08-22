@@ -250,6 +250,8 @@ func play_song(time: float):
 	
 	song_starting = true
 	
+	GameManager.last_song_stats.reset()
+	
 	GameManager.started_song(song_data)
 	GameManager.conductor.stream_player = instrumental
 	GameManager.conductor.tempo = chart.get_tempo_at(-chart.offset + time)
