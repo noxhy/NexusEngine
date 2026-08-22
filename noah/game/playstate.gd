@@ -32,9 +32,9 @@ const COMPENSATION: float = 1.0 / 30.0
 @export var health_max: float = 100.0
 
 ## The default "bop" strength to be applied to the main camera.
-@export var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
+@export_custom(PROPERTY_HINT_LINK, 'x') var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
 ## The default "bop" strength to be applied to the ui instance.
-@export var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
+@export_custom(PROPERTY_HINT_LINK, 'x') var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 var song_starting:bool = false
 var song_started: bool = false
