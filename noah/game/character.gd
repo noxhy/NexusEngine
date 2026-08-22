@@ -282,7 +282,7 @@ func dance(restart: bool = true, time: float = -1) -> void:
 ## Sets the sing timer, characters cannot return to idle until this timer is finished.
 func set_sing_timer(time: float = -1):
 	if time == -1:
-		time = sing_duration * GameManager.seconds_per_step
+		time = sing_duration * GameManager.conductor.seconds_per_step
 	
 	sing_time = time
 	can_dance = false

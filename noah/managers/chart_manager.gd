@@ -1,6 +1,8 @@
 extends Node
 
+## Reference of the last song loaded in the charteditor.
 var song: Song
+## Reference to the last chart loaded in the charteditor
 var chart: Chart
 var difficulty: String = ""
 

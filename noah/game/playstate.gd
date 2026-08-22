@@ -8,7 +8,6 @@ const COMPENSATION: float = 1.0 / 30.0
 @onready var vocals: AudioStreamPlayer
 @onready var instrumental: AudioStreamPlayer
 @onready var strums: Array = []
-@onready var characters: Array = []
 
 @export_group("Nodes")
 ## The host song script. Usually the parent of this node.
@@ -22,13 +21,20 @@ const COMPENSATION: float = 1.0 / 30.0
 @export var ui_skin: UISkin
 
 @export_group("Scenes")
-## The Scene to enter after the song/week is finished.
-## [br][br]NOTE this does not apply when [code]GameManager.play_mode[/code] is [code]CHARTING_MODE[/code].
+## The next scene to enter after the song/playlist is finished.
+## [br][br][color=khaki]NOTE[/color] this does not apply when [member GameManager.play_mode] is [constant GameManager.PLAY_MODE.CHARTING_MODE].
 @export_file('*.tscn') var next_scene: String = ""
 
 @export_group("Data")
+## The minimum amount of health the player can have before they "die"
 @export var health_min: float = 0.0
+## The maximum amount of health the player can have.
 @export var health_max: float = 100.0
+
+## The default "bop" strength to be applied to the main camera.
+@export_custom(PROPERTY_HINT_LINK, 'x') var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
+## The default "bop" strength to be applied to the ui instance.
+@export_custom(PROPERTY_HINT_LINK, 'x') var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 var song_starting:bool = false
 var song_started: bool = false
@@ -51,6 +57,9 @@ var output_latency: float = AudioServer.get_output_latency()
 
 var chart: Chart
 
+## Flag enabled whenever the player has "died"
+var died: bool = false
+
 ## The UI node that requires a list: [code]strums[/code].
 @onready var ui: BasicUI
 
@@ -71,11 +80,6 @@ var score: float :
 var misses: int :
 	get():
 		return song_stats.misses
-
-var died: bool = false
-
-var camera_bop_strength: Vector2 = Vector2(0.03, 0.03)
-var ui_bop_strength: Vector2 = Vector2(0.015, 0.015)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -159,7 +163,6 @@ func _ready() -> void:
 	Signals.play_note_miss.connect(note_miss)
 	
 	Signals.play_setup_finished.emit()
-
 
 func _process(delta) -> void:
 	
@@ -417,13 +420,17 @@ func song_finished():
 		GameManager.PLAY_MODE.FREEPLAY:
 			GameManager.save_and_refresh_stats(song_stats)
 			
-		GameManager.PLAY_MODE.STORY_MODE:
+		GameManager.PLAY_MODE.PLAYLIST:
 			GameManager.save_and_refresh_stats(song_stats)
 			if GameManager.week_songs.size() != GameManager.current_week_song:
 				scene_to_enter = GameManager.week_songs[GameManager.current_week_song].scene
 				
 		GameManager.PLAY_MODE.CHARTING:
 			scene_to_enter = Constants.CHART_EDITOR_SCENE
+	
+	if scene_to_enter.is_empty() or not ResourceLoader.exists(scene_to_enter):
+		printerr("(PlayState): next_scene at %s was not found. falling back to ChartEditor.")
+		scene_to_enter = Constants.CHART_EDITOR_SCENE
 	
 	Global.change_scene_to(scene_to_enter)
 

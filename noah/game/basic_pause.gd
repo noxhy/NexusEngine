@@ -69,7 +69,7 @@ func _ready() -> void:
 	
 	var mode_display: String = ""
 	match GameManager.play_mode:
-		GameManager.PLAY_MODE.STORY_MODE: mode_display = "Story Mode"
+		GameManager.PLAY_MODE.PLAYLIST: mode_display = "Story Mode"
 		GameManager.PLAY_MODE.CHARTING: mode_display = "Charting"
 		GameManager.PLAY_MODE.FREEPLAY, _: mode_display = "Freeplay"
 	
@@ -152,7 +152,7 @@ func select_option(i: int):
 			GameManager.reset_stats()
 			self.process_mode = Node.PROCESS_MODE_DISABLED
 			
-			if GameManager.play_mode == GameManager.PLAY_MODE.STORY_MODE:
+			if GameManager.play_mode == GameManager.PLAY_MODE.PLAYLIST:
 				Global.change_scene_to(Constants.STORY_MODE_MENU_SCENE)
 			else:
 				Global.change_scene_to(Constants.FREEPLAY_MENU_SCENE)

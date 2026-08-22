@@ -15,7 +15,7 @@ func _process(delta) -> void:
 	string_to_show += "\n" + "Artist: " + str(playstate.song_data.artist)
 	string_to_show += "\n" + "Difficulty: " + str(GameManager.difficulty)
 	string_to_show += "\n" + "Tempo: " + str(GameManager.conductor.tempo)
-	string_to_show += "\n" + "Scroll Speed: " + str(playstate.ui.strums[0].strums[0].scroll_speed)
+	string_to_show += "\n" + "Scroll Speed: " + str(playstate.strums[0].strums[0].scroll_speed)
 	string_to_show += "\n" + str(playstate.song_stats)
 	
 	$"UI/Chart Stats".text = string_to_show

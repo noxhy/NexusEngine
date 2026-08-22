@@ -398,6 +398,9 @@ func is_mouse_over_any_ui() -> bool:
 	if Rect2i(lower_ui.global_position + lower_ui.get_parent().offset, lower_ui.size).has_point(mouse):
 		return true
 	
+	if minimap and Rect2i(minimap.global_position + minimap.get_parent().offset, minimap.size).has_point(mouse):
+		return true
+	
 	for button:HFlowContainer in get_tree().get_nodes_in_group(&"strum_buttons"):
 		#they sahre the same parent as lower ui so this is fine
 		if Rect2i(button.global_position + lower_ui.get_parent().offset, button.size).has_point(mouse):
@@ -1428,9 +1431,7 @@ func test_current_song(minimal: bool):
 	
 	var scene_to_load: String = "uid://c56g0k7u2k6wo" if minimal else ChartManager.song.scene
 	
-	GameManager._current_song_freeplay = ChartManager.song
-	GameManager.difficulty = ChartManager.difficulty
-	GameManager.play_mode = GameManager.PLAY_MODE.CHARTING
+	GameManager.load_songs([ChartManager.song], ChartManager.difficulty, GameManager.PLAY_MODE.CHARTING)
 	Global.change_scene_to(scene_to_load)
 
 
@@ -1910,17 +1911,15 @@ func _on_note_type_window_close_requested() -> void:
 func _on_minimap_gui_input(event: InputEvent) -> void:
 	if !ChartManager.chart:
 		return
-	
-	if event is InputEventMouseButton:
-		if event.is_pressed():
-			_move_song_by_minimap()
 			
 	if event is InputEventMouseMotion:
 		if event.button_mask == MouseButton.MOUSE_BUTTON_LEFT:
-			_move_song_by_minimap()
+			scrub_minimap()
+	elif event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+			scrub_minimap()
 
-
-func _move_song_by_minimap():
+func scrub_minimap():
 	if not instrumental.stream_paused:
 		toggle_audios(true)
 	
