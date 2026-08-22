@@ -95,7 +95,7 @@ func _process(delta) -> void:
 func update():
 	if !holding:
 		position.y = PIXELS_PER_SECOND * time_difference * scroll_speed * scroll
-		var grid_scaler = PIXELS_PER_SECOND * GameManager.seconds_per_beat
+		var grid_scaler = PIXELS_PER_SECOND * GameManager.conductor.seconds_per_beat
 		grid_size.y = grid_scaler
 	else:
 		position.y = 0

@@ -91,7 +91,7 @@ func _process(delta) -> void:
 						Signals.play_note_holding.emit(note, lane, temp - max(0, note.length), get_parent())
 						state = STATE.GLOW
 					else:
-						reset_timer = GameManager.seconds_per_step
+						reset_timer = GameManager.conductor.seconds_per_step
 						state = STATE.GLOW
 						
 						if can_splash:
@@ -103,7 +103,7 @@ func _process(delta) -> void:
 						note.queue_free()
 					continue
 		
-		var relative_time: float = time_difference - offset + (note.start_length * GameManager.seconds_per_beat)
+		var relative_time: float = time_difference - offset + (note.start_length * GameManager.conductor.seconds_per_beat)
 		var hit_window: float = GameManager.SHIT_RATING_WINDOW
 		if ignored_note_types.has(note.note_type):
 			# This is for stuff like mine's so they have a smaller hit qindow
@@ -199,7 +199,7 @@ func _process(delta) -> void:
 		if coyote_timer <= 0:
 			var note = note_list.front()
 			if note:
-				note.time -= note.length * GameManager.seconds_per_beat
+				note.time -= note.length * GameManager.conductor.seconds_per_beat
 				note.time -= GameManager.BAD_RATING_WINDOW
 	
 	if state == STATE.IDLE:
@@ -293,7 +293,7 @@ func release_note():
 	if can_press:
 		if pressing:
 			pressing = false
-			reset_timer = GameManager.seconds_per_step
+			reset_timer = GameManager.conductor.seconds_per_step
 			if hold_cover_sprite.animation != "cover " + strum_name + " end":
 				hold_cover_sprite.visible = false
 			
@@ -310,4 +310,4 @@ func release_note():
 
 ## Returns the seconds per beat relative to the given note.
 func get_relative_seconds_per_beat(note: Note) -> float:
-	return (GameManager.conductor.tempo / note.tempo) * GameManager.seconds_per_beat
+	return (GameManager.conductor.tempo / note.tempo) * GameManager.conductor.seconds_per_beat

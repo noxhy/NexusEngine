@@ -42,7 +42,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
-	time_difference = (time - GameManager.offset) - GameManager.song_position
+	time_difference = (time - GameManager.conductor.offset) - GameManager.song_position
 	
 	if length > 0:
 		update_tail.call()

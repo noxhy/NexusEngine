@@ -20,10 +20,10 @@ const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 const LOSS_RANK_REQ: float = 0.00
 
-
-## The last remembered path the loaded scene. Useful if u need to return to a song after exiting.
+## The last remembered path the loaded scene. Useful if u need to return to a song after temporarily exiting.
 var song_scene: String = ''
 
+## Global conductor utilized by the playstate.
 var conductor:Conductor
 
 ## The current defined play mode. decides where [PlayState] will go next after a given song and whether to save score.
@@ -49,24 +49,32 @@ var deaths: int = 0
 ## The total deaths within a week.
 var week_deaths: int = 0
 
-var difficulty: String
+## The current difficulty being played. 
+var difficulty: String = ''
+
 ## The current defined play mode. Check [enum GameManager.PLAY_MODE] for how these are used.
 var play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY
 
+## Array of all songs currently loaded.
 var week_songs: Array[Song] = []
+
+## The current loaded song index within [member week_songs].
 var current_week_song: int = 0
 
+## The current week meta. Set via [method load_from_week]
 var current_week: Week
 
 ## the currently loaded song. this should not be set directly with [method load_songs], [method load_song], [method load_from_week] being used instead.
 ## if current_song is null, the song was not set correctly.
 var current_song: Song :
+	set(_song):
+		load_song(_song, difficulty)
 	get():
 		if week_songs.is_empty(): return null
 		return week_songs[current_week_song % week_songs.size()]
 
 ## Func to initiate [code]GameManager[/code] for a song to be played. if the [param _play_mode] is not [code]PLAYLIST[/code], only the first song in songs is used.
-## [br][br][color=khaki]NOTE[/color]: If you are using [code]PLAY_MODE.PLAYLIST[/code] look to [method load_songs_from_week]
+## [br][br][color=khaki]NOTE[/color]: If you are using [code]PLAY_MODE.PLAYLIST[/code] look to [method load_from_week]
 func load_songs(songs: Array[Song], _difficulty: String, _play_mode: PLAY_MODE = PLAY_MODE.FREEPLAY):
 	play_mode = _play_mode
 	difficulty = _difficulty
@@ -88,20 +96,15 @@ func load_from_week(week: Week, _difficulty: String):
 var character: PlayableCharacter
 var current_character: String = ""
 
-var grade: float
+var grade: float = 0.0
+
+## Will be true if the last played Song/Playlist got a highscore.
 var highscore: bool = false
 
-var song_position: float
-var seconds_per_beat: float :
-	get():
-		return conductor.seconds_per_beat
-var seconds_per_step: float :
-	get():
-		return conductor.seconds_per_step
-var offset: float :
-	get():
-		return conductor.offset
+## The current song position. updated via [PlayState]
+var song_position: float = 0.0
 
+## Refreshes the conductor with a new instance.
 func reset_conductor():
 	if conductor:
 		remove_child(conductor)
@@ -124,8 +127,8 @@ func _ready() -> void:
 func started_song(song: Song):
 	last_song_stats.reset()
 	
-	current_song = song
-	character = Preload.character_data[current_character]
+	if Preload.character_data.has(current_character):
+		character = Preload.character_data[current_character]
 
 ## called by PlayState whenever a song is finished. Saves scoring.
 func save_and_refresh_stats(_stats: NoahStats):
