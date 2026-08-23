@@ -1,8 +1,5 @@
 extends Node
 
-##TODO: better docs use better tag stuff 
-##TODO: rename storymode to playlist and alter some business
-
 # These are explanatory.
 const SICK_RATING_WINDOW: float = 0.045
 const GOOD_RATING_WINDOW: float = 0.09
@@ -19,8 +16,6 @@ const EXCELLENT_RANK_REQ: float = 0.90
 const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 const LOSS_RANK_REQ: float = 0.00
-
-
 
 ## The last remembered song scene assigned by [PlayState]. useful for needing to return to a song after exiting the scene.
 var song_scene: String = ''
