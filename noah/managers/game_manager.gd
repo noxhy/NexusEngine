@@ -40,8 +40,8 @@ enum PLAY_MODE {
 ## Note these are only set after a song is finished and not in real time.
 var last_song_stats: NoahStats = NoahStats.new()
 
-## The accumulated stats from a week when playing in Story Mode.
-var week_stats: NoahStats = NoahStats.new()
+## The accumulated stats from a playlist when playing in [code]PLAY_MODE.PLAYLIST[/code].
+var playlist_stats: NoahStats = NoahStats.new()
 
 ## The total deaths on a singular song.
 var deaths: int = 0
@@ -127,7 +127,7 @@ func _ready() -> void:
 
 ## called by [PlayState] whenever a song is finished. Saves scoring.
 func save_and_refresh_stats(_stats: NoahStats):
-	week_stats.add_from(_stats)
+	playlist_stats.add_from(_stats)
 	last_song_stats.copy_from(_stats)
 	
 	week_deaths += deaths
@@ -135,11 +135,11 @@ func save_and_refresh_stats(_stats: NoahStats):
 	
 	current_week_song += 1
 	
-	grade = get_grade(week_stats)
+	grade = get_grade(playlist_stats)
 	
 	if can_save_score():
 		if play_mode == PLAY_MODE.PLAYLIST:
-			highscore = current_week_song == week_songs.size() and SaveManager.set_week_stats(current_week, difficulty, week_stats.score_as_int, grade)
+			highscore = current_week_song == week_songs.size() and SaveManager.set_week_stats(current_week, difficulty, playlist_stats.score_as_int, grade)
 		else:
 			highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, get_grade(last_song_stats))
 	else:
@@ -148,7 +148,7 @@ func save_and_refresh_stats(_stats: NoahStats):
 ## Resets all remembered gameplay stats back to 0.
 ## [br][br][color=khaki]NOTE[/color] This also resets the current playlist progression.
 func reset_stats():
-	week_stats.reset()
+	playlist_stats.reset()
 	last_song_stats.reset()
 	
 	deaths = 0
