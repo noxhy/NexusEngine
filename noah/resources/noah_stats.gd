@@ -15,19 +15,6 @@ const GOOD_RANK_REQ: float = 0.60
 ## The required minimum [member grade] must reach to provide [member LOSS_RANK_REQ]
 const LOSS_RANK_REQ: float = 0.00
 
-## The highest rank. acquired if the player hits all notes and are all judged as [member sicks].
-const GOLD_RANK_NAME: String = 'gold'
-## The perfect rank. acquired if the player hits all notes.
-const PERFECT_RANK_NAME: String = 'perfect'
-## The Excellent rank. acquired if [member grade] is equal or above [member EXCELLENT_RANK_REQ].
-const EXCELLENT_RANK_NAME: String = 'excellent'
-## The Gret rank. acquired if [member grade] is equal or above [member GREAT_RANK_REQ].
-const GREAT_RANK_NAME: String = 'great'
-## The Good rank. acquired if [member grade] is equal or above [member GOOD_RANK_REQ].
-const GOOD_RANK_NAME: String = 'good'
-## The lowest rank. acquired if [member grade] is lower than [member GOOD_RANK_REQ].
-const LOSS_RANK_NAME: String = 'loss'
-
 ## The accumulated score reached by the player.
 var score: float = 0
 
@@ -93,6 +80,7 @@ func add_from(stats: NoahStats):
 	score += stats.score
 	misses += stats.misses
 	combo += stats.combo
+	sicks += stats.sicks
 	goods += stats.goods
 	bads += stats.bads
 	shits += stats.shits
@@ -103,7 +91,7 @@ func add_from(stats: NoahStats):
 
 func _get_grade() -> float:
 	return get_grade_from_stats(self)
-	
+
 ## Gets a [code]Grade[/code] from a [NoahStats] instance.
 static func get_grade_from_stats(_stats: NoahStats):
 	if _stats.total_notes == 0:
@@ -115,20 +103,20 @@ static func get_grade_from_stats(_stats: NoahStats):
 
 func _get_rank() -> String:
 	return get_rank_from_grade(grade)
-	
+
 ## Returns a Rank from form a [NoahStats] instance.
-static func get_rank_from_stats(_stats: NoahStats):
+static func get_rank_from_stats(_stats: NoahStats) -> String:
 	return get_rank_from_grade(_stats.grade)
 
 ## Returns a rank by a grade / float. Check [member grade] to see what the values range is.
-static func get_rank_from_grade(_grade: float):
+static func get_rank_from_grade(_grade: float) -> String:
 	var accuracies = [
-		[_grade == GOLD_RANK_REQ, GOLD_RANK_NAME],
-		[_grade == PERFECT_RANK_REQ, PERFECT_RANK_NAME],
-		[_grade >= EXCELLENT_RANK_REQ, EXCELLENT_RANK_NAME],
-		[_grade >= GREAT_RANK_REQ, GREAT_RANK_NAME],
-		[_grade >= GOOD_RANK_REQ, GOOD_RANK_REQ],
-		[_grade >= LOSS_RANK_REQ, LOSS_RANK_NAME],
+		[_grade == GOLD_RANK_REQ, Constants.GOLD_RANK_NAME],
+		[_grade == PERFECT_RANK_REQ, Constants.PERFECT_RANK_NAME],
+		[_grade >= EXCELLENT_RANK_REQ, Constants.EXCELLENT_RANK_NAME],
+		[_grade >= GREAT_RANK_REQ, Constants.GREAT_RANK_NAME],
+		[_grade >= GOOD_RANK_REQ, Constants.GOOD_RANK_NAME],
+		[_grade >= LOSS_RANK_REQ, Constants.LOSS_RANK_NAME],
 	]
 	
 	for condition in accuracies: if condition[0]:

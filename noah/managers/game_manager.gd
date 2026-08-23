@@ -152,7 +152,7 @@ func reset_stats():
 	week_deaths = 0
 	
 	current_week_song = 0
-	
+
 ## Checks preferences to see if scoring should be saved.
 func can_save_score() -> bool:
 	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "botplay"):
