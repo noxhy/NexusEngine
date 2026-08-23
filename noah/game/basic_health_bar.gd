@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func health_changed(v: float, delta: float):
 	target_health = v
-	
+
 func stats_changed(stats: NoahStats):
 	target_score = int(stats.score)
 	target_misses = stats.misses

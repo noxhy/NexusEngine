@@ -90,10 +90,10 @@ func _ready() -> void:
 	if !ui:
 		printerr("(%s)" % name, " There is no UI added to the ui group.")
 	
-	if host:
+	if !host:
 		printerr('A Host was not assigned.')
 	
-	if camera:
+	if !camera:
 		printerr('A Camera Controller was not assigned.')
 	
 	assert(song_data, "A song was not set correctly.")
