@@ -802,7 +802,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 		var packet: Array = [time, lane, length, type]
 		var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time)
 		if L != -1:
-			ChartManager.chart.chart_data["notes"].insert(L, packet)
+			ChartManager.chart.notes.insert(L, packet)
 			
 			if note_nodes.is_empty():
 				note_nodes.append(note_instance)
@@ -821,7 +821,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			
 			output = L
 		else:
-			ChartManager.chart.chart_data["notes"].append(packet)
+			ChartManager.chart.notes.append(packet)
 			note_nodes.append(note_instance)
 			L = ChartManager.chart.get_notes_data().size() - 1
 			selected_notes = [L]
@@ -870,7 +870,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 	if placed:
 		var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time)
 		if L != -1:
-			ChartManager.chart.chart_data["events"].insert(L, [time, event, parameters])
+			ChartManager.chart.events.insert(L, [time, event, parameters])
 			
 			if event_nodes.is_empty():
 				event_nodes.append(event_instance)
@@ -890,7 +890,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 			output = L
 		else:
 			event_nodes.append(event_instance)
-			ChartManager.chart.chart_data["events"].append([time, event, parameters])
+			ChartManager.chart.events.append([time, event, parameters])
 			L = ChartManager.chart.get_events_data().size() - 1
 			selected_notes = [L]
 			selected_note_nodes = [event_instance]
@@ -954,8 +954,8 @@ func remove_note(lane, time: float = -1):
 		note_nodes.remove_at(index)
 		current_visible_notes_R -= 1
 	
-	minimap.unmap_from_texture(ChartManager.chart.chart_data["notes"][i])
-	ChartManager.chart.chart_data["notes"].remove_at(i)
+	minimap.unmap_from_texture(ChartManager.chart.notes[i])
+	ChartManager.chart.notes.remove_at(i)
 
 ## Removes the notes in the given indices
 func remove_notes(indices: Array):
@@ -1657,13 +1657,13 @@ func _on_metadata_window_selected_time_change(time: float) -> void:
 
 func _on_metadata_window_add_time_change() -> void:
 	var time: float = song_position + start_offset
-	ChartManager.chart.chart_data["tempos"][time] = conductor.tempo
-	ChartManager.chart.chart_data["meters"][time] = [
+	ChartManager.chart.tempos[time] = conductor.tempo
+	ChartManager.chart.time_signatures[time] = [
 		conductor.numerator, conductor.denominator
 	]
 	
-	ChartManager.chart.chart_data["tempos"].sort()
-	ChartManager.chart.chart_data["meters"].sort()
+	ChartManager.chart.tempos.sort()
+	ChartManager.chart.time_signatures.sort()
 	%"Upper UI".get_node("%Metadata Window").update_stats()
 	auto_save()
 
@@ -1829,7 +1829,7 @@ func change_note_lengths(notes: Array, delta: float):
 
 
 func change_length(i: int, length: float) -> void:
-	ChartManager.chart.chart_data["notes"][i][2] = max(length, 0)
+	ChartManager.chart.notes[i][2] = max(length, 0)
 
 
 func select_area(L: int, R: int, lane_a, lane_b = null):

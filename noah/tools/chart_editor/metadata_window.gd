@@ -119,8 +119,8 @@ func _on_remove_time_change_pressed() -> void:
 	var tempo_data: Dictionary = ChartManager.chart.get_tempos_data()
 	var time: float = tempo_data.keys()[current_time_change]
 	
-	ChartManager.chart.chart_data["tempos"].erase(time)
-	ChartManager.chart.chart_data["meters"].erase(time)
+	ChartManager.chart.tempos.erase(time)
+	ChartManager.chart.time_signatures.erase(time)
 	%"Time Changes".remove_item(current_time_change)
 	%"Time Changes".select(current_time_change - 1)
 	_on_time_changes_item_selected(current_time_change - 1)
@@ -132,7 +132,7 @@ func _on_tempo_value_changed(value: float) -> void:
 	var time: float = tempo_data.keys()[current_time_change]
 	
 	ChartManager.song.tempo = tempo_data.get(0.0)
-	ChartManager.chart.chart_data["tempos"][time] = value
+	ChartManager.chart.tempos[time] = value
 	%"Time Changes".set_item_text(current_time_change, format_time_change(current_time_change))
 
 func format_time_change(index: int) -> String:
@@ -146,14 +146,14 @@ func _on_numerator_value_changed(value: float) -> void:
 	var tempo_data: Dictionary = ChartManager.chart.get_tempos_data()
 	var time: float = tempo_data.keys()[current_time_change]
 	
-	ChartManager.chart.chart_data["meters"][time] = [int(value), int(%Denominator.value)]
+	ChartManager.chart.time_signatures[time] = [int(value), int(%Denominator.value)]
 	%"Time Changes".set_item_text(current_time_change, format_time_change(current_time_change))
 
 func _on_denominator_value_changed(value: float) -> void:
 	var tempo_data: Dictionary = ChartManager.chart.get_tempos_data()
 	var time: float = tempo_data.keys()[current_time_change]
 	
-	ChartManager.chart.chart_data["meters"][time] = [int(%Numerator.value), int(value)]
+	ChartManager.chart.time_signatures[time] = [int(%Numerator.value), int(value)]
 	%"Time Changes".set_item_text(current_time_change, format_time_change(current_time_change))
 
 
