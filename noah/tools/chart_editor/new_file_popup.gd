@@ -36,21 +36,21 @@ func new_file(dir: String, notify_editor: bool = true):
 		_:
 			difficulties = []
 	
-	var difficulty_dict: Dictionary[String, Dictionary] = {}
+	var difficulty_dict: Dictionary[String, SongDifficultyData] = {}
 	for difficulty in difficulties:
 		var chart: Chart = Chart.new()
 		
 		# Barebones chart data
-		chart.chart_data = {
-			"notes": [],
-			"events": [],
-			"tempos": {0.0: song_file.tempo},
-			"meters": {0.0: [4, 4]}
-		}
+		chart.notes = []
+		chart.events = []
+		chart.tempos = {0.0: song_file.tempo}
+		chart.time_signatures = {0.0: [4, 4]}
 		
-		var chart_path: String = dir + "/" + song_file.title + "-" + difficulty + ".res"
+		var chart_path: String = str(dir.path_join(song_file.title), "-", difficulty, ".res")
 		ResourceSaver.save(chart, chart_path)
-		difficulty_dict[difficulty] = {"chart": chart_path}
+		var difficulty_data: SongDifficultyData = SongDifficultyData.new()
+		difficulty_data.chart = chart_path
+		difficulty_dict[difficulty] = difficulty_data
 	
 	song_file.difficulties = difficulty_dict
 	var song_path: String = dir + "/" + song_file.title + ".res"
@@ -84,7 +84,8 @@ func _on_save_folder_dialog_dir_selected(dir):
 	save_dir = dir
 	%"Export File Location".text = dir
 
-func _on_close_requested(): self.queue_free()
+func _on_close_requested():
+	self.queue_free()
 
 # "Select File Location" button pressed
 func _on_export_button_pressed() -> void:
@@ -106,6 +107,7 @@ func _on_create_button_pressed() -> void:
 	
 	new_file(save_dir)
 	_on_close_requested()
+
 
 func file_dailog_gui_focus_changed(node: Control) -> void:
 	emit_signal(&"gui_focus_changed", node)
