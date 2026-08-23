@@ -420,17 +420,15 @@ func finished_song():
 	match GameManager.play_mode:
 		GameManager.PLAY_MODE.FREEPLAY:
 			GameManager.save_and_refresh_stats(song_stats)
-			
 		GameManager.PLAY_MODE.PLAYLIST:
 			GameManager.save_and_refresh_stats(song_stats)
 			if GameManager.week_songs.size() != GameManager.current_week_song:
 				scene_to_enter = GameManager.week_songs[GameManager.current_week_song].scene
-				
 		GameManager.PLAY_MODE.CHARTING:
 			scene_to_enter = Constants.CHART_EDITOR_SCENE
 	
 	if scene_to_enter.is_empty() or not ResourceLoader.exists(scene_to_enter):
-		printerr("(PlayState): next_scene at %s was not found. falling back to ChartEditor.")
+		printerr("(PlayState): next_scene at %s was not found. falling back to ChartEditor." % scene_to_enter)
 		scene_to_enter = Constants.CHART_EDITOR_SCENE
 	
 	Global.change_scene_to(scene_to_enter)
