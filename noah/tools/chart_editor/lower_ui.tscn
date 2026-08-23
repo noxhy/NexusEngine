@@ -190,6 +190,7 @@ min_value = 1.0
 max_value = 192.0
 value = 16.0
 rounded = true
+allow_greater = true
 update_on_text_changed = true
 prefix = "1 /"
 
