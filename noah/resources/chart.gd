@@ -368,7 +368,7 @@ static func convert_psych(data:Dictionary,_events:Array = [], v1:bool = true) ->
 	chart.events = event_data
 	chart.tempos = tempo_data
 	chart.time_signatures = time_signature_data
-	
+	chart.version = CURRENT_VERSION
 	return chart
 
 static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') -> Chart:
@@ -471,7 +471,7 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 	chart.events = event_data
 	chart.tempos = tempo_data
 	chart.time_signatures = time_signature_data
-	
+	chart.version = CURRENT_VERSION
 	return chart
 
 static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) -> Chart:
@@ -502,17 +502,14 @@ static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) ->
 		_events.append_array(data.get('events'))
 	
 	for event_packet in _events:
-		
 		var event = []
 		if event_packet.name == 'Camera Movement':
-			pass
-			
-			if event_packet.params[0] == 1: event_packet.params[0] = 0
-			elif event_packet.params[0] == 0: event_packet.params[0] = 1
-			
+			if event_packet.params[0] == 1:
+				event_packet.params[0] = 0
+			elif event_packet.params[0] == 0:
+				event_packet.params[0] = 1
 			
 			event = [event_packet.time / 1000.0, 'camera_position', event_packet.params]
-			
 		elif EVENT_NAMES.has(event_packet.name):
 			event = [event_packet.time / 1000.0, EVENT_NAMES[event_packet.name], event_packet.params]
 		elif event_packet.name == "BPM Change":
@@ -550,9 +547,9 @@ static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) ->
 	chart.events = event_data
 	chart.tempos = tempo_data
 	chart.time_signatures = time_signature_data
-	
+	chart.version = CURRENT_VERSION
 	return chart
-	
+
 # Event names for easy conversion to noah engine
 const EVENT_NAMES = {
 	# Psych Engine Names
@@ -572,5 +569,4 @@ const EVENT_NAMES = {
 	"Camera Zoom": "camera_zoom",
 	"Camera Modulo Change": "bop_rate",
 	"Scroll Speed Change": "scroll_speed",
-	
 }

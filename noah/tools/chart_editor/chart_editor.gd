@@ -615,6 +615,7 @@ func load_chart(file: Chart, ghost: bool = false):
 	load_section(song_position)
 	update_grid()
 	if minimap:
+		minimap.visible = true
 		minimap.refresh(file.get_notes_data())
 	
 	load_dividers()
