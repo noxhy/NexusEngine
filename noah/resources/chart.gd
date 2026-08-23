@@ -194,7 +194,6 @@ static func load(path:String) -> Chart:
 	return Chart.new()
 
 static func resolve_chart_type(raw_json:Dictionary) -> ChartFormat:
-	
 	if raw_json.has('format'):
 		var format:String = raw_json.get('format')
 		if format.contains('psych_v1'):
