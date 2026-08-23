@@ -106,7 +106,7 @@ func _ready() -> void:
 	
 	instrumental = AudioStreamPlayer.new()
 	instrumental.stream = SoundManager.get_stream(song_data.instrumental)
-	instrumental.connect("finished", song_finished)
+	instrumental.connect("finished", finished_song)
 	instrumental.pitch_scale = song_speed
 	instrumental.set_bus(&"Music")
 	add_child(instrumental)
@@ -413,7 +413,7 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 	
 	Signals.play_new_event.emit(time, event_name, event_parameters)
 
-func song_finished():
+func finished_song():
 	Signals.play_song_finished.emit()
 	var scene_to_enter: String = next_scene
 	
