@@ -12,12 +12,9 @@ class_name BasicUI
 @onready var rating_marker: Node = $"Rating Marker"
 @onready var combo_marker: Node = $"Combo Marker"
 
-var strums:Array[StrumManager] = []
-
 func _ready() -> void:
-	for node in get_tree().get_nodes_in_group(&"strums"):
-		strums.append(node)
-	
+	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "downscroll"):
+		downscroll_ui()
 	apply_underlay()
 
 
@@ -25,26 +22,20 @@ func _process(delta: float) -> void:
 	if zoom_smoothing:
 		scale = Global.frame_independent_lerp(scale, target_zoom, zoom_smoothing_speed, delta)
 
-
 func bump(strength: Vector2):
 	scale += strength
-
 
 func update_player(player: Character):
 	pass
 
-
 func update_enemy(enemy: Character):
 	pass
 
-
 func downscroll_ui():
-	for strum_line in strums:
+	for strum_line in get_tree().get_nodes_in_group(&"strums"):
 		strum_line.position.y *= -1
 	
 	$"Health Bar".position.y *= -1
-
-
 
 func apply_underlay():
 	var underlay: ColorRect = ColorRect.new()

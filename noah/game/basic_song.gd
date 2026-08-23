@@ -25,14 +25,17 @@ func _ready() -> void:
 	if not playstate:
 		playstate = $"PlayState Host"
 	
-	assert(playstate, "Playstate host not found")
+	if not playstate:
+		printerr("Playstate host not found")
+	
 	camera_positions = get_tree().get_nodes_in_group(&"camera_positions")
 	
-	if player:
-		playstate.ui.update_player(player)
-	
-	if enemy:
-		playstate.ui.update_enemy(enemy)
+	if playstate and playstate.ui:
+		if player:
+			playstate.ui.update_player(player)
+		
+		if enemy:
+			playstate.ui.update_enemy(enemy)
 	
 	pause_preload = load(playstate.ui_skin.pause_scene)
 	
@@ -72,16 +75,18 @@ func _process(delta: float) -> void:
 func _on_conductor_new_beat(current_beat: int, measure_relative: int):
 	pass
 
+
 func _on_conductor_new_step(current_step: int, measure_relative: int):
-	if current_step % (bop_rate - bop_rate_offset) == 0:
-		if playstate.camera.parent_3d:
-			var bump: float = playstate.camera_bop_strength.x * playstate.camera.zoom
-			playstate.camera.bump(bump)
-		else:
-			playstate.camera.bump(playstate.camera_bop_strength)
-		
-		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
-			playstate.ui.bump(playstate.ui_bop_strength)
+	if playstate:
+		if current_step % (bop_rate - bop_rate_offset) == 0:
+			if playstate.camera.parent_3d:
+				var bump: float = playstate.camera_bop_strength.x * playstate.camera.zoom
+				playstate.camera.bump(bump)
+			else:
+				playstate.camera.bump(playstate.camera_bop_strength)
+			
+			if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops") and playstate.ui:
+				playstate.ui.bump(playstate.ui_bop_strength)
 
 
 func update_bop_rate(_i: int) -> void:
@@ -89,15 +94,17 @@ func update_bop_rate(_i: int) -> void:
 
 
 func _on_create_note(time: float, lane: int, note_length: float, note_type: String, tempo: float):
-	if (lane > 3):
-		playstate.strums[1].create_note(time, lane % 4, note_length, note_type, tempo)
-	else:
-		playstate.strums[0].create_note(time, lane % 4, note_length, note_type, tempo)
+	if playstate:
+		if not playstate.strums.is_empty():
+			if (lane > 3):
+				playstate.strums[1].create_note(time, lane % 4, note_length, note_type, tempo)
+			else:
+				playstate.strums[0].create_note(time, lane % 4, note_length, note_type, tempo)
 
 
 func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumManager):
 	var group: StringName = get_group_from_manager(strum_manager)
-	var anim_to_play: String = note.anim_prefix +  get_direction(lane % 4)
+	var anim_to_play: String = note.anim_prefix + get_direction(lane % 4)
 	
 	if not note.no_animation:
 		get_tree().call_group(group, &"play_animation", anim_to_play,
@@ -106,13 +113,14 @@ func note_hit(note: BasicNote, lane: int, hit_time: float, strum_manager: StrumM
 		get_tree().call_group(group, &"set_sing_timer")
 	
 	if group == &"player":
-		show_combo(PlayState.get_rating(hit_time), playstate.combo)
+		show_combo(NoahStats.get_hit_rating(hit_time), playstate.song_stats.combo)
 		
-		if playstate.combo > 0:
-			if (playstate.combo % 200 == 0):
-				get_tree().call_group(&"metronome", &"play_animation", &"cheer_200")
-			elif (playstate.combo % 50 == 0):
-				get_tree().call_group(&"metronome", &"play_animation", &"cheer")
+		if playstate:
+			if playstate.song_stats.combo > 0:
+				if (playstate.song_stats.combo % 200 == 0):
+					get_tree().call_group(&"metronome", &"play_animation", &"cheer_200")
+				elif (playstate.song_stats.combo % 50 == 0):
+					get_tree().call_group(&"metronome", &"play_animation", &"cheer")
 
 
 func note_holding(note: Note, lane: int, hold_difference: float, strum_manager: StrumManager):
@@ -135,6 +143,7 @@ func note_miss(note: Note, lane: int, strum_manager: StrumManager):
 
 func get_group_from_manager(strum_manager: StrumManager) -> StringName:
 	return &"enemy" if strum_manager.enemy_slot else &"player"
+
 
 func get_direction(direction: int) -> StringName:
 	return [&"left", &"down", &"up", &"right"][direction]
@@ -162,44 +171,45 @@ func _on_combo_break():
 
 
 func show_combo(rating: String, _combo: int):
-	if rating != "miss":
-		if GameManager.tallies.sick == GameManager.tallies.total_notes:
-			rating = "fc_" + rating
-	
-	var rating_instance = rating_node.instantiate()
-	
-	rating_instance.ui_skin = playstate.ui_skin
-	rating_instance.rating = rating
-	
-	var combo_numbers_manager_instance = combo_numbers_manager_node.instantiate()
-	
-	combo_numbers_manager_instance.ui_skin = playstate.ui_skin
-	combo_numbers_manager_instance.combo = _combo
-	if GameManager.tallies.max_combo == GameManager.tallies.total_notes:
-		combo_numbers_manager_instance.fc = true
-	
-	if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui"):
-		if playstate.ui.rating_marker:
-			rating_instance.position = playstate.ui.rating_marker.position
+	if playstate:
+		if rating != "miss":
+			if playstate.song_stats.sicks == playstate.song_stats.total_notes:
+				rating = "fc_" + rating
 		
-		if playstate.ui.combo_marker:
-			combo_numbers_manager_instance.position = playstate.ui.combo_marker.position
+		var rating_instance = rating_node.instantiate()
 		
-		playstate.ui.add_child(rating_instance)
-		playstate.ui.add_child(combo_numbers_manager_instance)
-	else:
-		if rating_marker:
-			rating_instance.position = rating_marker.global_position
-			rating_instance.scale = rating_marker.scale
-			rating_instance.z_index = 1000
+		rating_instance.ui_skin = playstate.ui_skin
+		rating_instance.rating = rating
 		
-		if combo_marker:
-			combo_numbers_manager_instance.position = combo_marker.global_position
-			combo_numbers_manager_instance.scale = combo_marker.scale
-			combo_numbers_manager_instance.z_index = 1000
+		var combo_numbers_manager_instance = combo_numbers_manager_node.instantiate()
 		
-		self.add_child(rating_instance)
-		self.add_child(combo_numbers_manager_instance)
+		combo_numbers_manager_instance.ui_skin = playstate.ui_skin
+		combo_numbers_manager_instance.combo = _combo
+		if playstate.song_stats.max_combo == playstate.song_stats.total_notes:
+			combo_numbers_manager_instance.fc = true
+		
+		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui") and playstate.ui:
+			if playstate.ui.rating_marker:
+				rating_instance.position = playstate.ui.rating_marker.position
+			
+			if playstate.ui.combo_marker:
+				combo_numbers_manager_instance.position = playstate.ui.combo_marker.position
+			
+			playstate.ui.add_child(rating_instance)
+			playstate.ui.add_child(combo_numbers_manager_instance)
+		else:
+			if rating_marker:
+				rating_instance.position = rating_marker.global_position
+				rating_instance.scale = rating_marker.scale
+				rating_instance.z_index = 1000
+			
+			if combo_marker:
+				combo_numbers_manager_instance.position = combo_marker.global_position
+				combo_numbers_manager_instance.scale = combo_marker.scale
+				combo_numbers_manager_instance.z_index = 1000
+			
+			self.add_child(rating_instance)
+			self.add_child(combo_numbers_manager_instance)
 
 
 func pause():

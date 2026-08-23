@@ -68,6 +68,7 @@ enemy="The characters that should play an animation when the enemy notes are pla
 metronome="the characters that should play an animations every other beat (gf)"
 camera_positions="Camera positions for playstate"
 strums="Strumlines on UIs"
+ui=""
 
 [input]
 

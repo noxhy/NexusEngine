@@ -79,6 +79,19 @@ var SPAM_HEALTH_PENALTY: float = 1
 var MISS_SCORE_PENALTY: float = 100
 
 var DEFAULT_NOTE_SKIN: String = "uid://buly8rgmgrrnm"
+
+## The highest rank. acquired if the player hits all notes and are all judged as [constant NoahStats.sicks].
+const GOLD_RANK_NAME: String = 'gold'
+## The perfect rank. acquired if the player hits all notes.
+const PERFECT_RANK_NAME: String = 'perfect'
+## The Excellent rank. acquired if [member NoahStats.grade] is equal or above [constant NoahStats.EXCELLENT_RANK_REQ].
+const EXCELLENT_RANK_NAME: String = 'excellent'
+## The Gret rank. acquired if [member NoahStats.grade] is equal or above [constant NoahStats.GREAT_RANK_REQ].
+const GREAT_RANK_NAME: String = 'great'
+## The Good rank. acquired if [member NoahStats.grade] is equal or above [constant NoahStats.GOOD_RANK_REQ].
+const GOOD_RANK_NAME: String = 'good'
+## The lowest rank. acquired if [member NoahStats.grade] is lower than [constant NoahStats.GOOD_RANK_REQ].
+const LOSS_RANK_NAME: String = 'loss'
 #region Note Types
 ## The note type and the corresponding animation prefix.
 var NOTE_TYPES: Dictionary = {

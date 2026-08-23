@@ -22,15 +22,17 @@ func new_file(files: Array[String]):
 	
 	var chart_format = %"Format Options".get_selected_id()
 	
-	var difficulty_dict: Dictionary[String, Dictionary] = {}
+	var difficulty_dict: Dictionary[String, SongDifficultyData] = {}
 	
 	var save_chart = func(chart:Chart, dir:String, diff:String):
 		song_file.tempo = chart.get_tempos_data().get(chart.get_tempos_data().keys()[0])
 		
-		var path = dir + song_file.title + '-' + diff + '.tres'
+		var path = str(dir.path_join(song_file.title), '-', diff, '.tres')
 		
 		ResourceSaver.save(chart, path)
-		difficulty_dict[diff] = {"chart": path}
+		var difficulty_data: SongDifficultyData = SongDifficultyData.new()
+		difficulty_data.chart = path
+		difficulty_dict[diff] = difficulty_data
 	
 	var charts:Array[String] = files.duplicate()
 	match chart_format:
@@ -146,7 +148,6 @@ func new_file(files: Array[String]):
 					save_chart.call(chart, core_directory, assumed_diff)
 					
 	
-	
 	song_file.difficulties = difficulty_dict
 	var song_path: String = core_directory + song_file.title + '.res'
 	ResourceSaver.save(song_file, song_path)
@@ -180,7 +181,6 @@ func _on_chart_button_pressed(): %"Chart File Dialog".popup()
 func _on_close_requested(): self.queue_free()
 
 func _on_create_button_pressed() -> void:
-	
 	if !FileAccess.file_exists(selected_instrumental):
 		printerr("No instrumental file found")
 	

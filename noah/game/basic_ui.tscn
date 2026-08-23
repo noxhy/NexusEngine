@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ce3dgr61438sa" path="res://noah/game/strumlines/4key_strums.tscn" id="2_58g8k"]
 [ext_resource type="PackedScene" uid="uid://cgawo31pletyg" path="res://noah/game/health_bar.tscn" id="3_uat68"]
 
-[node name="UI" type="CanvasLayer" unique_id=359206]
+[node name="UI" type="CanvasLayer" unique_id=359206 groups=["ui"]]
 offset = Vector2(640, 360)
 transform = Transform2D(1, 0, 0, 1, 640, 360)
 script = ExtResource("1_pm5h1")

@@ -82,8 +82,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed(&"mouse_middle") and is_mouse_over_grid() and can_chart:
 		if (((snapped_position.y - 1) >= 0 and (snapped_position.y - 1) < grid.rows)):
 				if hovered_event != -1:
-					var event: String = ChartManager.chart.chart_data["events"][hovered_event][1]
-					var time: float = ChartManager.chart.chart_data["events"][hovered_event][0]
+					var event: String = ChartManager.chart.events[hovered_event][1]
+					var time: float = ChartManager.chart.events[hovered_event][0]
 					
 					if (Constants.EVENT_DATA.has(event)
 					and Constants.EVENT_DATA.get(event).has("parameters")):
@@ -381,7 +381,7 @@ func remove_track(node):
 	node.queue_free()
 	
 	ChartManager.event_tracks.erase(event)
-	ChartManager.chart.chart_data["events"] = ChartManager.chart.chart_data["events"].filter(
+	ChartManager.chart.events = ChartManager.chart.events.filter(
 		func(_event): return _event[1] != event
 	)
 	
@@ -491,7 +491,7 @@ func remove_note(_name, time: float = -1):
 		event_nodes.remove_at(index)
 		current_visible_events_R -= 1
 	
-	ChartManager.chart.chart_data["events"].remove_at(i)
+	ChartManager.chart.events.remove_at(i)
 
 ## In the event editor, lane_a is a list of event names
 func select_area(L: int, R: int, lane_a, lane_b = null):
@@ -598,7 +598,7 @@ func _on_event_parameters_about_to_popup() -> void:
 	var parameters: Array = []
 	
 	if hovered_event != -1:
-		parameters = ChartManager.chart.chart_data["events"][hovered_event][2]
+		parameters = ChartManager.chart.events[hovered_event][2]
 		%"Place Event".text = "Edit Event"
 	else:
 		%"Place Event".text = "Place Event"
@@ -649,7 +649,7 @@ func _on_place_event_pressed() -> void:
 
 
 func change_parameters(i: int, parameters: Array) -> void:
-	ChartManager.chart.chart_data["events"][i][2] = parameters
+	ChartManager.chart.events[i][2] = parameters
 
 
 func _on_add_track_pressed() -> void:

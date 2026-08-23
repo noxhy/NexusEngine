@@ -171,7 +171,7 @@ func _process(delta: float) -> void:
 			can_click = false
 			SoundManager.cancel.play()
 			
-			if GameManager.song_scene != null:
+			if not GameManager.song_scene.is_empty():
 				SoundManager.music.stop()
 				Global.change_scene_to(GameManager.song_scene)
 			else:

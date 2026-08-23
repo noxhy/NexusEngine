@@ -84,7 +84,7 @@ func play_music(stream: Variant, start_time: float = 0) -> void:
 	
 	music.play(start_time)
 
-## Plays a sfx once and frees it after its use
+## Plays a audio once and frees it after its use
 func play_sound_once(stream: Variant, volume_linear: float = 1) -> void:
 	var player = AudioStreamPlayer.new()
 	add_child(player)
@@ -104,7 +104,7 @@ func get_stream(stream: Variant) -> AudioStream:
 	if stream is AudioStream or stream is AudioStreamOggVorbis:
 		return stream
 	elif stream is String:
-		if not stream.begins_with('res://'):
+		if not stream.begins_with('res://') and not stream.begins_with("uid://"):
 			var file: FileAccess = FileAccess.open(stream, FileAccess.READ)
 			if file:
 				var raw_buffer = file.get_buffer(file.get_length())
@@ -116,16 +116,20 @@ func get_stream(stream: Variant) -> AudioStream:
 				if potential_stream:
 					return potential_stream
 		
-		assert(ResourceLoader.exists(stream), '%s could not be found and played.' % stream)
+		if not ResourceLoader.exists(stream):
+			printerr("(Snd Manager): Could not find stream at %s." % stream)
+			return null
 		
 		var loaded_sound = load(stream)
-		assert((loaded_sound is AudioStream or stream is AudioStreamOggVorbis), '%s was not a audio stream' % stream)
+		
+		if (loaded_sound is not AudioStream and stream is not AudioStreamOggVorbis):
+			printerr("(Snd Manager): %s was not a valid audio stream." % stream)
+			return null
 		
 		return loaded_sound
 	else:
-		assert(false, '%s provided is not a valid stream' % stream)
-	
-	return null
+		printerr("(Snd Manager): %s was not a valid audio stream." % stream)
+		return null
 
 func get_stream_from_buffer(buffer: PackedByteArray, ext: String) -> AudioStream:
 		match ext:
