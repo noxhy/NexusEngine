@@ -87,13 +87,20 @@ func _ready() -> void:
 	
 	ui = get_tree().get_first_node_in_group(&"ui")
 	
-	#TODO we should make playstate safe and print errors rather than asserts
-	assert(host, 'A Host was not assigned.')
-	assert(camera, 'A Camera Controller was not assigned.')
-	assert(GameManager.current_song, "A song was not set correctly.")
+	if !ui:
+		printerr("(%s)" % name, " There is no UI added to the ui group.")
+	
+	if host:
+		printerr('A Host was not assigned.')
+	
+	if camera:
+		printerr('A Camera Controller was not assigned.')
+	
+	assert(song_data, "A song was not set correctly.")
 	
 	# This delay is so variables initialize
-	await host.ready
+	if host:
+		await host.ready
 	
 	# Creating the Audio Tracks
 	vocals = AudioStreamPlayer.new()
@@ -326,49 +333,58 @@ func score_note(hit_time: float):
 func basic_event(time: float, event_name: String, event_parameters: Array):
 	match event_name:
 		"camera_position":
-			if host.camera_positions.size() == 0:
-				printerr('(PlayState): no camera_positions exist')
-				return
-			var index: int = int(event_parameters[0])
-			var marker = host.camera_positions[index]
-			if !marker:
-				printerr("(PlayState): Marker does not exist at index: ", index)
-				return
-			
-			camera.go_to_marker(marker)
+			if host:
+				if host.camera_positions.size() == 0:
+					printerr('(PlayState): no camera_positions exist')
+					return
+				
+				if camera:
+					var index: int = int(event_parameters[0])
+					var marker = host.camera_positions[index]
+					if !marker:
+						printerr("(PlayState): Marker does not exist at index: ", index)
+						return
+					
+					camera.go_to_marker(marker)
 		
 		"camera_bop":
-			var camera_bop: float = camera_bop_strength.x
-			if not event_parameters[0].is_empty():
-				camera_bop = float(event_parameters[0])
+			if camera:
+				var camera_bop: float = camera_bop_strength.x
+				if not event_parameters[0].is_empty():
+					camera_bop = float(event_parameters[0])
+				
+				camera.bump(camera_bop)
 			
-			var ui_bop: float = ui_bop_strength.x
-			if not event_parameters[1].is_empty():
-				ui_bop = float(event_parameters[1])
-			
-			camera.bump(camera_bop)
 			if ui:
+				var ui_bop: float = ui_bop_strength.x
+				if not event_parameters[1].is_empty():
+					ui_bop = float(event_parameters[1])
+				
 				ui.bump(Vector2.ONE * ui_bop)
+		
 		"psych_camera_zoom":
-			var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
-			camera.target_zoom = new_zoom
+			if camera:
+				var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
+				camera.target_zoom = new_zoom
 		
 		"camera_zoom":
-			var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
-			var zoom_time = Global.string_to_time(event_parameters[1])
-			var _ease: String = "CLASSIC"
-			
-			var ease_string = event_parameters.get(2)
-			if ease_string:
-				_ease = ease_string
-			
-			if _ease.to_lower() == "classic":
-				camera.target_zoom = new_zoom
-			else:
-				camera.tween_zoom(new_zoom, zoom_time / song_speed, _ease)
+			if camera:
+				var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
+				var zoom_time = Global.string_to_time(event_parameters[1])
+				var _ease: String = "CLASSIC"
+				
+				var ease_string = event_parameters.get(2)
+				if ease_string:
+					_ease = ease_string
+				
+				if _ease.to_lower() == "classic":
+					camera.target_zoom = new_zoom
+				else:
+					camera.tween_zoom(new_zoom, zoom_time / song_speed, _ease)
 		
 		"bop_rate", "bop_delay":
-			host.bop_rate = int(event_parameters[0])
+			if host:
+				host.bop_rate = int(event_parameters[0])
 		
 		"bop_strength":
 			camera_bop_strength = Vector2.ONE * float(event_parameters[0])
@@ -376,24 +392,27 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 		
 		"set_smoothing", 'lerping':
 			var smoothing: bool = event_parameters[0] == "true"
-			camera.zoom_smoothing = smoothing
+			
+			if camera:
+				camera.zoom_smoothing = smoothing
+			
 			if ui:
 				ui.zoom_smoothing = smoothing
 		
 		"scroll_speed":
-			var tween_time = Global.string_to_time(event_parameters[1])
+			var tween_time: float = Global.string_to_time(event_parameters[1])
 			
-			scroll_speed = float(event_parameters[0]) * SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale")
+			scroll_speed = float(event_parameters[0]) * SettingsManager.get_value(
+				SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale")
 			
 			for strum in strums:
 				for lane in strum.strums.size() - 1:
-					var tween = create_tween()
-					tween.tween_method(
-						strum.set_scroll_speed, strum.get_scroll_speed(lane), scroll_speed, tween_time / song_speed
-						)
+					create_tween().tween_method(
+						strum.set_scroll_speed, strum.get_scroll_speed(lane), scroll_speed, tween_time / song_speed)
 		
 		"camera_shake":
-			camera.shake(int(event_parameters[0]), Global.string_to_time(event_parameters[1]) / song_speed)
+			if camera:
+				camera.shake(int(event_parameters[0]), Global.string_to_time(event_parameters[1]) / song_speed)
 	
 	Signals.play_new_event.emit(time, event_name, event_parameters)
 
