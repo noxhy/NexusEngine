@@ -125,6 +125,7 @@ static func get_rank_from_grade(_grade: float) -> String:
 
 ## Returns the rating of the absolute value of the relative time a note was hit.
 static func get_hit_rating(hit_time: float) -> String:
+	hit_time = abs(hit_time)
 	var ratings: Array = [
 		[hit_time <= GameManager.SICK_RATING_WINDOW, "sick"],
 		[hit_time <= GameManager.GOOD_RATING_WINDOW, "good"],
