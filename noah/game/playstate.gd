@@ -315,22 +315,6 @@ func bsearch_left_range(value_set: Array, left_range: float) -> int:
 	return high + 1
 
 
-static func get_rating(time: float) -> String:
-	var ratings = [
-		[time <= GameManager.SICK_RATING_WINDOW, "sick"],
-		[time <= GameManager.GOOD_RATING_WINDOW, "good"],
-		[time <= GameManager.BAD_RATING_WINDOW, "bad"],
-		[time <= GameManager.SHIT_RATING_WINDOW, "shit"],
-		[true, "miss"],
-	]
-	
-	for condition in ratings:
-		if condition[0]:
-			return condition[1]
-	
-	return "miss"
-
-
 func score_note(hit_time: float):
 	var factor: float = 1.0 - (1.0 / (1.0 + exp(-Constants.SCORING_SLOPE * ((abs(hit_time) - Constants.SCORING_OFFSET) * 1000))))
 	var add: float = Constants.MAX_SCORE_GAIN * factor + Constants.MIN_SCORE_GAIN
@@ -454,7 +438,7 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 			score_note(hit_time)
 		
 		song_stats.total_notes += 1
-		match get_rating(abs(hit_time)):
+		match NoahStats.get_hit_rating(hit_time):
 			"sick":
 				song_stats.sicks += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
