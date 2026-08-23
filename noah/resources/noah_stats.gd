@@ -1,14 +1,32 @@
 extends Resource
 class_name NoahStats
-## A container of values defining the players gameplay
+## Handles values defining the players gameplay.
 
-# explanatory.
+## The required minimum [member grade] must reach to provide [member GOLD_RANK_NAME]
 const GOLD_RANK_REQ: float = 2.0
+## The required minimum [member grade] must reach to provide [member PERFECT_RANK_REQ]
 const PERFECT_RANK_REQ: float = 1.0
+## The required minimum [member grade] must reach to provide [member EXCELLENT_RANK_REQ]
 const EXCELLENT_RANK_REQ: float = 0.90
+## The required minimum [member grade] must reach to provide [member GREAT_RANK_REQ]
 const GREAT_RANK_REQ: float = 0.80
+## The required minimum [member grade] must reach to provide [member GOOD_RANK_REQ]
 const GOOD_RANK_REQ: float = 0.60
+## The required minimum [member grade] must reach to provide [member LOSS_RANK_REQ]
 const LOSS_RANK_REQ: float = 0.00
+
+## The highest rank. acquired if the player hits all notes and are all judged as [member sicks].
+const GOLD_RANK_NAME: String = 'gold'
+## The perfect rank. acquired if the player hits all notes.
+const PERFECT_RANK_NAME: String = 'perfect'
+## The Excellent rank. acquired if [member grade] is equal or above [member EXCELLENT_RANK_REQ].
+const EXCELLENT_RANK_NAME: String = 'excellent'
+## The Gret rank. acquired if [member grade] is equal or above [member GREAT_RANK_REQ].
+const GREAT_RANK_NAME: String = 'great'
+## The Good rank. acquired if [member grade] is equal or above [member GOOD_RANK_REQ].
+const GOOD_RANK_NAME: String = 'good'
+## The lowest rank. acquired if [member grade] is lower than [member GOOD_RANK_REQ].
+const LOSS_RANK_NAME: String = 'loss'
 
 ## The accumulated score reached by the player.
 var score: float = 0
@@ -42,9 +60,11 @@ var shits: int = 0
 ## the total notes hit/missed within a song
 var total_notes: int = 0
 
-var grade: float : get = get_grade
+## The judged "grade" based off player accuracy. From [code]0.0[/code] to [code]2.0[/code]
+var grade: float : get = _get_grade
 
-var rank: String : get = get_rank
+## The judged "Rank" based of a players [member grade]. Check [NoahStats] constants to see the "Rank" names and [member grade] requirements.
+var rank: String : get = _get_rank
 
 ## resets all given values to their defaults.
 func reset():
@@ -81,6 +101,40 @@ func add_from(stats: NoahStats):
 	if stats.max_combo > max_combo:
 		max_combo = stats.max_combo
 
+func _get_grade() -> float:
+	return get_grade_from_stats(self)
+	
+## Gets a [code]Grade[/code] from a [NoahStats] instance.
+static func get_grade_from_stats(_stats: NoahStats):
+	if _stats.total_notes == 0:
+		return 0.0
+	if _stats.sicks == _stats.total_notes:
+		return 2.0
+	
+	return float(_stats.sicks + _stats.goods - _stats.misses) / _stats.total_notes
+
+func _get_rank() -> String:
+	return get_rank_from_grade(grade)
+	
+## Returns a Rank from form a [NoahStats] instance.
+static func get_rank_from_stats(_stats: NoahStats):
+	return get_rank_from_grade(_stats.grade)
+
+## Returns a rank by a grade / float. Check [member grade] to see what the values range is.
+static func get_rank_from_grade(_grade: float):
+	var accuracies = [
+		[_grade == GOLD_RANK_REQ, GOLD_RANK_NAME],
+		[_grade == PERFECT_RANK_REQ, PERFECT_RANK_NAME],
+		[_grade >= EXCELLENT_RANK_REQ, EXCELLENT_RANK_NAME],
+		[_grade >= GREAT_RANK_REQ, GREAT_RANK_NAME],
+		[_grade >= GOOD_RANK_REQ, GOOD_RANK_REQ],
+		[_grade >= LOSS_RANK_REQ, LOSS_RANK_NAME],
+	]
+	
+	for condition in accuracies: if condition[0]:
+		return condition[1]
+	return "?"
+
 func _to_string() -> String:
 	var buffer: PackedStringArray = PackedStringArray()
 	buffer.append('	Score: ' + str(int(score)))
@@ -91,34 +145,3 @@ func _to_string() -> String:
 	buffer.append('\n	Shits: ' + str(shits))
 	
 	return "Stats:\n%s" % ''.join(buffer)
-
-func get_grade() -> float:
-	return get_grade_from_stats(self)
-	
-static func get_grade_from_stats(_stats: NoahStats):
-	if _stats.total_notes == 0:
-		return 0.0
-	if _stats.sicks == _stats.total_notes:
-		return 2.0
-	
-	return float(_stats.sicks + _stats.goods - _stats.misses) / _stats.total_notes
-
-func get_rank() -> String:
-	return get_rank_from_grade(grade)
-
-static func get_rank_from_stats(_stats: NoahStats):
-	return get_rank_from_grade(_stats.grade)
-
-static func get_rank_from_grade(_grade: float):
-	var accuracies = [
-		[_grade == GOLD_RANK_REQ, "gold"],
-		[_grade == PERFECT_RANK_REQ, "perfect"],
-		[_grade >= EXCELLENT_RANK_REQ, "excellent"],
-		[_grade >= GREAT_RANK_REQ, "great"],
-		[_grade >= GOOD_RANK_REQ, "good"],
-		[_grade >= LOSS_RANK_REQ, "loss"],
-	]
-	
-	for condition in accuracies: if condition[0]:
-		return condition[1]
-	return "?"

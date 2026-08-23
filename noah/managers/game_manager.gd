@@ -20,6 +20,8 @@ const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 const LOSS_RANK_REQ: float = 0.00
 
+
+
 ## The last remembered song scene assigned by [PlayState]. useful for needing to return to a song after exiting the scene.
 var song_scene: String = ''
 
@@ -37,7 +39,7 @@ enum PLAY_MODE {
 }
 
 ## The previous played song's remembered stats. Can be used for things such as a result screen.
-## Note these are only set after a song is finished and not in real time.
+## [br][br][color=khaki]NOTE[/color]: these are only set after a song is finished and not in real time.
 var last_song_stats: NoahStats = NoahStats.new()
 
 ## The accumulated stats from a playlist when playing in [code]PLAY_MODE.PLAYLIST[/code].
@@ -96,9 +98,6 @@ func load_from_week(week: Week, _difficulty: String):
 ## The currently assigned [PlayableCharacter]
 var current_character: String = ""
 
-## The last saved grade. From 0.0 - 2.0
-var grade: float = 0.0
-
 ## Will be true if the last played Song/Playlist got a highscore.
 var highscore: bool = false
 
@@ -135,18 +134,16 @@ func save_and_refresh_stats(_stats: NoahStats):
 	
 	current_week_song += 1
 	
-	grade = get_grade(playlist_stats)
-	
 	if can_save_score():
 		if play_mode == PLAY_MODE.PLAYLIST:
-			highscore = current_week_song == week_songs.size() and SaveManager.set_week_stats(current_week, difficulty, playlist_stats.score_as_int, grade)
+			highscore = current_week_song == week_songs.size() and SaveManager.set_week_stats(current_week, difficulty, playlist_stats.score_as_int, playlist_stats.grade)
 		else:
-			highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, get_grade(last_song_stats))
+			highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, last_song_stats.grade)
 	else:
 		highscore = false
 
 ## Resets all remembered gameplay stats back to 0.
-## [br][br][color=khaki]NOTE[/color] This also resets the current playlist progression.
+## [br][br][color=khaki]NOTE[/color]: This also resets the current playlist progression.
 func reset_stats():
 	playlist_stats.reset()
 	last_song_stats.reset()
@@ -171,27 +168,3 @@ func can_save_score() -> bool:
 		return false
 	
 	return true
-
-## gets a grade from a [NoahStats] instance.
-func get_grade(_stats: NoahStats = last_song_stats) -> float:
-	if _stats.total_notes == 0:
-		return 0.0
-	if _stats.sicks == _stats.total_notes:
-		return 2.0
-	
-	return float(_stats.sicks + _stats.goods - _stats.misses) / _stats.total_notes
-
-## gets a rank by a grade.
-func get_rank(_grade: float) -> String:
-	var accuracies = [
-		[_grade == GOLD_RANK_REQ, "gold"],
-		[_grade == PERFECT_RANK_REQ, "perfect"],
-		[_grade >= EXCELLENT_RANK_REQ, "excellent"],
-		[_grade >= GREAT_RANK_REQ, "great"],
-		[_grade >= GOOD_RANK_REQ, "good"],
-		[_grade >= LOSS_RANK_REQ, "loss"],
-	]
-	
-	for condition in accuracies: if condition[0]:
-		return condition[1]
-	return "?"
