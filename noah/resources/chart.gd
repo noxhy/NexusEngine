@@ -20,7 +20,6 @@ static func chart_format_to_str(type:ChartFormat) -> String:
 		ChartFormat.PSYCH_V1: return 'Psych V1'
 		_: return "Undefined"
 
-@export_group("Chart Data")
 ## Scroll speed of the arrows in gameplay
 @export_range(0.0, 5.0, 0.1) var scroll_speed = 1.0
 
@@ -33,7 +32,7 @@ static func chart_format_to_str(type:ChartFormat) -> String:
 @export var chart_data: Dictionary = {}
 
 #this isnt a "great" way to handle versions but i cant justify doing anything more elaborate
-var version: int :
+var version: int:
 	get():
 		return chart_data.get('version', 0)
 	set(v):
@@ -43,7 +42,7 @@ func get_notes_data() -> Array:
 	return chart_data.get("notes", notes)
 
 func get_events_data() -> Array:
-	return chart_data.get("_events", events)
+	return chart_data.get("events", events)
 
 func get_tempos_data() -> Dictionary:
 	return chart_data.get("tempos", tempos)
@@ -117,13 +116,13 @@ func get_tempo_time_at(time: float) -> float:
 static func load(path:String) -> Chart:
 	if path.begins_with('uid'):
 		path = ResourceUID.uid_to_path(path)
-
+	
 	if path.get_extension() == 'res' or path.get_extension() == 'tres': ##probably a chart already
 		var chart_resource = load(path)
 		
 		if chart_resource and chart_resource is Chart:
 			return update_chart(chart_resource)
-			
+		
 		return Chart.new()
 	elif path.get_extension() == 'json':
 		var file = FileAccess.open(path, FileAccess.READ)
@@ -218,7 +217,6 @@ static func sort_notes(a, b) -> bool:
 
 
 static func update_chart(chart: Chart) -> Chart:
-	
 	if chart.version < CURRENT_VERSION:
 		print("updating chart version: ", chart.version)
 		match chart.version:
@@ -226,15 +224,15 @@ static func update_chart(chart: Chart) -> Chart:
 				var meters = chart.get_meters_data()
 				
 				for time in meters:
-					var meter_data = meters.get(time)
-					if int(meter_data[1]) == int(meter_data[0] * 4):
-						meter_data[1] /= meter_data[0]
+					var time_signature_data = meters.get(time)
+					if int(time_signature_data[1]) == int(time_signature_data[0] * 4):
+						time_signature_data[1] /= time_signature_data[0]
 				
 				for note in chart.get_notes_data():
 					note[3] = str(note[3])
 				
 				chart.version = 1
-				update_chart(chart)
+				chart = update_chart(chart)
 			1: # v1 formatr
 				chart.notes = chart.get_notes_data()
 				chart.events = chart.get_events_data()
@@ -247,8 +245,7 @@ static func update_chart(chart: Chart) -> Chart:
 				chart.chart_data.erase("meters")
 				
 				chart.version = CURRENT_VERSION
-				update_chart(chart)
-		
+				chart = update_chart(chart)
 		
 		ResourceSaver.save(chart, chart.resource_path)
 	
@@ -260,7 +257,7 @@ static func convert_psych(data:Dictionary,_events:Array = [], v1:bool = true) ->
 	var note_data = []
 	var event_data = []
 	var tempo_data = {}
-	var meter_data = {0.0: [4, 4]}
+	var time_signature_data = {0.0: [4, 4]}
 	var section_time = 0.0
 	
 	if not v1:
@@ -282,7 +279,7 @@ static func convert_psych(data:Dictionary,_events:Array = [], v1:bool = true) ->
 		if i.has("changeBPM"):
 			if i.changeBPM:
 				tempo_data[section_time] = i.bpm
-				meter_data[section_time] = [section_beats, 4]
+				time_signature_data[section_time] = [section_beats, 4]
 				current_bpm = i.bpm
 		
 		# Camera movement conversion
@@ -327,7 +324,7 @@ static func convert_psych(data:Dictionary,_events:Array = [], v1:bool = true) ->
 		
 		section_time += seconds_per_measure
 	
-	if data.has('_events'):
+	if data.has('events'):
 		_events.append_array(data.get('_events'))
 	
 	for i in _events:
@@ -368,12 +365,10 @@ static func convert_psych(data:Dictionary,_events:Array = [], v1:bool = true) ->
 	
 	event_data.sort_custom(sort_notes)
 	
-	chart.chart_data = {
-		"notes": note_data,
-		"_events": event_data,
-		"tempos": tempo_data,
-		"meters": meter_data
-	}
+	chart.notes = note_data
+	chart.events = event_data
+	chart.tempos = tempo_data
+	chart.time_signatures = time_signature_data
 	
 	return chart
 
@@ -386,13 +381,12 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 	if not data.get('notes').has(diff):
 		diff = meta.get('playData').get('difficulties')[0]
 	
-	
 	var chart = Chart.new()
 	
 	var note_data = []
 	var event_data = []
 	var tempo_data = {}
-	var meter_data = {0.0: [4, 4]}
+	var time_signature_data = {0.0: [4, 4]}
 	
 	# Get tempo at certain time
 	var get_temp_at_struct = func(time:float, tempo_dict:Dictionary) -> float:
@@ -405,7 +399,6 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 		
 		return output
 	
-	
 	chart.scroll_speed = data.scrollSpeed[diff]
 	
 	# Adding tempo data
@@ -414,7 +407,7 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 			i.t = 0
 		
 		tempo_data[i.t / 1000] = i.bpm
-		meter_data[i.t / 1000] = [i.n, i.d]
+		time_signature_data[i.t / 1000] = [i.n, i.d]
 	
 	for i in data.get('notes').get(diff):
 		var time = i.t / 1000.0
@@ -433,7 +426,7 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 	note_data.sort_custom(sort_notes)
 	
 	# Adding event data.
-	for i in data.get('_events'):
+	for i in data.get('events'):
 		var time = i.t / 1000.0
 		
 		var tempo = get_temp_at_struct.call(time, tempo_data)
@@ -475,12 +468,10 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 	
 	event_data.sort_custom(sort_notes)
 	
-	chart.chart_data = {
-		"notes": note_data,
-		"_events": event_data,
-		"tempos": tempo_data,
-		"meters": meter_data
-	}
+	chart.notes = note_data
+	chart.events = event_data
+	chart.tempos = tempo_data
+	chart.time_signatures = time_signature_data
 	
 	return chart
 
@@ -490,7 +481,7 @@ static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) ->
 	var note_data = []
 	var event_data = []
 	var tempo_data = {}
-	var meter_data = {0.0: [4, 4]}
+	var time_signature_data = {0.0: [4, 4]}
 	
 	# Get tempo at certain time
 	var get_temp_at_struct = func(time:float,tempo_dict:Dictionary) -> float:
@@ -508,8 +499,8 @@ static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) ->
 	var current_bpm = meta.get('bpm')
 	tempo_data[0.0] = current_bpm
 	
-	if data.has('_events'):
-		_events.append_array(data.get('_events'))
+	if data.has('events'):
+		_events.append_array(data.get('events'))
 	
 	for event_packet in _events:
 		
@@ -556,18 +547,15 @@ static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) ->
 	
 	note_data.sort_custom(sort_notes)
 	
-	chart.chart_data = {
-		"notes": note_data,
-		"_events": event_data,
-		"tempos": tempo_data,
-		"meters": meter_data
-	}
+	chart.notes = note_data
+	chart.events = event_data
+	chart.tempos = tempo_data
+	chart.time_signatures = time_signature_data
 	
 	return chart
 	
 # Event names for easy conversion to noah engine
 const EVENT_NAMES = {
-	
 	# Psych Engine Names
 	"Add Camera Zoom": "camera_bop",
 	"Screen Shake": "psych_camera_shake",

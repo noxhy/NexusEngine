@@ -23,7 +23,7 @@ var point_size: Vector2:
 
 func _ready() -> void:
 	chart_editor = get_parent().get_parent()
-	texture = ImageTexture.create_from_image(Image.create_empty(0, 0, false, Image.FORMAT_RGB8))
+	texture = ImageTexture.create_from_image(Image.create_empty(int(size.x), int(size.y), false, Image.FORMAT_RGB8))
 
 
 func _process(delta: float) -> void:
