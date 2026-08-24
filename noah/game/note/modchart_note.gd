@@ -34,7 +34,9 @@ func _ready() -> void:
 	
 	if tail:
 		tail.modulate.a = note_skin.sustain_opacity
-		tail.width = tail.texture.get_height()
+		if tail.texture:
+			tail.width = tail.texture.get_height()
+		
 		tail.scale.x = note_skin.notes_scale
 	
 	load_basic_type()
