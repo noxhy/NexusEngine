@@ -270,10 +270,10 @@ func file_button_item_pressed(id):
 					var ch_path = TEMP_PATH.path_join('charts/' + key + '.res')
 					ResourceSaver.save(chart, ch_path)
 					
-					temp_song.difficulties.set(key, {
-						"chart": ch_path
-					})
+					var difficulty_data: SongDifficultyData = SongDifficultyData.new()
+					difficulty_data.chart = ch_path
 					
+					temp_song.difficulties.set(key, difficulty_data)
 				
 				var inst_buffer = reader.read_file('Inst.' + misc_data.get('inst_key', 'ogg'))
 				var inst = SoundManager.get_stream_from_buffer(inst_buffer, misc_data.get('inst_key', 'ogg'))
@@ -338,7 +338,7 @@ func file_button_item_pressed(id):
 				
 				var vocal_keys:Array = []
 				var chart_keys:Array = []
-				var misc_data:Dictionary = {}
+				var misc_data: Dictionary = {}
 				
 				var zip = ZIPPacker.new()
 				zip.open(path)
@@ -364,7 +364,7 @@ func file_button_item_pressed(id):
 					if chart:
 						chart_keys.append(diff)
 						ZipTools.write_resource_to_zip(zip, 'charts/' + diff, Chart.load(chart))
-					
+				
 				
 				misc_data.set('artist', ChartManager.song.artist)
 				misc_data.set('charter', ChartManager.song.charter)

@@ -409,7 +409,7 @@ static func convert_vslice(data:Dictionary, meta:Dictionary,diff:String = '') ->
 	# Adding tempo data
 	for i in meta.get('timeChanges'):
 		if i.t < 0:
-			i.t = 0
+			i.t = 0.0
 		
 		tempo_data[i.t / 1000] = i.bpm
 		time_signature_data[i.t / 1000] = [i.n, i.d]
@@ -538,6 +538,7 @@ static func convert_cne(data:Dictionary, meta:Dictionary, _events:Array = []) ->
 			var ms_to_notes = 0
 			if i.sLen:
 				ms_to_notes = ((i.sLen / 1000.0) / seconds_per_beat)
+			
 			var lane = i.id
 			
 			if strumline.position == "dad":
