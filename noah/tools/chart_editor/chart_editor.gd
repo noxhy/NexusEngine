@@ -218,7 +218,7 @@ func _process(delta: float) -> void:
 		var lane: int = snapped_position.x - 1
 		if hovered_note != -1:
 			var i: int = hovered_note
-			var note = ChartManager.chart.chart_data.notes[i]
+			var note = ChartManager.chart.notes[i]
 			var length: float = note[2]
 			var note_type = note[3]
 			
@@ -262,7 +262,7 @@ func _process(delta: float) -> void:
 					var note_type: String = note[3]
 					
 					var distance = snappedf(max(cursor_time - time, 0.0) / conductor.seconds_per_beat, 1.0 / chart_snap)
-					ChartManager.chart.chart_data.notes[i] = [time, lane, distance, note_type]
+					ChartManager.chart.notes[i] = [time, lane, distance, note_type]
 					
 					changed_length = (distance > 0)
 					if changed_length:
