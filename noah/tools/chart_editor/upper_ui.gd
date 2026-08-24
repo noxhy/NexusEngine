@@ -490,7 +490,7 @@ func file_button_item_pressed(id):
 			var on_close = func():
 				export_window.queue_free()
 			
-			export_window.connect(&"file_selected", chart_editor.on_open)
+			export_window.connect(&"file_selected", on_open)
 			export_window.connect(&"close_requested", chart_editor.close_popup)
 			export_window.connect(&"close_requested", on_close)
 

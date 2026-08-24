@@ -95,7 +95,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed(&"mouse_right") and not Input.is_action_pressed(&"control") and is_mouse_over_grid():
 		if can_chart and hovered_event != -1:
 			var i: int = hovered_event
-			var event = ChartManager.chart.chart_data.events[i]
+			var event = ChartManager.chart.events[i]
 			var event_name: String = event[1]
 			var parameters = event[2]
 			
