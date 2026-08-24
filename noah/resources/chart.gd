@@ -110,10 +110,16 @@ func get_tempo_time_at(time: float) -> float:
 	
 	return output
 
+static func load_from_song(_song: Song, _difficulty: String = '-1'):
+	if _difficulty == '-1':
+		_difficulty = GameManager.difficulty
+		
+	return Chart.load(_song.difficulties[_difficulty].chart)
+
 ## attempts to load a chart from a given path.
 ## This will automatically convert [code]CNE[/code], [code]V-Slice[/code], and [code]Psych[/code] charts to the engines format.
 ## [br][br]If a chart could not be loaded, a empty chart is provided.
-static func load(path:String) -> Chart:
+static func load(path: String) -> Chart:
 	if path.begins_with('uid'):
 		path = ResourceUID.uid_to_path(path)
 	
