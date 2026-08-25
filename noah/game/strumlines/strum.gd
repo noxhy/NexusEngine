@@ -249,7 +249,7 @@ func release_note():
 			if hold_cover_sprite.animation != "cover " + strum_name + " end":
 				hold_cover_sprite.visible = false
 			
-			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
+			var note = get_prioritized_note(NoahStats.SHIT_RATING_WINDOW)
 			if note:
 				# Checks if you were holding a note before releasing
 				if target_note and note.length > 0:
