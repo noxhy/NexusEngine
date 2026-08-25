@@ -172,7 +172,6 @@ func _ready() -> void:
 	Signals.play_setup_finished.emit()
 
 func _process(delta) -> void:
-	
 	if health <= health_min and !died:
 		GameManager.deaths += 1
 		
@@ -457,23 +456,23 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 		
 		song_stats.total_notes += 1
 		match NoahStats.get_hit_rating(hit_time):
-			"sick":
+			NoahStats.HIT_RATING.SICK:
 				song_stats.sicks += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
 				strum_manager.create_splash(lane, note.splash_animation)
 				if note.scoreable:
 					add_combo()
-			"good":
+			NoahStats.HIT_RATING.GOOD:
 				song_stats.goods += 1
 				health += Constants.HEALTH_GAIN * note.health_mult
 				if note.scoreable:
 					add_combo()
-			"bad":
+			NoahStats.HIT_RATING.BAD:
 				song_stats.bads += 1
 				health -= Constants.BAD_HIT_HEALTH_PENALTY * note.health_mult
 				if note.scoreable:
 					reset_combo()
-			"shit":
+			NoahStats.HIT_RATING.SHIT:
 				song_stats.shits += 1
 				health -= Constants.BAD_HIT_HEALTH_PENALTY * note.health_mult
 				if note.scoreable:

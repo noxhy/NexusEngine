@@ -1,21 +1,9 @@
 extends Node
 
 # These are explanatory.
-const SICK_RATING_WINDOW: float = 0.045
-const GOOD_RATING_WINDOW: float = 0.09
-const BAD_RATING_WINDOW: float = 0.135
-const SHIT_RATING_WINDOW: float = 0.16
 const GOOD_COMBO_FREQUENCY: int = 50
 const GREAT_COMBO_FREQUENCY: int = 200
 const HOLD_NOTE_LENIENCY: float = 1 / 3.0
-
-# These are explanatory.
-const GOLD_RANK_REQ: float = 2.0
-const PERFECT_RANK_REQ: float = 1.0
-const EXCELLENT_RANK_REQ: float = 0.90
-const GREAT_RANK_REQ: float = 0.80
-const GOOD_RANK_REQ: float = 0.60
-const LOSS_RANK_REQ: float = 0.00
 
 ## The last remembered song scene assigned by [PlayState]. useful for needing to return to a song after exiting the scene.
 var song_scene: String = ''
