@@ -89,13 +89,13 @@ func _ready() -> void:
 	camera = get_tree().get_first_node_in_group(&"cameras")
 	
 	if !ui:
-		printerr("(%s)" % name, " There is no UI added to the ui group.")
-	
-	if !host:
-		printerr('A Host was not assigned.')
+		printerr("(%s):" % name, " There was no ui within the ui group.")
 	
 	if !camera:
-		printerr('A Camera Controller was not assigned.')
+		printerr("(%s):" % name,' There was no CameraController within the camera group.')
+	
+	if !host:
+		printerr("(%s):" % name,'A Host was not assigned.')
 	
 	assert(song_data, "A song was not set correctly.")
 	
