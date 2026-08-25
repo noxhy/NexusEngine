@@ -24,7 +24,6 @@ const DEFAULT_ANIMATION_DATA: Dictionary[StringName, StringName] = {
 @onready var end = null
 
 var start_length: float = 0.0
-var can_press: bool = false
 var time_difference: float = INF
 var on_screen: bool = false
 var holding: bool = false

@@ -172,7 +172,6 @@ func _ready() -> void:
 	Signals.play_setup_finished.emit()
 
 func _process(delta) -> void:
-	
 	if health <= health_min and !died:
 		GameManager.deaths += 1
 		

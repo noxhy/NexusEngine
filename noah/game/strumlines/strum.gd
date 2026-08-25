@@ -29,8 +29,8 @@ enum STATE {
 	GLOW,
 }
 
-var scroll_speed: float = 1.0
-var scroll: float = 1.0
+var scroll_speed: float = 1.0: set = set_scroll_speed
+var scroll: float = 1.0: set = set_scroll
 var song_speed: float = 1.0
 var offset: float = 0.0
 var note_list: Array[BasicNote] = []
@@ -53,132 +53,67 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
-	for note in note_list:
-		var time_difference: float = note.time_difference
-		
-		note.scroll_speed = scroll_speed
-		note.scroll = scroll
-		
-		if time_difference <= GameManager.SHIT_RATING_WINDOW:
-			note.can_press = true
-			
-			#if !enemy_slot:
-				#if note == get_prioritized_note(GameManager.SHIT_RATING_WINDOW):
-					#if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !note.bad:
-						#note.modulate = Color(1.5, 1.5, 1.5)
-		
-		if auto_play:
-			if time_difference <= delta:
-				if !ignored_note_types.has(note.note_type):
-					if note != target_note:
-						note.hit = true
-						Signals.play_note_hit.emit(note, lane, 0, get_parent())
-					
-					if note.length > 0:
-						note.holding = true
-						var temp = note.length
-						var spb: float = get_relative_seconds_per_beat(note)
-						note.length = time_difference + (note.start_length * spb)
-						note.length /= spb
-						
-						if note.note.visible:
-							hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
-							hold_cover_sprite.visible = true
-						
-						note.note.visible = false
-						
-						Signals.play_note_holding.emit(note, lane, temp - max(0, note.length), get_parent())
-						state = STATE.GLOW
-					else:
-						reset_timer = GameManager.conductor.seconds_per_step
-						state = STATE.GLOW
-						
-						if can_splash:
-								hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
-						else:
-								hold_cover_sprite.visible = false
-						
-						note_list.erase(note)
-						note.queue_free()
-					continue
-		
-		var relative_time: float = time_difference - offset + (note.start_length * GameManager.conductor.seconds_per_beat)
+	#if !enemy_slot:
+	#if note == get_prioritized_note(GameManager.SHIT_RATING_WINDOW):
+		#if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !note.bad:
+			#note.modulate = Color(1.5, 1.5, 1.5)
+	target_note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
+	
+	if target_note:
+		var relative_time: float = target_note.time_difference - offset + (target_note.start_length * GameManager.conductor.seconds_per_beat)
 		var hit_window: float = GameManager.SHIT_RATING_WINDOW
-		
 		if relative_time <= -hit_window and coyote_timer <= 0:
-			note_list.erase(note)
-			Signals.play_note_miss.emit(note, lane, get_parent())
-			note.queue_free()
-		
+			note_list.erase(target_note)
+			Signals.play_note_miss.emit(target_note, lane, get_parent())
+			target_note.queue_free()
+	
 	# Inputs
 	if Input.is_action_just_pressed(input):
 		if can_press:
-			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
-			if note:
-				if note.can_press:
-					if note.length <= 0:
-						state = STATE.GLOW
-						coyote_timer = 0
-						
-						note.hit = true
-						note_list.erase(note)
-						note.queue_free()
-						pressing = false
-						var time_difference: float = (note.time - offset) - (GameManager.song_position)
-						Signals.play_note_hit.emit(note, lane, time_difference, get_parent())
-					else:
-						var time_difference = (note.time - offset) - (GameManager.song_position)
-						if note != target_note:
-							note.hit = true
-							Signals.play_note_hit.emit(note, lane, time_difference, get_parent())
-						
-						coyote_timer = 0
-						
-						if !pressing:
-							hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
-							hold_cover_sprite.visible = true
-						
-						pressing = true
-						note.holding = true
-						target_note = note
+			if target_note:
+				state = STATE.GLOW
+				coyote_timer = 0
+				target_note.hit = true
+				var hit_time: float = (target_note.time - offset) - (GameManager.song_position)
+				Signals.play_note_hit.emit(target_note, lane, hit_time, get_parent())
+				
+				if target_note.length <= 0:
+					note_list.erase(target_note)
+					target_note.queue_free()
+					pressing = false
 				else:
-					if !SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "ghost_tapping"):
-						Signals.play_note_miss.emit(null, lane, get_parent())
+					if !pressing:
+						hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
+						hold_cover_sprite.visible = true
+					
+					pressing = true
+					target_note.holding = true
 			else:
 				if !SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "ghost_tapping"):
 					Signals.play_note_miss.emit(null, lane, get_parent())
-		
+	
 	if Input.is_action_pressed(input):
-		if can_press:
-			if pressing:
-				var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
-				if note:
-					if note.can_press:
-						if note.length > 0:
-							state = STATE.GLOW
-							note.position.y = 0
-							var temp = note.length
-							var spb: float = get_relative_seconds_per_beat(note)
-							note.length = ((note.time - offset) + (note.start_length * spb)) - GameManager.song_position
-							note.length /= spb
-							note.note.visible = false
-							Signals.play_note_holding.emit(note, lane, temp - max(0, note.length), get_parent())
-							
-							if !pressing:
-								hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
-								hold_cover_sprite.visible = true
-							
-							pressing = true
-							
-							if note.length <= 0:
-								pressing = false
-								if can_splash:
-									hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
-								else:
-									hold_cover_sprite.visible = false
-								
-								note_list.remove_at(0)
-								note.queue_free()
+		if can_press and pressing:
+			if target_note:
+				if target_note.length > 0:
+					state = STATE.GLOW
+					target_note.position.y = 0
+					var temp = target_note.length
+					var spb: float = get_relative_seconds_per_beat(target_note)
+					target_note.length = ((target_note.time - offset) + (target_note.start_length * spb)) - GameManager.song_position
+					target_note.length /= spb
+					target_note.note.visible = false
+					Signals.play_note_holding.emit(target_note, lane, temp - max(0, target_note.length), get_parent())
+					
+					if target_note.length <= 0:
+						pressing = false
+						if can_splash:
+							hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
+						else:
+							hold_cover_sprite.visible = false
+						
+						note_list.erase(target_note)
+						target_note.queue_free()
 			elif state != STATE.GLOW:
 				state = STATE.PRESSED
 	
@@ -315,16 +250,30 @@ func get_prioritized_note(hit_window: float) -> Variant:
 		return null
 	
 	var target = null
-	for note in note_list:
+	for note in note_list: 
 		if note.hit:
 			continue
+		
+		if note.time_difference > hit_window:
+			break
 		
 		target = note
 		
 		if !ignored_note_types.has(note.note_type):
 			return note
-		
-		if note.time_difference > hit_window:
-			break
 	
 	return target
+
+
+func set_scroll_speed(s: float):
+	scroll_speed = s
+	
+	for note in note_list:
+		note.scroll_speed = s
+
+
+func set_scroll(s: float):
+	scroll = s
+	
+	for note in note_list:
+		note.scroll = s
