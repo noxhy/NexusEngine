@@ -1,11 +1,14 @@
 extends Node2D
 class_name VolumeDisplay
+## The display node for volume.
 
+## Timer that is commonly connected to [method hide_volume] on [signal Timer.timeout].
 @onready var hide_timer: Timer = $"Hide Timer"
 
 func _ready() -> void:
 	position.y -= 32
 
+## Called when the volume updates, plays the entering animation of the node.
 func show_volume() -> void:
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -21,7 +24,7 @@ func show_volume() -> void:
 	
 	hide_timer.start()
 
-
+## Plays the exiting animation of the node.
 func hide_volume() -> void:
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
