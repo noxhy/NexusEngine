@@ -89,21 +89,21 @@ func _process(_delta):
 
 
 func get_beat_at(_time: float) -> int:
-	return floor((_time - offset) / seconds_per_beat)
+	return floori((_time - offset) / seconds_per_beat)
 
 
 func get_step_at(_time: float) -> int:
-	return floor((_time - offset) / seconds_per_step)
+	return floori((_time - offset) / seconds_per_step)
 
 
 func get_measure_at(_time: float) -> int:
-	return floor((_time - offset) / (seconds_per_beat * numerator))
+	return floori((_time - offset) / (seconds_per_beat * numerator))
 
 ## Gets the beat counting previous time changes at the given time.
 static func get_accumulated_beat_at(_time: float, tempo_data: Dictionary, ts_data: Dictionary) -> int:
 	var beat: int = 0
 	var time_calc: Callable = func(t, bpm, d) -> int:
-		var spb: float = 60.0 / bpm * (4.0 / d)
+		var spb: float = (60.0 / bpm) * (4.0 / d)
 		return floor(t / spb)
 	
 	if tempo_data.size() > 1:
@@ -131,7 +131,7 @@ static func get_accumulated_beat_at(_time: float, tempo_data: Dictionary, ts_dat
 static func get_accumulated_step_at(_time: float, tempo_data: Dictionary, ts_data: Dictionary) -> int:
 	var step: int = 0
 	var time_calc: Callable = func(t, bpm, d) -> int:
-		var spb: float = 60.0 / bpm * (4.0 / d)
+		var spb: float = (60.0 / bpm) * (4.0 / d)
 		return floor(t / (spb / d))
 	
 	if tempo_data.size() > 1:

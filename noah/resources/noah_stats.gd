@@ -59,6 +59,7 @@ func reset():
 	misses = 0
 	combo = 0
 	max_combo = 0
+	sicks = 0
 	goods = 0
 	bads = 0
 	shits = 0
@@ -99,7 +100,7 @@ static func get_grade_from_stats(_stats: NoahStats):
 	if _stats.sicks == _stats.total_notes:
 		return 2.0
 	
-	return float(_stats.sicks + _stats.goods - _stats.misses) / _stats.total_notes
+	return maxf(_stats.sicks + _stats.goods - _stats.misses, 0) / _stats.total_notes
 
 func _get_rank() -> String:
 	return get_rank_from_grade(grade)

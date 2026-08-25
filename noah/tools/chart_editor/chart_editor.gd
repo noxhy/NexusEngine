@@ -553,9 +553,9 @@ func load_song(song: Song, difficulty: Variant = null):
 	toggle_audios()
 	
 	song_slider.max_value = instrumental.stream.get_length()
-	song_slider.value = 0.0
-	conductor.tempo = ChartManager.chart.get_tempo_at(0.0)
-	var meter = ChartManager.chart.get_meter_at(0.0)
+	song_slider.value = song_position
+	conductor.tempo = ChartManager.chart.get_tempo_at(song_position)
+	var meter = ChartManager.chart.get_meter_at(song_position)
 	conductor.numerator = meter[0]
 	conductor.denominator = meter[1]
 	conductor.offset = ChartManager.chart.offset
@@ -568,7 +568,7 @@ func load_song(song: Song, difficulty: Variant = null):
 	%"Upper UI".get_node("%Metadata Window").update_stats()
 	
 	load_chart(ChartManager.chart)
-	current_snap = conductor.numerator
+	current_snap = conductor.denominator
 	
 	waveform_dirty = true
 	update_waveforms(song_position)
@@ -834,7 +834,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 		minimap.map_to_texture(packet)
 		
 		# Preventing fake notes
-		#current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
+		current_visible_notes_L = max(min(L, current_visible_notes_L), 0)
 		current_visible_notes_R += 1
 	else:
 		if sorted:
@@ -1061,6 +1061,9 @@ func time_to_y_position(time: float) -> float:
 	var R: float = tempo_data.keys()[0]
 	
 	var tempo: float = 60.0
+	var time_calc: Callable = func(t, bpm, d) -> float:
+		var spb: float = (60.0 / bpm) * (4.0 / d)
+		return t / spb
 	
 	while R < time:
 		if i + 1 >= tempo_data.size():
@@ -1075,7 +1078,9 @@ func time_to_y_position(time: float) -> float:
 		meter = ChartManager.chart.get_meter_at(L)
 		
 		_offset += R - L
-		y_offset += grid.get_real_position(Vector2(0, (R - L) / (60.0 / tempo) * meter[0])).y
+		y_offset += grid.get_real_position(Vector2(0,
+		time_calc.call(R - L, tempo, meter[1]) * meter[1]
+		)).y
 		
 		L = R
 		i += 1
@@ -1107,14 +1112,12 @@ func grid_position_to_time(p: Vector2, factor_in_snap: bool = false) -> float:
 	var time: float = song_position + start_offset
 	var meter: Array = ChartManager.chart.get_meter_at(time)
 	var L: float = ChartManager.chart.get_tempo_time_at(time)
-	var yR: float = p.y * grid.grid_size.y * grid.zoom.y
+	var yR: float = p.y
 	if factor_in_snap:
 		yR *= meter[0] * meter[1] / chart_snap
 	
-	var seconds_per_beat: float = 60.0 / ChartManager.chart.get_tempos_data()[L]
-	var output: float = yR / (grid.grid_size.y * grid.zoom.y * meter[0]) * seconds_per_beat
-	
-	return output
+	var spb: float = (60.0 / ChartManager.chart.get_tempos_data()[L]) * (4.0 / meter[1])
+	return yR * (spb / meter[1])
 
 ## Binary searches for both notes and events
 func bsearch_left_range(value_set: Array, left_range: float) -> int:

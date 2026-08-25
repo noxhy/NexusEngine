@@ -452,7 +452,6 @@ func note_hit(note: Note, lane: int, hit_time: float, strum_manager: StrumManage
 			Signals.play_note_miss.emit(note, lane, strum_manager)
 			return
 		
-		
 		if note.scoreable:
 			score_note(hit_time)
 		
