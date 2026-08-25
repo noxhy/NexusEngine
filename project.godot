@@ -69,6 +69,7 @@ metronome="the characters that should play an animations every other beat (gf)"
 camera_positions="Camera positions for playstate"
 strums="Strumlines on UIs"
 ui=""
+cameras="CameraControllers in a scene"
 
 [input]
 

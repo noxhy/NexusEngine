@@ -81,6 +81,8 @@ func _ready() -> void:
 	if not parent_2d and not parent_3d:
 		printerr('(Camera Controller): No parent was assigned.')
 	
+	add_to_group(&"cameras")
+	
 	if parent_2d:
 		default_offset = parent_2d.offset
 		parent_2d.position_smoothing_enabled = position_smoothing

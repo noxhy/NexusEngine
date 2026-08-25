@@ -13,9 +13,6 @@ const COMPENSATION: float = 1.0 / 30.0
 ## The host song script. Usually the parent of this node.
 @export var host: Node
 
-## Camera with built-in functions.
-@export var camera: CameraController
-
 @export_group("Resources")
 @export var note_skin: NoteSkin
 @export var ui_skin: UISkin
@@ -62,6 +59,8 @@ var died: bool = false
 
 ## The UI node that requires a list: [code]strums[/code].
 @onready var ui: BasicUI
+## Camera with built-in functions.
+@onready var camera: CameraController
 
 var health: float = health_max * 0.5 : set = set_health
 
@@ -86,6 +85,7 @@ func _ready() -> void:
 	song_data = GameManager.current_song
 	
 	ui = get_tree().get_first_node_in_group(&"ui")
+	camera = get_tree().get_first_node_in_group(&"cameras")
 	
 	if !ui:
 		printerr("(%s)" % name, " There is no UI added to the ui group.")

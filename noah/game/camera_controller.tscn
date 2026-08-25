@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dkgpmeejgufkf"]
-
-[ext_resource type="Script" uid="uid://b4lmffueni5k" path="res://noah/game/camera_controller.gd" id="1_jvext"]
-
-[node name="CameraController" type="Node" unique_id=1088372329]
-script = ExtResource("1_jvext")
