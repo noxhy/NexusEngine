@@ -67,64 +67,34 @@ func _process(delta) -> void:
 			Signals.play_note_miss.emit(target_note, lane, get_parent())
 			target_note.queue_free()
 	
-	# Inputs
-	if Input.is_action_just_pressed(input):
-		if can_press:
-			if target_note:
-				state = STATE.GLOW
-				coyote_timer = 0
-				var hit_time: float = (target_note.time - offset) - (GameManager.song_position)
-				Signals.play_note_hit.emit(target_note, lane, hit_time, get_parent())
+	if auto_play:
+		if target_note:
+			if target_note.time_difference <= delta:
+				reset_timer = GameManager.conductor.seconds_per_step
 				
-				if target_note.length <= 0:
-					target_note.hit = true
-					pressing = false
-					var hit_rating: GameManager.HIT_RATING = NoahStats.get_hit_rating(hit_time)
-					if hit_rating == GameManager.HIT_RATING.BAD or hit_rating == GameManager.HIT_RATING.SHIT:
-						target_note.hit = true
-						target_note.apply_miss_effect()
-					else:
-						note_list.erase(target_note)
-						target_note.queue_free()
+				if !pressing:
+					press_note()
 				else:
-					hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
-					hold_cover_sprite.visible = true
-					
-					pressing = true
-					target_note.holding = true
+					hold_note()
+	
+	# Inputs
+	if can_press:
+		if Input.is_action_just_pressed(input):
+			if target_note:
+				press_note()
 			else:
 				if !SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "ghost_tapping"):
 					Signals.play_note_miss.emit(null, lane, get_parent())
-	
-	if Input.is_action_pressed(input):
-		if can_press:
+		
+		if Input.is_action_pressed(input):
 			if target_note:
-				if pressing:
-					if target_note.length > 0:
-						state = STATE.GLOW
-						target_note.position.y = 0
-						var temp = target_note.length
-						var spb: float = get_relative_seconds_per_beat(target_note)
-						target_note.length = ((target_note.time - offset) + (target_note.start_length * spb)) - GameManager.song_position
-						target_note.length /= spb
-						target_note.note.visible = false
-						Signals.play_note_holding.emit(target_note, lane, temp - max(0, target_note.length), get_parent())
-						
-						if target_note.length <= 0:
-							pressing = false
-							if can_splash:
-								hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
-							else:
-								hold_cover_sprite.visible = false
-							
-							note_list.erase(target_note)
-							target_note.queue_free()
+				if pressing and target_note.length > 0:
+					hold_note()
 			elif state != STATE.GLOW:
-				print("ok")
 				state = STATE.PRESSED
-	
-	if Input.is_action_just_released(input):
-		release_note()
+		
+		if Input.is_action_just_released(input):
+			release_note()
 	
 	if reset_timer > 0:
 		reset_timer -= delta
@@ -226,7 +196,52 @@ func create_splash(animation_name: StringName = strum_name + &"_splash"):
 			add_child(splash_instance)
 			splash_instance.get_node("OffsetSprite").play_animation(animation_name)
 
+## Calls when first pressing the input
+func press_note():
+	state = STATE.GLOW
+	coyote_timer = 0
+	var hit_time: float = (target_note.time - offset) - (GameManager.song_position) if !auto_play else 0.0
+	Signals.play_note_hit.emit(target_note, lane, hit_time, get_parent())
 
+	if target_note.length <= 0:
+		target_note.hit = true
+		pressing = false
+		var hit_rating: GameManager.HIT_RATING = NoahStats.get_hit_rating(hit_time)
+		if hit_rating == GameManager.HIT_RATING.BAD or hit_rating == GameManager.HIT_RATING.SHIT:
+			target_note.hit = true
+			target_note.apply_miss_effect()
+		else:
+			note_list.erase(target_note)
+			target_note.queue_free()
+	else:
+		hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
+		hold_cover_sprite.visible = true
+		
+		pressing = true
+		target_note.holding = true
+
+## Calls when holding the input
+func hold_note():
+	state = STATE.GLOW
+	target_note.position.y = 0
+	var temp = target_note.length
+	var spb: float = get_relative_seconds_per_beat(target_note)
+	target_note.length = ((target_note.time - offset) + (target_note.start_length * spb)) - GameManager.song_position
+	target_note.length /= spb
+	target_note.note.visible = false
+	Signals.play_note_holding.emit(target_note, lane, temp - max(0, target_note.length), get_parent())
+
+	if target_note.length <= 0:
+		pressing = false
+		if can_splash:
+			hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
+		else:
+			hold_cover_sprite.visible = false
+		
+		note_list.erase(target_note)
+		target_note.queue_free()
+
+## Calls when releasing the input
 func release_note():
 	if can_press:
 		if pressing:
@@ -263,10 +278,10 @@ func get_prioritized_note(hit_window: float) -> BasicNote:
 		if note.time_difference > hit_window:
 			break
 		
-		target = note
-		
 		if !ignored_note_types.has(note.note_type):
 			return note
+		else:
+			target = note
 	
 	return target
 
