@@ -2,6 +2,15 @@ extends Resource
 class_name NoahStats
 ## Handles values defining the players gameplay.
 
+## Hit window for the best hit rating
+const SICK_RATING_WINDOW: float = 0.045
+## Hit window for a good hit rating
+const GOOD_RATING_WINDOW: float = 0.09
+## Hit window for a bad hit rating
+const BAD_RATING_WINDOW: float = 0.135
+## Hit window for the worst hit rating
+const SHIT_RATING_WINDOW: float = 0.16
+
 ## The required minimum [member grade] must reach to provide [member GOLD_RANK_NAME]
 const GOLD_RANK_REQ: float = 2.0
 ## The required minimum [member grade] must reach to provide [member PERFECT_RANK_REQ]
@@ -14,6 +23,20 @@ const GREAT_RANK_REQ: float = 0.80
 const GOOD_RANK_REQ: float = 0.60
 ## The required minimum [member grade] must reach to provide [member LOSS_RANK_REQ]
 const LOSS_RANK_REQ: float = 0.00
+
+## Rating of the hit time of a note.
+enum HIT_RATING {
+	## Given when a note isn't hit within any window
+	MISS = -1,
+	## Given when a note is hit within the [constant SICK_RATING_WINDOW] window.
+	SICK,
+	## Given when a note is hit within the [constant GOOD_RATING_WINDOW] window.
+	GOOD,
+	## Given when a note is hit within the [constant BAD_RATING_WINDOW] window.
+	BAD,
+	## Given when a note is hit within the [constant SHIT_RATING_WINDOW] window.
+	SHIT
+}
 
 ## The accumulated score reached by the player.
 var score: float = 0
@@ -126,20 +149,20 @@ static func get_rank_from_grade(_grade: float) -> String:
 	return "?"
 
 ## Returns the rating of the absolute value of the relative time a note was hit.
-static func get_hit_rating(hit_time: float) -> GameManager.HIT_RATING:
+static func get_hit_rating(hit_time: float) -> HIT_RATING:
 	hit_time = abs(hit_time)
 	var ratings: Array = [
-		[hit_time <= GameManager.SICK_RATING_WINDOW, GameManager.HIT_RATING.SICK],
-		[hit_time <= GameManager.GOOD_RATING_WINDOW, GameManager.HIT_RATING.GOOD],
-		[hit_time <= GameManager.BAD_RATING_WINDOW, GameManager.HIT_RATING.BAD],
-		[hit_time <= GameManager.SHIT_RATING_WINDOW, GameManager.HIT_RATING.SHIT]
+		[hit_time <= SICK_RATING_WINDOW, HIT_RATING.SICK],
+		[hit_time <= GOOD_RATING_WINDOW, HIT_RATING.GOOD],
+		[hit_time <= BAD_RATING_WINDOW, HIT_RATING.BAD],
+		[hit_time <= SHIT_RATING_WINDOW, HIT_RATING.SHIT]
 	]
 	
 	for condition in ratings:
 		if condition[0]:
 			return condition[1]
 	
-	return GameManager.HIT_RATING.MISS
+	return HIT_RATING.MISS
 
 func _to_string() -> String:
 	var buffer: PackedStringArray = PackedStringArray()

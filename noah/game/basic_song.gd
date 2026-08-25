@@ -167,30 +167,30 @@ func _on_new_event(time: float, event_name: String, event_parameters: Array):
 
 func _on_combo_break():
 	SoundManager.miss.play()
-	show_combo(GameManager.HIT_RATING.MISS, 0)
+	show_combo(NoahStats.HIT_RATING.MISS, 0)
 
 
-func show_combo(rating: GameManager.HIT_RATING, _combo: int):
+func show_combo(rating: NoahStats.HIT_RATING, _combo: int):
 	if playstate:
 		var hit_rating: String
 		
 		match rating:
-			GameManager.HIT_RATING.SICK:
+			NoahStats.HIT_RATING.SICK:
 				hit_rating = "sick"
 			
-			GameManager.HIT_RATING.GOOD:
+			NoahStats.HIT_RATING.GOOD:
 				hit_rating = "good"
 			
-			GameManager.HIT_RATING.BAD:
+			NoahStats.HIT_RATING.BAD:
 				hit_rating = "bad"
 			
-			GameManager.HIT_RATING.SHIT:
+			NoahStats.HIT_RATING.SHIT:
 				hit_rating = "shit"
 			
 			_:
 				hit_rating = "miss"
 		
-		if rating != GameManager.HIT_RATING.MISS:
+		if rating != NoahStats.HIT_RATING.MISS:
 			if playstate.song_stats.sicks == playstate.song_stats.total_notes:
 				hit_rating = str("fc_", hit_rating)
 		

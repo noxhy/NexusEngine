@@ -53,15 +53,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
-	#if !enemy_slot:
-	#if note == get_prioritized_note(GameManager.SHIT_RATING_WINDOW):
-		#if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !note.bad:
-			#note.modulate = Color(1.5, 1.5, 1.5)
-	target_note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
+	target_note = get_prioritized_note(NoahStats.SHIT_RATING_WINDOW)
 	
 	if target_note:
+		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !ignored_note_types.has(target_note.note_type):
+			target_note.modulate = Color(1.5, 1.5, 1.5)
+		
 		var relative_time: float = target_note.time_difference - offset + (target_note.start_length * GameManager.conductor.seconds_per_beat)
-		var hit_window: float = GameManager.SHIT_RATING_WINDOW
+		var hit_window: float = NoahStats.SHIT_RATING_WINDOW
 		if relative_time <= -hit_window and coyote_timer <= 0:
 			note_list.erase(target_note)
 			Signals.play_note_miss.emit(target_note, lane, get_parent())
@@ -206,8 +205,8 @@ func press_note():
 	if target_note.length <= 0:
 		target_note.hit = true
 		pressing = false
-		var hit_rating: GameManager.HIT_RATING = NoahStats.get_hit_rating(hit_time)
-		if hit_rating == GameManager.HIT_RATING.BAD or hit_rating == GameManager.HIT_RATING.SHIT:
+		var hit_rating: NoahStats.HIT_RATING = NoahStats.get_hit_rating(hit_time)
+		if hit_rating == NoahStats.HIT_RATING.BAD or hit_rating == NoahStats.HIT_RATING.SHIT:
 			target_note.hit = true
 			target_note.apply_miss_effect()
 		else:
