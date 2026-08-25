@@ -246,7 +246,7 @@ func release_note():
 		if pressing:
 			pressing = false
 			reset_timer = GameManager.conductor.seconds_per_step
-			if hold_cover_sprite.animation != "cover " + strum_name + " end":
+			if hold_cover_sprite.current_animation != &"cover " + strum_name + &" end":
 				hold_cover_sprite.visible = false
 			
 			var note = get_prioritized_note(NoahStats.SHIT_RATING_WINDOW)
