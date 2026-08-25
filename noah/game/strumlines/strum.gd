@@ -19,7 +19,7 @@ var SPLASH_PRELOAD = preload("uid://c23s1pbajtga2")
 @export var auto_play: bool  = false
 @export var can_splash: bool  = false
 @export var enemy_slot: bool = false
-## Note types that autoplay wont press
+## Note types that will be skipped over in note prioritization.
 @export var ignored_note_types: Array = []
 @export_enum("NORMAL", "MODCHART") var node_type: int
 
@@ -35,7 +35,7 @@ var song_speed: float = 1.0
 var offset: float = 0.0
 var note_list: Array[BasicNote] = []
 var pressing: bool = false
-var previous_note = null
+var target_note = null
 var state: STATE = STATE.IDLE
 var lane: int = -1
 
@@ -62,18 +62,17 @@ func _process(delta) -> void:
 		if time_difference <= GameManager.SHIT_RATING_WINDOW:
 			note.can_press = true
 			
-			if !enemy_slot:
-				if note == note_list.front():
-					if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes"):
-						note.modulate = Color(1.5, 1.5, 1.5)
+			#if !enemy_slot:
+				#if note == get_prioritized_note(GameManager.SHIT_RATING_WINDOW):
+					#if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !note.bad:
+						#note.modulate = Color(1.5, 1.5, 1.5)
 		
 		if auto_play:
 			if time_difference <= delta:
 				if !ignored_note_types.has(note.note_type):
-					if note != previous_note:
+					if note != target_note:
 						note.hit = true
 						Signals.play_note_hit.emit(note, lane, 0, get_parent())
-						previous_note = note
 					
 					if note.length > 0:
 						note.holding = true
@@ -105,18 +104,16 @@ func _process(delta) -> void:
 		
 		var relative_time: float = time_difference - offset + (note.start_length * GameManager.conductor.seconds_per_beat)
 		var hit_window: float = GameManager.SHIT_RATING_WINDOW
-		if ignored_note_types.has(note.note_type):
-			# This is for stuff like mine's so they have a smaller hit qindow
-			hit_window = GameManager.GOOD_RATING_WINDOW
 		
 		if relative_time <= -hit_window and coyote_timer <= 0:
 			note_list.erase(note)
 			Signals.play_note_miss.emit(note, lane, get_parent())
 			note.queue_free()
+		
 	# Inputs
 	if Input.is_action_just_pressed(input):
 		if can_press:
-			var note = note_list.front()
+			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
 			if note:
 				if note.can_press:
 					if note.length <= 0:
@@ -131,7 +128,7 @@ func _process(delta) -> void:
 						Signals.play_note_hit.emit(note, lane, time_difference, get_parent())
 					else:
 						var time_difference = (note.time - offset) - (GameManager.song_position)
-						if note != previous_note:
+						if note != target_note:
 							note.hit = true
 							Signals.play_note_hit.emit(note, lane, time_difference, get_parent())
 						
@@ -143,7 +140,7 @@ func _process(delta) -> void:
 						
 						pressing = true
 						note.holding = true
-						previous_note = note
+						target_note = note
 				else:
 					if !SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "ghost_tapping"):
 						Signals.play_note_miss.emit(null, lane, get_parent())
@@ -154,7 +151,7 @@ func _process(delta) -> void:
 	if Input.is_action_pressed(input):
 		if can_press:
 			if pressing:
-				var note = note_list.front()
+				var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
 				if note:
 					if note.can_press:
 						if note.length > 0:
@@ -197,7 +194,7 @@ func _process(delta) -> void:
 	if coyote_timer > 0:
 		coyote_timer -= delta
 		if coyote_timer <= 0:
-			var note = note_list.front()
+			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
 			if note:
 				note.time -= note.length * GameManager.conductor.seconds_per_beat
 				note.time -= GameManager.BAD_RATING_WINDOW
@@ -297,7 +294,7 @@ func release_note():
 			if hold_cover_sprite.animation != "cover " + strum_name + " end":
 				hold_cover_sprite.visible = false
 			
-			var note = note_list.front()
+			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
 			if note:
 				# Checks if you were holding a note before releasing
 				if note.can_press and note.length > 0:
@@ -311,3 +308,23 @@ func release_note():
 ## Returns the seconds per beat relative to the given note.
 func get_relative_seconds_per_beat(note: Note) -> float:
 	return (GameManager.conductor.tempo / note.tempo) * GameManager.conductor.seconds_per_beat
+
+## Returns the highest prioritized note within the hit window.
+func get_prioritized_note(hit_window: float) -> Variant:
+	if note_list.is_empty():
+		return null
+	
+	var target = null
+	for note in note_list:
+		if note.hit:
+			continue
+		
+		target = note
+		
+		if !ignored_note_types.has(note.note_type):
+			return note
+		
+		if note.time_difference > hit_window:
+			break
+	
+	return target
