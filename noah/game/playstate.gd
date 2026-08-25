@@ -3,6 +3,7 @@ extends Node
 class_name PlayState
 
 const COMPENSATION: float = 1.0 / 30.0
+const DELTA_LENIENCY: float = 0.01
 
 @onready var song_data: Song
 @onready var vocals: AudioStreamPlayer
@@ -203,7 +204,7 @@ func _process(delta) -> void:
 		position_delta = abs(position_lerp - GameManager.song_position)
 		position_lerp += delta * instrumental.pitch_scale
 		
-		if delta > COMPENSATION or sync_timer <= 0.0 or position_delta >= 0.01 * instrumental.pitch_scale:
+		if delta > COMPENSATION or sync_timer <= 0.0 or position_delta >= DELTA_LENIENCY * instrumental.pitch_scale:
 			if position_delta >= 0.025 * instrumental.pitch_scale:
 				position_lerp = GameManager.song_position
 			sync_timer = 0.5
