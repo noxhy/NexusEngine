@@ -71,11 +71,12 @@ func copy_from(stats: NoahStats):
 	misses = stats.misses
 	combo = stats.combo
 	max_combo = stats.max_combo
+	sicks = stats.sicks
 	goods = stats.goods
 	bads = stats.bads
 	shits = stats.shits
 	total_notes = stats.total_notes
-	
+
 ## adds all the values from a NoahStats instance on to self.
 func add_from(stats: NoahStats):
 	score += stats.score
@@ -112,8 +113,8 @@ static func get_rank_from_stats(_stats: NoahStats) -> String:
 ## Returns a rank by a grade / float. Check [member grade] to see what the values range is.
 static func get_rank_from_grade(_grade: float) -> String:
 	var accuracies = [
-		[_grade == GOLD_RANK_REQ, Constants.GOLD_RANK_NAME],
-		[_grade == PERFECT_RANK_REQ, Constants.PERFECT_RANK_NAME],
+		[_grade >= GOLD_RANK_REQ, Constants.GOLD_RANK_NAME],
+		[_grade >= PERFECT_RANK_REQ, Constants.PERFECT_RANK_NAME],
 		[_grade >= EXCELLENT_RANK_REQ, Constants.EXCELLENT_RANK_NAME],
 		[_grade >= GREAT_RANK_REQ, Constants.GREAT_RANK_NAME],
 		[_grade >= GOOD_RANK_REQ, Constants.GOOD_RANK_NAME],

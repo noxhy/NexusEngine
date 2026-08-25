@@ -133,7 +133,7 @@ func save_and_refresh_stats(_stats: NoahStats):
 		if play_mode == PLAY_MODE.PLAYLIST:
 			highscore = current_week_song == week_songs.size() and SaveManager.set_week_stats(current_week, difficulty, playlist_stats.score_as_int, playlist_stats.grade)
 		else:
-			highscore = SaveManager.set_song_stats(current_song, difficulty, _stats.score_as_int, last_song_stats.grade)
+			highscore = SaveManager.set_song_stats(current_song, difficulty, last_song_stats.score_as_int, last_song_stats.grade)
 	else:
 		highscore = false
 
