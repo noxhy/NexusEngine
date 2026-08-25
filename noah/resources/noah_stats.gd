@@ -126,20 +126,20 @@ static func get_rank_from_grade(_grade: float) -> String:
 	return "?"
 
 ## Returns the rating of the absolute value of the relative time a note was hit.
-static func get_hit_rating(hit_time: float) -> String:
+static func get_hit_rating(hit_time: float) -> GameManager.HIT_RATING:
 	hit_time = abs(hit_time)
 	var ratings: Array = [
-		[hit_time <= GameManager.SICK_RATING_WINDOW, "sick"],
-		[hit_time <= GameManager.GOOD_RATING_WINDOW, "good"],
-		[hit_time <= GameManager.BAD_RATING_WINDOW, "bad"],
-		[hit_time <= GameManager.SHIT_RATING_WINDOW, "shit"]
+		[hit_time <= GameManager.SICK_RATING_WINDOW, GameManager.HIT_RATING.SICK],
+		[hit_time <= GameManager.GOOD_RATING_WINDOW, GameManager.HIT_RATING.GOOD],
+		[hit_time <= GameManager.BAD_RATING_WINDOW, GameManager.HIT_RATING.BAD],
+		[hit_time <= GameManager.SHIT_RATING_WINDOW, GameManager.HIT_RATING.SHIT]
 	]
 	
 	for condition in ratings:
 		if condition[0]:
 			return condition[1]
 	
-	return "miss"
+	return GameManager.HIT_RATING.MISS
 
 func _to_string() -> String:
 	var buffer: PackedStringArray = PackedStringArray()

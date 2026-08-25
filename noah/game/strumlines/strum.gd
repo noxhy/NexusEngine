@@ -35,7 +35,7 @@ var song_speed: float = 1.0
 var offset: float = 0.0
 var note_list: Array[BasicNote] = []
 var pressing: bool = false
-var target_note = null
+var target_note: BasicNote = null
 var state: STATE = STATE.IDLE
 var lane: int = -1
 
@@ -73,18 +73,22 @@ func _process(delta) -> void:
 			if target_note:
 				state = STATE.GLOW
 				coyote_timer = 0
-				target_note.hit = true
 				var hit_time: float = (target_note.time - offset) - (GameManager.song_position)
 				Signals.play_note_hit.emit(target_note, lane, hit_time, get_parent())
 				
 				if target_note.length <= 0:
-					note_list.erase(target_note)
-					target_note.queue_free()
+					target_note.hit = true
 					pressing = false
+					var hit_rating: GameManager.HIT_RATING = NoahStats.get_hit_rating(hit_time)
+					if hit_rating == GameManager.HIT_RATING.BAD or hit_rating == GameManager.HIT_RATING.SHIT:
+						target_note.hit = true
+						target_note.apply_miss_effect()
+					else:
+						note_list.erase(target_note)
+						target_note.queue_free()
 				else:
-					if !pressing:
-						hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
-						hold_cover_sprite.visible = true
+					hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
+					hold_cover_sprite.visible = true
 					
 					pressing = true
 					target_note.holding = true
@@ -93,28 +97,30 @@ func _process(delta) -> void:
 					Signals.play_note_miss.emit(null, lane, get_parent())
 	
 	if Input.is_action_pressed(input):
-		if can_press and pressing:
+		if can_press:
 			if target_note:
-				if target_note.length > 0:
-					state = STATE.GLOW
-					target_note.position.y = 0
-					var temp = target_note.length
-					var spb: float = get_relative_seconds_per_beat(target_note)
-					target_note.length = ((target_note.time - offset) + (target_note.start_length * spb)) - GameManager.song_position
-					target_note.length /= spb
-					target_note.note.visible = false
-					Signals.play_note_holding.emit(target_note, lane, temp - max(0, target_note.length), get_parent())
-					
-					if target_note.length <= 0:
-						pressing = false
-						if can_splash:
-							hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
-						else:
-							hold_cover_sprite.visible = false
+				if pressing:
+					if target_note.length > 0:
+						state = STATE.GLOW
+						target_note.position.y = 0
+						var temp = target_note.length
+						var spb: float = get_relative_seconds_per_beat(target_note)
+						target_note.length = ((target_note.time - offset) + (target_note.start_length * spb)) - GameManager.song_position
+						target_note.length /= spb
+						target_note.note.visible = false
+						Signals.play_note_holding.emit(target_note, lane, temp - max(0, target_note.length), get_parent())
 						
-						note_list.erase(target_note)
-						target_note.queue_free()
+						if target_note.length <= 0:
+							pressing = false
+							if can_splash:
+								hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
+							else:
+								hold_cover_sprite.visible = false
+							
+							note_list.erase(target_note)
+							target_note.queue_free()
 			elif state != STATE.GLOW:
+				print("ok")
 				state = STATE.PRESSED
 	
 	if Input.is_action_just_released(input):
@@ -129,10 +135,9 @@ func _process(delta) -> void:
 	if coyote_timer > 0:
 		coyote_timer -= delta
 		if coyote_timer <= 0:
-			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
-			if note:
-				note.time -= note.length * GameManager.conductor.seconds_per_beat
-				note.time -= GameManager.BAD_RATING_WINDOW
+			Signals.play_note_miss.emit(target_note, lane, get_parent())
+			target_note.hit = true
+			target_note.apply_miss_effect()
 	
 	if state == STATE.IDLE:
 		sprite.play_animation(strum_name + &"_strum")
@@ -164,7 +169,7 @@ func set_skin(new_skin: NoteSkin):
 
 
 func create_note(time: float, length: float, note_type: String, _tempo: float):
-	var note_instance;
+	var note_instance: BasicNote
 	if node_type == 0:
 		note_instance = NOTE_PRELOAD.instantiate()
 	else:
@@ -174,7 +179,8 @@ func create_note(time: float, length: float, note_type: String, _tempo: float):
 	note_instance.length = length
 	note_instance.start_length = length
 	note_instance.note_type = note_type
-	note_instance.position.y = 1000
+	note_instance.position.y = PIXELS_PER_SECOND * 10
+	note_instance.scroll_speed = scroll_speed
 	note_instance.scroll = scroll
 	note_instance.tempo = _tempo
 	
@@ -232,7 +238,7 @@ func release_note():
 			var note = get_prioritized_note(GameManager.SHIT_RATING_WINDOW)
 			if note:
 				# Checks if you were holding a note before releasing
-				if note.can_press and note.length > 0:
+				if target_note and note.length > 0:
 					note.holding = false
 					coyote_timer = GameManager.HOLD_NOTE_LENIENCY
 					note.time = GameManager.song_position
@@ -245,7 +251,7 @@ func get_relative_seconds_per_beat(note: Note) -> float:
 	return (GameManager.conductor.tempo / note.tempo) * GameManager.conductor.seconds_per_beat
 
 ## Returns the highest prioritized note within the hit window.
-func get_prioritized_note(hit_window: float) -> Variant:
+func get_prioritized_note(hit_window: float) -> BasicNote:
 	if note_list.is_empty():
 		return null
 	

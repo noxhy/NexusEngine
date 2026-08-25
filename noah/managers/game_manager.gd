@@ -33,6 +33,20 @@ enum PLAY_MODE {
 	CHARTING,
 }
 
+## Rating of the hit time of a note.
+enum HIT_RATING {
+	## Given when a note isn't hit within any window
+	MISS = -1,
+	## Given when a note is hit within the [constant SICK_RATING_WINDOW] window.
+	SICK,
+	## Given when a note is hit within the [constant GOOD_RATING_WINDOW] window.
+	GOOD,
+	## Given when a note is hit within the [constant BAD_RATING_WINDOW] window.
+	BAD,
+	## Given when a note is hit within the [constant SHIT_RATING_WINDOW] window.
+	SHIT
+}
+
 ## The previous played song's remembered stats. Can be used for things such as a result screen.
 ## [br][br][color=khaki]NOTE[/color]: these are only set after a song is finished and not in real time.
 var last_song_stats: NoahStats = NoahStats.new()

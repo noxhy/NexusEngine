@@ -108,3 +108,8 @@ func load_basic_type():
 			no_animation = true
 		"alt_prefix":
 			anim_prefix = 'alt_'
+
+
+func apply_miss_effect():
+	modulate *= 2
+	modulate.a = min(modulate.a / 2, 0.5)
