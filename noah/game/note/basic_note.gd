@@ -24,7 +24,6 @@ const DEFAULT_ANIMATION_DATA: Dictionary[StringName, StringName] = {
 @onready var end = null
 
 var start_length: float = 0.0
-var can_press: bool = false
 var time_difference: float = INF
 var on_screen: bool = false
 var holding: bool = false
@@ -109,3 +108,8 @@ func load_basic_type():
 			no_animation = true
 		"alt_prefix":
 			anim_prefix = 'alt_'
+
+
+func apply_miss_effect():
+	modulate *= 2
+	modulate.a = min(modulate.a / 2, 0.5)
