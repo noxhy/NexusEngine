@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c10lld8ifnbrs"]
+
+[ext_resource type="Script" uid="uid://bmduxtmsxogx7" path="res://noah/volume_display.gd" id="1_vvvl0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ltykl"]
+bg_color = Color(0, 0, 0, 0.2509804)
+
+[node name="Volume Display" type="Node2D" unique_id=703114555]
+script = ExtResource("1_vvvl0")
+
+[node name="Label" type="Label" parent="." unique_id=392136639]
+process_mode = 3
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 32.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ltykl")
+text = "Master Volume: 100%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hide Timer" type="Timer" parent="." unique_id=1500027540]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="Hide Timer" to="." method="hide_volume"]

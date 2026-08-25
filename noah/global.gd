@@ -1,7 +1,7 @@
 extends Node
 
 @onready var performance_label: Label = $"Performance Label"
-@onready var volume_node = $"Volume Node"
+@onready var volume_display: VolumeDisplay = $"Volume Display"
 
 var loading_screen: PackedScene = load("uid://ld5hyjhtx8wg")
 
@@ -24,7 +24,6 @@ func changed_contoller(device: int, connected: bool):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	volume_node.position.x = get_window().content_scale_size.x / 2
 	performance_label.visible = SettingsManager.get_value(SettingsManager.SEC_DEBUG, &"show_performance")
 	if SettingsManager.get_value(SettingsManager.SEC_DEBUG, "show_performance"):
 		var performance_string: String = str("FPS: ", int(Engine.get_frames_per_second()),
@@ -164,31 +163,16 @@ func get_bind_string(action: StringName):
 func frame_independent_lerp(a, b, decay: float, delta: float) -> Variant: 
 	return b + (a - b) * exp(-decay * delta)
 
-#region Volume Visual
-func show_volume():
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(volume_node, "position:y", 0, 0.5)
-	SoundManager.scroll.play()
+#region Volume Node
+func set_volume_display(path: String) -> void:
+	if !FileAccess.file_exists(path):
+		return
 	
-	var master_volume = SettingsManager.get_value(SettingsManager.SEC_AUDIO, "master_volume")
+	if volume_display:
+		volume_display.queue_free()
 	
-	if AudioServer.is_bus_mute(0):
-		$"Volume Node/Label".text = "Muted"
-	else:
-		$"Volume Node/Label".text = "Master Volume: " + str(roundi(master_volume * 100)) + "%"
-	
-	$"Volume Node/Hide Timer".start()
-
-
-func hide_volume():
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(volume_node, "position:y", -32, 0.5)
-
-
-func _on_hide_timer_timeout():
-	hide_volume()
+	volume_display = load(path).instantiate()
+	add_child(volume_display)
 #endregion
 
 #region String to Tween

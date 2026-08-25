@@ -74,7 +74,8 @@ func _updated_volume():
 	AudioServer.set_bus_volume_linear(0, SettingsManager.get_value('audio', "master_volume", 1.0))
 	
 	SettingsManager.flush()
-	Global.show_volume()
+	if Global.volume_display:
+		Global.volume_display.show_volume()
 
 
 ## plays the global audio track from stream or path

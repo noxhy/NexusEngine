@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c1xj54jogmqul"]
 
 [ext_resource type="Script" uid="uid://cjdqxjkevt2iw" path="res://noah/global.gd" id="1_swfdr"]
+[ext_resource type="PackedScene" uid="uid://c10lld8ifnbrs" path="res://noah/volume_display.tscn" id="2_aun3h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm3mx"]
 content_margin_left = 4.0
@@ -12,9 +13,6 @@ expand_margin_left = 4.0
 expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ltykl"]
-bg_color = Color(0, 0, 0, 0.2509804)
 
 [node name="Global" type="CanvasLayer" unique_id=1630799042]
 process_mode = 3
@@ -33,21 +31,4 @@ theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_bm3mx")
 text = "PERFORMANCE"
 
-[node name="Volume Node" type="Node2D" parent="." unique_id=202234116]
-position = Vector2(0, -32)
-
-[node name="Label" type="Label" parent="Volume Node" unique_id=1593060809]
-process_mode = 3
-offset_left = -128.0
-offset_right = 128.0
-offset_bottom = 32.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_ltykl")
-text = "Master Volume: 100%"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Hide Timer" type="Timer" parent="Volume Node" unique_id=1935239393]
-wait_time = 1.5
-one_shot = true
-
-[connection signal="timeout" from="Volume Node/Hide Timer" to="." method="_on_hide_timer_timeout"]
+[node name="Volume Display" parent="." unique_id=703114555 instance=ExtResource("2_aun3h")]
