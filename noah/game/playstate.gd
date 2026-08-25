@@ -128,7 +128,6 @@ func _ready() -> void:
 	GameManager.song_scene = LoadingScreen.scene
 	
 	chart = Chart.load(song_data.difficulties[GameManager.difficulty].chart)
-	assert(chart, 'Failed to load chart. is (%s) correct?' % (song_data.difficulties[GameManager.difficulty].chart))
 	
 	if not song_data.events.is_empty() and ResourceLoader.exists(song_data.events):
 		var ext_events = load(song_data.events)
