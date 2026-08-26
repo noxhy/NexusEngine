@@ -89,13 +89,13 @@ func _ready() -> void:
 	camera = get_tree().get_first_node_in_group(&"cameras")
 	
 	if !ui:
-		printerr("(%s)" % name, " There is no UI added to the ui group.")
-	
-	if !host:
-		printerr('A Host was not assigned.')
+		printerr("(%s):" % name, " There was no ui within the ui group.")
 	
 	if !camera:
-		printerr('A Camera Controller was not assigned.')
+		printerr("(%s):" % name,' There was no CameraController within the camera group.')
+	
+	if !host:
+		printerr("(%s):" % name,'A Host was not assigned.')
 	
 	assert(song_data, "A song was not set correctly.")
 	
@@ -128,7 +128,6 @@ func _ready() -> void:
 	GameManager.song_scene = LoadingScreen.scene
 	
 	chart = Chart.load(song_data.difficulties[GameManager.difficulty].chart)
-	assert(chart, 'Failed to load chart. is (%s) correct?' % (song_data.difficulties[GameManager.difficulty].chart))
 	
 	if not song_data.events.is_empty() and ResourceLoader.exists(song_data.events):
 		var ext_events = load(song_data.events)

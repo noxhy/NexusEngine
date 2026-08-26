@@ -129,6 +129,8 @@ static func load(path: String) -> Chart:
 		if chart_resource and chart_resource is Chart:
 			return update_chart(chart_resource)
 		
+		printerr('(Chart): Provided chart path "%s" either was not a Chart or was an invalid resource.' % path)
+		
 		return Chart.new()
 	elif path.get_extension() == 'json':
 		var file = FileAccess.open(path, FileAccess.READ)
@@ -196,6 +198,7 @@ static func load(path: String) -> Chart:
 					_:
 						pass
 	
+	printerr('(Chart): Provided chart path "%s" is not supported.' % path)
 	
 	return Chart.new()
 
