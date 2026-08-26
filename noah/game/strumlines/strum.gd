@@ -280,9 +280,10 @@ func get_prioritized_note(hit_window: float) -> BasicNote:
 		if !ignored_note_types.has(note.note_type):
 			return note
 		else:
-			target = note
+			if !target:
+				target = note
 	
-	return target
+	return targe
 
 
 func set_scroll_speed(s: float):
