@@ -200,14 +200,12 @@ func press_note():
 	state = STATE.GLOW
 	coyote_timer = 0
 	var hit_time: float = (target_note.time - offset) - (GameManager.song_position) if !auto_play else 0.0
-	Signals.play_note_hit.emit(target_note, lane, hit_time, get_parent())
-
+	
 	if target_note.length <= 0:
 		target_note.hit = true
 		pressing = false
 		var hit_rating: NoahStats.HIT_RATING = NoahStats.get_hit_rating(hit_time)
 		if hit_rating == NoahStats.HIT_RATING.BAD or hit_rating == NoahStats.HIT_RATING.SHIT:
-			target_note.hit = true
 			target_note.apply_miss_effect()
 		else:
 			note_list.erase(target_note)
@@ -218,6 +216,8 @@ func press_note():
 		
 		pressing = true
 		target_note.holding = true
+	
+	Signals.play_note_hit.emit(target_note, lane, hit_time, get_parent())
 
 ## Calls when holding the input
 func hold_note():
@@ -271,6 +271,9 @@ func get_prioritized_note(hit_window: float) -> BasicNote:
 	
 	var target = null
 	for note in note_list: 
+		if !note:
+			continue
+		
 		if note.hit:
 			continue
 		
@@ -283,7 +286,7 @@ func get_prioritized_note(hit_window: float) -> BasicNote:
 			if !target:
 				target = note
 	
-	return targe
+	return target
 
 
 func set_scroll_speed(s: float):
