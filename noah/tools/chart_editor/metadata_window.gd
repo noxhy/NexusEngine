@@ -23,7 +23,7 @@ func update_stats():
 	var path: String = ""
 	
 	if ChartManager.song.icons:
-		path = ChartManager.song.icons.resource_path
+		path = ChartManager.song.icons
 	
 	_on_icon_file_dailog_file_selected(path)
 	_on_scene_file_dailog_file_selected(ChartManager.song.scene)
@@ -57,6 +57,7 @@ func _on_icon_file_dailog_file_selected(path: String) -> void:
 	if not sprite_frames.has_animation('default'):
 		printerr("Icon file is missing a default animation")
 		return
+	
 	var texture: Texture = sprite_frames.get_frame_texture("default", 0)
 	%Icon.texture = texture
 	$HBoxContainer/VBoxContainer/Icons/LineEdit.text = path
