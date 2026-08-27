@@ -29,7 +29,7 @@ class_name Song
 @export var artist: String
 ## The displayed charter for this Song
 @export var charter: String
-@export var icons: SpriteFrames
+@export_file('*.res', '*.tres') var icons: String
 @export var locked: bool = false
 
 @export_subgroup("Story Mode Stuff")
