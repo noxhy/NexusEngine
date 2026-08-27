@@ -13,4 +13,4 @@ func _on_check_button_toggled(button_pressed):
 	update()
 
 func update():
-	%Button.text = str(%Button.button_pressed).capitalize()
+	%Button.text = ''
