@@ -140,27 +140,27 @@ static func load(path: String) -> Chart:
 				match resolve_chart_type(json):
 					ChartFormat.PSYCH:
 						var _events = []
-						var events_file = FileAccess.open(path.get_base_dir() + '/_events.json', FileAccess.READ)
+						var events_file = FileAccess.open(path.get_base_dir() + '/events.json', FileAccess.READ)
 						
 						if events_file:
 							var events_json = JSON.parse_string(events_file.get_as_text())
 							if events_json:
-								if not events_json.has('_events'):
+								if not events_json.has('events'):
 									events_json = events_json.get('song')
 								
-								_events = events_json.get('_events', [])
+								_events = events_json.get('events', [])
 						return convert_psych(json, _events, false)
 					ChartFormat.PSYCH_V1:
 						var _events = []
-						var events_file = FileAccess.open(path.get_base_dir() + '/_events.json', FileAccess.READ)
+						var events_file = FileAccess.open(path.get_base_dir() + '/events.json', FileAccess.READ)
 						
-						if events_file: #maybe check if the _events file is cne ?
+						if events_file: #maybe check if the events file is cne ?
 							var events_json = JSON.parse_string(events_file.get_as_text())
 							if events_json:
-								if not events_json.has('_events'):
+								if not events_json.has('events'):
 									events_json = events_json.get('song')
 								
-								_events = events_json.get('_events', [])
+								_events = events_json.get('events', [])
 						
 						
 						return convert_psych(json, _events)
@@ -182,14 +182,14 @@ static func load(path: String) -> Chart:
 						assert(FileAccess.file_exists(meta_path), 'failed to find cne chart meta.json')
 						
 						var _events: Array = []
-						var events_file = FileAccess.open(path.get_base_dir() + '/_events.json', FileAccess.READ)
+						var events_file = FileAccess.open(path.get_base_dir() + '/events.json', FileAccess.READ)
 						
 						if events_file:
 							var events_json = JSON.parse_string(events_file.get_as_text())
 							if events_json:
 								if events_json is Dictionary:
-									if events_json.has('_events'):
-										_events = events_json.get('_events')
+									if events_json.has('events'):
+										events = events_json.get('events')
 						
 						var meta_file: FileAccess = FileAccess.open(meta_path, FileAccess.READ)
 						var meta_json = JSON.parse_string(meta_file.get_as_text())
@@ -333,7 +333,7 @@ static func convert_psych(data:Dictionary,_events:Array = [], v1:bool = true) ->
 		section_time += seconds_per_measure
 	
 	if data.has('events'):
-		_events.append_array(data.get('_events'))
+		_events.append_array(data.get('events'))
 	
 	for i in _events:
 		var time = i[0]
