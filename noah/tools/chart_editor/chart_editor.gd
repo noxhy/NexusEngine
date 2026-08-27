@@ -1627,7 +1627,7 @@ func _on_metadata_window_close_requested() -> void:
 	SoundManager.tool_close_window.play()
 
 func _on_metadata_window_updated_icon_texture(path: String) -> void:
-	ChartManager.song.icons = load(path)
+	ChartManager.song.icons = path
 	auto_save()
 
 func _on_metadata_window_updated_song_artist(text: String) -> void:
