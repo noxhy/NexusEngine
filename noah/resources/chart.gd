@@ -189,7 +189,7 @@ static func load(path: String) -> Chart:
 							if events_json:
 								if events_json is Dictionary:
 									if events_json.has('events'):
-										events = events_json.get('events')
+										_events = events_json.get('events')
 						
 						var meta_file: FileAccess = FileAccess.open(meta_path, FileAccess.READ)
 						var meta_json = JSON.parse_string(meta_file.get_as_text())
