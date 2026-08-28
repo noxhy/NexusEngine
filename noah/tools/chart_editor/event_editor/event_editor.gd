@@ -393,7 +393,7 @@ func remove_track(node):
 	current_visible_events_L = -1
 	current_visible_events_R = -1
 	load_section(song_position)
-	%"Mouse Click".play()
+	SoundManager.tool_mouse_click.play()
 
 
 func _on_event_tracks_ready() -> void:
