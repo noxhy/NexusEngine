@@ -8,9 +8,9 @@ class_name ChartNote
 
 # Applying Note Skin
 func _ready() -> void:
-	note.texture = note_skin.notes_texture.get_frame_texture(get_animation_name(animation), 0)
+	note.texture = note_skin.notes_texture.get_frame_texture(animation, 0)
 	
-	var tail_animation = get_animation_name(animation + &"_tail")
+	var tail_animation: StringName = animation + &"_tail"
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	

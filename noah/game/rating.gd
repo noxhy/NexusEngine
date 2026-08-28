@@ -8,24 +8,20 @@ var gravity = 0.0
 
 var elapsed: float = 0.0
 
+@onready var sprite = $OffsetSprite
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	sprite.sprite_frames = ui_skin.rating_texture
 	
-	$OffsetSprite.sprite_frames = ui_skin.rating_texture
-	
-	if ui_skin.animation_names != null:
-		
-		$OffsetSprite.animation_names.merge(ui_skin.animation_names, true)
-	
-	$OffsetSprite.offsets = ui_skin.offsets
-	$OffsetSprite.scale = Vector2(ui_skin.rating_scale, ui_skin.rating_scale) 
+	sprite.offsets = ui_skin.offsets
+	sprite.scale = Vector2(ui_skin.rating_scale, ui_skin.rating_scale) 
 	
 	if ui_skin.pixel_texture:
-		$OffsetSprite.texture_filter = TEXTURE_FILTER_NEAREST
+		sprite.texture_filter = TEXTURE_FILTER_NEAREST
 	
-	$OffsetSprite.play()
-	
-	$OffsetSprite.play_animation(rating)
+	sprite.play()
+	sprite.play(rating)
 	
 	motion = Vector2(randf_range(-0.1, 0.1), -2)
 

@@ -50,7 +50,6 @@ func _ready() -> void:
 	hold_cover_sprite.visible = false
 	Signals.connect(&"play_unpaused", self.release_note)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
 	target_note = get_prioritized_note(NoahStats.SHIT_RATING_WINDOW)
@@ -110,11 +109,11 @@ func _process(delta) -> void:
 			target_note.apply_miss_effect()
 	
 	if state == STATE.IDLE:
-		sprite.play_animation(strum_name + &"_strum")
+		sprite.play(strum_name + &"_strum")
 	elif state == STATE.PRESSED:
-		sprite.play_animation(&"press_" + strum_name + &"_strum", false)
+		sprite.play(&"press_" + strum_name + &"_strum")
 	elif state == STATE.GLOW:
-		sprite.play_animation(&"glow_" + strum_name + &"_strum", false)
+		sprite.play(&"glow_" + strum_name + &"_strum")
 
 # Util
 func set_skin(new_skin: NoteSkin):
@@ -122,16 +121,11 @@ func set_skin(new_skin: NoteSkin):
 	
 	sprite.sprite_frames = note_skin.strums_texture
 	sprite.scale = Vector2.ONE * note_skin.notes_scale
+	sprite.offsets = note_skin.offsets
+	hold_cover_sprite.offsets = note_skin.offsets
 	
 	hold_cover_sprite.sprite_frames = note_skin.hold_covers_texture
 	hold_cover_sprite.scale = Vector2.ONE * note_skin.hold_covers_scale
-	
-	if note_skin.animation_names != null:
-		sprite.animation_names.merge(note_skin.animation_names, true)
-		hold_cover_sprite.animation_names.merge(note_skin.animation_names, true)
-	
-	sprite.offsets.merge(note_skin.offsets, true)
-	hold_cover_sprite.offsets.merge(note_skin.offsets, true)
 	
 	if note_skin.pixel_texture:
 		sprite.texture_filter = TEXTURE_FILTER_NEAREST
@@ -178,10 +172,10 @@ func _on_offset_sprite_animation_finished():
 
 
 func _on_hold_cover_animation_finished():
-	if hold_cover_sprite.current_animation == &"start_" + strum_name + &"_cover":
-		hold_cover_sprite.play_animation(strum_name + &"_cover")
+	if hold_cover_sprite.animation == &"start_" + strum_name + &"_cover":
+		hold_cover_sprite.play(strum_name + &"_cover")
 	
-	if hold_cover_sprite.current_animation == &"end_" + strum_name + &"_cover":
+	if hold_cover_sprite.animation == &"end_" + strum_name + &"_cover":
 		hold_cover_sprite.visible = false
 
 
@@ -191,10 +185,9 @@ func create_splash(animation_name: StringName = strum_name + &"_splash"):
 			var splash_instance = SPLASH_PRELOAD.instantiate()
 			
 			splash_instance.note_skin = note_skin
-			splash_instance.scale = Vector2.ONE * note_skin.splash_scale
 			
 			add_child(splash_instance)
-			splash_instance.get_node("OffsetSprite").play_animation(animation_name)
+			splash_instance.sprite.play(animation_name)
 
 ## Calls when first pressing the input
 func press_note():
@@ -212,7 +205,7 @@ func press_note():
 			note_list.erase(target_note)
 			target_note.queue_free()
 	else:
-		hold_cover_sprite.play_animation(&"start_" + strum_name + &"_cover")
+		hold_cover_sprite.play(&"start_" + strum_name + &"_cover")
 		hold_cover_sprite.visible = true
 		
 		pressing = true
@@ -234,7 +227,7 @@ func hold_note():
 	if target_note.length <= 0:
 		pressing = false
 		if can_splash:
-			hold_cover_sprite.play_animation(&"end_" + strum_name + &"_cover")
+			hold_cover_sprite.play(&"end_" + strum_name + &"_cover")
 		else:
 			hold_cover_sprite.visible = false
 		
@@ -247,7 +240,7 @@ func release_note():
 		if pressing:
 			pressing = false
 			reset_timer = GameManager.conductor.seconds_per_step
-			if hold_cover_sprite.current_animation != &"cover " + strum_name + &" end":
+			if hold_cover_sprite.animation != &"cover " + strum_name + &" end":
 				hold_cover_sprite.visible = false
 			
 			var note = get_prioritized_note(NoahStats.SHIT_RATING_WINDOW)

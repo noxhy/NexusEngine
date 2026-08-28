@@ -15,11 +15,11 @@ func _ready() -> void:
 		if note_skin.animation_names.keys().size() > 0: 
 			note.animation_names.merge(note_skin.animation_names, true)
 	
-	var tail_animation = get_animation_name(animation + &"_tail")
+	var tail_animation: StringName = animation + &"_tail"
 	if tail_animation and tail:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 	
-	var end_animation = get_animation_name(animation + &"_end")
+	var end_animation: StringName = animation + &"_end"
 	if end_animation and tail:
 		tail.end_texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 	

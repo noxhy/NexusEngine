@@ -19,9 +19,6 @@ class_name OffsetSprite2D
 		_ghost_animation = v
 		update_ghost()
 
-## The current animation ID being played.
-var current_animation: StringName
-
 @export_category("Tools")
 @warning_ignore("unused_private_class_variable")
 @export_tool_button("Save Offset", "Save") var _save_button: Callable = self._save_offset
