@@ -323,7 +323,7 @@ func _editor_process(delta: float) -> void:
 func _is_character_root():
 	if not is_inside_tree():
 		return false
-		
+	
 	var tree = get_tree()
 	return tree and tree.edited_scene_root == self
 
@@ -442,6 +442,7 @@ func __get_editor_undo_redo() -> Object:
 	var ei: Object = Engine.get_singleton(&"EditorInterface")
 	if not ei:
 		return null
+	
 	var undo_redo: Object = ei.get_editor_undo_redo()
 	return undo_redo
 

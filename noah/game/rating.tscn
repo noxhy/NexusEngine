@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d0643fq2e3v8u" path="res://noah/game/rating.gd" id="1_peefr"]
 [ext_resource type="Resource" uid="uid://bvphmxy3ecutv" path="res://noah/assets/game/developer/developer_ui_skin.tres" id="2_fpv3i"]
 [ext_resource type="SpriteFrames" uid="uid://c802qdqdog3ia" path="res://noah/assets/game/developer/rating/ratings.tres" id="2_y4m87"]
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="7_7wrd8"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="7_7wrd8"]
 
 [node name="Rating" type="Node2D" unique_id=262781631 groups=["ratings"]]
 script = ExtResource("1_peefr")

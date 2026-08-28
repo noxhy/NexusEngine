@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dc0yd85m6dsa7" path="res://noah/game/note/modchart_note.gd" id="1_h3pbp"]
 [ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://noah/assets/game/developer/arrow/notes.tres" id="2_o35eu"]
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="3_3ud5f"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="3_3ud5f"]
 [ext_resource type="Texture2D" uid="uid://ds5jlynhtryxg" path="res://noah/assets/game/developer/arrow/tail.png" id="4_ieyxg"]
 [ext_resource type="Script" uid="uid://br0jox4auxxsl" path="res://noah/game/note/tail.gd" id="5_x7q10"]
 [ext_resource type="Texture2D" uid="uid://ceji7odamm1lk" path="res://noah/assets/game/developer/arrow/end.png" id="6_k3lyu"]

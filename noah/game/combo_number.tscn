@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bpjorjb1f0qkm" path="res://noah/game/combo_number.gd" id="1_derg0"]
 [ext_resource type="SpriteFrames" uid="uid://b7h7qi3th3rb8" path="res://noah/assets/game/developer/rating/combo_numbers.tres" id="1_wdlcl"]
 [ext_resource type="Resource" uid="uid://bvphmxy3ecutv" path="res://noah/assets/game/developer/developer_ui_skin.tres" id="2_kwa5s"]
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="2_oy3lu"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="2_oy3lu"]
 
 [node name="Combo Number" type="Node2D" unique_id=1106976307]
 script = ExtResource("1_derg0")

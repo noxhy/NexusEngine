@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://unxl5ry1ynol" path="res://noah/game/note/basic_note.gd" id="1_2my17"]
 [ext_resource type="SpriteFrames" uid="uid://ccp6adafb85jx" path="res://noah/assets/game/developer/arrow/notes.tres" id="2_r4bqa"]
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="4_kfabs"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="4_kfabs"]
 
 [node name="Note" type="Node2D" unique_id=1794701138 groups=["note"]]
 use_parent_material = true

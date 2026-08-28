@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://b4rxx1ufbjt17"]
-
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="1_2v0dc"]
-
-[node name="Offset Sprite" type="AnimatedSprite2D" unique_id=1642319941]
-script = ExtResource("1_2v0dc")
-
-[connection signal="frame_changed" from="." to="." method="_on_frame_changed"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c23s1pbajtga2"]
 
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite.gd" id="1_ugy7i"]
+[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="1_ugy7i"]
 [ext_resource type="Script" uid="uid://c0va4fda67atq" path="res://noah/game/note/note_splash.gd" id="1_y21l8"]
 
 [node name="Note Splash" type="Node2D" unique_id=304342136]
