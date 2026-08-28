@@ -56,8 +56,9 @@ func _process(delta) -> void:
 	target_note = get_prioritized_note(NoahStats.SHIT_RATING_WINDOW)
 	
 	if target_note:
-		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !ignored_note_types.has(target_note.note_type):
-			target_note.modulate = Color(1.5, 1.5, 1.5)
+		if !enemy_slot:
+			if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "glow_notes") and !ignored_note_types.has(target_note.note_type):
+				target_note.modulate = Color(1.5, 1.5, 1.5)
 		
 		var relative_time: float = target_note.time_difference - offset + (target_note.start_length * GameManager.conductor.seconds_per_beat)
 		var hit_window: float = NoahStats.SHIT_RATING_WINDOW
