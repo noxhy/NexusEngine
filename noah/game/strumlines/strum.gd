@@ -67,7 +67,7 @@ func _process(delta) -> void:
 			target_note.queue_free()
 	
 	if auto_play:
-		if target_note:
+		if target_note and !ignored_note_types.has(target_note.note_type):
 			if target_note.time_difference <= delta:
 				reset_timer = GameManager.conductor.seconds_per_step
 				
