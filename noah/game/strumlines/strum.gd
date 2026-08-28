@@ -111,9 +111,13 @@ func _process(delta) -> void:
 	if state == STATE.IDLE:
 		sprite.play(strum_name + &"_strum")
 	elif state == STATE.PRESSED:
-		sprite.play(&"press_" + strum_name + &"_strum")
+		var animation_name: StringName = &"press_" + strum_name + &"_strum"
+		if sprite.animation != animation_name:
+			sprite.play(animation_name)
 	elif state == STATE.GLOW:
-		sprite.play(&"glow_" + strum_name + &"_strum")
+		var animation_name: StringName = &"glow_" + strum_name + &"_strum"
+		if sprite.animation != animation_name:
+			sprite.play(animation_name)
 
 # Util
 func set_skin(new_skin: NoteSkin):
