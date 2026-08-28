@@ -124,7 +124,6 @@ func setup_shortcuts():
 	file_button.get_popup().set_item_shortcut(
 		file_button.get_popup().get_item_index(2), chart_editor.make_shortcut_quick(InputMap.action_get_events(&"save")))
 	
-	
 	# edit button
 	edit_button.get_popup().set_item_shortcut(
 		edit_button.get_popup().get_item_index(0), chart_editor.make_shortcut_quick(InputMap.action_get_events(&"ui_undo")))
@@ -162,6 +161,12 @@ func setup_shortcuts():
 	shortcut.events[0].keycode = KEY_Q
 	edit_button.get_popup().set_item_shortcut(
 		edit_button.get_popup().get_item_index(13), shortcut)
+	
+	shortcut = chart_editor.make_shortcut_quick([InputEventKey.new()])
+	shortcut.events[0].keycode = KEY_C
+	shortcut.events[0].alt_pressed = true
+	edit_button.get_popup().set_item_shortcut(
+		edit_button.get_popup().get_item_index(14), shortcut)
 	
 	#audio button
 	

@@ -1288,6 +1288,7 @@ func edit_button_item_pressed(id):
 		11: deselect_all()
 		12: increase_length()
 		13: decrease_length()
+		14: brush_note_type()
 		_:  print("id: ", id)
 
 ## Audio button item pressed
@@ -1855,6 +1856,16 @@ func add_action(action: String, do_method: Callable, undo_method: Callable):
 	
 	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
 	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
+
+
+func brush_note_type() -> void:
+	if ChartManager.chart:
+		for note in selected_notes:
+			ChartManager.chart.notes[note][3] = current_note_type
+		
+		for note in selected_note_nodes:
+			note.note_type = current_note_type
+			note.update()
 
 
 func select_all():

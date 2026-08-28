@@ -491,5 +491,5 @@ func _process_animation(delta: float) -> void:
 				_frame_progress = 0.0
 				playing = false
 				animation_finished.emit()
-	
+
 	_frame_progress += absf(delta * frames_per_second * speed_scale)

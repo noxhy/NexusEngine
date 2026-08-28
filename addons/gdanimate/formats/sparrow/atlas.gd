@@ -155,7 +155,7 @@ func get_symbol_length(key: StringName) -> int:
 	if not _internal_frames_cache.has(key):
 		_internal_frames_cache[key] = SparrowAtlasFrame.get_filtered_frames(key, self)
 
-	return maxi(_internal_frames_cache[key].size() - 1, 0)
+	return _internal_frames_cache[key].size()
 
 
 func has_symbol(symbol: StringName) -> bool:

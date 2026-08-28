@@ -37,6 +37,7 @@ func update():
 			collision_shape.scale = screen_enabler.scale * 0.9
 			collision_shape.shape.set_size(Vector2(screen_enabler.rect.size.x, screen_enabler.rect.size.x))
 			
+			label.visible = (note_type != "")
 			label.size = grid_size
 			label.position = -grid_size / 2
 			label.label_settings.font_size = grid_size.y / 2
