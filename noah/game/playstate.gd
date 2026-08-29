@@ -354,7 +354,9 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 					if easing.to_lower() == "classic":
 						camera.go_to_marker(marker)
 					else:
-						camera.tween_to_marker(marker, Global.string_to_time(event_parameters.get(1)) / song_speed, event_parameters.get(2))
+						camera.tween_to_marker(marker,
+						Global.string_to_time(event_parameters.get(1)) / song_speed,
+						event_parameters.get(2))
 		
 		"camera_bop":
 			if camera:
@@ -372,9 +374,7 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 				ui.bump(Vector2.ONE * ui_bop)
 		
 		"psych_camera_zoom":
-			if camera:
-				var new_zoom = Vector2(float(event_parameters[0]), float(event_parameters[0]))
-				camera.target_zoom = new_zoom
+			basic_event(time, "camera_zoom", [event_parameters[0], ""])
 		
 		"camera_zoom":
 			if camera:
