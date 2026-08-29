@@ -267,7 +267,6 @@ func draw_2d(target: AnimateSymbol2D) -> void:
 			RenderingServer.canvas_item_set_draw_behind_parent(root_item, true)
 			RenderingServer.canvas_item_set_parent(root_item, target_item)
 			RenderingServer.canvas_item_set_transform(root_item, transform)
-			RenderingServer.canvas_item_set_use_parent_material(root_item, true)
 
 			_draw_2d_full(
 				symbols[symbol],

@@ -35,7 +35,8 @@ func _ready() -> void:
 	var end_animation: StringName = animation + &"_end"
 	if end_animation and end:
 		end.texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
-		end.size = end.texture.get_size()
+		if end.texture:
+			end.size = end.texture.get_size()
 	
 	note.offsets = note_skin.offsets
 	note.play(animation)
