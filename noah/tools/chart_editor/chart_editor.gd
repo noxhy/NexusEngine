@@ -1740,6 +1740,7 @@ func paste() -> void:
 	if clipboard.is_empty():
 		return
 	
+	# TODO - Figure out how to make this work with UndoRedo
 	var offset: float = (song_position + start_offset) - clipboard.front()[0]
 	selected_notes = place_notes(clipboard)
 	update_selected_notes()

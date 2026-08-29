@@ -4,6 +4,7 @@ extends Note
 class_name BasicNote
 
 const PIXELS_PER_SECOND = 450
+const BACKUP_HOLD_TEXTURE = preload("uid://ds5jlynhtryxg")
 
 @onready var note = $Note
 @onready var tail = $Tail
@@ -29,8 +30,11 @@ func _ready() -> void:
 	note.sprite_frames = note_skin.notes_texture
 	
 	var tail_animation: StringName = animation + &"_tail"
-	if tail_animation and tail:
-		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
+	if tail:
+		if tail_animation:
+			tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
+		else:
+			tail.texture = BACKUP_HOLD_TEXTURE
 	
 	var end_animation: StringName = animation + &"_end"
 	if end_animation and end:
