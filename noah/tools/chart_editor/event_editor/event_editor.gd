@@ -546,14 +546,40 @@ func remove_notes(events: Array):
 
 func cut() -> void:
 	if selected_notes.size() > 0:
+		undo_redo.create_action("Cut Note(s)")
 		var temp: Array = []
 		for i in selected_notes:
 			var event = ChartManager.chart.get_events_data()[i]
 			temp.append([event[0], event[1], event[2]])
 		
-		add_action("Cut Note(s)", self.remove_notes.bind(selected_notes), self.place_notes.bind(temp))
-		selected_notes = []
-		SoundManager.tool_note_remove.play()
+		undo_redo.add_do_method(remove_notes.bind(selected_notes))
+		undo_redo.add_do_property(self, &"clipboard", temp)
+		undo_redo.add_do_property(self, &"selected_notes", [])
+		undo_redo.add_do_method(update_selected_notes)
+		undo_redo.add_do_method(SoundManager.tool_note_remove.play)
+		undo_redo.add_undo_method(place_notes.bind(temp))
+		undo_redo.add_undo_property(self, &"clipboard", clipboard)
+		undo_redo.add_undo_property(self, &"selected_notes", selected_notes)
+		undo_redo.add_undo_method(update_selected_notes)
+		undo_redo.commit_action()
+
+
+func delete() -> void:
+	if selected_notes.size() > 0:
+		undo_redo.create_action("Cut Note(s)")
+		var temp: Array = []
+		for i in selected_notes:
+			var event = ChartManager.chart.get_events_data()[i]
+			temp.append([event[0], event[1], event[2]])
+		
+		undo_redo.add_do_method(remove_notes.bind(selected_notes))
+		undo_redo.add_do_property(self, &"selected_notes", [])
+		undo_redo.add_do_method(update_selected_notes)
+		undo_redo.add_do_method(SoundManager.tool_note_remove.play)
+		undo_redo.add_undo_method(place_notes.bind(temp))
+		undo_redo.add_undo_property(self, &"selected_notes", selected_notes)
+		undo_redo.add_undo_method(update_selected_notes)
+		undo_redo.commit_action()
 
 
 func copy() -> void:
