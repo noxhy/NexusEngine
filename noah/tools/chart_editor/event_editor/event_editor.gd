@@ -756,3 +756,7 @@ func update_selected_notes() -> void:
 
 func get_corrected_mouse_position() -> Vector2:
 	return get_global_mouse_position() - Vector2(camera_2d.position.x - 640, camera_2d.position.y - 360)
+
+
+func brush_note_type() -> void:
+	return
