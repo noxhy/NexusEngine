@@ -16,6 +16,7 @@ class_name NoteSkin
 @export var hold_covers_scale: float = 1.0
 
 @export_subgroup("Offsets")
+## @deprecated: [OffsetSprite2D] has been reworked rendering this isueless.
 @export var animation_names: Dictionary[StringName, StringName] = {}
 @export var offsets: Dictionary[StringName, Vector2] = {}
 

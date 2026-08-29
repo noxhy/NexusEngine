@@ -9,7 +9,6 @@ var NOTE_PRELOAD = preload("uid://krhxbwnjnr7r")
 var MODCHART_NOTE_PRELOAD = preload("uid://bfovtttcq6f32")
 var SPLASH_PRELOAD = preload("uid://c23s1pbajtga2")
 
-@export var note_skin: NoteSkin
 ## Name of the input in the [code]InputMap[/code]
 @export var input: String = ""
 ## Strum direction name
@@ -29,6 +28,7 @@ enum STATE {
 	GLOW,
 }
 
+var note_skin: NoteSkin
 var scroll_speed: float = 1.0: set = set_scroll_speed
 var scroll: float = 1.0: set = set_scroll
 var song_speed: float = 1.0

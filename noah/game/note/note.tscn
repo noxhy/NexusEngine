@@ -14,20 +14,6 @@ use_parent_material = true
 sprite_frames = ExtResource("2_r4bqa")
 animation = &"left"
 script = ExtResource("4_kfabs")
-animation_names = Dictionary[StringName, StringName]({
-&"down": &"down",
-&"down_end": &"down_end",
-&"down_tail": &"down_tail",
-&"left": &"left",
-&"left_end": &"left_end",
-&"left_tail": &"left_tail",
-&"right": &"right",
-&"right_end": &"right_end",
-&"right_tail": &"right_tail",
-&"up": &"up",
-&"up_end": &"up_end",
-&"up_tail": &"up_tail"
-})
 
 [node name="Tail" type="TextureRect" parent="." unique_id=1151387659]
 rotation = 1.5707964

@@ -1,13 +1,11 @@
 [gd_scene format=3 uid="uid://bbyq5kxppcvc8"]
 
 [ext_resource type="Script" uid="uid://cvn8o3a2v55bt" path="res://noah/game/strumlines/strum.gd" id="1_ixlu2"]
-[ext_resource type="Resource" uid="uid://buly8rgmgrrnm" path="res://noah/assets/game/developer/developer_note_skin.tres" id="2_aqqtq"]
 [ext_resource type="SpriteFrames" uid="uid://chk3joc6hfc23" path="res://noah/assets/game/developer/arrow/strums.tres" id="3_cik2r"]
 [ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="4_kjy2w"]
 
 [node name="Arrow Strum" type="Node2D" unique_id=1054225201]
 script = ExtResource("1_ixlu2")
-note_skin = ExtResource("2_aqqtq")
 
 [node name="OffsetSprite" type="AnimatedSprite2D" parent="." unique_id=1929831036]
 use_parent_material = true
