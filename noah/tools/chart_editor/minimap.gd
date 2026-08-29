@@ -8,12 +8,14 @@ Color(0.235, 0.769, 0.208), Color(0.757, 0.149, 0.322)]
 @export var area_color: Color = Color(1.0, 1.0, 1.0, 0.4)
 @export var precision: int = 2
 
+
 var chart_editor: ChartEditor
 var point_width: float:
 	get():
 		return size.x / ChartManager.strum_count
 
-var minimap_image: Image
+#var minimap_image: Image
+var source_texture: Texture
 var point_data: Dictionary[int, Dictionary] = {}
 
 var point_size: Vector2:
@@ -23,7 +25,9 @@ var point_size: Vector2:
 
 func _ready() -> void:
 	chart_editor = get_parent().get_parent()
-	texture = ImageTexture.create_from_image(Image.create_empty(int(size.x), int(size.y), false, Image.FORMAT_RGB8))
+	var image: Image = Image.create_empty(int(point_width), precision, false, Image.FORMAT_RGBA8)
+	image.fill(Color.WHITE)
+	source_texture = ImageTexture.create_from_image(image)
 
 
 func _process(delta: float) -> void:
@@ -32,10 +36,9 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	if ChartManager.chart:
-		for pixel in point_data:
-			var packet: Dictionary = point_data[pixel]
-			draw_rect_on_texture(packet.get("position"), point_size, packet.get("color"))
-		
+		#for pixel in point_data:
+			#var packet: Dictionary = point_data[pixel]
+			#draw_rect_on_texture(packet.get("position"), point_size, packet.get("color"))
 		
 		var _range: float = chart_editor.conductor.numerator * chart_editor.conductor.denominator * chart_editor.conductor.seconds_per_step / chart_editor.grid.zoom.y
 		var point_a: Vector2i = map_to_image_position(Vector2(0, chart_editor.song_position))
@@ -51,7 +54,8 @@ func _draw() -> void:
 
 ## Creates an image texture of a map of the given data
 func refresh(data: Array):
-	minimap_image = Image.create_empty(int(size.x), int(size.y), false, Image.FORMAT_RGB8)
+	texture = DrawableTexture2D.new()
+	texture.setup(int(size.x), int(size.y), DrawableTexture2D.DRAWABLE_FORMAT_RGBA8, Color.TRANSPARENT)
 	point_data = {}
 	draw_rect_on_image(Vector2i(0, 0), size, background_color)
 	
@@ -62,7 +66,8 @@ func refresh(data: Array):
 
 
 func update():
-	texture.update(minimap_image)
+	return
+	#texture.update(minimap_image)
 
 ## Draws the note color at a point on the image.
 func map_to_image(packet):
@@ -76,25 +81,27 @@ func unmap_from_image(packet):
 
 ## Returns the given point to its pixel number
 func map_point_to_pixel(point: Vector2i) -> int:
-	return point.x + point.y * minimap_image.get_height()
+	return point.x + point.y * texture.get_height()
 
 ## Adds a point to draw over the image with the note color.
 func map_to_texture(packet):
-	var pos: Vector2i = Vector2i(packet[1], packet[0])
-	var point: Vector2i = map_to_image_position(pos)
-	point_data[map_point_to_pixel(pos)] = {
-		"position": point,
-		"color": COLORS[packet[1] % 4]
-	}
+	map_to_image(packet)
+	#var pos: Vector2i = Vector2i(packet[1], packet[0])
+	#var point: Vector2i = map_to_image_position(pos)
+	#point_data[map_point_to_pixel(pos)] = {
+		#"position": point,
+		#"color": COLORS[packet[1] % 4]
+	#}
 
 ## Adds a point to draw over the image with the background color.
 func unmap_from_texture(packet):
-	var pos: Vector2i = Vector2i(packet[1], packet[0])
-	var point: Vector2i = map_to_image_position(pos)
-	point_data[map_point_to_pixel(pos)] = {
-		"position": point,
-		"color": background_color
-	}
+	unmap_from_image(packet)
+	#var pos: Vector2i = Vector2i(packet[1], packet[0])
+	#var point: Vector2i = map_to_image_position(pos)
+	#point_data[map_point_to_pixel(pos)] = {
+		#"position": point,
+		#"color": background_color
+	#}
 
 ## Maps a point to a position on the container
 func map_to_image_position(point: Vector2) -> Vector2i:
@@ -105,9 +112,12 @@ func map_to_image_position(point: Vector2) -> Vector2i:
 
 ## Draws a rectangle on the image
 func draw_rect_on_image(pos: Vector2i, rect_size: Vector2i, color: Color):
-	for y in rect_size.y:
-		for x in rect_size.x:
-			minimap_image.set_pixel(pos.x + x, pos.y + y, color)
+	#for y in rect_size.y:
+		#for x in rect_size.x:
+			#minimap_image.set_pixel(pos.x + x, pos.y + y, color)
+	
+	var rect: Rect2 = Rect2i(pos, rect_size)
+	texture.blit_rect(rect, source_texture, color)
 
 ## Draws a rectangle over the image
 func draw_rect_on_texture(pos: Vector2i, rect_size: Vector2i, color: Color):
