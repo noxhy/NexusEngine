@@ -1867,13 +1867,14 @@ func brush_note_type() -> void:
 	undo_redo.create_action(action)
 	for i in selected_notes:
 		var node: ChartNote = note_nodes[i - current_visible_notes_L]
-		var note_type: float = ChartManager.chart.get_notes_data()[i][3]
+		var note_type: String = ChartManager.chart.get_notes_data()[i][3]
 		undo_redo.add_do_method(change_note_type.bind(i, current_note_type))
 		undo_redo.add_do_property(node, "note_type", current_note_type)
 		undo_redo.add_do_method(node.update)
-		undo_redo.add_do_method(SoundManager.SoundManager.tool_mouse_click.play)
+		undo_redo.add_do_method(SoundManager.tool_mouse_click.play)
 		undo_redo.add_undo_method(change_note_type.bind(i, note_type))
-		undo_redo.add_undo_property(note_nodes[i - current_visible_notes_L], "length", note_type)
+		undo_redo.add_undo_property(node, "note_type", note_type)
+		undo_redo.add_undo_method(node.update)
 	
 	undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
 	undo_redo.commit_action()
