@@ -135,6 +135,9 @@ func setup_shortcuts():
 		edit_button.get_popup().get_item_index(3), chart_editor.make_shortcut_quick(InputMap.action_get_events(&"ui_cut")))
 	
 	edit_button.get_popup().set_item_shortcut(
+		edit_button.get_popup().get_item_index(15), chart_editor.make_shortcut_quick(InputMap.action_get_events(&"ui_text_delete")))
+	
+	edit_button.get_popup().set_item_shortcut(
 		edit_button.get_popup().get_item_index(4), chart_editor.make_shortcut_quick(InputMap.action_get_events(&"ui_copy")))
 	
 	edit_button.get_popup().set_item_shortcut(

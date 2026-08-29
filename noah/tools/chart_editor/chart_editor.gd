@@ -1289,6 +1289,7 @@ func edit_button_item_pressed(id):
 		12: increase_length()
 		13: decrease_length()
 		14: brush_note_type()
+		15: delete()
 		_:  print("id: ", id)
 
 ## Audio button item pressed
