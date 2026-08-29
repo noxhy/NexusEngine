@@ -294,7 +294,6 @@ func _process(delta: float) -> void:
 									grid.get_real_position(Vector2(1.5 + node.lane + lane_distance, 0)).x,
 									time_to_y_position(node.time + time_distance) + grid.grid_size.y * grid.zoom.y / 2) + grid_layer.offset
 						
-						auto_save()
 						moved_time_distance = time_distance
 						moved_lane_distance = lane_distance
 	
@@ -343,6 +342,7 @@ func _process(delta: float) -> void:
 		if moving_notes:
 			add_action("Moved Note(s)", self.move_selection.bind(moved_time_distance, moved_lane_distance),
 			self.move_selection.bind(-moved_time_distance, -moved_lane_distance))
+			auto_save()
 	
 	if Input.is_action_just_released(&"control"):
 		bounding_box = false
@@ -1714,18 +1714,43 @@ func _on_note_skin_window_file_selected(path: String) -> void:
 	note_skin = skin
 	SoundManager.tool_open_window.play()
 
+
 func cut() -> void:
 	if selected_notes.size() > 0:
+		undo_redo.create_action("Cut Note(s)")
 		var temp: Array = []
 		for i in selected_notes:
 			var note = ChartManager.chart.get_notes_data()[i]
 			temp.append([note[0], note[1], note[2], note[3]])
 		
-		clipboard = temp
+		undo_redo.add_do_method(remove_notes.bind(selected_notes))
+		undo_redo.add_do_property(self, &"clipboard", temp)
+		undo_redo.add_do_property(self, &"selected_notes", [])
+		undo_redo.add_do_method(update_selected_notes)
+		undo_redo.add_do_method(SoundManager.tool_note_remove.play)
+		undo_redo.add_undo_method(place_notes.bind(temp))
+		undo_redo.add_undo_property(self, &"clipboard", clipboard)
+		undo_redo.add_undo_property(self, &"selected_notes", selected_notes)
+		undo_redo.add_undo_method(update_selected_notes)
+		undo_redo.commit_action()
+
+
+func delete() -> void:
+	if selected_notes.size() > 0:
+		undo_redo.create_action("Cut Note(s)")
+		var temp: Array = []
+		for i in selected_notes:
+			var note = ChartManager.chart.get_notes_data()[i]
+			temp.append([note[0], note[1], note[2], note[3]])
 		
-		add_action("Cut Note(s)", self.remove_notes.bind(selected_notes), self.place_notes.bind(temp))
-		selected_notes = []
-		SoundManager.tool_note_remove.play()
+		undo_redo.add_do_method(remove_notes.bind(selected_notes))
+		undo_redo.add_do_property(self, &"selected_notes", [])
+		undo_redo.add_do_method(update_selected_notes)
+		undo_redo.add_do_method(SoundManager.tool_note_remove.play)
+		undo_redo.add_undo_method(place_notes.bind(temp))
+		undo_redo.add_undo_property(self, &"selected_notes", selected_notes)
+		undo_redo.add_undo_method(update_selected_notes)
+		undo_redo.commit_action()
 
 
 func copy() -> void:
