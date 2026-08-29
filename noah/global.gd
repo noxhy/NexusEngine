@@ -264,28 +264,28 @@ func string_to_ease(tween: String) -> Array:
 			return [Tween.TRANS_QUAD, Tween.EASE_OUT_IN]
 		
 		"quartin":
-			return [Tween.TRANS_QUAD, Tween.EASE_IN]
+			return [Tween.TRANS_QUART, Tween.EASE_IN]
 		
 		"quartinout":
-			return [Tween.TRANS_QUAD, Tween.EASE_IN_OUT]
+			return [Tween.TRANS_QUART, Tween.EASE_IN_OUT]
 		
 		"quartout":
-			return [Tween.TRANS_QUAD, Tween.EASE_OUT]
+			return [Tween.TRANS_QUART, Tween.EASE_OUT]
 		
 		"quartoutin":
-			return [Tween.TRANS_QUAD, Tween.EASE_OUT_IN]
+			return [Tween.TRANS_QUART, Tween.EASE_OUT_IN]
 		
 		"quintin":
-			return [Tween.TRANS_QUAD, Tween.EASE_IN]
+			return [Tween.TRANS_QUINT, Tween.EASE_IN]
 		
 		"quintinout":
-			return [Tween.TRANS_QUAD, Tween.EASE_IN_OUT]
+			return [Tween.TRANS_QUINT, Tween.EASE_IN_OUT]
 		
 		"quintout":
-			return [Tween.TRANS_QUAD, Tween.EASE_OUT]
+			return [Tween.TRANS_QUINT, Tween.EASE_OUT]
 		
 		"quintoutin":
-			return [Tween.TRANS_QUAD, Tween.EASE_OUT_IN]
+			return [Tween.TRANS_QUINT, Tween.EASE_OUT_IN]
 		
 		"sinein":
 			return [Tween.TRANS_SINE, Tween.EASE_IN]
