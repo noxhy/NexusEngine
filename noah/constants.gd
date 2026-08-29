@@ -8,7 +8,7 @@ var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
-		"parameters": ["Position Index"],
+		"parameters": ["Position Index", "Duration", "Easing Type"],
 		"texture": "uid://b4ve504nau36k"
 	},
 	"play_animation": {

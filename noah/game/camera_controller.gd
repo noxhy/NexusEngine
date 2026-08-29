@@ -288,7 +288,6 @@ func _reapply_smoothing_settings():
 ## [br][br]See [code]Global.string_to_ease[/code] for ease options
 ## [br][br]This method ignores [member position_smoothing] and [member rotation_smoothing] 
 func tween_to_marker(marker: Variant, duration: float, ease_type: String = '') -> void:
-	
 	if _marker_tween:
 		_marker_tween.kill()
 		_reapply_smoothing_settings()
@@ -311,10 +310,9 @@ var _zoom_tween: Tween = null
 ## Tweens the camera's [member zoom] to [code]new_zoom[/code] in the span of [code]duration[/code]
 ## [br][br]See [code]Global.string_to_ease[/code] for ease options
 func tween_zoom(new_zoom: Vector2, duration: float, ease_type: String = ''):
-	
 	if _zoom_tween:
 		_zoom_tween.kill()
-		
+	
 	var ease_info: Array = Global.string_to_ease(ease_type)
 	
 	_zoom_tween = create_tween().set_parallel().set_trans(ease_info[0]).set_ease(ease_info[1])

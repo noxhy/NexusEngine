@@ -347,7 +347,14 @@ func basic_event(time: float, event_name: String, event_parameters: Array):
 						printerr("(PlayState): Marker does not exist at index: ", index)
 						return
 					
-					camera.go_to_marker(marker)
+					var easing = event_parameters.get(2)
+					if !easing or easing.is_empty():
+						easing = "classic"
+					
+					if easing.to_lower() == "classic":
+						camera.go_to_marker(marker)
+					else:
+						camera.tween_to_marker(marker, Global.string_to_time(event_parameters.get(1)) / song_speed, event_parameters.get(2))
 		
 		"camera_bop":
 			if camera:
