@@ -212,8 +212,11 @@ func _process(delta) -> void:
 	
 	GameManager.conductor.tempo = chart.get_tempo_at(GameManager.song_position)
 	var meter: Array = chart.get_meter_at(GameManager.song_position)
-	GameManager.conductor.numerator = meter[0]
-	GameManager.conductor.denominator = meter[1]
+	if meter.is_empty():
+		printerr("(PlayState): ", "Chart has no time signatures.")
+	else:
+		GameManager.conductor.numerator = meter[0]
+		GameManager.conductor.denominator = meter[1]
 	
 	# Instead of before where I would do a linear search per section, a faster method
 	# would just be to iterate through as the song is playing, making it faster
@@ -246,7 +249,7 @@ func _process(delta) -> void:
 					var event_name: String = event[1]
 					var event_parameters: Array = event[2]
 					
-					print("(PlayState) Song Event: \"", event_name, "\" ", str(event_parameters))
+					print("(PlayState): Song Event: \"", event_name, "\" ", str(event_parameters))
 					basic_event(time, event_name, event_parameters)
 					current_event += 1
 
