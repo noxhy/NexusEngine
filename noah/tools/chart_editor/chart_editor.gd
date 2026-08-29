@@ -565,7 +565,7 @@ func load_song(song: Song, difficulty: Variant = null):
 		lower_ui.get_node("%Difficulty Button").get_popup().add_item(d)
 	
 	lower_ui.get_node("%Difficulty Button").select(ChartManager.song.difficulties.keys().find(difficulty))
-	%"Upper UI".get_node("%Metadata Window").update_stats()
+	upper_ui.get_node("%Metadata Window").update_stats()
 	
 	load_chart(ChartManager.chart)
 	current_snap = conductor.denominator
@@ -771,7 +771,7 @@ func new_file(path: String, song: Song):
 	var action: String = "Created New Song"
 	undo_redo.create_action(action)
 	undo_redo.add_do_property(self, "song", song)
-	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
+	undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
 	undo_redo.add_undo_property(self, "song", old_song)
 	undo_redo.commit_action()
 	enable_can_chart_on_next_frame()
@@ -1312,8 +1312,8 @@ func audio_button_item_pressed(id):
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
 			SettingsManager.flush()
 			SoundManager.tool_mouse_click.play()
-			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
-				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
+			upper_ui.get_node("%Audio Button").get_popup().set_item_checked(
+				upper_ui.get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_beat"))
 		
 		8: #Toggle Step Sound
@@ -1321,8 +1321,8 @@ func audio_button_item_pressed(id):
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
 			SettingsManager.flush()
 			SoundManager.tool_mouse_click.play()
-			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
-				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
+			upper_ui.get_node("%Audio Button").get_popup().set_item_checked(
+				upper_ui.get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "conductor_step"))
 		11: #Toggle Vocal Waveforms
 			vocal_waveforms = !vocal_waveforms
@@ -1343,8 +1343,8 @@ func audio_button_item_pressed(id):
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
 			SettingsManager.flush()
 			SoundManager.tool_mouse_click.play()
-			%"Upper UI".get_node("%Audio Button").get_popup().set_item_checked(
-				%"Upper UI".get_node("%Audio Button").get_popup().get_item_index(id),
+			upper_ui.get_node("%Audio Button").get_popup().set_item_checked(
+				upper_ui.get_node("%Audio Button").get_popup().get_item_index(id),
 				SettingsManager.get_value(SettingsManager.SEC_CHART, "hit_sounds"))
 		
 		_:
@@ -1374,7 +1374,7 @@ func view_button_item_pressed(id):
 		
 		1:
 			can_chart = false
-			%"Upper UI".get_node("%Note Skin Window").popup()
+			upper_ui.get_node("%Note Skin Window").popup()
 			SoundManager.tool_open_window.play()
 		
 		3:
@@ -1419,8 +1419,8 @@ func test_button_item_pressed(id):
 			SettingsManager.set_value(SettingsManager.SEC_CHART, "start_at_current_position",
 			!SettingsManager.get_value(SettingsManager.SEC_CHART, "start_at_current_position"))
 			SettingsManager.flush()
-			%"Upper UI".get_node("%Test Button").get_popup().set_item_checked(
-			%"Upper UI".get_node("%Test Button").get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART,
+			upper_ui.get_node("%Test Button").get_popup().set_item_checked(
+			upper_ui.get_node("%Test Button").get_popup().get_item_index(id), SettingsManager.get_value(SettingsManager.SEC_CHART,
 			"start_at_current_position"))
 			SoundManager.tool_mouse_click.play()
 		
@@ -1466,8 +1466,8 @@ func undo():
 		undo_redo.undo()
 		auto_save()
 	
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
+	upper_ui.get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
+	upper_ui.get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
 
 
 func redo():
@@ -1476,8 +1476,8 @@ func redo():
 		undo_redo.redo()
 		auto_save()
 	
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
+	upper_ui.get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
+	upper_ui.get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
 
 
 func auto_save():
@@ -1620,11 +1620,11 @@ func _on_difficulty_button_item_selected(index: int) -> void:
 		load_chart(ChartManager.chart)
 
 func _on_history_window_close_requested() -> void:
-	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(0, false)
+	upper_ui.get_node("%Window Button").get_popup().set_item_checked(0, false)
 	SoundManager.tool_close_window.play()
 
 func _on_metadata_window_close_requested() -> void:
-	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(1, false)
+	upper_ui.get_node("%Window Button").get_popup().set_item_checked(1, false)
 	SoundManager.tool_close_window.play()
 
 func _on_metadata_window_updated_icon_texture(path: String) -> void:
@@ -1669,7 +1669,7 @@ func _on_metadata_window_add_time_change() -> void:
 	
 	ChartManager.chart.tempos.sort()
 	ChartManager.chart.time_signatures.sort()
-	%"Upper UI".get_node("%Metadata Window").update_stats()
+	upper_ui.get_node("%Metadata Window").update_stats()
 	auto_save()
 
 func _on_metadata_window_remove_time_change() -> void:
@@ -1689,7 +1689,7 @@ func update_event(event):
 
 func _on_export_external_popup_file_selected(path: String) -> void:
 	ResourceSaver.save(ChartManager.chart, path)
-	%"Upper UI".get_node("%Export External Popup").hide()
+	upper_ui.get_node("%Export External Popup").hide()
 
 func set_chart_from_chart(_chart: Chart):
 	if !_chart:
@@ -1823,18 +1823,21 @@ func change_note_lengths(notes: Array, delta: float):
 	undo_redo.create_action(action)
 	for i in notes:
 		var length: float = ChartManager.chart.get_notes_data()[i][2]
-		undo_redo.add_do_method(self.change_length.bind(i, length + delta))
+		undo_redo.add_do_method(change_length.bind(i, length + delta))
 		undo_redo.add_do_property(note_nodes[i - current_visible_notes_L], "length", length + delta)
 		undo_redo.add_do_method(SoundManager.tool_note_stretch.play)
-		undo_redo.add_undo_method(self.change_length.bind(i, length))
+		undo_redo.add_undo_method(change_length.bind(i, length))
 		undo_redo.add_undo_property(note_nodes[i - current_visible_notes_L], "length", length)
 	
-	undo_redo.add_do_reference(upper_ui.get_node("%History Window").add_action(action))
+	undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
 	undo_redo.commit_action()
 
 
 func change_length(i: int, length: float) -> void:
 	ChartManager.chart.notes[i][2] = max(length, 0)
+
+func change_note_type(i: int, note_type: String) -> void:
+	ChartManager.chart.notes[i][3] = note_type
 
 
 func select_area(L: int, R: int, lane_a, lane_b = null):
@@ -1850,22 +1853,29 @@ func select_area(L: int, R: int, lane_a, lane_b = null):
 func add_action(action: String, do_method: Callable, undo_method: Callable):
 	undo_redo.create_action(action)
 	undo_redo.add_do_method(do_method)
-	undo_redo.add_do_reference(%"Upper UI".get_node("%History Window").add_action(action))
+	undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
 	undo_redo.add_undo_method(undo_method)
 	undo_redo.commit_action()
 	
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
-	%"Upper UI".get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
+	upper_ui.get_node("%Edit Button").get_popup().set_item_disabled(0, !undo_redo.has_undo())
+	upper_ui.get_node("%Edit Button").get_popup().set_item_disabled(1, !undo_redo.has_redo())
 
 
 func brush_note_type() -> void:
-	if ChartManager.chart:
-		for note in selected_notes:
-			ChartManager.chart.notes[note][3] = current_note_type
-		
-		for note in selected_note_nodes:
-			note.note_type = current_note_type
-			note.update()
+	var action: String = "Brushed Note Type"
+	undo_redo.create_action(action)
+	for i in selected_notes:
+		var node: ChartNote = note_nodes[i - current_visible_notes_L]
+		var note_type: float = ChartManager.chart.get_notes_data()[i][3]
+		undo_redo.add_do_method(change_note_type.bind(i, current_note_type))
+		undo_redo.add_do_property(node, "note_type", current_note_type)
+		undo_redo.add_do_method(node.update)
+		undo_redo.add_do_method(SoundManager.SoundManager.tool_mouse_click.play)
+		undo_redo.add_undo_method(change_note_type.bind(i, note_type))
+		undo_redo.add_undo_property(note_nodes[i - current_visible_notes_L], "length", note_type)
+	
+	undo_redo.add_do_reference(upper_ui.history_window.add_action(action))
+	undo_redo.commit_action()
 
 
 func select_all():
@@ -1914,12 +1924,12 @@ func _on_conductor_new_denominator(_denominator: int) -> void:
 	load_dividers()
 
 
-func set_note_type(note_type):
+func selected_note_type(note_type):
 	current_note_type = note_type
 
 
 func _on_note_type_window_close_requested() -> void:
-	%"Upper UI".get_node("%Window Button").get_popup().set_item_checked(2, false)
+	upper_ui.get_node("%Window Button").get_popup().set_item_checked(2, false)
 	SoundManager.tool_close_window.play()
 
 

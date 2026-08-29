@@ -105,7 +105,7 @@ func _ready() -> void:
 	metadata_window.connect(&"updated_starting_tempo", chart_editor._on_metadata_window_updated_starting_tempo)
 	metadata_window.connect(&"close_requested", chart_editor._on_metadata_window_close_requested)
 	
-	note_type_window.connect(&"selected_note_type", chart_editor.set_note_type)
+	note_type_window.connect(&"selected_note_type", chart_editor.selected_note_type)
 	note_type_window.connect(&"close_requested", chart_editor._on_note_type_window_close_requested)
 	
 	
@@ -394,10 +394,12 @@ func file_button_item_pressed(id):
 			new_file_popup_instance.connect("close_requested", chart_editor.close_popup)
 			SoundManager.tool_open_window.play()
 		
-		1: open_open_file_window()
+		1: # Open Song
+			open_open_file_window()
 		
-		2:
+		2: # Save Song
 			if ChartManager.song and ChartManager.chart:
+				SoundManager.tool_note_place.play()
 				chart_editor.save()
 		
 		7:

@@ -11,7 +11,7 @@ script = ExtResource("1_ixlu2")
 use_parent_material = true
 scale = Vector2(0.2, 0.2)
 sprite_frames = ExtResource("3_cik2r")
-animation = &"down_strum"
+animation = &"left_strum"
 offset = Vector2(1, 1)
 script = ExtResource("4_kjy2w")
 
