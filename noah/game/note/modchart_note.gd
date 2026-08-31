@@ -18,6 +18,8 @@ func _ready() -> void:
 	var tail_animation: StringName = animation + &"_tail"
 	if tail_animation and tail:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
+		if !tail.texture:
+			tail.texture = BACKUP_HOLD_TEXTURE
 	
 	var end_animation: StringName = animation + &"_end"
 	if end_animation and tail:

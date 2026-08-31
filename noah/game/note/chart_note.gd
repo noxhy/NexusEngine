@@ -1,7 +1,6 @@
 extends BasicNote
 class_name ChartNote
 
-
 @onready var area = $Area2D
 @onready var collision_shape = $Area2D/CollisionShape2D
 @onready var label = %"Special Note Label"
@@ -14,8 +13,8 @@ func _ready() -> void:
 	var tail_animation: StringName = animation + &"_tail"
 	if tail_animation:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
-	else:
-		tail.texture = load("uid://ds5jlynhtryxg")
+		if !tail.texture:
+			tail.texture = BACKUP_HOLD_TEXTURE
 	
 	if note_skin.pixel_texture: 
 		note.texture_filter = TEXTURE_FILTER_NEAREST
