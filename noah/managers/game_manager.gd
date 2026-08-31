@@ -143,11 +143,8 @@ func can_save_score() -> bool:
 	
 	if play_mode == PLAY_MODE.CHARTING:
 		return false
-		
-	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1):
-		return false
 	
-	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "scroll_speed_scale"), 1):
+	if !is_equal_approx(SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "song_speed"), 1):
 		return false
 	
 	return true
