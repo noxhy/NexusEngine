@@ -1768,11 +1768,14 @@ func paste() -> void:
 	
 	# TODO - Figure out how to make this work with UndoRedo
 	var offset: float = (song_position + start_offset) - clipboard.front()[0]
-	selected_notes = place_notes(clipboard)
-	update_selected_notes()
-	move_selection(offset, 0)
-	
-	SoundManager.tool_note_place.play()
+	undo_redo.create_action("Paste Note(s)")
+	undo_redo.add_do_method(self.set.bind(&"selected_notes", place_notes(clipboard)))
+	undo_redo.add_do_method(self.update_selected_notes)
+	undo_redo.add_do_method(move_selection.bind(offset, 0))
+	undo_redo.add_do_method(SoundManager.tool_note_place.play)
+	undo_redo.add_undo_method(remove_notes.bind(self.get.bind(&"selected_notes")))
+	undo_redo.add_undo_method(SoundManager.tool_note_remove.play)
+	undo_redo.commit_action()
 
 
 func delete_stacked_notes() -> void:

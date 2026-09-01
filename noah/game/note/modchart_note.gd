@@ -2,12 +2,6 @@ extends BasicNote
 ## This note type is worse for performance
 class_name ModChartNote
 
-var last_length: float
-var update_tail: Callable = func() -> void:
-	var line_length: float = length * scroll_speed * grid_size.y
-	tail.visible = true
-	tail.points = [Vector2.ZERO, Vector2(0, line_length)]
-
 # Applying Note Skin
 func _ready() -> void: 
 	note.sprite_frames = note_skin.notes_texture
@@ -47,8 +41,19 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta) -> void:
 	time_difference = (time - GameManager.conductor.offset) - GameManager.song_position
+
+
+func default_update():
+	if !holding:
+		position.y = PIXELS_PER_SECOND * time_difference * scroll_speed * scroll
+		var grid_scaler: float = PIXELS_PER_SECOND * GameManager.conductor.seconds_per_beat
+		grid_size.y = grid_scaler
+	else:
+		position.y = 0
 	
 	if length > 0:
-		update_tail.call()
+		var line_length: float = length * scroll_speed * grid_size.y
+		tail.visible = true
+		tail.points = [Vector2.ZERO, Vector2(0, line_length)]
 	else:
 		tail.visible = false
