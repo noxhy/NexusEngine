@@ -622,9 +622,16 @@ func load_chart(file: Chart, ghost: bool = false):
 	update_camera_song_position(true)
 
 ## Loads all the notes and waveforms for the next two waveforms.
-func load_section(time: float):
+## [br]The [code]forced[/code] parameter will determine if all visible notes on screen should be cleared and replaced.
+func load_section(time: float, forced: bool = false):
 	if not ChartManager.chart or ChartManager.chart.get_notes_data().is_empty():
 		return
+	
+	if forced:
+		get_tree().call_group(&"notes", &"queue_free")
+		note_nodes.clear()
+		get_tree().call_group(&"events", &"queue_free")
+		event_nodes.clear()
 	
 	var _range: float = conductor.seconds_per_beat * conductor.numerator * 2 / grid.zoom.y
 	var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time - _range)
@@ -838,6 +845,7 @@ sorted: bool = false, sort_index: int = -1) -> int:
 		current_visible_notes_R += 1
 	else:
 		if sorted:
+			print("placed note: ", sort_index)
 			var L: int = sort_index
 			if note_nodes.is_empty():
 				note_nodes.append(note_instance)
@@ -1766,14 +1774,15 @@ func paste() -> void:
 	if clipboard.is_empty():
 		return
 	
-	# TODO - Figure out how to make this work with UndoRedo
 	var offset: float = (song_position + start_offset) - clipboard.front()[0]
 	undo_redo.create_action("Paste Note(s)")
-	undo_redo.add_do_method(self.set.bind(&"selected_notes", place_notes(clipboard)))
-	undo_redo.add_do_method(self.update_selected_notes)
+	undo_redo.add_do_property(self, &"selected_notes", place_notes(clipboard))
+	undo_redo.add_do_method(update_selected_notes)
 	undo_redo.add_do_method(move_selection.bind(offset, 0))
 	undo_redo.add_do_method(SoundManager.tool_note_place.play)
-	undo_redo.add_undo_method(remove_notes.bind(self.get.bind(&"selected_notes")))
+	undo_redo.add_undo_property(ChartManager.chart, &"notes", ChartManager.chart.notes.duplicate(true))
+	undo_redo.add_undo_property(self, &"selected_notes", selected_notes.duplicate())
+	undo_redo.add_undo_method(load_section.bind(song_position, true))
 	undo_redo.add_undo_method(SoundManager.tool_note_remove.play)
 	undo_redo.commit_action()
 
