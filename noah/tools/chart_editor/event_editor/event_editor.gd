@@ -267,7 +267,7 @@ func view_button_item_pressed(id):
 
 
 ## Loads all the notes and waveforms for the next two waveforms.
-func load_section(time: float):
+func load_section(time: float, forced: bool = false):
 	if not ChartManager.chart or ChartManager.chart.get_events_data().is_empty():
 		return
 	
