@@ -48,7 +48,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdanimate/plugin.cfg", "res://addons/parallax2d_preview/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdanimate/plugin.cfg", "res://addons/parallax2d_preview/plugin.cfg", "res://addons/sparrow_to_spriteframes/plugin.cfg")
 
 [file_customization]
 
