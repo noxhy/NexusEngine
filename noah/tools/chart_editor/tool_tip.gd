@@ -33,6 +33,13 @@ func _process(delta: float) -> void:
 		size = get_minimum_size()
 	
 	position = get_global_mouse_position() + mouse_offset
+	
+	var edge: Vector2 = get_screen_position() + size
+	
+	if edge.x > 1280:
+		position.x -= size.x + mouse_offset.x
+	if edge.y > 720:
+		position.y -= size.y + mouse_offset.y
 
 func get_event_str() -> String:
 	
