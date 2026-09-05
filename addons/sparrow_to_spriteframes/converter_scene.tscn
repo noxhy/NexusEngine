@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://bss4x80bpvbt5"]
+
+[ext_resource type="Script" uid="uid://dry5onmdv3k6t" path="res://addons/sparrow_to_spriteframes/converter_scene.gd" id="1_o3bnk"]
+
+[node name="ConverterScene" type="Control" unique_id=1995655304]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_o3bnk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=283408567]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1459316407]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer/HBoxContainer" unique_id=1015230548]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=90254483]
+layout_mode = 2
+text = "Sparrow To SpriteFrames converter"
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=446787478]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1298257780]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/VBoxContainer/HBoxContainer3" unique_id=84642911]
+layout_mode = 2
+tooltip_text = "Saving as binary will provide better filesize at the cost of less easy direct manipulation"
+button_pressed = true
+text = "Save as Binary"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1255989321]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1421231863]
+layout_mode = 2
+text = "File:"
+
+[node name="xml text" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=984629668]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Provide the path to the \".png\" or \".xml\" of a given sparrow atlas"
+text = "res://"
+
+[node name="xml find file" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer" unique_id=895591037]
+layout_mode = 2
+text = "Find File"
+
+[node name="status label" type="Label" parent="VBoxContainer/VBoxContainer" unique_id=958791577]
+layout_mode = 2
+text = "Status: Awaiting response"
+
+[node name="spacer" type="Control" parent="VBoxContainer/VBoxContainer" unique_id=1839239473]
+visible = false
+custom_minimum_size = Vector2(0, 24.045)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Convert" type="Button" parent="VBoxContainer/VBoxContainer" unique_id=55066418]
+layout_mode = 2
+disabled = true
+text = "Convert"
+
+[node name="previewSprite" type="TextureRect" parent="VBoxContainer" unique_id=618335177]
+custom_maximum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch_mode = 4
+
+[node name="FileDialog" type="FileDialog" parent="." unique_id=2054571651]
+oversampling_override = 1.0
+title = "Open a File"
+size = Vector2i(1280, 720)
+mode_overrides_title = false
+file_mode = 0
+display_mode = 1
+root_subfolder = "res://assets/sprites"
+filters = PackedStringArray("*.png", "*.xml")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=609892548]
+
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer3/CheckBox" to="." method="_on_check_box_pressed"]
+[connection signal="text_changed" from="VBoxContainer/VBoxContainer/HBoxContainer/xml text" to="." method="_on_xml_text_text_changed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer/xml find file" to="FileDialog" method="popup_centered"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/Convert" to="." method="_on_convert_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
