@@ -36,13 +36,15 @@ func _ready() -> void:
 		tail.texture = note_skin.notes_texture.get_frame_texture(tail_animation, 0)
 		if !tail.texture:
 			tail.texture = BACKUP_HOLD_TEXTURE
-			printerr("(BasicNote (lane: %s)): Could not find animation (%s). Using fallback texture" % [lane, tail_animation])
+			printerr("(BasicNote (lane: %s)): could not find sustain animation (%s). Using fallback texture" % [lane, tail_animation])
 	
 	var end_animation: StringName = animation + &"_end"
 	if end:
 		end.texture = note_skin.notes_texture.get_frame_texture(end_animation, 0)
 		if end.texture:
 			end.size = end.texture.get_size()
+		else:
+			printerr("(BasicNote (lane: %s)): Could not find end animation (%s)." % [lane, tail_animation])
 	
 	note.offsets = note_skin.offsets
 	note.play(animation)

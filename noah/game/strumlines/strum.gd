@@ -151,6 +151,7 @@ func create_note(time: float, length: float, note_type: String, _tempo: float):
 	note_instance.scroll_speed = scroll_speed
 	note_instance.scroll = scroll
 	note_instance.tempo = _tempo
+	note_instance.lane = lane
 	
 	note_instance.direction = strum_name
 	note_type = Constants.NOTE_TYPES.get(note_type, "")
