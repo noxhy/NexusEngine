@@ -11,7 +11,7 @@ const BACKUP_HOLD_TEXTURE = preload("uid://ds5jlynhtryxg")
 @onready var end = null
 
 ## Callable for updating how the note handles its position and note length.
-var update_callable: Callable = default_update
+var update_callable: Callable
 var start_length: float = 0.0
 var time_difference: float = INF
 var on_screen: bool = false
@@ -71,7 +71,11 @@ func _process(delta) -> void:
 
 
 func update() -> void:
-	update_callable.call()
+	if update_callable:
+		update_callable.call()
+		return
+	else:
+		default_update()
 
 
 func default_update() -> void:
