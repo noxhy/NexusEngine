@@ -269,8 +269,8 @@ func bump(strength: Variant) -> void:
 ## [br][br]This method abides by the [member position_smoothing] and [member rotation_smoothing] settings.
 ## [br][br]Check [method tween_to_marker] for eased movements
 func go_to_marker(marker: Variant) -> void:
-	if _marker_tween:
-		_marker_tween.kill()
+	if _position_tween:
+		_position_tween.kill()
 		_reapply_smoothing_settings()
 	
 	position = marker.global_position
@@ -278,7 +278,7 @@ func go_to_marker(marker: Variant) -> void:
 
 var _last_position_smoothing: bool = true
 var _last_rotation_smoothing: bool = true
-var _marker_tween: Tween = null
+var _position_tween: Tween = null
 
 func _reapply_smoothing_settings():
 	position_smoothing = _last_position_smoothing
@@ -288,8 +288,8 @@ func _reapply_smoothing_settings():
 ## [br][br]See [code]Global.string_to_ease[/code] for ease options
 ## [br][br]This method ignores [member position_smoothing] and [member rotation_smoothing] 
 func tween_to_marker(marker: Variant, duration: float, ease_type: String = '') -> void:
-	if _marker_tween:
-		_marker_tween.kill()
+	if _position_tween:
+		_position_tween.kill()
 		_reapply_smoothing_settings()
 	
 	_last_position_smoothing = position_smoothing
@@ -300,16 +300,48 @@ func tween_to_marker(marker: Variant, duration: float, ease_type: String = '') -
 	
 	var ease_info: Array = Global.string_to_ease(ease_type)
 	
-	_marker_tween = create_tween().set_trans(ease_info[0]).set_ease(ease_info[1])
+	_position_tween = create_tween().set_trans(ease_info[0]).set_ease(ease_info[1]).set_parallel()
 	
-	_marker_tween.tween_property(self, 'position', marker.global_position, duration)
-	_marker_tween.tween_property(self, 'rotation', marker.global_rotation, duration)
-	_marker_tween.finished.connect(_reapply_smoothing_settings)
+	_position_tween.tween_property(self, 'position', marker.global_position, duration)
+	_position_tween.tween_property(self, 'rotation', marker.global_rotation, duration)
+	_position_tween.finished.connect(_reapply_smoothing_settings)
+
+func tween_to(position: Variant, rotation: float, duration: float, ease_type: String = '') -> void:
+	
+	if not position is Vector2 or not position is Vector3:
+		printerr("(CameraController): method (tween_to) was not provided a Vector2/Vector3. Cancelling tween")
+		return
+	
+	if parent_2d and position is Vector3:
+		position = Vector2(position.x, position.y)
+	
+	if parent_3d and position is Vector2:
+		position = Vector3(position.x, position.y, 0.0)
+		printerr("(CameraController): method (tween_to) was provided a Vector2 in while set to a 3d camera.")
+	
+	if _position_tween:
+		_position_tween.kill()
+		_reapply_smoothing_settings()
+	
+	_last_position_smoothing = position_smoothing
+	_last_rotation_smoothing = rotation_smoothing
+	
+	position_smoothing = false
+	rotation_smoothing = false
+	
+	
+	var ease_info: Array = Global.string_to_ease(ease_type)
+	
+	_position_tween = create_tween().set_trans(ease_info[0]).set_ease(ease_info[1]).set_parallel()
+	
+	_position_tween.tween_property(self, 'position', position, duration)
+	_position_tween.tween_property(self, 'rotation', rotation, duration)
+	_position_tween.finished.connect(_reapply_smoothing_settings)
 
 var _zoom_tween: Tween = null
 ## Tweens the camera's [member zoom] to [code]new_zoom[/code] in the span of [code]duration[/code]
 ## [br][br]See [code]Global.string_to_ease[/code] for ease options
-func tween_zoom(new_zoom: Vector2, duration: float, ease_type: String = ''):
+func tween_zoom(new_zoom: Vector2, duration: float, ease_type: String = '') -> void:
 	if _zoom_tween:
 		_zoom_tween.kill()
 	
