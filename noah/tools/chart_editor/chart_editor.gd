@@ -632,6 +632,9 @@ func load_section(time: float, forced: bool = false):
 		note_nodes.clear()
 		get_tree().call_group(&"events", &"queue_free")
 		event_nodes.clear()
+		
+		current_visible_notes_L = -1
+		current_visible_notes_R = -1
 	
 	var _range: float = conductor.seconds_per_beat * conductor.numerator * 2 / grid.zoom.y
 	var L: int = bsearch_left_range(ChartManager.chart.get_notes_data(), time - _range)
@@ -845,7 +848,6 @@ sorted: bool = false, sort_index: int = -1) -> int:
 		current_visible_notes_R += 1
 	else:
 		if sorted:
-			print("placed note: ", sort_index)
 			var L: int = sort_index
 			if note_nodes.is_empty():
 				note_nodes.append(note_instance)
@@ -1783,6 +1785,7 @@ func paste() -> void:
 	undo_redo.add_undo_property(ChartManager.chart, &"notes", ChartManager.chart.notes.duplicate(true))
 	undo_redo.add_undo_property(self, &"selected_notes", selected_notes.duplicate())
 	undo_redo.add_undo_method(load_section.bind(song_position, true))
+	undo_redo.add_undo_method(update_selected_notes)
 	undo_redo.add_undo_method(SoundManager.tool_note_remove.play)
 	undo_redo.commit_action()
 
