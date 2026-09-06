@@ -636,6 +636,10 @@ func _on_event_parameters_about_to_popup() -> void:
 		%"Place Event".text = "Edit Event"
 	else:
 		%"Place Event".text = "Place Event"
+		
+		
+	
+	update_desc(Constants.EVENT_DATA[current_event].get("description", ""))
 	
 	%"Event Name".text = current_event.capitalize()
 	var parameter_names: Array = Constants.EVENT_DATA[current_event]["parameters"]
@@ -699,10 +703,15 @@ func _on_window_about_to_popup() -> void:
 	
 	for event in events:
 		%"Event Option".add_item(event)
-		var icon: String = Constants.EVENT_DATA.get(event, {}).get("texture", "")
+		var icon: String = Constants.EVENT_DATA.get(event, {}).get("texture", "res://addons/at-icons/node/diamond_shape.svg")
 		if ResourceLoader.exists(icon):
 			%"Event Option".set_item_icon(%"Event Option".item_count - 1, load(icon))
 			%"Event Option".get_popup().set_item_icon_max_width(%"Event Option".item_count - 1, 32)
+			
+	
+	var ev = %"Event Option".get_item_text(%"Event Option".get_selected_id())
+	update_desc(Constants.EVENT_DATA[ev].get("description", ""))
+
 
 
 func _on_add_event_track_pressed() -> void:
@@ -717,6 +726,13 @@ func _on_add_event_track_pressed() -> void:
 	close_popup()
 	load_section(song_position)
 
+func update_desc(_str: String):
+	%"Desc Label".text = _str
+	%"Event Desc Label".text = _str
+	
+	#%"Desc Label".visible = !_str.is_empty()
+	#%"Event Desc Label".visible = !_str.is_empty()
+	
 
 func _on_add_track_window_close_requested() -> void:
 	%"Add Track Window".hide()
@@ -794,3 +810,9 @@ func get_corrected_mouse_position() -> Vector2:
 
 func brush_note_type() -> void:
 	return
+
+
+func _on_event_option_item_selected(index: int) -> void:
+	var event: String = %"Event Option".get_item_text(%"Event Option".get_selected_id())
+	var desc = Constants.EVENT_DATA[event].get('description', "")
+	update_desc(desc)

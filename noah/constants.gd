@@ -6,18 +6,22 @@ var EVENT_EDITOR_SCENE: String = "uid://cq6xqods6w7lw"
 var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 #region Event Data
 
+# TODO: add descriptions
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
 		"parameters": ["Position Index", "Duration", "Easing Type"],
-		"texture": "res://addons/at-icons/animation/film_camera.svg"
+		"texture": "res://addons/at-icons/animation/film_camera.svg",
+		"description": "Moves a camera towards a marker" # TODO: make these better (adding shitty rn to get a point across)
 	},
 	"play_animation": {
 		"parameters": ["Group Name", "Animation ID", "(Optional) Duration"],
-		"texture": "res://addons/at-icons/animation/film.svg"
+		"texture": "res://addons/at-icons/animation/film.svg",
+		"description": "Plays a animation onto a character group" # TODO: make these better (adding shitty rn to get a point across)
 	},
 	"camera_bop": {
 		"parameters": ["Camera Bop Amount", "UI Bop Amount"],
-		"texture": "res://addons/at-icons/animation/photo_camera.svg"
+		"texture": "res://addons/at-icons/animation/photo_camera.svg",
+		"description": "Bumps the camera" # TODO: make these better (adding shitty rn to get a point across)
 	},
 	"camera_zoom": {
 		"parameters": ["Zoom", "Duration", "Easing Type"],

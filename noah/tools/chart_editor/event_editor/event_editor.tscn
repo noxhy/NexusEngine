@@ -122,6 +122,7 @@ text = "+"
 
 [node name="Event Creator" type="PopupPanel" parent="UI" unique_id=1125385941 groups=["windows"]]
 unique_name_in_owner = true
+oversampling_override = 1.0
 title = "Event Creator"
 initial_position = 1
 size = Vector2i(480, 240)
@@ -147,6 +148,10 @@ text = "Event Name"
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Desc Label" type="Label" parent="UI/Event Creator/VBoxContainer" unique_id=1302248057]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Event Parameters" type="VBoxContainer" parent="UI/Event Creator/VBoxContainer" unique_id=1517675429]
 unique_name_in_owner = true
 layout_mode = 2
@@ -167,7 +172,7 @@ transparent_bg = true
 oversampling_override = 1.0
 title = "Add Event Track"
 initial_position = 4
-size = Vector2i(320, 80)
+size = Vector2i(320, 120)
 visible = false
 transparent = true
 theme = ExtResource("15_ue8jl")
@@ -182,8 +187,12 @@ grow_vertical = 2
 [node name="Event Option" type="OptionButton" parent="UI/Add Track Window/VBoxContainer" unique_id=424543112]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 2
+size_flags_vertical = 0
 expand_icon = true
+
+[node name="Event Desc Label" type="Label" parent="UI/Add Track Window/VBoxContainer" unique_id=310738009]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="UI/Add Track Window/VBoxContainer" unique_id=1356450858]
 layout_mode = 2
@@ -249,4 +258,5 @@ metadata/_edit_lock_ = true
 [connection signal="close_requested" from="UI/Add Track Window" to="." method="close_popup"]
 [connection signal="close_requested" from="UI/Add Track Window" to="." method="_on_add_track_window_close_requested"]
 [connection signal="gui_focus_changed" from="UI/Add Track Window" to="." method="_on_gui_focus_changed"]
+[connection signal="item_selected" from="UI/Add Track Window/VBoxContainer/Event Option" to="." method="_on_event_option_item_selected"]
 [connection signal="pressed" from="UI/Add Track Window/VBoxContainer/Add Event Track" to="." method="_on_add_event_track_pressed"]
