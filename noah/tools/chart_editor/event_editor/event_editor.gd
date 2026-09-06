@@ -816,3 +816,15 @@ func _on_event_option_item_selected(index: int) -> void:
 	var event: String = %"Event Option".get_item_text(%"Event Option".get_selected_id())
 	var desc = Constants.EVENT_DATA[event].get('description', "")
 	update_desc(desc)
+
+
+func is_mouse_over_any_ui() -> bool:
+	var ret = super()
+	
+	var mouse = get_corrected_mouse_position()
+	
+	for button in %"Event Tracks".get_children():
+		if Rect2i(button.get_screen_position(), button.size).has_point(mouse):
+			return true
+	
+	return ret

@@ -393,18 +393,20 @@ func is_mouse_over_any_ui() -> bool:
 	if is_point_in_any_window(mouse):
 		return true
 	
-	if Rect2i(upper_ui.global_position + upper_ui.get_parent().offset, upper_ui.size).has_point(mouse):
+	if Rect2i(upper_ui.get_screen_position(), upper_ui.size).has_point(mouse):
 		return true
 	
-	if Rect2i(lower_ui.global_position + lower_ui.get_parent().offset, lower_ui.size).has_point(mouse):
+	if Rect2i(lower_ui.get_screen_position(), lower_ui.size).has_point(mouse):
+		return true
+	
+	if Rect2i(song_slider.get_screen_position(), song_slider.size).has_point(mouse):
 		return true
 	
 	if minimap and Rect2i(minimap.global_position + minimap.get_parent().offset, minimap.size).has_point(mouse):
 		return true
 	
 	for button:HFlowContainer in get_tree().get_nodes_in_group(&"strum_buttons"):
-		#they sahre the same parent as lower ui so this is fine
-		if Rect2i(button.global_position + lower_ui.get_parent().offset, button.size).has_point(mouse):
+		if Rect2i(button.get_screen_position(), button.size).has_point(mouse):
 			return true
 	
 	return false
