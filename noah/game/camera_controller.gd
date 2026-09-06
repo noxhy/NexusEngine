@@ -308,7 +308,7 @@ func tween_to_marker(marker: Variant, duration: float, ease_type: String = '') -
 
 func tween_to(_position: Variant, _rotation: float, duration: float, ease_type: String = '') -> void:
 	if not _position is Vector2 or not _position is Vector3:
-		printerr("(CameraController): method (tween_to) was not provided a Vector2/Vector3. Cancelling tween")
+		printerr("(CameraController): method (tween_to) was not provided a Vector2/Vector3. Aborting func")
 		return
 	
 	if parent_2d and _position is Vector3:
