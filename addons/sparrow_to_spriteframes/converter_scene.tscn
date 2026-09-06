@@ -92,7 +92,6 @@ size = Vector2i(1280, 720)
 mode_overrides_title = false
 file_mode = 0
 display_mode = 1
-root_subfolder = "res://assets/sprites"
 filters = PackedStringArray("*.png", "*.xml")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=609892548]
