@@ -142,6 +142,7 @@ func attempt_conversion():
 	frames = null
 	_running = false
 	check_and_warn()
+	set_active(true)
 	update_status("Finished Conversion")
 
 func _on_file_dialog_file_selected(path: String) -> void:
@@ -181,7 +182,7 @@ func check_and_warn():
 			update_status("File exists at save path already. converting will override (%s)" % save_path)
 		else:
 			update_status("Ready to convert")
-	set_active(can_convert)
+	convert.disabled = not can_convert
 
 func has_both_xml_and_png() -> bool:
 	var stripped = load_text.text.trim_suffix('.png').trim_suffix('.xml')
@@ -198,6 +199,7 @@ func update_status(txt: String = 'Awaiting response'):
 
 func _on_check_box_pressed() -> void:
 	check_and_warn()
+	
 
 func set_active(v: bool):
 	convert.disabled = not v
