@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cw85perbwjqqy"]
 
-[ext_resource type="Script" uid="uid://disrmsl28koee" path="res://noah/menus/options/offset_calibrator.gd" id="1_to22u"]
+[ext_resource type="Script" uid="uid://bkmhf14hhpfal" path="res://noah/menus/options/offset_calibrator.gd" id="1_to22u"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://noah/conductor.gd" id="3_wcm4s"]
 [ext_resource type="FontFile" uid="uid://8cxhkah8id6n" path="res://noah/assets/fonts/tertiary_font.ttf" id="8_48d4v"]
-[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="9_0a7dc"]
+[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/genericBG.png" id="9_0a7dc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3110b"]
 font = ExtResource("8_48d4v")

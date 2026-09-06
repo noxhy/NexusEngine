@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0bn2mll0jrpd"
-path="res://.godot/imported/play_animation.png-a8dbaa5d652d9f75a45d5b27babbf8c2.ctex"
+uid="uid://cdyobnrt3rnml"
+path="res://.godot/imported/scroll_speed.png-2a6dc7ddecdb8c0e75c10d6d9b9874fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/events/play_animation.png"
-dest_files=["res://.godot/imported/play_animation.png-a8dbaa5d652d9f75a45d5b27babbf8c2.ctex"]
+source_file="res://noah/tools/chart_editor/events/scroll_speed.png"
+dest_files=["res://.godot/imported/scroll_speed.png-2a6dc7ddecdb8c0e75c10d6d9b9874fa.ctex"]
 
 [params]
 

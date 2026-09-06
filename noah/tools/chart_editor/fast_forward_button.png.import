@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpb5afc48uqvb"
-path="res://.godot/imported/restart_button.png-2a5c692d4d6c165df8bcfc1b2bf6ec5d.ctex"
+uid="uid://hf58qhc23n5c"
+path="res://.godot/imported/fast_forward_button.png-47bb892d14546269649bb80a300b819b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/restart_button.png"
-dest_files=["res://.godot/imported/restart_button.png-2a5c692d4d6c165df8bcfc1b2bf6ec5d.ctex"]
+source_file="res://noah/tools/chart_editor/fast_forward_button.png"
+dest_files=["res://.godot/imported/fast_forward_button.png-47bb892d14546269649bb80a300b819b.ctex"]
 
 [params]
 

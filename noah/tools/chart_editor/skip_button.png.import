@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hf58qhc23n5c"
-path="res://.godot/imported/fast_forward_button.png-1893f82dc08bf36542bf1afdeda42c05.ctex"
+uid="uid://dwtgyv6xf866j"
+path="res://.godot/imported/skip_button.png-b40f58f066b532e095161a57161ced0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/fast_forward_button.png"
-dest_files=["res://.godot/imported/fast_forward_button.png-1893f82dc08bf36542bf1afdeda42c05.ctex"]
+source_file="res://noah/tools/chart_editor/skip_button.png"
+dest_files=["res://.godot/imported/skip_button.png-b40f58f066b532e095161a57161ced0e.ctex"]
 
 [params]
 

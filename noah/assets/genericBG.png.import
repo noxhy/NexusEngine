@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwp1pd1s3xmka"
-path="res://.godot/imported/comment.png-29ab9db1549e8bcfef4684ef0e215a7b.ctex"
+uid="uid://o8cl6odqirwp"
+path="res://.godot/imported/genericBG.png-6f5150cd6890ebe74b2058fe72c707ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/events/comment.png"
-dest_files=["res://.godot/imported/comment.png-29ab9db1549e8bcfef4684ef0e215a7b.ctex"]
+source_file="res://noah/assets/genericBG.png"
+dest_files=["res://.godot/imported/genericBG.png-6f5150cd6890ebe74b2058fe72c707ab.ctex"]
 
 [params]
 

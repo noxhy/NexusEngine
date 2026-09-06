@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bs2p6h6sokqf0"
-path="res://.godot/imported/camera_zoom.png-074605108f10e72dddc84188531b213e.ctex"
+uid="uid://d3ndijkbdd260"
+path="res://.godot/imported/event.png-056a9438b5c865f331e672b93f30e466.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/events/camera_zoom.png"
-dest_files=["res://.godot/imported/camera_zoom.png-074605108f10e72dddc84188531b213e.ctex"]
+source_file="res://noah/tools/chart_editor/events/event.png"
+dest_files=["res://.godot/imported/event.png-056a9438b5c865f331e672b93f30e466.ctex"]
 
 [params]
 

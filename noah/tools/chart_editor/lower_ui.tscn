@@ -2,11 +2,11 @@
 
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_ylsds"]
 [ext_resource type="Script" uid="uid://ckp4s4km6xmb7" path="res://noah/tools/chart_editor/lower_ui.gd" id="2_1ni40"]
-[ext_resource type="Texture2D" uid="uid://dpb5afc48uqvb" path="res://noah/assets/images/menus/chart_editor/restart_button.png" id="2_yqqn8"]
-[ext_resource type="Texture2D" uid="uid://c7ka0o15iv6a3" path="res://noah/assets/images/menus/chart_editor/rewind_button.png" id="3_mcg17"]
-[ext_resource type="Texture2D" uid="uid://byl3boevtc02p" path="res://noah/assets/images/menus/chart_editor/play_button.png" id="4_i5g03"]
-[ext_resource type="Texture2D" uid="uid://hf58qhc23n5c" path="res://noah/assets/images/menus/chart_editor/fast_forward_button.png" id="5_8je4r"]
-[ext_resource type="Texture2D" uid="uid://dwtgyv6xf866j" path="res://noah/assets/images/menus/chart_editor/skip_button.png" id="6_hdy24"]
+[ext_resource type="Texture2D" uid="uid://dpb5afc48uqvb" path="res://noah/tools/chart_editor/restart_button.png" id="2_yqqn8"]
+[ext_resource type="Texture2D" uid="uid://c7ka0o15iv6a3" path="res://noah/tools/chart_editor/rewind_button.png" id="3_mcg17"]
+[ext_resource type="Texture2D" uid="uid://byl3boevtc02p" path="res://noah/tools/chart_editor/play_button.png" id="4_i5g03"]
+[ext_resource type="Texture2D" uid="uid://hf58qhc23n5c" path="res://noah/tools/chart_editor/fast_forward_button.png" id="5_8je4r"]
+[ext_resource type="Texture2D" uid="uid://dwtgyv6xf866j" path="res://noah/tools/chart_editor/skip_button.png" id="6_hdy24"]
 
 [node name="Lower UI" type="HBoxContainer" unique_id=1056915829]
 clip_children = 1

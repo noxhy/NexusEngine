@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3ndijkbdd260"
-path="res://.godot/imported/event.png-eb1019b5ed948d4e248a40bcab381d9e.ctex"
+uid="uid://dpb5afc48uqvb"
+path="res://.godot/imported/restart_button.png-8c615d09706bd6f32d093a698fcbfb2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/events/event.png"
-dest_files=["res://.godot/imported/event.png-eb1019b5ed948d4e248a40bcab381d9e.ctex"]
+source_file="res://noah/tools/chart_editor/restart_button.png"
+dest_files=["res://.godot/imported/restart_button.png-8c615d09706bd6f32d093a698fcbfb2e.ctex"]
 
 [params]
 

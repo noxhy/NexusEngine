@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://da6pn1kq8iao0"
-path="res://.godot/imported/camera_shake.png-456614768292fabd60cfed0e0b082b7c.ctex"
+uid="uid://c1mgxe0dqdbgh"
+path="res://.godot/imported/pause_button.png-bdfe47edb511afc0bf956cdf3cbe1401.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/events/camera_shake.png"
-dest_files=["res://.godot/imported/camera_shake.png-456614768292fabd60cfed0e0b082b7c.ctex"]
+source_file="res://noah/tools/chart_editor/pause_button.png"
+dest_files=["res://.godot/imported/pause_button.png-bdfe47edb511afc0bf956cdf3cbe1401.ctex"]
 
 [params]
 

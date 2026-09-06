@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crpue80aij4bq"
-path="res://.godot/imported/menuDesat.png-82731a8f4011f8a477190ee0f5b53a94.ctex"
+uid="uid://cwck3e2gsfjr2"
+path="res://.godot/imported/tile.png-75bacc0eecc0bcea0c59cb1b4315c70d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/menuDesat.png"
-dest_files=["res://.godot/imported/menuDesat.png-82731a8f4011f8a477190ee0f5b53a94.ctex"]
+source_file="res://noah/tools/chart_editor/tile.png"
+dest_files=["res://.godot/imported/tile.png-75bacc0eecc0bcea0c59cb1b4315c70d.ctex"]
 
 [params]
 

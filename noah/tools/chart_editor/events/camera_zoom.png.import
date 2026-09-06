@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwtgyv6xf866j"
-path="res://.godot/imported/skip_button.png-25919a8487f85b7f40fd4c5336f5da61.ctex"
+uid="uid://bs2p6h6sokqf0"
+path="res://.godot/imported/camera_zoom.png-db16a4059b838a1b3ca29ec2e62ead1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/skip_button.png"
-dest_files=["res://.godot/imported/skip_button.png-25919a8487f85b7f40fd4c5336f5da61.ctex"]
+source_file="res://noah/tools/chart_editor/events/camera_zoom.png"
+dest_files=["res://.godot/imported/camera_zoom.png-db16a4059b838a1b3ca29ec2e62ead1d.ctex"]
 
 [params]
 

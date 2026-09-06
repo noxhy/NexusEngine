@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7ka0o15iv6a3"
-path="res://.godot/imported/rewind_button.png-dfec6edf12729b38275c6a6ff293bf97.ctex"
+uid="uid://byl3boevtc02p"
+path="res://.godot/imported/play_button.png-e225350e6f11a556d3d85e64169e8856.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/rewind_button.png"
-dest_files=["res://.godot/imported/rewind_button.png-dfec6edf12729b38275c6a6ff293bf97.ctex"]
+source_file="res://noah/tools/chart_editor/play_button.png"
+dest_files=["res://.godot/imported/play_button.png-e225350e6f11a556d3d85e64169e8856.ctex"]
 
 [params]
 

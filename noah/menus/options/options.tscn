@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://be5mnc8yifhii" path="res://noah/menus/options/options.gd" id="1_bb4y4"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://noah/conductor.gd" id="2_n8o6u"]
-[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="5_bb4y4"]
+[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/genericBG.png" id="5_bb4y4"]
 
 [node name="Options" type="Node2D" unique_id=821166048]
 process_mode = 1

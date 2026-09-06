@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qe3r1k3apxbl"
-path="res://.godot/imported/camera_bop.png-1848f5874897b3d0fc9f6b2ccea573e8.ctex"
+uid="uid://d0bn2mll0jrpd"
+path="res://.godot/imported/play_animation.png-cf3b85305b17427b56556bffce04541e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://noah/assets/images/menus/chart_editor/events/camera_bop.png"
-dest_files=["res://.godot/imported/camera_bop.png-1848f5874897b3d0fc9f6b2ccea573e8.ctex"]
+source_file="res://noah/tools/chart_editor/events/play_animation.png"
+dest_files=["res://.godot/imported/play_animation.png-cf3b85305b17427b56556bffce04541e.ctex"]
 
 [params]
 

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b6b2d2kloq60j" path="res://noah/tools/chart_editor/upper_ui.tscn" id="6_ud782"]
 [ext_resource type="PackedScene" uid="uid://dmjgk2qf3nl2i" path="res://noah/tools/chart_editor/grid.tscn" id="14_srmuw"]
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="15_ue8jl"]
-[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/images/menus/genericBG.png" id="19_5evum"]
+[ext_resource type="Texture2D" uid="uid://o8cl6odqirwp" path="res://noah/assets/genericBG.png" id="19_5evum"]
 [ext_resource type="Script" uid="uid://mrj70uiannhy" path="res://noah/tools/chart_editor/tool_tip.gd" id="19_64086"]
 [ext_resource type="Material" uid="uid://b87ibevalpejo" path="res://noah/shaders/generic_big_mat.tres" id="19_ea7xq"]
 
