@@ -1063,7 +1063,7 @@ text = "Icon Color"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-selected = 2
+selected = 0
 fit_to_longest_item = false
 item_count = 6
 popup/item_0/text = "Node"
@@ -1110,6 +1110,7 @@ text = "2× Scale"
 [node name="ScaleToggle" type="CheckButton" parent="MainContainer/Options/Scale" unique_id=1498505067]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "On"
 
 [node name="SearchBar" type="LineEdit" parent="MainContainer" unique_id=568912931]
