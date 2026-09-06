@@ -1,5 +1,6 @@
 @tool
-@icon("uid://cla6ukobfemg2")
+@icon("res://addons/at-icons/node2d/font.svg")
+
 extends Node2D
 class_name Alphabet
 

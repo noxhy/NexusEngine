@@ -1,3 +1,5 @@
+@icon("res://addons/at-icons/node/box.svg")
+
 extends Resource
 class_name Mod
 

@@ -1,4 +1,5 @@
-@icon("uid://5rxblw3n5d5")
+@icon("res://addons/at-icons/node/file_note.svg")
+
 extends Resource
 class_name Song
 ## The metadata for a Song. Contains all necessary files for a song to be loaded via playstate

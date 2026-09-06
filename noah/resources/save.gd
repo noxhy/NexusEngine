@@ -1,3 +1,5 @@
+@icon("res://addons/at-icons/node/floppy_disk.svg")
+
 extends Resource
 class_name Save
 

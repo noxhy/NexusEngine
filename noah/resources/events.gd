@@ -1,4 +1,5 @@
-@icon("uid://c2la537hogg50")
+@icon("res://addons/at-icons/node/file_plus.svg")
+
 extends Resource
 class_name ChartEvents
 

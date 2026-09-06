@@ -1,4 +1,5 @@
-@icon("uid://bggbycx6telfb")
+@icon("res://addons/at-icons/node/file_note_double.svg")
+
 extends Resource
 class_name Album
 

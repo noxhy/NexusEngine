@@ -1,4 +1,5 @@
-@icon("uid://b1yfbu2p6scl0")
+@icon("res://addons/at-icons/node/file_video.svg")
+
 extends Resource
 class_name Week
 

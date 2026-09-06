@@ -1,4 +1,5 @@
-@icon("uid://ca6uggp4ff1q2")
+@icon("res://addons/at-icons/node/human.svg")
+
 @tool
 extends Node
 ## The main class for characters in a song, such as the player, enemy, or metronome.

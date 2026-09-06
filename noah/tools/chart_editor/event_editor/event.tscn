@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://n6k15grja0uh"]
 
 [ext_resource type="Script" uid="uid://on7o5p3nu52t" path="res://noah/tools/chart_editor/event_editor/event.gd" id="1_c5tis"]
-[ext_resource type="Texture2D" uid="uid://d3ndijkbdd260" path="res://noah/tools/chart_editor/events/event.png" id="2_fth7j"]
+[ext_resource type="Texture2D" uid="uid://btd2ty0asetdb" path="res://addons/at-icons/node/diamond_shape.svg" id="2_ljrkn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c5tis"]
 size = Vector2(16.000006, 16.000006)
@@ -10,7 +10,7 @@ size = Vector2(16.000006, 16.000006)
 script = ExtResource("1_c5tis")
 
 [node name="Sprite2D" type="TextureRect" parent="." unique_id=921164148]
-texture = ExtResource("2_fth7j")
+texture = ExtResource("2_ljrkn")
 expand_mode = 4
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=666586302]

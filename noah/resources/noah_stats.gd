@@ -1,3 +1,5 @@
+@icon("res://addons/at-icons/node/bar_graph.svg")
+
 extends Resource
 class_name NoahStats
 ## Handles values defining the players gameplay.

@@ -1,3 +1,5 @@
+@icon("res://addons/at-icons/node/file_cog.svg")
+
 extends Resource
 class_name SongDifficultyData
 ## Resource containing the paths to files necessary for a chart. Used by [Song] to define difficulty file locations

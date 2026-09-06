@@ -9,11 +9,11 @@ var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
 		"parameters": ["Position Index", "Duration", "Easing Type"],
-		"texture": "uid://b4ve504nau36k"
+		"texture": "res://addons/at-icons/node/film_camera.svg"
 	},
 	"play_animation": {
 		"parameters": ["Group Name", "Animation ID", "(Optional) Duration"],
-		"texture": "uid://d0bn2mll0jrpd"
+		"texture": "res://addons/at-icons/animation/play.svg"
 	},
 	"camera_bop": {
 		"parameters": ["Camera Bop Amount", "UI Bop Amount"],
