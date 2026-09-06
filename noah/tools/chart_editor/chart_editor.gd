@@ -1283,7 +1283,7 @@ func _input(event: InputEvent) -> void:
 			song_position += conductor.seconds_per_beat * event.delta.y
 			song_position = snapped(song_position - conductor.offset, conductor.seconds_per_beat) + conductor.offset
 			song_position = clamp(song_position, start_offset, instrumental.stream.get_length())
-			song_slider.value = song_position
+			song_slider.set_value_no_signal(song_position)
 
 ## Edit button item pressed
 func edit_button_item_pressed(id):
