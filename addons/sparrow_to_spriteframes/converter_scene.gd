@@ -159,6 +159,7 @@ func check_and_warn():
 		update_status("Converting...")
 		set_active(false)
 		return
+	
 	var can_convert = FileAccess.file_exists(load_text.text)
 	if not can_convert:
 		update_status("Cannot find file at given path")

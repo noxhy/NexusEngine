@@ -54,13 +54,12 @@ func get_time_signature_data() -> Dictionary:
 	return chart_data.get("time_signatures", time_signatures)
 
 func merge_events_into_this(_events: ChartEvents):
-	var chart_events = get_events_data()
+	var chart_events: Array = get_events_data()
 	
 	chart_events.append_array(_events.data)
 	
-	var ret_events = [] 
+	var ret_events: Array = [] 
 	var push = func(ev:Variant): #clear out dupes
-		
 		for event in ret_events:
 			if is_equal_approx(event[0], ev[0]) \
 			and event[1] == ev[1] \
@@ -74,7 +73,7 @@ func merge_events_into_this(_events: ChartEvents):
 	
 	ret_events.sort_custom(sort_notes)
 	
-	chart_data.set('_events', ret_events)
+	events = ret_events
 
 ## Returns the tempo at a given time
 func get_tempo_at(time: float) -> float:

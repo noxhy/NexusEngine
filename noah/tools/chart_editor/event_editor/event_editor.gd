@@ -552,7 +552,7 @@ func remove_notes(events: Array):
 
 func cut() -> void:
 	if selected_notes.size() > 0:
-		undo_redo.create_action("Cut Note(s)")
+		undo_redo.create_action("Cut Event(s)")
 		var temp: Array = []
 		for i in selected_notes:
 			var event = ChartManager.chart.get_events_data()[i]
@@ -572,7 +572,7 @@ func cut() -> void:
 
 func delete() -> void:
 	if selected_notes.size() > 0:
-		undo_redo.create_action("Cut Note(s)")
+		undo_redo.create_action("Delete Event(s)")
 		var temp: Array = []
 		for i in selected_notes:
 			var event = ChartManager.chart.get_events_data()[i]

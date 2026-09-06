@@ -87,19 +87,12 @@ func get_scroll_speed(lane: int) -> float:
 
 
 func create_note(time: float, lane: int, length: float, note_type: String, tempo: float) -> void:
-	strums[lane].create_note(time, length, note_type, tempo)
+	get_strumline(lane).create_note(time, length, note_type, tempo)
+
 
 func create_splash(lane: int, animation_name: StringName) -> void:
 	var anim_to_play: StringName = animation_name + &"_splash"
 	if animation_name.is_empty():
-		anim_to_play = strums[lane].strum_name + &"_splash"
+		anim_to_play = get_strumline(lane).strum_name + &"_splash"
 	
-	strums[lane].create_splash(anim_to_play)
-
-# Visual Util
-func glow_strum(lane: int) -> void:
-	strums[lane].glow_strum()
-
-
-func press_strum(lane: int) -> void:
-	strums[lane].press_strum()
+	get_strumline(lane).create_splash(anim_to_play)

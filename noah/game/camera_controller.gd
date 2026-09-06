@@ -307,7 +307,6 @@ func tween_to_marker(marker: Variant, duration: float, ease_type: String = '') -
 	_position_tween.finished.connect(_reapply_smoothing_settings)
 
 func tween_to(_position: Variant, _rotation: float, duration: float, ease_type: String = '') -> void:
-	
 	if not _position is Vector2 or not _position is Vector3:
 		printerr("(CameraController): method (tween_to) was not provided a Vector2/Vector3. Cancelling tween")
 		return
