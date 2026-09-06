@@ -13,6 +13,7 @@ script = ExtResource("1_pm5h1")
 position = Vector2(288, -256)
 rotation = -0.00021224
 scale = Vector2(0.85, 0.85)
+can_press = true
 can_splash = true
 
 [node name="Enemy Strum" parent="." unique_id=2070035072 instance=ExtResource("2_58g8k")]
@@ -20,7 +21,6 @@ position = Vector2(-352, -256)
 rotation = -0.00021224
 scale = Vector2(0.85, 0.85)
 id = 1
-can_press = false
 auto_play = true
 enemy_slot = true
 
