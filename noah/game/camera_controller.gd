@@ -306,17 +306,17 @@ func tween_to_marker(marker: Variant, duration: float, ease_type: String = '') -
 	_position_tween.tween_property(self, 'rotation', marker.global_rotation, duration)
 	_position_tween.finished.connect(_reapply_smoothing_settings)
 
-func tween_to(position: Variant, rotation: float, duration: float, ease_type: String = '') -> void:
+func tween_to(_position: Variant, _rotation: float, duration: float, ease_type: String = '') -> void:
 	
-	if not position is Vector2 or not position is Vector3:
+	if not _position is Vector2 or not _position is Vector3:
 		printerr("(CameraController): method (tween_to) was not provided a Vector2/Vector3. Cancelling tween")
 		return
 	
-	if parent_2d and position is Vector3:
-		position = Vector2(position.x, position.y)
+	if parent_2d and _position is Vector3:
+		_position = Vector2(_position.x, _position.y)
 	
-	if parent_3d and position is Vector2:
-		position = Vector3(position.x, position.y, 0.0)
+	if parent_3d and _position is Vector2:
+		_position = Vector3(_position.x, _position.y, 0.0)
 		printerr("(CameraController): method (tween_to) was provided a Vector2 in while set to a 3d camera.")
 	
 	if _position_tween:
@@ -334,8 +334,8 @@ func tween_to(position: Variant, rotation: float, duration: float, ease_type: St
 	
 	_position_tween = create_tween().set_trans(ease_info[0]).set_ease(ease_info[1]).set_parallel()
 	
-	_position_tween.tween_property(self, 'position', position, duration)
-	_position_tween.tween_property(self, 'rotation', rotation, duration)
+	_position_tween.tween_property(self, 'position', _position, duration)
+	_position_tween.tween_property(self, 'rotation', _rotation, duration)
 	_position_tween.finished.connect(_reapply_smoothing_settings)
 
 var _zoom_tween: Tween = null

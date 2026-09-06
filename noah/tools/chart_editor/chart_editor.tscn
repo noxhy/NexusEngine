@@ -133,6 +133,7 @@ offset_bottom = -296.0
 
 [node name="Tool Tip" type="Label" parent="UI" unique_id=538315361]
 visible = false
+top_level = true
 z_index = 100
 offset_left = -144.0
 offset_top = -328.0
