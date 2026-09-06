@@ -9,19 +9,19 @@ var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
 		"parameters": ["Position Index", "Duration", "Easing Type"],
-		"texture": "res://addons/at-icons/node/film_camera.svg"
+		"texture": "res://addons/at-icons/animation/film_camera.svg"
 	},
 	"play_animation": {
 		"parameters": ["Group Name", "Animation ID", "(Optional) Duration"],
-		"texture": "res://addons/at-icons/animation/play.svg"
+		"texture": "res://addons/at-icons/animation/film.svg"
 	},
 	"camera_bop": {
 		"parameters": ["Camera Bop Amount", "UI Bop Amount"],
-		"texture": "uid://qe3r1k3apxbl"
+		"texture": "res://addons/at-icons/animation/photo_camera.svg"
 	},
 	"camera_zoom": {
 		"parameters": ["Zoom", "Duration", "Easing Type"],
-		"texture": "uid://bs2p6h6sokqf0"
+		"texture": "res://addons/at-icons/animation/security_camera.svg"
 	},
 	"bop_rate": {
 		"parameters": ["Step Rate"]
@@ -34,18 +34,18 @@ var EVENT_DATA: Dictionary = {
 	},
 	"scroll_speed": {
 		"parameters": ["Amount", "Ease Duration"],
-		"texture": "uid://cdyobnrt3rnml"
+		"texture": "res://addons/at-icons/node/fast_forward.svg"
 	},
 	"camera_shake": {
 		"parameters": ["Amount", "Duration"],
-		"texture": "uid://da6pn1kq8iao0"
+		"texture": "res://addons/at-icons/animation/video_camera.svg"
 	},
 	"set_prefix": {
 		"parameters": ["Group Name", "Prefix"]
 	},
 	"comment": {
 		"parameters": [""],
-		"texture": "uid://bwp1pd1s3xmka"
+		"texture": "res://addons/at-icons/node/speech_bubble_ellipsis.svg"
 	}
 }
 #endregion

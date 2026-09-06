@@ -337,7 +337,8 @@ func _process(delta: float) -> void:
 				L -= 1
 			
 			L = max(0, L)
-			add_action("Selected Area", self.select_area.bind(L, R, lane_a, lane_b), self.set.bind(&"selected_notes", self.selected_notes))
+			add_action("Selected Area", self.select_area.bind(L, R, lane_a, lane_b),
+			self.set.bind(&"selected_notes", self.selected_notes.duplicate(true)))
 		
 		if moving_notes:
 			add_action("Moved Note(s)", self.move_selection.bind(moved_time_distance, moved_lane_distance),
@@ -1783,6 +1784,7 @@ func paste() -> void:
 	undo_redo.add_do_method(move_selection.bind(offset, 0))
 	undo_redo.add_do_method(SoundManager.tool_note_place.play)
 	undo_redo.add_undo_property(ChartManager.chart, &"notes", ChartManager.chart.notes.duplicate(true))
+	undo_redo.add_undo_property(ChartManager.chart, &"events", ChartManager.chart.events.duplicate(true))
 	undo_redo.add_undo_property(self, &"selected_notes", selected_notes.duplicate())
 	undo_redo.add_undo_method(load_section.bind(song_position, true))
 	undo_redo.add_undo_method(update_selected_notes)

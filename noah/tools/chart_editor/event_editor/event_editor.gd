@@ -272,10 +272,11 @@ func load_section(time: float, forced: bool = false):
 		return
 	
 	if forced:
-		get_tree().call_group(&"notes", &"queue_free")
-		note_nodes.clear()
 		get_tree().call_group(&"events", &"queue_free")
 		event_nodes.clear()
+		
+		current_visible_events_L = -1
+		current_visible_events_R = -1
 	
 	var _range: float = conductor.seconds_per_beat * conductor.numerator * 2 / grid.zoom.y
 	var L: int = bsearch_left_range(ChartManager.chart.get_events_data(), time - _range)
@@ -289,6 +290,7 @@ func load_section(time: float, forced: bool = false):
 		R = max(R, current_visible_events_R)
 	
 	load_events(L, R)
+	update_selected_notes()
 
 
 func update_note_position(node: Node2D):
