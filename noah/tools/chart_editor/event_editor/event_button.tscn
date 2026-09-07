@@ -2,9 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://b1gv0wfdmojbx" path="res://noah/themes/tool.res" id="1_mysbr"]
 [ext_resource type="Script" uid="uid://bjk501es4qmnv" path="res://noah/tools/chart_editor/event_editor/event_button.gd" id="2_tjtdw"]
+[ext_resource type="Texture2D" uid="uid://bgaokgo4ivbwr" path="res://addons/at-icons/node/trash_can.svg" id="3_hdi5e"]
 
 [node name="Event Button" type="HBoxContainer" unique_id=1905633154]
-custom_maximum_size = Vector2(-1, 37)
 offset_right = 256.0
 offset_bottom = 43.0
 size_flags_horizontal = 3
@@ -34,7 +34,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 tooltip_text = "Deletes this event track from the chart
 WARNING this will remove all events of this type from the chart"
-text = "🗑
-"
+icon = ExtResource("3_hdi5e")
 
 [connection signal="pressed" from="Remove Track" to="." method="_on_remove_track_pressed"]

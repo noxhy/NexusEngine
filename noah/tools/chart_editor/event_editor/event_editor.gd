@@ -13,7 +13,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	if not is_mouse_over_any_ui():
 		get_viewport().gui_release_focus()
 	
@@ -31,7 +30,7 @@ func _process(delta: float) -> void:
 				if track < vocal_tracks.size():
 					%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
 	
-	var axis = Global.get_input_axis_just_pressed("mouse_scroll_down", "mouse_scroll_up")
+	var axis = Global.get_input_axis_just_pressed(&"mouse_scroll_down", &"mouse_scroll_up")
 	if axis and can_interact_with_chart:
 		scrub(axis)
 	
@@ -69,7 +68,6 @@ func _process(delta: float) -> void:
 									add_action("Placed Event", self.place_event.bind(time, event, [], true),
 									self.remove_note.bind(event, time))
 									SoundManager.tool_note_place.play()
-									
 						else:
 							var i: int = find_event(event, time)
 							if selected_notes.has(i):
@@ -369,15 +367,15 @@ func update_grid():
 	grid.columns = conductor.numerator * conductor.denominator
 	grid.rows = 1 + ChartManager.event_tracks.size()
 	
-	$"UI/Event Tracks".position.y = -grid.get_size().y / 2 - 4
+	$"UI/Event Tracks".position.y = -grid.get_size().y / 2.0 - 4
 	$"UI/Event Tracks".size.y = 0
-	#$"UI/Event Tracks".custom_minimum_size.y = grid.get_size().y + (ChartManager.event_tracks.size() * 1)
 	
 	get_tree().call_group(&"tracks",  &"queue_free")
 	for track in ChartManager.event_tracks:
 		var track_instance = TRACK_BUTTON.instantiate()
 		
 		track_instance.event = track
+		#track_instance.custom_maximum_size.y = grid.get_size().y
 		
 		%"Event Tracks".add_child(track_instance)
 		
@@ -385,7 +383,7 @@ func update_grid():
 		track_instance.connect(&"removed", self.remove_track.bind(track_instance))
 	
 	await Engine.get_main_loop().process_frame
-	$"UI/Event Tracks".size.y = grid.get_size().y + (ChartManager.event_tracks.size() * 1)
+	$"UI/Event Tracks".custom_minimum_size.y = grid.get_size().y
 
 
 func remove_track(node):
@@ -717,7 +715,6 @@ func _on_window_about_to_popup() -> void:
 	update_desc(Constants.EVENT_DATA.get(ev,{}).get("description", ""))
 
 
-
 func _on_add_event_track_pressed() -> void:
 	if %"Event Option".selected != -1:
 		var event: String = %"Event Option".get_item_text(%"Event Option".get_selected_id())
@@ -736,7 +733,6 @@ func update_desc(_str: String):
 	
 	#%"Desc Label".visible = !_str.is_empty()
 	#%"Event Desc Label".visible = !_str.is_empty()
-	
 
 func _on_add_track_window_close_requested() -> void:
 	%"Add Track Window".hide()

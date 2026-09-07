@@ -8,7 +8,6 @@ Color(0.235, 0.769, 0.208), Color(0.757, 0.149, 0.322)]
 @export var area_color: Color = Color(1.0, 1.0, 1.0, 0.4)
 @export var precision: int = 2
 
-
 var chart_editor: ChartEditor
 var point_width: float:
 	get():
@@ -107,8 +106,7 @@ func unmap_from_texture(packet):
 func map_to_image_position(point: Vector2) -> Vector2i:
 	var y: float = point.y / chart_editor.instrumental.stream.get_length()
 	y *= size.y
-	y = snappedi(y, precision)
-	return Vector2i(int(point_width * point.x), int(y))
+	return Vector2i(int(point_width * point.x), snappedi(y, precision))
 
 ## Draws a rectangle on the image
 func draw_rect_on_image(pos: Vector2i, rect_size: Vector2i, color: Color):
