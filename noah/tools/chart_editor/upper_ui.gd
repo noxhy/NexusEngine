@@ -18,7 +18,7 @@ var chart_editor: ChartEditor
 @onready var metadata_window: Window = %"Metadata Window"
 @onready var note_type_window: Window = %"Note Type Window"
 @onready var history_window: Window = %"History Window"
-
+@onready var song_name_label: Label = $"Song Name Label"
 
 
 # Called when the node enters the scene tree for the first time.

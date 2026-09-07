@@ -234,3 +234,8 @@ text = "Help"
 item_count = 1
 popup/item_0/id = 0
 metadata/_edit_use_anchors_ = true
+
+[node name="Song Name Label" type="Label" parent="." unique_id=1658353722]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Song Name"

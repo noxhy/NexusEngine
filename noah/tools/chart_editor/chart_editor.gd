@@ -571,6 +571,8 @@ func load_song(song: Song, difficulty: Variant = null):
 	lower_ui.get_node("%Difficulty Button").select(ChartManager.song.difficulties.keys().find(difficulty))
 	upper_ui.get_node("%Metadata Window").update_stats()
 	
+	upper_ui.song_name_label.text = song.title
+	
 	load_chart(ChartManager.chart)
 	current_snap = conductor.denominator
 	
