@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://uso5pge8x5lf" path="res://noah/tools/chart_editor/event_editor/event_editor.gd" id="1_06aqy"]
 [ext_resource type="Script" uid="uid://b1blhjns06ilt" path="res://noah/conductor.gd" id="2_mcaef"]
+[ext_resource type="Texture2D" uid="uid://cf7m0a2krovb6" path="res://addons/at-icons/node/plus_sign_in_square.svg" id="5_83rqf"]
 [ext_resource type="PackedScene" uid="uid://bx3kdd0dt1kkw" path="res://noah/tools/chart_editor/lower_ui.tscn" id="5_xqtoq"]
 [ext_resource type="PackedScene" uid="uid://b6b2d2kloq60j" path="res://noah/tools/chart_editor/upper_ui.tscn" id="6_ud782"]
 [ext_resource type="PackedScene" uid="uid://s3uvtxiv1wo4" path="res://noah/tools/chart_editor/minimap.tscn" id="8_dt8un"]
@@ -120,8 +121,9 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_vertical = 3
 tooltip_text = "Add a new Event track"
-text = "+"
+icon = ExtResource("5_83rqf")
 icon_alignment = 1
+expand_icon = true
 
 [node name="Event Creator" type="PopupPanel" parent="UI" unique_id=1125385941 groups=["windows"]]
 unique_name_in_owner = true
