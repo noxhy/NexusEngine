@@ -9,7 +9,7 @@ var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 # TODO: add descriptions
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
-		"parameters": ["Position Index", "Duration", "Easing Type"],
+		"parameters": ["Marker Index", "(Optional) Duration", "(Optional) Easing Type"],
 		"texture": "res://addons/at-icons/animation/film_camera.svg",
 		"description": "Moves a camera towards a marker" # TODO: make these better (adding shitty rn to get a point across)
 	},
