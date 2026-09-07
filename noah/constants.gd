@@ -11,41 +11,48 @@ var EVENT_DATA: Dictionary = {
 	"camera_position": {
 		"parameters": ["Marker Index", "(Optional) Duration", "(Optional) Easing Type"],
 		"texture": "res://addons/at-icons/animation/film_camera.svg",
-		"description": "Moves a camera towards a marker" # TODO: make these better (adding shitty rn to get a point across)
+		"description": "Moves a camera towards a marker, copying its positon and rotation." # TODO: make these better (adding shitty rn to get a point across)
 	},
 	"play_animation": {
 		"parameters": ["Group Name", "Animation ID", "(Optional) Duration"],
 		"texture": "res://addons/at-icons/animation/film.svg",
-		"description": "Plays a animation onto a character group" # TODO: make these better (adding shitty rn to get a point across)
+		"description": "Makes all characters in a group play an animation." # TODO: make these better (adding shitty rn to get a point across)
 	},
 	"camera_bop": {
-		"parameters": ["Camera Bop Amount", "UI Bop Amount"],
+		"parameters": ["(Optional) Camera Bop Amount", "(Optional) UI Bop Amount"],
 		"texture": "res://addons/at-icons/animation/photo_camera.svg",
-		"description": "Bumps the camera" # TODO: make these better (adding shitty rn to get a point across)
+		"description": "Bumps the camera."
 	},
 	"camera_zoom": {
-		"parameters": ["Zoom", "Duration", "Easing Type"],
-		"texture": "res://addons/at-icons/animation/security_camera.svg"
+		"parameters": ["Zoom", "(Optional) Duration", "(Optional) Easing Type"],
+		"texture": "res://addons/at-icons/animation/security_camera.svg",
+		"description": "Sets or eases the camera's zoom."
 	},
 	"bop_rate": {
-		"parameters": ["Step Rate"]
+		"parameters": ["Step Rate"],
+		"description": "How often (in steps) the camera should bump"
 	},
 	"bop_strength": {
 		"parameters": ["Camera Amount", "UI Amount"],
+		"description": "Strength of the camera bump."
 	},
 	"set_smoothing": {
 		"parameters": ["Toggled"],
+		"description": "Toggles the zoom smoothing of the camera and ui."
 	},
 	"scroll_speed": {
 		"parameters": ["Amount", "Ease Duration"],
-		"texture": "res://addons/at-icons/node/fast_forward.svg"
+		"texture": "res://addons/at-icons/node/fast_forward.svg",
+		"description": "Eases the scroll speed of all strums"
 	},
 	"camera_shake": {
 		"parameters": ["Amount", "Duration"],
-		"texture": "res://addons/at-icons/animation/video_camera.svg"
+		"texture": "res://addons/at-icons/animation/video_camera.svg",
+		"description": "Shakes the camera"
 	},
 	"set_prefix": {
-		"parameters": ["Group Name", "Prefix"]
+		"parameters": ["Group Name", "Prefix"],
+		"description": "Sets the animation prefix of a character group"
 	},
 	"comment": {
 		"parameters": [""],
