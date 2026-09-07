@@ -192,7 +192,9 @@ expand_icon = true
 
 [node name="Event Desc Label" type="Label" parent="UI/Add Track Window/VBoxContainer" unique_id=310738009]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+autowrap_mode = 3
 
 [node name="HSeparator" type="HSeparator" parent="UI/Add Track Window/VBoxContainer" unique_id=1356450858]
 layout_mode = 2
