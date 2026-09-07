@@ -8,6 +8,9 @@ var event: String:
 		var icon: String = Constants.EVENT_DATA.get(v, {}).get("texture", "")
 		if ResourceLoader.exists(icon):
 			%"Track Name".right_icon = load(icon)
+			
+		
+		%"Track Name".tooltip_text = "event: " + v + '\n\ndesc: ' + Constants.EVENT_DATA.get(v, {}).get("description", "")
 		
 		event = v
 
