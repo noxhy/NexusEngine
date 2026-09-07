@@ -367,7 +367,7 @@ func update_grid():
 	grid.columns = conductor.numerator * conductor.denominator
 	grid.rows = 1 + ChartManager.event_tracks.size()
 	
-	$"UI/Event Tracks".position.y = -grid.get_size().y / 2.0 - 4
+	$"UI/Event Tracks".position.y = -grid.get_size().y / 2.0
 	$"UI/Event Tracks".size.y = 0
 	
 	get_tree().call_group(&"tracks",  &"queue_free")
@@ -375,7 +375,7 @@ func update_grid():
 		var track_instance = TRACK_BUTTON.instantiate()
 		
 		track_instance.event = track
-		#track_instance.custom_maximum_size.y = grid.get_size().y
+		track_instance.custom_maximum_size.y = grid.grid_size.y * grid.zoom.y
 		
 		%"Event Tracks".add_child(track_instance)
 		

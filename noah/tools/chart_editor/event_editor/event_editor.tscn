@@ -118,6 +118,7 @@ theme_override_constants/separation = 0
 
 [node name="Add Track" type="Button" parent="UI/Event Tracks" unique_id=1192962343]
 layout_mode = 2
+size_flags_vertical = 3
 tooltip_text = "Add a new Event track"
 text = "+"
 icon_alignment = 1
