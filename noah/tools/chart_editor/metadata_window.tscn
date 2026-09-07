@@ -66,6 +66,38 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer" unique_id=1866714952]
+layout_mode = 2
+
+[node name="Song Scene" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1461313318]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Song Scene" unique_id=484953711]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Song Scene:"
+
+[node name="Song Scene" type="LineEdit" parent="HBoxContainer/VBoxContainer/Song Scene" unique_id=1114754875]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="Song Scene Button" type="Button" parent="HBoxContainer/VBoxContainer/Song Scene" unique_id=1557321340]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Select Scene"
+
+[node name="Scene FileDailog" type="FileDialog" parent="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button" unique_id=308569808 groups=["windows"]]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 1
+size = Vector2i(640, 480)
+file_mode = 0
+root_subfolder = "res://scenes/game/songs/"
+filters = PackedStringArray("*.tscn")
+
 [node name="Icons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=248525620]
 layout_mode = 2
 
@@ -99,38 +131,6 @@ size = Vector2i(640, 480)
 file_mode = 0
 root_subfolder = "res://assets/sprites/playstate/icons/"
 filters = PackedStringArray("*.tres")
-
-[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer" unique_id=1866714952]
-layout_mode = 2
-
-[node name="Song Scene" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1461313318]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Song Scene" unique_id=484953711]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Song Scene:"
-
-[node name="Song Scene" type="LineEdit" parent="HBoxContainer/VBoxContainer/Song Scene" unique_id=1114754875]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-editable = false
-
-[node name="Song Scene Button" type="Button" parent="HBoxContainer/VBoxContainer/Song Scene" unique_id=1557321340]
-layout_mode = 2
-size_flags_horizontal = 8
-text = "Select Scene"
-
-[node name="Scene FileDailog" type="FileDialog" parent="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button" unique_id=308569808 groups=["windows"]]
-unique_name_in_owner = true
-oversampling_override = 1.0
-title = "Open a File"
-initial_position = 1
-size = Vector2i(640, 480)
-file_mode = 0
-root_subfolder = "res://scenes/game/songs/"
-filters = PackedStringArray("*.tscn")
 
 [node name="HSeparator3" type="HSeparator" parent="HBoxContainer/VBoxContainer" unique_id=1200860892]
 layout_mode = 2
@@ -248,12 +248,12 @@ text = "Remove Current Time Change"
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/Song Name/Song Name" to="." method="_on_song_name_text_changed"]
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/Song Charter/Song Charter" to="." method="_on_song_charter_text_changed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/Icons/Icon Button" to="." method="_on_icon_button_pressed"]
-[connection signal="file_selected" from="HBoxContainer/VBoxContainer/Icons/Icon Button/Icon FileDailog" to="." method="_on_icon_file_dailog_file_selected"]
-[connection signal="gui_focus_changed" from="HBoxContainer/VBoxContainer/Icons/Icon Button/Icon FileDailog" to="." method="file_dailog_gui_focus_changed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button" to="." method="_on_song_scene_button_pressed"]
 [connection signal="file_selected" from="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button/Scene FileDailog" to="." method="_on_scene_file_dailog_file_selected"]
 [connection signal="gui_focus_changed" from="HBoxContainer/VBoxContainer/Song Scene/Song Scene Button/Scene FileDailog" to="." method="file_dailog_gui_focus_changed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Icons/Icon Button" to="." method="_on_icon_button_pressed"]
+[connection signal="file_selected" from="HBoxContainer/VBoxContainer/Icons/Icon Button/Icon FileDailog" to="." method="_on_icon_file_dailog_file_selected"]
+[connection signal="gui_focus_changed" from="HBoxContainer/VBoxContainer/Icons/Icon Button/Icon FileDailog" to="." method="file_dailog_gui_focus_changed"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer/HBoxContainer2/Scroll Speed" to="." method="_on_scroll_speed_value_changed"]
 [connection signal="item_selected" from="HBoxContainer/VBoxContainer2/Time Changes" to="." method="_on_time_changes_item_selected"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer2/Tempo Change/Tempo" to="." method="_on_tempo_value_changed"]
