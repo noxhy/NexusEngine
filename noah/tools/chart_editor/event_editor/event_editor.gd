@@ -710,7 +710,7 @@ func _on_window_about_to_popup() -> void:
 			
 	
 	var ev = %"Event Option".get_item_text(%"Event Option".get_selected_id())
-	update_desc(Constants.EVENT_DATA[ev].get("description", ""))
+	update_desc(Constants.EVENT_DATA.get(ev,{}).get("description", ""))
 
 
 
