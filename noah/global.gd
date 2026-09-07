@@ -306,6 +306,9 @@ func string_to_ease(tween: String) -> Array:
 			return [Tween.TRANS_LINEAR, Tween.EASE_IN]
 #endregion
 
+func get_input_axis_just_pressed(negative_action: String, positive_action: String) -> int:
+	return int(Input.is_action_just_pressed(negative_action)) - int(Input.is_action_just_pressed(positive_action))
+
 func string_to_time(formatted_time: String) -> float:
 	if formatted_time.ends_with("b"):
 		return float(formatted_time.trim_suffix("b")) * GameManager.conductor.seconds_per_beat

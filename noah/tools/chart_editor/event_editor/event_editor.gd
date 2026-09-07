@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 				if track < vocal_tracks.size():
 					%Vocals.get_stream_playback().set_stream_volume(vocal_tracks[track], linear_to_db(1))
 	
-	var axis: int = int(Input.is_action_just_pressed("mouse_scroll_up")) - int(Input.is_action_just_pressed("mouse_scroll_down"))
+	var axis = Global.get_input_axis_just_pressed("mouse_scroll_down", "mouse_scroll_up")
 	if axis and can_interact_with_chart:
 		scrub(axis)
 	
