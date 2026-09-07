@@ -17,10 +17,8 @@ outline_color = Color(0, 0, 0, 1)
 script = ExtResource("1_ep6vc")
 metadata/_edit_vertical_guides_ = []
 
-[node name="PlayState" parent="." unique_id=1464953201 node_paths=PackedStringArray("host", "ui", "camera") instance=ExtResource("2_ajkug")]
+[node name="PlayState" parent="." unique_id=1464953201 node_paths=PackedStringArray("host") instance=ExtResource("2_ajkug")]
 host = NodePath("..")
-ui = NodePath("../UI")
-camera = NodePath("../CameraController")
 note_skin = ExtResource("4_laa4w")
 ui_skin = ExtResource("2_srd2m")
 next_scene = "uid://c3lux2ajoe1g6"
@@ -66,7 +64,7 @@ offset_bottom = 152.0
 label_settings = SubResource("LabelSettings_xphcd")
 autowrap_mode = 3
 
-[node name="CameraController" type="Node" parent="." unique_id=890983513 node_paths=PackedStringArray("parent_2d")]
+[node name="CameraController" type="Node" parent="." unique_id=890983513 node_paths=PackedStringArray("parent_2d") groups=["cameras"]]
 script = ExtResource("9_gdhuo")
 parent_2d = NodePath("../Camera")
 metadata/_custom_type_script = "uid://b4lmffueni5k"
