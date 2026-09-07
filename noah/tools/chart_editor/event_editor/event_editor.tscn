@@ -119,6 +119,7 @@ theme_override_constants/separation = 0
 custom_maximum_size = Vector2(-1, 37)
 layout_mode = 2
 size_flags_vertical = 3
+tooltip_text = "Add a new Event track"
 text = "+"
 
 [node name="Event Creator" type="PopupPanel" parent="UI" unique_id=1125385941 groups=["windows"]]

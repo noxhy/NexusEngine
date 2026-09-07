@@ -31,6 +31,8 @@ icon_expand_mode = 1
 [node name="Remove Track" type="Button" parent="." unique_id=630049615]
 layout_mode = 2
 size_flags_horizontal = 8
+tooltip_text = "Deletes this event track from the chart
+WARNING this will remove all events of this type from the chart"
 text = "🗑
 "
 

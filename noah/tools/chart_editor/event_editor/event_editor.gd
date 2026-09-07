@@ -13,6 +13,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	if not is_mouse_over_any_ui():
+		get_viewport().gui_release_focus()
+	
 	start_offset = clampf(start_offset, 0, start_offset)
 	
 	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
