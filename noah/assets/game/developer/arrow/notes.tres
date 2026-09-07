@@ -35,7 +35,15 @@ animations = [{
 "texture": ExtResource("2_20taa")
 }],
 "loop": 1,
-"name": &"end",
+"name": &"down_end",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3ghrv")
+}],
+"loop": 1,
+"name": &"down_tail",
 "speed": 5.0
 }, {
 "frames": [{
@@ -48,6 +56,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("2_20taa")
+}],
+"loop": 1,
+"name": &"left_end",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3ghrv")
+}],
+"loop": 1,
+"name": &"left_tail",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_6his2")
 }],
 "loop": 1,
@@ -56,10 +80,18 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("2_20taa")
+}],
+"loop": 1,
+"name": &"right_end",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("3_3ghrv")
 }],
 "loop": 1,
-"name": &"tail",
+"name": &"right_tail",
 "speed": 5.0
 }, {
 "frames": [{
@@ -68,5 +100,21 @@ animations = [{
 }],
 "loop": 1,
 "name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_20taa")
+}],
+"loop": 1,
+"name": &"up_end",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3ghrv")
+}],
+"loop": 1,
+"name": &"up_tail",
 "speed": 5.0
 }]

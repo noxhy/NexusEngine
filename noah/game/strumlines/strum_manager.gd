@@ -22,6 +22,11 @@ class_name StrumManager
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	can_press = can_press
+	auto_play = auto_play
+	can_splash = can_splash
+	enemy_slot = enemy_slot
+	
 	var i: int = 0
 	for strum in strums:
 		strum.lane = i

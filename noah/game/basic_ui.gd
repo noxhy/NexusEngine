@@ -15,6 +15,7 @@ class_name BasicUI
 func _ready() -> void:
 	if SettingsManager.get_value(SettingsManager.SEC_GAMEPLAY, "downscroll"):
 		downscroll_ui()
+	
 	apply_underlay()
 
 

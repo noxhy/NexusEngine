@@ -12,19 +12,4 @@ strums_texture = ExtResource("3_7te8r")
 notes_texture = ExtResource("1_ovb1l")
 splashes_texture = ExtResource("4_eel8i")
 notes_scale = 0.2
-sustain_width = 600.0
-animation_names = Dictionary[StringName, StringName]({
-&"down_end": &"end",
-&"down_press": &"down_press",
-&"down_tail": &"tail",
-&"left_end": &"end",
-&"left_press": &"left_press",
-&"left_tail": &"tail",
-&"right_end": &"end",
-&"right_press": &"right_press",
-&"right_tail": &"tail",
-&"up_end": &"end",
-&"up_press": &"up_press",
-&"up_tail": &"tail"
-})
 hit_sound = ExtResource("1_w8cuf")
