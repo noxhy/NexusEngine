@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bjk501es4qmnv" path="res://noah/tools/chart_editor/event_editor/event_button.gd" id="2_tjtdw"]
 
 [node name="Event Button" type="HBoxContainer" unique_id=1905633154]
+custom_maximum_size = Vector2(-1, 37)
 offset_right = 256.0
 offset_bottom = 43.0
 size_flags_horizontal = 3

@@ -116,6 +116,7 @@ theme = ExtResource("15_ue8jl")
 theme_override_constants/separation = 0
 
 [node name="Add Track" type="Button" parent="UI/Event Tracks" unique_id=1192962343]
+custom_maximum_size = Vector2(-1, 37)
 layout_mode = 2
 size_flags_vertical = 3
 text = "+"
