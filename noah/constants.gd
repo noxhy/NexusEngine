@@ -6,25 +6,24 @@ var EVENT_EDITOR_SCENE: String = "uid://cq6xqods6w7lw"
 var START_MENU_SCENE: String = "uid://cmn3noo2keqes"
 #region Event Data
 
-# TODO: add descriptions
 var EVENT_DATA: Dictionary = {
 	"camera_position": {
-		"parameters": ["Marker Index", "(Optional) Duration", "(Optional) Easing Type"],
+		"parameters": ["Marker Index", "(Optional = 0) Duration", "(Optional = CLASSIC) Easing Type"],
 		"texture": "res://addons/at-icons/animation/film_camera.svg",
-		"description": "Moves a camera towards a marker, copying its positon and rotation." # TODO: make these better (adding shitty rn to get a point across)
+		"description": "Moves a camera towards a marker, copying its positon and rotation."
 	},
 	"play_animation": {
-		"parameters": ["Group Name", "Animation ID", "(Optional) Duration"],
+		"parameters": ["Group Name", "Animation ID", "(Optional = Duration of Animation) Duration"],
 		"texture": "res://addons/at-icons/animation/film.svg",
-		"description": "Makes all characters in a group play an animation." # TODO: make these better (adding shitty rn to get a point across)
+		"description": "Makes all characters in a group play an animation."
 	},
 	"camera_bop": {
-		"parameters": ["(Optional) Camera Bop Amount", "(Optional) UI Bop Amount"],
+		"parameters": ["(Optional = Current Camera Bop Strength) Camera Bop Amount", "(Optional = Current UI Bop Strength) UI Bop Amount"],
 		"texture": "res://addons/at-icons/animation/photo_camera.svg",
 		"description": "Bumps the camera."
 	},
 	"camera_zoom": {
-		"parameters": ["Zoom", "(Optional) Duration", "(Optional) Easing Type"],
+		"parameters": ["Zoom", "(Optional = 0) Duration", "(Optional = CLASSIC) Easing Type"],
 		"texture": "res://addons/at-icons/animation/security_camera.svg",
 		"description": "Sets or eases the camera's zoom."
 	},

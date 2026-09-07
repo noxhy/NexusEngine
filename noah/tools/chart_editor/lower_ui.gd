@@ -13,7 +13,6 @@ class_name ChartEditorLowerUI
 
 @onready var time_left_label: Label = %"Time Left Label"
 
-
 var chart_editor: ChartEditor
 
 # Called when the node enters the scene tree for the first time.
