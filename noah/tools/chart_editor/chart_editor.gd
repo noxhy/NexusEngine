@@ -130,6 +130,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	start_offset = clampf(start_offset, 0, start_offset)
 	
+		
 	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
 	
 	if ChartManager.song and instrumental.playing:

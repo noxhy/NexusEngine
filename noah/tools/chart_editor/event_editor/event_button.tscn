@@ -9,6 +9,7 @@ offset_right = 256.0
 offset_bottom = 43.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_behavior_recursive = 1
 theme = ExtResource("1_mysbr")
 theme_override_constants/separation = 0
 script = ExtResource("2_tjtdw")
