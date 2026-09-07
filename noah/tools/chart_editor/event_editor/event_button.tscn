@@ -30,10 +30,14 @@ drag_and_drop_selection_enabled = false
 icon_expand_mode = 1
 
 [node name="Remove Track" type="Button" parent="." unique_id=630049615]
+custom_minimum_size = Vector2(12, 36)
 layout_mode = 2
 size_flags_horizontal = 8
 tooltip_text = "Deletes this event track from the chart
 WARNING this will remove all events of this type from the chart"
+text = "      "
 icon = ExtResource("3_hdi5e")
+icon_alignment = 1
+expand_icon = true
 
 [connection signal="pressed" from="Remove Track" to="." method="_on_remove_track_pressed"]
