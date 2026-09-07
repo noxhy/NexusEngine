@@ -13,6 +13,7 @@ offset_bottom = -304.0
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
+focus_behavior_recursive = 1
 theme = ExtResource("1_4c1on")
 script = ExtResource("2_yyjwr")
 
