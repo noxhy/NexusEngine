@@ -367,6 +367,8 @@ func update_grid():
 	grid.columns = conductor.numerator * conductor.denominator
 	grid.rows = 1 + ChartManager.event_tracks.size()
 	
+	$"UI/Event Tracks/Add Track".custom_maximum_size.y = grid.grid_size.y * grid.zoom.y
+	
 	$"UI/Event Tracks".position.y = -grid.get_size().y / 2.0
 	$"UI/Event Tracks".size.y = 0
 	
