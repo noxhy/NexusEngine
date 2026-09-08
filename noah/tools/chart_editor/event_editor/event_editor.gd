@@ -123,7 +123,8 @@ func _process(delta: float) -> void:
 			if SettingsManager.get_value(SettingsManager.SEC_CHART, "auto_save"):
 				save()
 	
-	if Input.is_action_pressed(&"mouse_left") and !Input.is_action_pressed(&"control") and is_mouse_over_grid():
+	if (Input.is_action_pressed(&"mouse_left") and !Input.is_action_pressed(&"control")
+	and is_mouse_over_grid() and !dragging_song_slider):
 		if !instrumental.playing:
 			if can_chart:
 				## Song Position Slider

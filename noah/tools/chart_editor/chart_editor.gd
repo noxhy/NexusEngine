@@ -87,6 +87,7 @@ var hovered_event: int = -1
 var current_visible_notes_L: int = -1
 var current_visible_notes_R: int = -1
 var current_note_type: String = ""
+var dragging_song_slider: bool = false
 
 var waveform_nodes: Dictionary[int, WaveformRenderer] = {}
 var waveform_dirty: bool = false
@@ -130,7 +131,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	start_offset = clampf(start_offset, 0, start_offset)
 	
-		
 	var can_interact_with_chart: bool = can_chart and not is_mouse_over_any_ui() and ChartManager.chart
 	
 	if ChartManager.song and instrumental.playing:
@@ -245,7 +245,7 @@ func _process(delta: float) -> void:
 			auto_save()
 	
 	if can_interact_with_chart and Input.is_action_pressed(&"mouse_left") and not Input.is_action_pressed(&"control") and \
-		is_mouse_over_grid() and not instrumental.playing:
+		is_mouse_over_grid() and not instrumental.playing and !dragging_song_slider:
 		## Song Position Slider
 		if snapped_position.x == 0:
 			@warning_ignore("incompatible_ternary")
@@ -1225,7 +1225,10 @@ func _on_song_slider_value_changed(value: float) -> void:
 
 func _on_song_slider_drag_started() -> void:
 	toggle_audios(true)
+	dragging_song_slider = true
 
+func _on_song_slider_drag_ended(value_changed: bool) -> void:
+	dragging_song_slider = false
 
 func _on_skip_forward_pressed() -> void:
 	song_position += 10

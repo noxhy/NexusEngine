@@ -263,6 +263,7 @@ metadata/_edit_lock_ = true
 [connection signal="new_numerator" from="Conductor" to="." method="_on_conductor_new_numerator"]
 [connection signal="new_step" from="Conductor" to="." method="_on_conductor_new_step"]
 [connection signal="new_tempo" from="Conductor" to="." method="_on_conductor_new_tempo"]
+[connection signal="drag_ended" from="UI/Song Slider" to="." method="_on_song_slider_drag_ended"]
 [connection signal="drag_started" from="UI/Song Slider" to="." method="_on_song_slider_drag_started"]
 [connection signal="value_changed" from="UI/Song Slider" to="." method="_on_song_slider_value_changed"]
 [connection signal="ready" from="UI/Event Tracks" to="." method="_on_event_tracks_ready"]
