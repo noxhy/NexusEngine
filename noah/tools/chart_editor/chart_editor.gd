@@ -35,18 +35,6 @@ var CONVERT_CHART_POPUP_PRELOAD = load("uid://c6cl2ayvb4ms3")
 @export var selected_color: Color = Color("67bf71bb")
 @export var time_change_color: Color = Color.PURPLE
 
-@onready var upper_ui: ChartEditorUpperUI = %"Upper UI"
-@onready var lower_ui: ChartEditorLowerUI = %"Lower UI"
-@onready var instrumental: AudioStreamPlayer = %Instrumental
-@onready var vocals: AudioStreamPlayer = %Vocals
-@onready var conductor: Conductor = $Conductor
-@onready var camera_2d: Camera2D = $Camera2D
-@onready var song_slider: HSlider = %"Song Slider"
-@onready var notes_layer: CanvasLayer = $"Notes Layer"
-@onready var grid_layer: CanvasLayer = $"Grid Layer"
-@onready var grid: Grid = %Grid
-@onready var minimap: EditorMinimap = %Minimap
-
 ## Chart Variables
 var backup_chart: Chart = null
 # So it turns out that the track ID's are not sequential and can be whatever number they want, I did this so it'd be easier
@@ -95,6 +83,18 @@ var waveform_dirty: bool = false
 var event_nodes: Array = []
 var current_visible_events_L: int = -1
 var current_visible_events_R: int = -1
+
+@onready var upper_ui: ChartEditorUpperUI = %"Upper UI"
+@onready var lower_ui: ChartEditorLowerUI = %"Lower UI"
+@onready var instrumental: AudioStreamPlayer = %Instrumental
+@onready var vocals: AudioStreamPlayer = %Vocals
+@onready var conductor: Conductor = $Conductor
+@onready var camera_2d: Camera2D = $Camera2D
+@onready var song_slider: HSlider = %"Song Slider"
+@onready var notes_layer: CanvasLayer = $"Notes Layer"
+@onready var grid_layer: CanvasLayer = $"Grid Layer"
+@onready var grid: Grid = %Grid
+@onready var minimap: EditorMinimap = %Minimap
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -1309,6 +1309,8 @@ func edit_button_item_pressed(id):
 		13: decrease_length()
 		14: brush_note_type()
 		15: delete()
+		17: increase_snap()
+		18: decrease_snap()
 		_:  print("id: ", id)
 
 ## Audio button item pressed
@@ -1631,6 +1633,12 @@ func update_waveforms(time: float = 0):
 
 func _on_chart_snap_value_changed(value: float) -> void:
 	current_snap = int(value)
+
+func increase_snap() -> void:
+	lower_ui.chart_snap.value += 1
+
+func decrease_snap() -> void:
+	lower_ui.chart_snap.value -= 1
 
 func _on_difficulty_button_item_selected(index: int) -> void:
 	var _difficulty = lower_ui.get_node("%Difficulty Button").get_popup().get_item_text(index)

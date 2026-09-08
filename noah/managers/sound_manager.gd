@@ -46,7 +46,7 @@ func _input(event: InputEvent) -> void:
 		#return
 	var ev:InputEventKey = event
 	
-	if event.shift_pressed or event.ctrl_pressed:
+	if event.shift_pressed or event.ctrl_pressed or event.alt_pressed:
 		return
 	
 	if ev.pressed:

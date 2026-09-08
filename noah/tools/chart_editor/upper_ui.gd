@@ -171,6 +171,18 @@ func setup_shortcuts():
 	edit_button.get_popup().set_item_shortcut(
 		edit_button.get_popup().get_item_index(14), shortcut)
 	
+	shortcut = chart_editor.make_shortcut_quick([InputEventKey.new()])
+	shortcut.events[0].keycode = KEY_EQUAL
+	shortcut.events[0].alt_pressed = true
+	edit_button.get_popup().set_item_shortcut(
+		edit_button.get_popup().get_item_index(17), shortcut)
+	
+	shortcut = chart_editor.make_shortcut_quick([InputEventKey.new()])
+	shortcut.events[0].keycode = KEY_MINUS
+	shortcut.events[0].alt_pressed = true
+	edit_button.get_popup().set_item_shortcut(
+		edit_button.get_popup().get_item_index(18), shortcut)
+	
 	#audio button
 	
 	shortcut = chart_editor.make_shortcut_quick([InputEventKey.new()])
