@@ -1,34 +1,13 @@
 [gd_scene format=3 uid="uid://0l7bo1bqcbcj"]
 
-[ext_resource type="Script" uid="uid://d0643fq2e3v8u" path="res://noah/game/rating.gd" id="1_peefr"]
-[ext_resource type="Resource" uid="uid://bvphmxy3ecutv" path="res://noah/assets/game/developer/developer_ui_skin.tres" id="2_fpv3i"]
-[ext_resource type="SpriteFrames" uid="uid://c802qdqdog3ia" path="res://noah/assets/game/developer/rating/ratings.tres" id="2_y4m87"]
-[ext_resource type="Script" uid="uid://d17yv6wfgl74w" path="res://noah/offset_sprite_2d.gd" id="7_7wrd8"]
+[ext_resource type="Script" uid="uid://d0643fq2e3v8u" path="res://noah/game/combo_display.gd" id="1_peefr"]
+[ext_resource type="Material" uid="uid://m6kc757sopaj" path="res://noah/game/combo_display_material.tres" id="1_r3ump"]
 
-[node name="Rating" type="Node2D" unique_id=262781631 groups=["ratings"]]
-script = ExtResource("1_peefr")
-ui_skin = ExtResource("2_fpv3i")
-
-[node name="OffsetSprite" type="AnimatedSprite2D" parent="." unique_id=1012516052]
-sprite_frames = ExtResource("2_y4m87")
-animation = &"epic"
-script = ExtResource("7_7wrd8")
-animation_names = Dictionary[StringName, StringName]({
-&"bad": &"bad",
-&"epic": &"epic",
-&"fc_bad": &"fc_bad",
-&"fc_epic": &"fc_epic",
-&"fc_good": &"fc_good",
-&"fc_shit": &"fc_shit",
-&"fc_sick": &"fc_sick",
-&"good": &"good",
-&"miss": &"miss",
-&"shit": &"shit",
-&"sick": &"sick"
-})
-
-[node name="Timer" type="Timer" parent="." unique_id=376009549]
+[node name="Rating" type="GPUParticles2D" unique_id=337081163 groups=["ratings"]]
+emitting = false
+amount = 1
 one_shot = true
-autostart = true
+process_material = ExtResource("1_r3ump")
+script = ExtResource("1_peefr")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="." to="." method="_on_finished"]

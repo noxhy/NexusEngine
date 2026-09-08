@@ -13,7 +13,7 @@ var camera_positions: Array = []
 @onready var combo_marker = %"Combo Marker"
 
 @onready var rating_node = load("uid://0l7bo1bqcbcj")
-@onready var combo_numbers_manager_node = load("uid://bvreww5500i5g")
+@onready var combo_numbers_node = load("uid://b28wu6vajuag3")
 
 # How often the camera bops. Based off the step rate in the conductor.
 var bop_rate: int = 16
@@ -197,37 +197,41 @@ func show_combo(rating: NoahStats.HIT_RATING, _combo: int):
 		var rating_instance = rating_node.instantiate()
 		
 		rating_instance.ui_skin = playstate.ui_skin
-		rating_instance.rating = hit_rating
+		rating_instance.animation = hit_rating
+		rating_instance.z_index = 1000
 		
-		var combo_numbers_manager_instance = combo_numbers_manager_node.instantiate()
-		
-		combo_numbers_manager_instance.ui_skin = playstate.ui_skin
-		combo_numbers_manager_instance.combo = _combo
-		if playstate.song_stats.max_combo == playstate.song_stats.total_notes:
-			combo_numbers_manager_instance.fc = true
+		var add_numbers: Callable = func(parent: Node) -> void:
+			if _combo >= 10:
+				var combo_string: String = str(_combo)
+				var digits: int = combo_string.length()
+				for digit in digits:
+					var combo_number_instance = combo_numbers_node.instantiate()
+					
+					combo_number_instance.position.x = playstate.ui_skin.numbers_spacing * (
+						(digits - 1) / -2.0 + digit) * playstate.ui_skin.numbers_scale
+					
+					combo_number_instance.ui_skin = playstate.ui_skin
+					if playstate.song_stats.max_combo == playstate.song_stats.total_notes:
+						combo_number_instance.animation = str("fc_", combo_string[digit])
+					else:
+						combo_number_instance.animation = combo_string[digit]
+					
+					combo_number_instance.z_index = 1000
+					
+					parent.add_child(combo_number_instance)
 		
 		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "combo_ui") and playstate.ui:
 			if playstate.ui.rating_marker:
-				rating_instance.position = playstate.ui.rating_marker.position
+				playstate.ui.rating_marker.add_child(rating_instance)
 			
 			if playstate.ui.combo_marker:
-				combo_numbers_manager_instance.position = playstate.ui.combo_marker.position
-			
-			playstate.ui.add_child(rating_instance)
-			playstate.ui.add_child(combo_numbers_manager_instance)
+				add_numbers.call(playstate.ui.combo_marker)
 		else:
 			if rating_marker:
-				rating_instance.position = rating_marker.global_position
-				rating_instance.scale = rating_marker.scale
-				rating_instance.z_index = 1000
+				rating_marker.add_child(rating_instance)
 			
 			if combo_marker:
-				combo_numbers_manager_instance.position = combo_marker.global_position
-				combo_numbers_manager_instance.scale = combo_marker.scale
-				combo_numbers_manager_instance.z_index = 1000
-			
-			self.add_child(rating_instance)
-			self.add_child(combo_numbers_manager_instance)
+				add_numbers.call(combo_marker)
 
 
 func pause():
